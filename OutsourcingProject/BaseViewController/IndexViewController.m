@@ -38,21 +38,13 @@
 
     
     
-    UIView *headScrollerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 180)];
+//    UIView *headScrollerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 180)];
+//
+//    headScrollerView.backgroundColor = [UIColor blackColor];
+//    [self.view addSubview:headScrollerView];
+//    
 
-    headScrollerView.backgroundColor = [UIColor blackColor];
-    [self.view addSubview:headScrollerView];
     
-
-    
-    
-    // 情景一：采用本地图片实现
-    NSArray *imageNames = @[@"h1.jpg",
-                            @"h2.jpg",
-                            @"h3.jpg",
-                            @"h4.jpg",
-                            @"h7" // 本地图片请填写全名
-                            ];
     
     // 情景二：采用网络图片实现
     NSArray *imagesURLStrings = @[
@@ -86,12 +78,12 @@
     // >>>>>>>>>>>>>>>>>>>>>>>>> demo轮播图2 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     
     // 网络加载 --- 创建带标题的图片轮播器
-    SDCycleScrollView *cycleScrollView2 = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 280, w, 180) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    SDCycleScrollView *cycleScrollView2 = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, w, 180) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder"]];
     
     cycleScrollView2.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     cycleScrollView2.titlesGroup = titles;
     cycleScrollView2.currentPageDotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
-    [headScrollerView addSubview:cycleScrollView2];
+    [self.view addSubview:cycleScrollView2];
     
     //         --- 模拟加载延迟
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
