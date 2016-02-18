@@ -1,0 +1,41 @@
+//
+//  PrefixHeader.pch
+//  OutsourcingProject
+//
+//  Created by LingLi on 16/2/18.
+//  Copyright © 2016年 LingLi. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+typedef void (^ReturnValueBlock) (id returnValue);
+typedef void (^ErrorCodeBlock) (id errorCode);
+#import "SBJSON.h"
+#import "SVProgressHUD.h"
+#import "Masonry.h"
+#import "ConfigUITools.h"
+
+#import "AppDelegate.h"
+#import "NSString+JHXMLEntities.h"
+#import "JHSoapRequest.h"
+#import "JHXMLParser.h"
+
+
+#define kDriftDuration     0.40
+
+
+//#define kPersonalizedSignature @"userSign"
+#define kUserLoginStatus       @"isLoginSuccess"
+#define kNetworkStatus         @"isNetworkWorking"
+
+#define kScreenHeight  [UIScreen mainScreen].bounds.size.height
+#define kScreenWidth  [UIScreen mainScreen].bounds.size.width
+
+
+
+ #define REQUEST_HOST @"http://101.231.51.219:888/admin/appintinfo.asmx"
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* PrefixHeader_pch */
