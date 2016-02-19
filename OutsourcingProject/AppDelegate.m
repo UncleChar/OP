@@ -22,8 +22,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    AppEngineManager *engineManager = [[AppEngineManager alloc]init];
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
 
+    AppEngine *app = [[AppEngine alloc]init];
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kUserLoginStatus]) {
     

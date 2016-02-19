@@ -24,6 +24,8 @@
     NSInteger            _lengthOfHistory;
 }
 
+@property (nonatomic, strong) UIScrollView *inScrollerView;
+
 @property (nonatomic, strong) UITextField  *userAccount;
 @property (nonatomic, strong) UITextField  *userPassword;
 //@property (nonatomic, strong) UITextField  *userPhone;
@@ -59,6 +61,16 @@
     [super viewDidLoad];
     
 //    self.view.backgroundColor = [ConfigUITools colorWithR:209 G:34 B:52 A:1];
+//    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(messageVC)];
+//    leftItem.image = [UIImage imageNamed:@"qq@3x"];
+//    self.navigationItem.leftBarButtonItem = leftItem;
+//    
+//    self.navigationItem.title = @"Chat with me";
+//    
+//    UIImageView *leftRefresh = [[UIImageView alloc]initWithFrame:CGRectMake(55, 25, 34, 34)];
+//    
+//    leftRefresh.image = [UIImage imageNamed:@"basevc_refresh@2x"];
+//    [self.navigationController.view addSubview:leftRefresh];
 
     [self configLoginVCUI];
     
@@ -67,21 +79,68 @@
 
 
 - (void)configLoginVCUI {
+
     
+    NSDictionary *infoDict = [NSBundle mainBundle].infoDictionary;
+    // 取出当前应用版本号
+    NSString *currentVersion = [infoDict objectForKey:(NSString *)kCFBundleVersionKey];
+    // 取出沙盒存储的应用版本号
+    NSString *saveVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+    if (![currentVersion isEqualToString:saveVersion]) {
+        // 如果是第一次进入新版本,进入介绍页面
+        [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:@"version"];
+        [self goIntroduceView];
+    } else { 
+        [self loginAction];
+    }
+ 
+}
+
+- (void)goIntroduceView {
+
+    UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    scrollView.pagingEnabled = YES;
+    scrollView.showsHorizontalScrollIndicator = NO;
     
+    for (int i = 0; i < 4; i ++) {
+        UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(i * kScreenWidth, 0, kScreenWidth, kScreenHeight)];
+        iv.image = [UIImage imageNamed:[NSString stringWithFormat:@"%i.jpg", i + 1]];
+        [scrollView addSubview:iv];
+        
+        if (3 == i) { // 创建进入应用按钮
+            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake((kScreenWidth - 150) / 2, kScreenHeight - 60, 150, 40)];
+            btn.backgroundColor = [ConfigUITools colorWithR:197 G:37 B:45 A:1];
+            btn.layer.cornerRadius = 4;
+            btn.layer.masksToBounds = 1;
+            [btn setTitle:@"进入应用" forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
+            iv.userInteractionEnabled = YES;
+            [iv addSubview:btn];
+        }
+    }
+    
+    scrollView.contentSize = CGSizeMake(kScreenWidth * 4, 0);
+    [self.view addSubview:scrollView];
+    _inScrollerView = scrollView;
+
+
+}
+
+- (void)loginAction {
+
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-
+    
     _baseView = [[UIView alloc]initWithFrame:self.view.frame];
     _baseView.alpha = 1;
     _baseView.backgroundColor = [ConfigUITools colorWithR:209 G:34 B:52 A:1];
     [self.view addSubview:_baseView];
-
+    
     _loginHeadImg = [[UIImageView alloc]init];
     _loginHeadImg.frame = CGRectMake(kPadding * 2, kPadding, kPadding, kPadding * 125 / 135);
     _loginHeadImg.image = [UIImage imageNamed:@"图层-2"];
-
     
     _label = [[UILabel alloc]init];
     _label.text = @"浦东新区工会通";
@@ -89,8 +148,7 @@
     _label.textAlignment = 1;
     _label.textColor = [UIColor whiteColor];
     _label.frame = CGRectMake(10 , CGRectGetMaxY(_loginHeadImg.frame) + 10, kScreenWidth - 20, 30);
-   
-
+    
     
     _userAccount = [[UITextField alloc]init];
     _userAccount.placeholder = @"  请输入工会会员号";
@@ -104,8 +162,8 @@
     imgView.frame = CGRectMake(2, 7.5, 20 * 32 / 38, 20);
     _userAccount.leftView = imgView;
     _userAccount.leftViewMode = UITextFieldViewModeAlways;
-
-
+    
+    
     _lineAccount = [[UIView alloc]init];
     _lineAccount.frame = CGRectMake(kScreenWidth / 6, CGRectGetMaxY(_userAccount.frame) - 1, kScreenWidth * 4 / 6, 1);
     _lineAccount.backgroundColor = [UIColor whiteColor];
@@ -124,32 +182,33 @@
     imgView1.frame = CGRectMake(2, 7.5, 20 * 32 / 38, 20);
     _userPassword.leftView = imgView1;
     _userPassword.leftViewMode = UITextFieldViewModeAlways;
-   
+    
     
     
     _linePassword = [[UIView alloc]init];
     _linePassword.frame = CGRectMake(kScreenWidth / 6, CGRectGetMaxY(_userPassword.frame) - 1, kScreenWidth * 4 / 6, 1);
     _linePassword.backgroundColor = [UIColor whiteColor];
-     _linePassword.alpha = 0.6;
-
+    _linePassword.alpha = 0.6;
     
-        _loginBtn = [[UIButton alloc]init];
+    
+    _loginBtn = [[UIButton alloc]init];
     _loginBtn.frame = CGRectMake(kScreenWidth / 6, CGRectGetMaxY(_linePassword.frame) + 20, kScreenWidth * 4 / 6, 35);
-        [_loginBtn setTitle:@"登录" forState:UIControlStateNormal];
-     [_loginBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形-4"] forState:UIControlStateNormal];
-        _loginBtn.tag = 100 + 1;
+    [_loginBtn setTitle:@"登录" forState:UIControlStateNormal];
+    [_loginBtn setBackgroundImage:[UIImage imageNamed:@"圆角矩形-4"] forState:UIControlStateNormal];
+    [_loginBtn addTarget:self action:@selector(loginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    _loginBtn.tag = 100 + 1;
     
     
     
     
     
     _resetBtn = [[UIButton alloc]init];
-    _resetBtn.frame = CGRectMake(kScreenWidth / 6, CGRectGetMaxY(_loginBtn.frame) + 20, kScreenWidth / 4, 35);
+    _resetBtn.frame = CGRectMake(kScreenWidth / 6, CGRectGetMaxY(_loginBtn.frame) + 20, kScreenWidth / 3, 35);
     [_resetBtn setTitle:@"忘记密码？" forState:UIControlStateNormal];
     _resetBtn.alpha = 0.6;
     _resetBtn.tag = 100 + 2;
     
- 
+    
     
     UIImageView *bottomImg = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth / 6, kScreenHeight * 0.9 , 35, 35 * 69 / 75)];
     bottomImg.image = [UIImage imageNamed:@"图层-30-拷贝"];
@@ -160,120 +219,30 @@
     bottomLabel.font = [UIFont boldSystemFontOfSize:14];
     bottomLabel.textColor = [ConfigUITools colorWithR:228 G:172 B:23 A:1];
     bottomLabel.textAlignment = 1;
-
+    
     [_baseView addSubview:_loginHeadImg];
     [_baseView addSubview:_label];
     [_baseView addSubview:_userAccount];
     [_baseView addSubview:_lineAccount];
     [_baseView addSubview:_userPassword];
     [_baseView addSubview:_linePassword];
-
+    
     [_baseView addSubview:_loginBtn];
     [_baseView addSubview:_resetBtn];
     
     [_baseView addSubview:bottomImg];
     [_baseView addSubview:bottomLabel];
+    
+    
+    [_loginBtn addTarget:self action:@selector(loginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_resetBtn addTarget:self action:@selector(loginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
 
-    
-            [_loginBtn addTarget:self action:@selector(loginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    
-            [_resetBtn addTarget:self action:@selector(loginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-////        __weak typeof(self) weakSelf = self;
-//    int padding = 20;
-////    *5 / 7
-//    [_loginHeadImg mas_makeConstraints:^(MASConstraintMaker *make) {
-//       
-//        make.centerX.mas_equalTo(_baseView.mas_centerX);
-//        make.left.equalTo(_baseView.mas_left).with.offset(2 * kPadding);
-//        make.right.equalTo(_baseView.mas_right).with.offset(- 2 * kPadding);
-//        make.bottom.equalTo(_label.mas_top).with.offset(- padding / 2);
-//        make.top.equalTo(_baseView.mas_top).with.offset(kPadding);
-//        make.height.mas_equalTo(@(kPadding * 125 / 135));
-//        make.width.mas_equalTo(@(kPadding));
-//    
-//        
-//    }];
-// 
-//    
-//    [_label mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.mas_equalTo(_baseView.mas_centerX);
-//        make.left.equalTo(_loginHeadImg.mas_left).with.offset(-2 *padding);
-//        make.right.equalTo(_loginHeadImg.mas_right).with.offset(2 *padding);
-//        make.bottom.equalTo(_userAccount.mas_top).with.offset(- 1.5 * padding);
-//        make.top.equalTo(_loginHeadImg.mas_bottom).with.offset(padding);
-//        make.height.mas_equalTo(@30);
-//    }];
-//    
-//    [_userAccount mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.mas_equalTo(_baseView.mas_centerX);
-//        make.left.equalTo(_baseView.mas_left).with.offset(padding);
-//        make.right.equalTo(_baseView.mas_right).with.offset(-padding);
-//        make.bottom.equalTo(_userPassword.mas_top).with.offset(- 1.5 * padding);
-//        make.top.equalTo(_loginHeadImg.mas_bottom).with.offset(padding);
-//        make.height.mas_equalTo(@40);
-//        make.width.equalTo(_userPassword);
-//    }];
-//    
-//    [_lineAccount mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.mas_equalTo(_baseView.mas_centerX);
-//        make.left.equalTo(_baseView.mas_left).with.offset(padding);
-//        make.right.equalTo(_baseView.mas_right).with.offset(-padding);
-//        make.top.equalTo(_userAccount.mas_bottom).with.offset(-2);
-//        make.height.mas_equalTo(@2);
-//        make.width.equalTo(_userAccount);
-//    }];
-//
-//    
-//    [_userPassword mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.mas_equalTo(_baseView.mas_centerX);
-//        make.left.equalTo(_baseView.mas_left).with.offset(padding);
-//        make.right.equalTo(_baseView.mas_right).with.offset(-padding);
-//        make.top.equalTo(_userAccount.mas_bottom).with.offset(1.5 * padding);
-//        make.height.mas_equalTo(@40);
-//        make.width.equalTo(_loginBtn);
-//    }];
-//    
-//    [_linePassword mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.mas_equalTo(_baseView.mas_centerX);
-//        make.left.equalTo(_baseView.mas_left).with.offset(padding);
-//        make.right.equalTo(_baseView.mas_right).with.offset(-padding);
-//        make.top.equalTo(_userPassword.mas_bottom).with.offset(-2);
-//        make.height.mas_equalTo(@2);
-//        make.width.equalTo(_userPassword);
-//    }];
-//
-//    [_loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.mas_equalTo(_baseView.mas_centerX);
-//        make.left.equalTo(_baseView.mas_left).with.offset(padding);
-//        make.right.equalTo(_baseView.mas_right).with.offset(-padding);
-//        make.top.equalTo(_userPassword.mas_bottom).with.offset(1.5 * padding);
-//        make.height.mas_equalTo(@40);
-//        make.width.equalTo(_userAccount);
-//        
-//    }];
-//    
-//
-//    
-    
-//    _accountTF = [[UITextField alloc]init];
-//    _accountTF.frame = CGRectMake(CGRectGetMinX(_userAccount.frame), CGRectGetMaxY(_userAccount.frame), _userAccount.frame.size.width, 30);
-//    _accountTF.borderStyle = UITextBorderStyleRoundedRect;
-//    _accountTF.delegate = self;
-//    [self.view addSubview:_accountTF];
-    
-//    [UIView animateWithDuration:2.0 animations:^{
-//        
-//        _baseView.alpha = 1.0;
-//        
-//    } completion:^(BOOL finished) {
-//        
-////                [_loginHeadGif startGIF];
-//        [_registerBtn addTarget:self action:@selector(loginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//        [_loginBtn addTarget:self action:@selector(loginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//        
-//    }];
-  
+
+
 }
+
+
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 
@@ -315,6 +284,49 @@
             [self.view endEditing:YES];
             [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
             [SVProgressHUD showWithStatus:@"Logging..."];
+                
+                NSString *requestBody = [NSString stringWithFormat:
+                                         @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                         "<soap12:Envelope "
+                                         "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                         "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                                         "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+                                         "<soap12:Body>"
+                                         "<CheckUserLogin xmlns=\"Net.GongHuiTong\">"
+                                         "<username>%@</username>"
+                                         "<userpass>%@</userpass>"
+                                         "</CheckUserLogin>"
+                                         "</soap12:Body>"
+                                         "</soap12:Envelope>",_userAccount.text,_userPassword.text];
+                ReturnValueBlock returnBlock = ^(id resultValue){
+                    
+                    NSLog(@"------%@----------",[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"]);
+                    
+                    NSError *error;
+                    NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
+                    
+                    NSLog(@"------%@----------",[listDic objectForKey:@"rows"]);
+                    Users *userModel = [[Users alloc]init];
+                    for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                       
+                        [userModel setValuesForKeysWithDictionary:dict];
+                        
+                    }
+                    
+                    
+                    NSLog(@"%@,444 %@",userModel.deptname,userModel.xingbie);
+  
+                    [[AppEngine GetAppEngine] saveUserLoginInfo:(NSMutableDictionary *)[listDic objectForKey:@"rows"][0]];
+                    
+                    
+                      NSLog(@"%@,555 %@",[AppEngine GetAppEngine].owner.deptname,[AppEngine GetAppEngine].owner.xingbie);
+                };
+                [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"CheckUserLoginResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+
+            
+            
+            
+            
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                
@@ -395,12 +407,38 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     
 }
-//- (void)viewWillDisappear:(BOOL)animated {
-//
-//    [_loginHeadGif removeFromSuperview];
-//    _loginHeadGif = nil;
-////    [self.view removeFromSuperview];
-////    self.view = nil;
-//}
+-(void) saveUserLoginInfo:(NSDictionary*) userDict
+{
+    Users *_owner = [[Users alloc]init];
+    _owner.addr = [userDict objectForKey:@"addr"];
+    _owner.deptcode = [userDict objectForKey:@"deptcode"];
+    _owner.deptname = [userDict objectForKey:@"deptname"];
+    _owner.email = [userDict objectForKey:@"email"];
+    _owner.iconpic = [userDict objectForKey:@"iconpic"];
+    _owner.logincookie = [userDict objectForKey:@"logincookie"];
+    _owner.shengri = [userDict objectForKey:@"shengri"];
+    _owner.shouji = [userDict objectForKey:@"shouji"];
+    _owner.usercode = [userDict objectForKey:@"usercode"];
+    _owner.usertype = [userDict objectForKey:@"usertype"];
+    _owner.xingbie = [userDict objectForKey:@"xingbie"];
+    _owner.xingming = [userDict objectForKey:@"xingming"];
+    
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    
+    [defaults setObject:_owner.addr forKey:@"addr"];
+    [defaults setObject:_owner.deptcode forKey:@"deptcode"];
+    [defaults setObject:_owner.deptname forKey:@"deptname"];
+    [defaults setObject:_owner.email forKey:@"email"];
+    [defaults setObject:_owner.iconpic forKey:@"iconpic"];
+    [defaults setObject:_owner.logincookie forKey:@"logincookie"];
+    [defaults setObject:_owner.shengri forKey:@"shengri"];
+    [defaults setObject:_owner.usercode forKey:@"usercode"];
+    [defaults setObject:_owner.usertype forKey:@"usertype"];
+    [defaults setObject:_owner.xingbie forKey:@"xingbie"];
+    [defaults setObject:_owner.xingming forKey:@"xingming"];
+    
+    [defaults synchronize];//同步写入到文件
+}
+
 
 @end

@@ -59,6 +59,10 @@
       "idiom" : "ipad",
       "size" : "76x76",
       "scale" : "2x"
+    },
+    {
+      "filename" : "icon@3x.png",
+      "unassigned" : true
     }
   ],
   "info" : {

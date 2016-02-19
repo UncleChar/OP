@@ -11,18 +11,20 @@
 
 typedef void (^ReturnValueBlock) (id returnValue);
 typedef void (^ErrorCodeBlock) (id errorCode);
+#import "Users.h"
 #import "SBJSON.h"
 #import "SVProgressHUD.h"
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
 #import "Masonry.h"
 #import "ConfigUITools.h"
+#import "AppEngineManager.h"
 
 #import "AppDelegate.h"
 #import "NSString+JHXMLEntities.h"
 #import "JHSoapRequest.h"
 #import "JHXMLParser.h"
-
+#import "AppEngine.h"
 
 #define kDriftDuration     0.40
 
@@ -30,11 +32,11 @@ typedef void (^ErrorCodeBlock) (id errorCode);
 //#define kPersonalizedSignature @"userSign"
 #define kUserLoginStatus       @"isLoginSuccess"
 #define kNetworkStatus         @"isNetworkWorking"
-
+#define kAvatarImgFloderName   @"elementsFile"
 #define kScreenHeight  [UIScreen mainScreen].bounds.size.height
 #define kScreenWidth  [UIScreen mainScreen].bounds.size.width
 
-
+#define kBackColor [ConfigUITools colorWithR:245 G:245 B:245 A:1]
 
  #define REQUEST_HOST @"http://101.231.51.219:888/admin/appintinfo.asmx"
 // Include any system framework and library headers here that should be included in all compilation units.
