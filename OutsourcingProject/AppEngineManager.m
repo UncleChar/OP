@@ -105,6 +105,7 @@ static  AppEngineManager *sharedElement = nil;
     if (res) {
         NSLog(@"目录-%@创建成功",subDirectoryName);
         self.leftViewElementsPath = directory;
+        [[NSUserDefaults standardUserDefaults]setObject:directory forKey:@"avatarPath"];
     }else{
         NSLog(@"目录-%@-创建失败",subDirectoryName);
         self.leftViewElementsPath = nil;

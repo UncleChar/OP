@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 #define kPadding  [UIScreen mainScreen].bounds.size.width / 5 
-@interface LoginViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface LoginViewController ()<UITextFieldDelegate>
 
 {
     
@@ -28,8 +28,6 @@
 
 @property (nonatomic, strong) UITextField  *userAccount;
 @property (nonatomic, strong) UITextField  *userPassword;
-//@property (nonatomic, strong) UITextField  *userPhone;
-//@property (nonatomic, strong) UITextField  *userEmail;
 
 @property (nonatomic, strong) UITextField  *firstResponderTF;
 @property (nonatomic, strong) UIButton     *loginBtn;
@@ -54,32 +52,19 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = 1;
-    
 }
+
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
-//    self.view.backgroundColor = [ConfigUITools colorWithR:209 G:34 B:52 A:1];
-//    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(messageVC)];
-//    leftItem.image = [UIImage imageNamed:@"qq@3x"];
-//    self.navigationItem.leftBarButtonItem = leftItem;
-//    
-//    self.navigationItem.title = @"Chat with me";
-//    
-//    UIImageView *leftRefresh = [[UIImageView alloc]initWithFrame:CGRectMake(55, 25, 34, 34)];
-//    
-//    leftRefresh.image = [UIImage imageNamed:@"basevc_refresh@2x"];
-//    [self.navigationController.view addSubview:leftRefresh];
 
     [self configLoginVCUI];
-    
   
 }
 
 
 - (void)configLoginVCUI {
-
     
     NSDictionary *infoDict = [NSBundle mainBundle].infoDictionary;
     // 取出当前应用版本号
@@ -98,6 +83,7 @@
 
 - (void)goIntroduceView {
 
+
     UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     scrollView.pagingEnabled = YES;
     scrollView.showsHorizontalScrollIndicator = NO;
@@ -108,7 +94,8 @@
         [scrollView addSubview:iv];
         
         if (3 == i) { // 创建进入应用按钮
-            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake((kScreenWidth - 150) / 2, kScreenHeight - 60, 150, 40)];
+            
+            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake((kScreenWidth - 150) / 2, kScreenHeight - 110, 150, 40)];
             btn.backgroundColor = [ConfigUITools colorWithR:197 G:37 B:45 A:1];
             btn.layer.cornerRadius = 4;
             btn.layer.masksToBounds = 1;
@@ -128,7 +115,6 @@
 
 - (void)loginAction {
 
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -140,7 +126,7 @@
     
     _loginHeadImg = [[UIImageView alloc]init];
     _loginHeadImg.frame = CGRectMake(kPadding * 2, kPadding, kPadding, kPadding * 125 / 135);
-    _loginHeadImg.image = [UIImage imageNamed:@"图层-2"];
+    _loginHeadImg.image = [UIImage imageNamed:@"图层-"];
     
     _label = [[UILabel alloc]init];
     _label.text = @"浦东新区工会通";
@@ -159,7 +145,7 @@
     _userAccount.frame = CGRectMake(kScreenWidth / 6, CGRectGetMaxY(_label.frame) + kPadding, kScreenWidth * 4 / 6, 35);
     
     UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"user"]];
-    imgView.frame = CGRectMake(2, 7.5, 20 * 32 / 38, 20);
+    imgView.frame = CGRectMake(0, 7.5, 20 * 32 / 38, 20);
     _userAccount.leftView = imgView;
     _userAccount.leftViewMode = UITextFieldViewModeAlways;
     
@@ -173,13 +159,14 @@
     _userPassword = [[UITextField alloc]init];
     _userPassword.placeholder = @"  请输入密码 ";
     _userPassword.delegate = self;
+    _userPassword.secureTextEntry = YES;
     _userPassword.textColor = [UIColor whiteColor];
     _userPassword.backgroundColor = [ConfigUITools colorWithR:209 G:34 B:52 A:1];
     _userPassword.clearButtonMode = UITextFieldViewModeWhileEditing;
     _userPassword.frame = CGRectMake(kScreenWidth / 6, CGRectGetMaxY(_userAccount.frame) + 10, kScreenWidth * 4 / 6, 35);
     
     UIImageView *imgView1 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"locked"]];
-    imgView1.frame = CGRectMake(2, 7.5, 20 * 32 / 38, 20);
+    imgView1.frame = CGRectMake(0, 7.5, 20 * 32 / 38, 20);
     _userPassword.leftView = imgView1;
     _userPassword.leftViewMode = UITextFieldViewModeAlways;
     
@@ -198,16 +185,14 @@
     [_loginBtn addTarget:self action:@selector(loginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     _loginBtn.tag = 100 + 1;
     
-    
-    
-    
-    
+  
     _resetBtn = [[UIButton alloc]init];
     _resetBtn.frame = CGRectMake(kScreenWidth / 6, CGRectGetMaxY(_loginBtn.frame) + 20, kScreenWidth / 3, 35);
     [_resetBtn setTitle:@"忘记密码？" forState:UIControlStateNormal];
     _resetBtn.alpha = 0.6;
+    [_resetBtn addTarget:self action:@selector(loginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+
     _resetBtn.tag = 100 + 2;
-    
     
     
     UIImageView *bottomImg = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth / 6, kScreenHeight * 0.9 , 35, 35 * 69 / 75)];
@@ -249,6 +234,7 @@
     
     
 }
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
     
@@ -275,8 +261,11 @@
 - (void)loginBtnClicked:(UIButton *)sender {
 
     switch (sender.tag - 100) {
-        case 0:
-            
+        case 2:
+        {
+        
+            NSLog(@" 忘记密码 ？");
+        }
             
             break;
         case 1:

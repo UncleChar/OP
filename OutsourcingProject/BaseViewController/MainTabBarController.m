@@ -50,9 +50,9 @@
 #pragma mark 设置所有的分栏元素项
 - (void)setTabBarItems {
     
-    NSArray *titleArr = @[@"Chat",@"Contacts",@"Active",@"Active"];
-    NSArray *normalImgArr = @[@"tabbar_items_1_normal@2x",@"tabbar_items_2_normal@2x",@"tabbar_items_3_normal@2x",@"tabbar_items_3_normal@2x"];
-    NSArray *selectedImgArr = @[@"tabbar_items_1_selected@2x",@"tabbar_items_2_selected@2x",@"tabbar_items_3_selected@2x",@"tabbar_items_3_selected@2x"];
+    NSArray *titleArr = @[@"首页",@"工会工作",@"工会百科",@"我的"];
+    NSArray *normalImgArr = @[@"tabbar_items_1_normal@2x",@"heart",@"tabbar_items_3_normal@2x",@"tabbar_items_3_normal@2x"];
+    NSArray *selectedImgArr = @[@"tabbar_items_1_selected@2x",@"heart-拷贝",@"tabbar_items_3_selected@2x",@"tabbar_items_3_selected@2x"];
     //循环设置信息
     for (int i = 0; i<4; i++) {
         UIViewController *vc = self.viewControllers[i];
@@ -63,10 +63,11 @@
         
     }
     //tabbar的背景图片
-    //    self.tabBar.backgroundImage = [UIImage imageNamed:@"tabbar_bg"];
+//        self.tabBar.backgroundImage = [UIImage imageNamed:@"矩形-11"];
     //item被选中时背景文字颜色
     //权限最高
-    [[UITabBarItem appearance]setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor blackColor]} forState:UIControlStateSelected];
+    [[UITabBarItem appearance]setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor redColor],NSFontAttributeName:[UIFont systemFontOfSize:12]} forState:UIControlStateNormal];
+        [[UITabBarItem appearance]setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor greenColor],NSFontAttributeName:[UIFont systemFontOfSize:12]} forState:UIControlStateSelected];
     
     //self.navigationController.navigationBar 这个的话会有一个专题改不了，所以这用最高权限
     //获取导航条最高权限

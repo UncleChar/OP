@@ -26,6 +26,16 @@
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
 
     AppEngine *app = [[AppEngine alloc]init];
+//    
+//    [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+//    [[UITabBar appearance] setBarTintColor:[UIColor redColor]];
+    [[UINavigationBar appearance]setBarTintColor:[ConfigUITools colorWithR:214 G:35 B:36 A:1]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTranslucent:NO];
+
+    NSDictionary * dict=[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    [[UINavigationBar appearance] setTitleTextAttributes: dict];
+    
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kUserLoginStatus]) {
     
@@ -33,7 +43,7 @@
         
     }else {
         
-        self.window.rootViewController = [[UINavigationController  alloc]initWithRootViewController:[[LoginViewController alloc]init]];
+        self.window.rootViewController = [[LoginViewController alloc]init];
         
     }
     
@@ -65,6 +75,25 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)isExistenceNetwork
+{
+    BOOL isExistenceNetwork = false;
+    Reachability *reachability = [Reachability reachabilityWithHostName:@"www.google.com"];  // 测试服务器状态
+    
+    switch([reachability currentReachabilityStatus]) {
+        case NotReachable:
+            isExistenceNetwork = FALSE;
+            break;
+        case ReachableViaWWAN:
+            isExistenceNetwork = TRUE;
+            break;
+        case ReachableViaWiFi:
+            isExistenceNetwork = TRUE;
+            break;
+    }
+    return  isExistenceNetwork;
 }
 
 @end

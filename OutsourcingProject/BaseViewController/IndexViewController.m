@@ -8,6 +8,9 @@
 
 #import "IndexViewController.h"
 #import "SDCycleScrollView.h"
+#import "PublicNoticeViewController.h"
+#import "ContactViewController.h"
+
 #define kBtnMargin 15
 #define kBtnWdith ([UIScreen mainScreen].bounds.size.width - 75 ) / 4
 
@@ -31,6 +34,7 @@
     
     [super viewWillAppear:YES];
 
+     self.tabBarController.tabBar.hidden = 0;
     self.navigationController.navigationBarHidden = 1;
     //    [_userChatTableView.mj_header beginRefreshing];
     
@@ -117,6 +121,12 @@
 
     switch (sender.tag - 200) {
         case 0:
+        {
+            [self.navigationController pushViewController:[[ContactViewController alloc]init] animated:YES];
+        
+        
+        
+        }
             
             
             break;
@@ -200,11 +210,12 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenHeight, 50)];
+    UIButton *headView = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenHeight, 50)];
     UIImageView *leftImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, 15, 20, 20)];
     UILabel    *label = [[UILabel alloc]initWithFrame:CGRectMake(60, 10, 200, 30)];
     label.font = [UIFont systemFontOfSize:17];
-    
+    [headView addTarget:self action:@selector(headBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+
     switch (section) {
         case 0:
         {
@@ -212,29 +223,30 @@
             headView.backgroundColor = [UIColor whiteColor];
             leftImg.image = [UIImage imageNamed:@"iconfont-icontggl"];
             label.text = titleArray[0];
+            headView.tag = 900;
         }
    
             break;
         case 1:
             
              headView.backgroundColor = [UIColor whiteColor];
-            leftImg.image = [UIImage imageNamed:@"iconfont-icontggl"];
+            leftImg.image = [UIImage imageNamed:@"iconfont-renwu"];
             label.text = titleArray[1];
-            
+            headView.tag = 901;
             break;
         case 2:
             
              headView.backgroundColor = [UIColor whiteColor];
-            leftImg.image = [UIImage imageNamed:@"iconfont-icontggl"];
+            leftImg.image = [UIImage imageNamed:@"iconfont-bianji"];
             label.text = titleArray[2];
-            
+            headView.tag = 902;
             break;
         case 3:
             
              headView.backgroundColor = [UIColor whiteColor];
             leftImg.image = [UIImage imageNamed:@"iconfont-icontggl"];
             label.text = titleArray[3];
-            
+            headView.tag = 903;
             break;
             
         default:
@@ -244,6 +256,38 @@
     [headView addSubview:leftImg];
     [headView addSubview:label];
     return headView;
+}
+
+-(void)headBtnClicked:(UIButton *)sender
+{
+    //处理单击操作
+    switch (sender.tag - 900) {
+        case 0:
+        {
+            [self.navigationController pushViewController:[[PublicNoticeViewController alloc]init] animated:YES];
+            
+            
+            
+        }
+            
+            
+            break;
+        case 1:
+            
+            
+            break;
+        case 2:
+            
+            
+            break;
+        case 3:
+            
+            
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
