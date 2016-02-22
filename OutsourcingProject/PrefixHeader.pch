@@ -30,16 +30,17 @@ typedef void (^ErrorCodeBlock) (id errorCode);
 #import "JHXMLParser.h"
 #import "AppEngine.h"
 #import "JustBackBtn.h"
+
 #define kDriftDuration     0.40
 
 
 //#define kPersonalizedSignature @"userSign"
 #define kUserLoginStatus       @"isLoginSuccess"
-#define kNetworkStatus         @"isNetworkWorking"
+#define kNetworkConnecting       @"networkConnecting"
 #define kAvatarImgFloderName   @"elementsFile"
 #define kScreenHeight  [UIScreen mainScreen].bounds.size.height
 #define kScreenWidth  [UIScreen mainScreen].bounds.size.width
-
+#define kTestColor [ConfigUITools colorWithR:90 G:173 B:243 A:1]
 #define kBackColor [ConfigUITools colorWithR:240 G:240 B:240 A:1]
 #define kTinColor  [ConfigUITools colorWithR:214 G:35 B:36 A:1]
  #define REQUEST_HOST @"http://101.231.51.219:888/admin/appintinfo.asmx"

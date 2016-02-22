@@ -26,7 +26,30 @@
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
 
     AppEngine *app = [[AppEngine alloc]init];
+    
+    //开启网络状况的监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    
+    self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"];
+    //开始监听，会启动一个run loop
+    [self.hostReach startNotifier];
+    
+    
+//    if ([self isExistenceNetwork]) {
+//        
+//        
+//
+//        
+//    }else {
 //    
+//    
+//        NSUserDefaults *netStatus = [NSUserDefaults standardUserDefaults];
+//        [netStatus setBool:NO forKey:kNetworkConnecting];
+//        [netStatus synchronize];
+//
+//    }
+
+//
 //    [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
 //    [[UITabBar appearance] setBarTintColor:[UIColor redColor]];
     [[UINavigationBar appearance]setBarTintColor:[ConfigUITools colorWithR:214 G:35 B:36 A:1]];
@@ -76,6 +99,40 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+
+-(void)reachabilityChanged:(NSNotification *)note
+{
+    Reachability *currReach = [note object];
+    NSParameterAssert([currReach isKindOfClass:[Reachability class]]);
+    
+    //对连接改变做出响应处理动作
+    NetworkStatus status = [currReach currentReachabilityStatus];
+    //如果没有连接到网络就弹出提醒实况
+    self.isReachable = YES;
+    if(status == NotReachable)
+    {
+        NSUserDefaults *netStatus = [NSUserDefaults standardUserDefaults];
+        [netStatus setBool:NO forKey:kNetworkConnecting];
+        [netStatus synchronize];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+
+        self.isReachable = NO;
+
+        return;
+    }
+    if (status==kReachableViaWiFi||status==kReachableViaWWAN) {
+        
+        NSUserDefaults *netStatus = [NSUserDefaults standardUserDefaults];
+        [netStatus setBool:YES forKey:kNetworkConnecting];
+        [netStatus synchronize];
+        self.isReachable = YES;
+    }
+}
+
+
 
 - (BOOL)isExistenceNetwork
 {

@@ -11,7 +11,8 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property (strong, nonatomic) Reachability *hostReach;
+@property (assign, nonatomic) BOOL         isReachable;
 + (AppDelegate *)getAppDelegate;
 @end
 

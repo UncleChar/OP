@@ -166,7 +166,7 @@
     _userPassword.frame = CGRectMake(kScreenWidth / 6, CGRectGetMaxY(_userAccount.frame) + 10, kScreenWidth * 4 / 6, 35);
     
     UIImageView *imgView1 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"locked"]];
-    imgView1.frame = CGRectMake(0, 7.5, 20 * 32 / 38, 20);
+    imgView1.frame = CGRectMake(0, 7.5, 20 * 17 / 19, 19);
     _userPassword.leftView = imgView1;
     _userPassword.leftViewMode = UITextFieldViewModeAlways;
     
@@ -271,8 +271,12 @@
         case 1:
         {
             [self.view endEditing:YES];
-            [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
-            [SVProgressHUD showWithStatus:@"Logging..."];
+
+            
+            if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+
+                [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+                [SVProgressHUD showWithStatus:@"正在登录..."];
                 
                 NSString *requestBody = [NSString stringWithFormat:
                                          @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -287,63 +291,123 @@
                                          "</CheckUserLogin>"
                                          "</soap12:Body>"
                                          "</soap12:Envelope>",_userAccount.text,_userPassword.text];
+                
+
+  
                 ReturnValueBlock returnBlock = ^(id resultValue){
-                    
+
                     NSLog(@"------%@----------",[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"]);
                     
-                    NSError *error;
-                    NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
-                    
-                    NSLog(@"------%@----------",[listDic objectForKey:@"rows"]);
-                    Users *userModel = [[Users alloc]init];
-                    for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
-                       
-                        [userModel setValuesForKeysWithDictionary:dict];
+                    NSLog(@"------%@----------",[[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"] class]);
+                    if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"]) {
                         
-                    }
-                    
-                    
-                    NSLog(@"%@,444 %@",userModel.deptname,userModel.xingbie);
-  
-                    [[AppEngine GetAppEngine] saveUserLoginInfo:(NSMutableDictionary *)[listDic objectForKey:@"rows"][0]];
-                    
-                    
-                      NSLog(@"%@,555 %@",[AppEngine GetAppEngine].owner.deptname,[AppEngine GetAppEngine].owner.xingbie);
-                };
-                [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"CheckUserLoginResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                           
+                            
+//                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//                            [alert show];
 
-            
-            
-            
-            
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-               
-                
-                [NSThread sleepForTimeInterval:2];
-                dispatch_async(dispatch_get_main_queue(), ^{
+                            NSLog(@" Login error: account or password error !");
+                            [SVProgressHUD showErrorWithStatus:@"Account or password error!"];
+                            
+                        });
+    
+                    }else {
                     
-//                    [AppDelegate getAppDelegate].window.rootViewController = [[MainTabBarController alloc]init];
-
                     
-                    if ([_userAccount.text isEqualToString:@"tflb"] && [_userPassword.text isEqualToString:@"123456"]) {
+                        NSError *error;
+                        NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
                         
-                        [SVProgressHUD showSuccessWithStatus:@"Success"];
+                        NSLog(@"------%@----------",[listDic objectForKey:@"rows"]);
+                        Users *userModel = [[Users alloc]init];
+                        for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                            
+                            [userModel setValuesForKeysWithDictionary:dict];
+                            
+                        }
                         
-                        [AppDelegate getAppDelegate].window.rootViewController = [[MainTabBarController alloc]init];
+                        NSLog(@"%@,444 %@",userModel.deptname,userModel.xingbie);
+                        
+                        [[AppEngine GetAppEngine] saveUserLoginInfo:(NSMutableDictionary *)[listDic objectForKey:@"rows"][0]];
+                        
+                        
+                        NSLog(@"%@,555 %@",[AppEngine GetAppEngine].owner.deptname,[AppEngine GetAppEngine].owner.xingbie);
+                        
                         
                         NSUserDefaults *store = [NSUserDefaults standardUserDefaults];
                         [store setBool:YES forKey:kUserLoginStatus];
                         [store synchronize];
- 
-                    }else {
-                    
-                        [SVProgressHUD showErrorWithStatus:@"Account or password error"];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            
 
+                            [SVProgressHUD showSuccessWithStatus:@"Login succeed"];
+                            
+                            
+                            [AppDelegate getAppDelegate].window.rootViewController = [[MainTabBarController alloc]init];
+                        });
+                        
+
+                    
                     }
                     
-                });
-            });
+                    
+                   
+                };
+                
+                
+                ErrorCodeBlock errorBlock = ^(id errorValue){
+                
+                 NSLog(@"---errorBlock---%@----------",[[errorValue lastObject] objectForKey:@"CheckUserLoginResult"]);
+                
+                };
+                [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"CheckUserLoginResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:errorBlock];
+                
+                
+                //            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                //
+                //
+                //                [NSThread sleepForTimeInterval:2];
+                //                dispatch_async(dispatch_get_main_queue(), ^{
+                //
+                ////                    [AppDelegate getAppDelegate].window.rootViewController = [[MainTabBarController alloc]init];
+                //
+                //
+                //                    if ([_userAccount.text isEqualToString:@"tflb"] && [_userPassword.text isEqualToString:@"123456"]) {
+                //
+                //                        [SVProgressHUD showSuccessWithStatus:@"Success"];
+                //
+                //                        [AppDelegate getAppDelegate].window.rootViewController = [[MainTabBarController alloc]init];
+                //
+                //                        NSUserDefaults *store = [NSUserDefaults standardUserDefaults];
+                //                        [store setBool:YES forKey:kUserLoginStatus];
+                //                        [store synchronize];
+                // 
+                //                    }else {
+                //                    
+                //                        [SVProgressHUD showErrorWithStatus:@"Account or password error"];
+                //
+                //                    }
+                //                    
+                //                });
+                //            });
+
+                
+                
+
+                
+                
+                
+            }else {
+
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }
+            
+            
+            
+            
+            
             
         }
             break;

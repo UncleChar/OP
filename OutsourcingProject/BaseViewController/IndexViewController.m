@@ -10,7 +10,7 @@
 #import "SDCycleScrollView.h"
 #import "PublicNoticeViewController.h"
 #import "ContactViewController.h"
-
+#import "UserDeptViewController.h"
 #define kBtnMargin 15
 #define kBtnWdith ([UIScreen mainScreen].bounds.size.width - 75 ) / 4
 
@@ -51,7 +51,7 @@
     [self configListView];
 //    [self getRequestData];
     
-    [self getListData];
+//    [self getListData];
 }
 
 
@@ -64,7 +64,7 @@
                                   @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
                                   @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
                                   ];
-    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 20, kScreenWidth, 120) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 20, kScreenWidth, 100) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder"]];
     
     cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     cycleScrollView.currentPageDotColor = [UIColor whiteColor];
@@ -121,14 +121,9 @@
 
     switch (sender.tag - 200) {
         case 0:
-        {
+
             [self.navigationController pushViewController:[[ContactViewController alloc]init] animated:YES];
         
-        
-        
-        }
-            
-            
             break;
         case 1:
             
@@ -140,7 +135,8 @@
             break;
         case 3:
             
-            
+            [self.navigationController pushViewController:[[UserDeptViewController alloc]init] animated:YES];
+ 
             break;
             
         default:
@@ -214,13 +210,16 @@
     UIImageView *leftImg = [[UIImageView alloc]initWithFrame:CGRectMake(20, 15, 20, 20)];
     UILabel    *label = [[UILabel alloc]initWithFrame:CGRectMake(60, 10, 200, 30)];
     label.font = [UIFont systemFontOfSize:17];
-    [headView addTarget:self action:@selector(headBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [headView addTarget:self action:@selector(cellHeadBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
 
     switch (section) {
         case 0:
         {
         
             headView.backgroundColor = [UIColor whiteColor];
+            UIView  *line = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
+            line.backgroundColor = kBackColor;
+            [headView addSubview:line];
             leftImg.image = [UIImage imageNamed:@"iconfont-icontggl"];
             label.text = titleArray[0];
             headView.tag = 900;
@@ -258,7 +257,7 @@
     return headView;
 }
 
--(void)headBtnClicked:(UIButton *)sender
+-(void)cellHeadBtnClicked:(UIButton *)sender
 {
     //处理单击操作
     switch (sender.tag - 900) {
@@ -281,7 +280,10 @@
             
             break;
         case 3:
-            
+        {
+        
+           
+        }
             
             break;
             
@@ -321,7 +323,11 @@
 }
 - (void)getListData {
 
-//        ListDataArray = [[NSMutableArray alloc]initWithCapacity:0];
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+    
+        
+        //        ListDataArray = [[NSMutableArray alloc]initWithCapacity:0];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "
@@ -329,26 +335,106 @@
                                   "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
                                   "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
                                   "<soap12:Body>"
-                                  "<GetJsonListData xmlns=\"Net.GongHuiTong\">"
+                                  "<GetTreeUserSysDept xmlns=\"Net.GongHuiTong\">"
                                   "<logincookie>%@</logincookie>"
-                                  "<datatype>%@</datatype>"
-                                  "<pagesize>%d</pagesize>"
-                                  "<navindex>%d</navindex>"
-                                  "<filter>%@</filter>"
-                                  " </GetJsonListData>"
+                                  "<checktype>%@</checktype>"
+//                                  "<ChID>%d</ChID>"
+                                  " </GetTreeUserSysDept>"
                                   "</soap12:Body>"
-                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"huiyitongzhi",0,0,@""];
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"checkbox"];
+        
         ReturnValueBlock returnBlock = ^(id resultValue){
-            NSLog(@"%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
-            NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"%@",[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]);
+            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]) {
+                
+//                dispatch_async(dispatch_get_main_queue(), ^{
+                
+                    
+                    //                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    //                            [alert show];
+                    
+                    NSLog(@"rrrrrrrrrrrrrerror: account or password error !");
+//                    [SVProgressHUD showErrorWithStatus:@"Account or password error!"];
+//                    
+//                });
+                
+            }else {
 
-            NSLog(@"%@",listDic);
+                NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+                
+                NSLog(@"%@",listDic);
 
+            }
+            
         };
-        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonListDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetTreeUserSysDeptResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+
+    
+    }else {
+    
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+    
+    }
 
 }
 
+- (void)getTreeUserSysDept {
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
 
+        NSString * requestBody = [NSString stringWithFormat:
+                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                  "<soap12:Envelope "
+                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+                                  "<soap12:Body>"
+                                  "<GetTreeUserSysDept xmlns=\"Net.GongHuiTong\">"
+                                  "<logincookie>%@</logincookie>"
+                                  "<checktype>%@</checktype>"
+                                  //                                  "<ChID>%d</ChID>"
+                                  " </GetTreeUserSysDept>"
+                                  "</soap12:Body>"
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"checkbox"];
+        
+        ReturnValueBlock returnBlock = ^(id resultValue){
+            NSLog(@"%@",[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]);
+            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]) {
+                
+                //                dispatch_async(dispatch_get_main_queue(), ^{
+                
+                
+                //                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                //                            [alert show];
+                
+                NSLog(@"rrrrrrrrrrrrrerror: account or password error !");
+                //                    [SVProgressHUD showErrorWithStatus:@"Account or password error!"];
+                //
+                //                });
+                
+            }else {
+                
+                NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+                
+                NSLog(@"%@",listDic);
+                
+            }
+            
+        };
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetTreeUserSysDeptResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+        
+    }
+    
+}
 
 @end
