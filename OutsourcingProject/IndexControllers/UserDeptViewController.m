@@ -10,7 +10,7 @@
 #import "AddGroupsViewController.h"
 #import "MKSelectArray.h"
 #import "MKTreeView.h"
-#define kPlistPath [NSHomeDirectory() stringByAppendingString:@"/Documents/name1.plist"]
+#define kPlistPath [NSHomeDirectory() stringByAppendingString:@"/Documents/usersTree.plist"]
 
 @interface UserDeptViewController ()<HorizontalMenuDelegate,UITextFieldDelegate,TreeDelegate>
 @property (nonatomic, strong) UITableView    *showTableView;
@@ -148,7 +148,7 @@
 
                 //先获取到家目录。然后再拼接一个documents
                 NSString *homePath = NSHomeDirectory();
-                NSString *namePlitPath2 = [homePath stringByAppendingString:@"/Documents/userTree.plist"];
+                NSString *namePlitPath2 = [homePath stringByAppendingString:@"/Documents/usersTree.plist"];
                 BOOL b1 = [listDic writeToFile:namePlitPath2 atomically:YES];
                 b1 ? NSLog(@"写入沙盒成功"):NSLog(@"写入沙盒失败");
 
