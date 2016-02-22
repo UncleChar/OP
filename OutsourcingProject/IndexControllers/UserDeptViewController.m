@@ -8,6 +8,7 @@
 
 #import "UserDeptViewController.h"
 #import "AddGroupsViewController.h"
+#import "MKSelectArray.h"
 #import "MKTreeView.h"
 #define kPlistPath [NSHomeDirectory() stringByAppendingString:@"/Documents/name1.plist"]
 
@@ -31,45 +32,78 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    if (!self.isJump) {
-        
-        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editBtnClicked)];
-        self.navigationItem.rightBarButtonItem = rightItem;
-    }
-
-    
+    self.title = @"通讯录";
     _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30) withTitles:@[@"组织结构", @"自定义组"]];
     _menu.delegate = self;
     [self.view addSubview:_menu];
 
-    [self initViews];
-    
-    [self requestForUserDept];
-    
-    
-    
     if (!_dataArray) {
         
         _dataArray = [NSMutableArray arrayWithCapacity:0];
         
     }
     
+    [self configUIWith:self.isJump];
     
+    [self requestForUserDept];
+    
+  
 }
 
-- (void)initViews {
+- (void)configUIWith:(BOOL)isJump {
+
+ 
+    
+    if (!self.isJump) {
+        
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editBtnClicked)];
+        self.navigationItem.rightBarButtonItem = rightItem;
+        
+        [self initViewsWithHeight:kScreenHeight - 110];
+        
+        
+    }else {
+        
+        [self initViewsWithHeight:kScreenHeight - 110 - 40];
+        
+        UIButton *blockBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [blockBtn addTarget:self action:@selector(blockBtn) forControlEvents:UIControlEventTouchUpInside];
+        blockBtn.frame = CGRectMake(30, CGRectGetMaxY(_organizeStructureView.frame) , kScreenWidth - 60, 40);
+        [blockBtn setBackgroundImage:[UIImage imageNamed:@"矩形-9"] forState:UIControlStateNormal];
+        [blockBtn setTitle:@"选择" forState:UIControlStateNormal];
+        blockBtn.layer.cornerRadius = 6;
+        blockBtn.layer.masksToBounds = 1;
+        [self.view addSubview:blockBtn];
+        
+        
+    }
+
+
+
+
+
+
+}
+
+- (void)initViewsWithHeight:(CGFloat)height {
 
     if (!_organizeStructureView) {
         
-        _organizeStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 50, kScreenWidth, kScreenHeight - 50)];
+        _organizeStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, height)];
         _organizeStructureView.backgroundColor = kBackColor;
         [self.view addSubview:_organizeStructureView];
-        
         
     }
     
     
+}
+
+- (void)initSubViews{
+
+
+
+
+
 }
 
 - (void)requestForUserDept {
@@ -114,7 +148,7 @@
 
                 //先获取到家目录。然后再拼接一个documents
                 NSString *homePath = NSHomeDirectory();
-                NSString *namePlitPath2 = [homePath stringByAppendingString:@"/Documents/name1.plist"];
+                NSString *namePlitPath2 = [homePath stringByAppendingString:@"/Documents/userTree.plist"];
                 BOOL b1 = [listDic writeToFile:namePlitPath2 atomically:YES];
                 b1 ? NSLog(@"写入沙盒成功"):NSLog(@"写入沙盒失败");
 
@@ -125,7 +159,7 @@
                     NSArray *dataArray = [[NSArray alloc] initWithContentsOfFile:kPlistPath];
                     //    NSLog(@"rrr %@",dataArray);
                     //frame 尺寸 dataArray 数据源 haveHiddenSelectBtn 是否隐藏选择按钮 haveHeadView 是否有head isEqualX每个cell的x是否相等
-                    MKTreeView *view = [[MKTreeView instanceView] initTreeWithFrame:CGRectMake(0, 0, kScreenWidth, CGRectGetHeight(_organizeStructureView.frame)) dataArray:dataArray haveHiddenSelectBtn:NO haveHeadView:NO isEqualX:NO];
+                    MKTreeView *view = [[MKTreeView instanceView] initTreeWithFrame:CGRectMake(0, 0, kScreenWidth, CGRectGetHeight(_organizeStructureView.frame) + 40) dataArray:dataArray haveHiddenSelectBtn:NO haveHeadView:NO isEqualX:NO];
                     view.delegate = self;
                     [_organizeStructureView addSubview:view];
                 });
@@ -135,12 +169,10 @@
         };
         [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetTreeUserSysDeptResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
         
-        
     }else {
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
-        
         
     }
     
@@ -178,7 +210,7 @@
             }
             if (!_customStructureView) {
                 
-                _customStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 50, kScreenWidth, kScreenHeight - 50)];
+                _customStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, kScreenHeight - 160)];
                 _customStructureView.backgroundColor = kBackColor;
                 [self.view addSubview:_customStructureView];
              
@@ -208,7 +240,12 @@
     NSLog(@"--%@",item.userID);
 }
 
+- (void)blockBtn {
 
+    _selectedBlock([[MKSelectArray sharedInstance] initObject].selectArray);
+    [self.navigationController popViewControllerAnimated:YES];
+
+}
 - (void)editBtnClicked {
 
     [self.navigationController pushViewController:[[AddGroupsViewController alloc]init] animated:YES];

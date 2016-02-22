@@ -63,6 +63,9 @@
 
 - (MKTreeView *) initTreeWithFrame:(CGRect)rect dataArray:(NSArray *)nodeArray haveHiddenSelectBtn:(BOOL)isHidden haveHeadView:(BOOL)haveHeadView isEqualX:(BOOL)isEqualX
 {
+    
+    [[[MKSelectArray sharedInstance] initObject].selectArray removeAllObjects];
+    
     self.frame = rect;
     self.selectedArray = [[NSMutableArray alloc]init];
     self.treeItems     = [[NSMutableArray alloc] init];
@@ -134,6 +137,7 @@
                     MKPeopleCellModel *modelFour = [MKPeopleCellModel dataObjectWithName:[[modelTwoArray objectAtIndex:k] valueForKey:@"name"] children:nil];
                     modelFour.pId = [[modelTwoArray objectAtIndex:k] valueForKey:@"pId"];
                     modelFour.userID = [[modelTwoArray objectAtIndex:k] valueForKey:@"id"];
+                    modelFour.name = [[modelTwoArray objectAtIndex:k] valueForKey:@"name"];
                     [mutableThree addObject:modelFour];
                 }
                 else
@@ -144,6 +148,7 @@
                         MKPeopleCellModel *modelFour = [MKPeopleCellModel dataObjectWithName:[[modelThreeArray objectAtIndex:l] valueForKey:@"name"] children:nil];
                         modelFour.pId = [[modelThreeArray objectAtIndex:l] valueForKey:@"pId"];
                         modelFour.userID = [[modelThreeArray objectAtIndex:l] valueForKey:@"id"];
+                        modelFour.name = [[modelThreeArray objectAtIndex:k] valueForKey:@"name"];
                         [mutableFour addObject:modelFour];
                     }
                     MKPeopleCellModel *modelThree = [MKPeopleCellModel dataObjectWithName:[[modelTwoArray objectAtIndex:k] valueForKey:@"name"] children:mutableFour];
@@ -378,13 +383,13 @@
         if (model.userID != nil)
         {
             if (cell.select == YES && (treeNodeInfo.treeDepthLevel == 4 || treeNodeInfo.treeDepthLevel == 3)) {
-                if (![[[MKSelectArray sharedInstance] initObject].selectArray containsObject:[NSDictionary dictionaryWithObjectsAndKeys:model.userID, @"id", model.pId, @"pId", nil]]) {
-                    [[[MKSelectArray sharedInstance] initObject].selectArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:model.userID, @"id", model.pId, @"pId", nil]];
+                if (![[[MKSelectArray sharedInstance] initObject].selectArray containsObject:[NSDictionary dictionaryWithObjectsAndKeys:model.userID, @"id", model.pId, @"pId",model.name, @"name", nil]]) {
+                    [[[MKSelectArray sharedInstance] initObject].selectArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:model.userID, @"id", model.pId, @"pId",model.name, @"name", nil]];
                 }
             }
             else if (cell.select == NO && (treeNodeInfo.treeDepthLevel == 4 || treeNodeInfo.treeDepthLevel == 3))
             {
-                [[[MKSelectArray sharedInstance] initObject].selectArray removeObject:[NSDictionary dictionaryWithObjectsAndKeys:model.userID, @"id", model.pId, @"pId", nil]];
+                [[[MKSelectArray sharedInstance] initObject].selectArray removeObject:[NSDictionary dictionaryWithObjectsAndKeys:model.userID, @"id", model.pId, @"pId",model.name, @"name",nil]];
             }
         }
         self.treeView.isClose = YES;

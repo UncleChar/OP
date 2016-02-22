@@ -76,6 +76,14 @@
 - (void)addSubviews {
     
     
+    _groupNamesTF = [[UITextField alloc]initWithFrame:CGRectMake(95, 0, kScreenWidth - 120, kHeight)];
+    [self.view addSubview:_groupNamesTF];
+    
+    _remarkTF = [[UITextField alloc]initWithFrame:CGRectMake(95, 1 * kHeight + 1, kScreenWidth - 120, kHeight)];
+    [self.view addSubview:_remarkTF];
+    
+    
+    
 //    _notiTypeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    _notiTypeBtn.tag = 888 + 0;
 //    _notiTypeBtn.backgroundColor = kTestColor;
@@ -85,10 +93,9 @@
 //    _notiTypeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
 //    _notiTypeBtn.titleLabel.font = [UIFont systemFontOfSize:12];
 //    [_backgroungScrollView addSubview:_notiTypeBtn];
-//    
-//    
+   
     _usersSelectedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _usersSelectedBtn.backgroundColor = kTestColor;
+//    _usersSelectedBtn.backgroundColor = kTestColor;
     _usersSelectedBtn.tag = 333 + 0;
     [_usersSelectedBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_usersSelectedBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -147,6 +154,33 @@
     switch (sender.tag - 333) {
         case 0:
         {
+           
+            UserDeptViewController *userDep = [[UserDeptViewController alloc]init];
+            userDep.isJump = YES;
+            userDep.selectedBlock = ^(NSMutableArray *array){
+                
+                NSLog(@"block %@",array);
+                
+                NSString *title = @"1®";
+                if (array.count > 0) {
+                    NSMutableArray *arr = [[NSMutableArray alloc]init];
+                    for (NSDictionary *dict in array) {
+
+                        [arr addObject:[dict objectForKey:@"name"]];
+                         
+                        
+                    }
+                    
+                    title = [(NSArray *)arr componentsJoinedByString:@"、"];
+                }
+
+               
+                
+                [_usersSelectedBtn setTitle:title forState:UIControlStateNormal];
+                
+            };
+            
+            [self.navigationController pushViewController:userDep animated:YES];
             
             
         }
@@ -155,11 +189,7 @@
             
         case 1:
         {
-            UserDeptViewController *userDep = [[UserDeptViewController alloc]init];
-            userDep.isJump = YES;
 
-            [self.navigationController pushViewController:userDep animated:YES];
-            
         }
             break;
             
