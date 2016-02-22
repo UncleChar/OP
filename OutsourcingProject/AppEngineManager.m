@@ -112,6 +112,13 @@ static  AppEngineManager *sharedElement = nil;
     }
 }
 
++ (void)showTipsWithTitle:(NSString *)title {
+
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [alert show];
+
+}
 
 //- (void)baseViewControllerPushViewController:(UIViewController *)targetViewController animated:(BOOL)animated {
 //

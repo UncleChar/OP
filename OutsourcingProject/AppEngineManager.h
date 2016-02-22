@@ -35,4 +35,6 @@
 - (void)createSubDirectoryName:(NSString *)subDirectoryName underSuperDirectory:(NSString *)superDirectory;
 
 - (void)baseViewControllerPushViewController:(UIViewController *)targetViewController animated:(BOOL)animated;
+
++ (void)showTipsWithTitle:(NSString *)title;
 @end

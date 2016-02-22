@@ -7,9 +7,11 @@
 //
 
 #import "UserDeptViewController.h"
-#define kNamePlistPath2 [NSHomeDirectory() stringByAppendingString:@"/Documents/name1.plist"]
+#import "AddGroupsViewController.h"
+#import "MKTreeView.h"
+#define kPlistPath [NSHomeDirectory() stringByAppendingString:@"/Documents/name1.plist"]
 
-@interface UserDeptViewController ()<HorizontalMenuDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
+@interface UserDeptViewController ()<HorizontalMenuDelegate,UITextFieldDelegate,TreeDelegate>
 @property (nonatomic, strong) UITableView    *showTableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UIView         *topSearchView;
@@ -17,6 +19,9 @@
 @property (nonatomic, strong) UITextField    *activeSearchTF;      //
 @property (nonatomic, strong) UITextField    *otherSearchTF;
 @property (nonatomic, strong) HorizontalMenu *menu;//
+
+@property (nonatomic, strong) UIView         *organizeStructureView;
+@property (nonatomic, strong) UIView         *customStructureView;
 
 
 @end
@@ -27,14 +32,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editBtnClicked)];
-//    leftItem.image = [UIImage imageNamed:@"backk"];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    if (!self.isJump) {
+        
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editBtnClicked)];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+
     
     _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 30) withTitles:@[@"组织结构", @"自定义组"]];
     _menu.delegate = self;
     [self.view addSubview:_menu];
 
+    [self initViews];
+    
     [self requestForUserDept];
     
     
@@ -42,6 +52,20 @@
     if (!_dataArray) {
         
         _dataArray = [NSMutableArray arrayWithCapacity:0];
+        
+    }
+    
+    
+}
+
+- (void)initViews {
+
+    if (!_organizeStructureView) {
+        
+        _organizeStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 50, kScreenWidth, kScreenHeight - 50)];
+        _organizeStructureView.backgroundColor = kBackColor;
+        [self.view addSubview:_organizeStructureView];
+        
         
     }
     
@@ -87,35 +111,25 @@
                 NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
                 
 //                NSLog(@"%@",listDic);
-                
-           
-                BOOL isSuccess = [listDic writeToFile:@"/Users/lingli/Desktop/name.plist" atomically:YES];
-                isSuccess ? NSLog(@"写入成功"):NSLog(@"写入失败");
-                
-                ///--------------------------------------------------------------------------
-                //    由于ios应用是独立的，所以每个应用都有一个独立的沙盒（sandbox），不允许其他应用程序访问的
-                //    我们自己创建的临时文件如果要放到沙盒，一般放到documents文件夹下面
-                //    获取沙盒目录
-                //    1.获取document路径
-                NSString *documentPath =  NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-                NSLog(@"documentPath:%@",documentPath);
-                NSString *namePlistPath = [documentPath stringByAppendingString:@"/name.plist"];
-                //[documentPath stringByAppendingPathComponent:@"name.plist"];
-                BOOL b = [listDic writeToFile:namePlistPath atomically:YES];
-                b ? NSLog(@"写入沙盒成功"):NSLog(@"写入沙盒失败");
-                
-                
-                //2.获取沙盒目录
+
                 //先获取到家目录。然后再拼接一个documents
                 NSString *homePath = NSHomeDirectory();
                 NSString *namePlitPath2 = [homePath stringByAppendingString:@"/Documents/name1.plist"];
                 BOOL b1 = [listDic writeToFile:namePlitPath2 atomically:YES];
-                b1 ? NSLog(@"方式二写入沙盒成功"):NSLog(@"方式二写入沙盒失败");
+                b1 ? NSLog(@"写入沙盒成功"):NSLog(@"写入沙盒失败");
+
+                NSLog(@"%@",kPlistPath);
                 
-                NSArray *arr = [NSArray arrayWithContentsOfFile:[NSHomeDirectory() stringByAppendingString:@"/Documents/name1.plist"]];
-                NSLog(@"arr%@",arr);
-                NSLog(@"%@",kNamePlistPath2);
-    
+                dispatch_async(dispatch_get_main_queue(), ^{
+
+                    NSArray *dataArray = [[NSArray alloc] initWithContentsOfFile:kPlistPath];
+                    //    NSLog(@"rrr %@",dataArray);
+                    //frame 尺寸 dataArray 数据源 haveHiddenSelectBtn 是否隐藏选择按钮 haveHeadView 是否有head isEqualX每个cell的x是否相等
+                    MKTreeView *view = [[MKTreeView instanceView] initTreeWithFrame:CGRectMake(0, 0, kScreenWidth, CGRectGetHeight(_organizeStructureView.frame)) dataArray:dataArray haveHiddenSelectBtn:NO haveHeadView:NO isEqualX:NO];
+                    view.delegate = self;
+                    [_organizeStructureView addSubview:view];
+                });
+
             }
             
         };
@@ -132,9 +146,72 @@
     
 }
 
+#pragma mark - HorizontalMenuDelegate
+
+- (void)clieckButton:(UIButton *)button
+{
+    NSLog(@"%ld", button.tag);
+    
+    switch (button.tag) {
+        case 0:
+            
+        {
+            if (_organizeStructureView) {
+                
+                _organizeStructureView.hidden = NO;
+            }
+            
+            if (_customStructureView) {
+                
+                _customStructureView.hidden = YES;
+            }
+        
+        
+        }
+            
+            break;
+        case 1:
+            
+            if (_organizeStructureView ) {
+               
+                _organizeStructureView.hidden = YES;
+            }
+            if (!_customStructureView) {
+                
+                _customStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 50, kScreenWidth, kScreenHeight - 50)];
+                _customStructureView.backgroundColor = kBackColor;
+                [self.view addSubview:_customStructureView];
+             
+                
+            }else {
+            
+                _customStructureView.hidden = NO;
+            
+            
+            }
+            
+            [AppEngineManager showTipsWithTitle:@"暂无数据"];
+            
+            break;
+
+            
+        default:
+            break;
+    }
+    
+    
+}
+
+
+- (void)itemSelectInfo:(MKPeopleCellModel *)item
+{
+    NSLog(@"--%@",item.userID);
+}
+
+
 - (void)editBtnClicked {
 
-//    [self.navigationController pushViewController:[[SendNotifiactionViewController alloc]init] animated:YES];
+    [self.navigationController pushViewController:[[AddGroupsViewController alloc]init] animated:YES];
 
 }
 

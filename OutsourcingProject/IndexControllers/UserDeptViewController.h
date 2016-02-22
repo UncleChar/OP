@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^selectedUsersBlock)(NSArray *);
 @interface UserDeptViewController : JustBackBtn
+
+@property (nonatomic, assign) BOOL  isJump;
+@property (nonatomic, strong) selectedUsersBlock selectedBlock;
 
 @end
