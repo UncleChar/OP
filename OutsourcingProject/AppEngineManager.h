@@ -37,4 +37,7 @@
 - (void)baseViewControllerPushViewController:(UIViewController *)targetViewController animated:(BOOL)animated;
 
 + (void)showTipsWithTitle:(NSString *)title;
+
+//+ (BOOL)isNetworkConecting;
+
 @end

@@ -264,7 +264,7 @@
         case 2:
         {
         
-            NSLog(@" 忘记密码 ？");
+            OPLog(@" 忘记密码 ？");
         }
             
             break;
@@ -296,9 +296,9 @@
   
                 ReturnValueBlock returnBlock = ^(id resultValue){
 
-                    NSLog(@"------%@----------",[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"]);
+                    OPLog(@"------%@----------",[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"]);
                     
-                    NSLog(@"------%@----------",[[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"] class]);
+                    OPLog(@"------%@----------",[[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"] class]);
                     if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"]) {
                         
                         dispatch_async(dispatch_get_main_queue(), ^{
@@ -307,7 +307,7 @@
 //                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
 //                            [alert show];
 
-                            NSLog(@" Login error: account or password error !");
+                            OPLog(@" Login error: account or password error !");
                             [SVProgressHUD showErrorWithStatus:@"Account or password error!"];
                             
                         });
@@ -318,7 +318,7 @@
                         NSError *error;
                         NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
                         
-                        NSLog(@"------%@----------",[listDic objectForKey:@"rows"]);
+                        OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
                         Users *userModel = [[Users alloc]init];
                         for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
                             
@@ -326,12 +326,12 @@
                             
                         }
                         
-                        NSLog(@"%@,444 %@",userModel.deptname,userModel.xingbie);
+                        OPLog(@"%@,444 %@",userModel.deptname,userModel.xingbie);
                         
                         [[AppEngine GetAppEngine] saveUserLoginInfo:(NSMutableDictionary *)[listDic objectForKey:@"rows"][0]];
                         
                         
-                        NSLog(@"%@,555 %@",[AppEngine GetAppEngine].owner.deptname,[AppEngine GetAppEngine].owner.xingbie);
+                        OPLog(@"%@,555 %@",[AppEngine GetAppEngine].owner.deptname,[AppEngine GetAppEngine].owner.xingbie);
                         
                         
                         NSUserDefaults *store = [NSUserDefaults standardUserDefaults];
@@ -358,7 +358,7 @@
                 
                 ErrorCodeBlock errorBlock = ^(id errorValue){
                 
-                 NSLog(@"---errorBlock---%@----------",[[errorValue lastObject] objectForKey:@"CheckUserLoginResult"]);
+                 OPLog(@"---errorBlock---%@----------",[[errorValue lastObject] objectForKey:@"CheckUserLoginResult"]);
                 
                 };
                 [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"CheckUserLoginResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:errorBlock];
@@ -426,7 +426,7 @@
 
     //获取键盘高度，在不同设备上，以及中英文下是不同的
     CGFloat kbHeight = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size.height;
-    NSLog(@"login %f",kbHeight);
+    OPLog(@"login %f",kbHeight);
     double duration = [[notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
     if(_btnMaxY >(self.view.frame.size.height - kbHeight)) {

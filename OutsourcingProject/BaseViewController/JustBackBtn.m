@@ -14,14 +14,21 @@
 
 @implementation JustBackBtn
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.tabBarController.tabBar.hidden = 1;
+    self.navigationController.navigationBarHidden = 0;
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-     self.navigationController.navigationBarHidden = 0;
+
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(backBack)];
     leftItem.image = [UIImage imageNamed:@"backk"];
     self.navigationItem.leftBarButtonItem = leftItem;
-    self.tabBarController.tabBar.hidden = 1;
     self.view.backgroundColor = kBackColor;
 }
 

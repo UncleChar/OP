@@ -58,10 +58,10 @@ static  AppEngineManager *sharedElement = nil;
         self.dirDBSqlite = [self.dirDocument stringByAppendingPathComponent:@"MyAppDataBase.sqlite"];
 
 
-        NSLog(@"          DocumentPath : %@",self.dirDocument);
-//        NSLog(@"          DocumentSize : %ld",[self.dirDocument fileSize]);
-        NSLog(@"             CachePath : %@",self.dirCache);
-        NSLog(@"              TempPath : %@",self.dirTemp);
+        OPLog(@"          DocumentPath : %@",self.dirDocument);
+//        OPLog(@"          DocumentSize : %ld",[self.dirDocument fileSize]);
+        OPLog(@"             CachePath : %@",self.dirCache);
+        OPLog(@"              TempPath : %@",self.dirTemp);
     }
     return self;
 }
@@ -74,10 +74,10 @@ static  AppEngineManager *sharedElement = nil;
     // 创建目录
     BOOL res=[fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
     if (res) {
-        NSLog(@"目录-%@创建成功",directory);
+        OPLog(@"目录-%@创建成功",directory);
         [self writeDirWithData:data withFileName:fileName atTargetPath:directory];
     }else{
-        NSLog(@"目录-%@-创建失败",directory);
+        OPLog(@"目录-%@-创建失败",directory);
     }
     
 
@@ -90,9 +90,9 @@ static  AppEngineManager *sharedElement = nil;
     BOOL res=[fileManager createFileAtPath:testDirectory contents:data attributes:nil];
     
     if (res) {
-        NSLog(@"%@写入成功:",fileName );
+        OPLog(@"%@写入成功:",fileName );
     }else{
-        NSLog(@"%@写入失败",fileName);}
+        OPLog(@"%@写入失败",fileName);}
 
 }
 
@@ -103,11 +103,11 @@ static  AppEngineManager *sharedElement = nil;
     // 创建目录
     BOOL res = [fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
     if (res) {
-        NSLog(@"目录-%@创建成功",subDirectoryName);
+        OPLog(@"目录-%@创建成功",subDirectoryName);
         self.leftViewElementsPath = directory;
         [[NSUserDefaults standardUserDefaults]setObject:directory forKey:@"avatarPath"];
     }else{
-        NSLog(@"目录-%@-创建失败",subDirectoryName);
+        OPLog(@"目录-%@-创建失败",subDirectoryName);
         self.leftViewElementsPath = nil;
     }
 }
@@ -117,8 +117,23 @@ static  AppEngineManager *sharedElement = nil;
 
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [alert show];
+    
 
 }
+
+//+ (BOOL)isNetworkConecting {
+//    
+//    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+//        
+//        return YES;
+//        
+//    }else {
+//        
+//        return NO;
+//
+//    }
+//   
+//}
 
 //- (void)baseViewControllerPushViewController:(UIViewController *)targetViewController animated:(BOOL)animated {
 //

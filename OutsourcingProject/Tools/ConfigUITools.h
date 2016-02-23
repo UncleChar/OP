@@ -15,4 +15,8 @@
 + (UIColor *)colorWithR:(CGFloat)red G:(CGFloat)green B:(CGFloat)balck A:(CGFloat)alpha;
 
 + (UIColor *)colorRandomly;
+
++ (void)sizeToScroll:(UIScrollView *)scroll withStandardElementMaxY:(CGFloat)maxY forStepsH:(CGFloat)stepsH;
+
+
 @end

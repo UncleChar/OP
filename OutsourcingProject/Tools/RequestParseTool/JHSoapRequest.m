@@ -23,10 +23,10 @@
     //创建task
     NSURLSessionTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"%@",error);
+            OPLog(@"%@",error);
             errorBlock(error);
         }else{
-//            NSLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+//            OPLog(@"%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
             
             
             //开始解析

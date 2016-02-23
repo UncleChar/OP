@@ -21,8 +21,11 @@ typedef void (^ErrorCodeBlock) (id errorCode);
 #import "AppEngineManager.h"
 #import "Reachability.h"
 #import "HorizontalMenu.h"
-
+#import "MJRefresh.h"
+#import "DaiDodgeKeyboard.h"
 #import "MultiTextView.h"
+
+
 
 #import "AppDelegate.h"
 #import "NSString+JHXMLEntities.h"
@@ -30,6 +33,7 @@ typedef void (^ErrorCodeBlock) (id errorCode);
 #import "JHXMLParser.h"
 #import "AppEngine.h"
 #import "JustBackBtn.h"
+#import "LoginViewController.h"
 
 #define kDriftDuration     0.40
 
@@ -40,10 +44,29 @@ typedef void (^ErrorCodeBlock) (id errorCode);
 #define kAvatarImgFloderName   @"elementsFile"
 #define kScreenHeight  [UIScreen mainScreen].bounds.size.height
 #define kScreenWidth  [UIScreen mainScreen].bounds.size.width
+#define kContentHeight  [UIScreen mainScreen].bounds.size.height - 64
 #define kTestColor [ConfigUITools colorWithR:90 G:173 B:243 A:1]
-#define kBackColor [ConfigUITools colorWithR:240 G:240 B:240 A:1]
+#define kBackColor [ConfigUITools colorWithR:235 G:235 B:235 A:1]
 #define kTinColor  [ConfigUITools colorWithR:214 G:35 B:36 A:1]
- #define REQUEST_HOST @"http://101.231.51.219:888/admin/appintinfo.asmx"
+#define kBtnColor  [ConfigUITools colorWithR:200 G:60 B:61 A:1]
+#define REQUEST_HOST @"http://101.231.51.219:888/admin/appintinfo.asmx"
+
+#define kFont 14
+
+
+
+
+#ifdef DEBUG
+#define OPLog(...) NSLog(__VA_ARGS__)
+#else
+#define OPLog(...)
+#endif
+
+
+
+
+
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 

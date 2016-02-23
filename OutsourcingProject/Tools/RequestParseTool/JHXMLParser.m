@@ -29,7 +29,7 @@
 
 // 文档出错时触发
 -(void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError{
-    NSLog(@"%@",parseError);
+    OPLog(@"%@",parseError);
 }
 
 //遇到一个开始标签触发
@@ -91,7 +91,7 @@
 // 遇到文档结束时触发
 -(void)parserDidEndDocument:(NSXMLParser *)parser{
 
-//    NSLog(@"%@",self.resultArray);
+//    OPLog(@"%@",self.resultArray);
     self.returnBlock(self.resultArray);
     //进入该方法就意味着解析完成，需要清理一些成员变量，同时要将数据返回给表示层（表示图控制器）
     self.resultArray = nil;
@@ -293,7 +293,7 @@
     [xmlWriter writeEndElement];
     [xmlWriter writeEndElement];
     [xmlWriter writeEndDocument];
-    NSLog(@"%@", [xmlWriter toString]);
+    OPLog(@"%@", [xmlWriter toString]);
     
     return [xmlWriter toString];
 

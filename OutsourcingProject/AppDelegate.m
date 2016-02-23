@@ -50,11 +50,12 @@
 //    }
 
 //
-//    [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
-//    [[UITabBar appearance] setBarTintColor:[UIColor redColor]];
-    [[UINavigationBar appearance]setBarTintColor:[ConfigUITools colorWithR:214 G:35 B:36 A:1]];
+    [[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UITabBar appearance] setBarTintColor:[ConfigUITools colorWithR:214 G:35 B:36 A:1]];
+    [[UINavigationBar appearance]setBarTintColor:[ConfigUITools colorWithR:200 G:60 B:61 A:1]];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTranslucent:NO];
+//    [[UINavigationBar appearance] setTranslucent:NO];
 
     NSDictionary * dict=[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     [[UINavigationBar appearance] setTitleTextAttributes: dict];
@@ -153,4 +154,17 @@
     return  isExistenceNetwork;
 }
 
++ (BOOL)isNetworkConecting {
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        
+        return YES;
+        
+    }else {
+        
+        return NO;
+        
+    }
+    
+}
 @end

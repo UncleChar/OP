@@ -48,4 +48,26 @@
            brightness:( arc4random() % 128 / 256.0 ) + 0.5
                 alpha:1];
 }
+
++ (void)sizeToScroll:(UIScrollView *)scroll withStandardElementMaxY:(CGFloat)maxY forStepsH:(CGFloat)stepsH{
+    
+    OPLog(@"kContentHeight %f",kContentHeight);
+    OPLog(@"margin %f",stepsH);
+    OPLog(@"maxY %f",maxY);
+    CGFloat t = kContentHeight;
+    CGFloat margin = maxY - t;
+    OPLog(@"margin %f",margin);
+
+    
+    if (maxY > kContentHeight) {
+        
+        scroll.contentSize = CGSizeMake(kScreenWidth, maxY );
+        
+    }
+    
+    
+}
+
+
+
 @end
