@@ -221,6 +221,7 @@
                 }
                 
                 [_receivedBtn setTitle:title forState:UIControlStateNormal];
+                [DaiDodgeKeyboard addRegisterTheViewNeedDodgeKeyboard:_backgroungScrollView];
                 
             };
             [self.navigationController pushViewController:de animated:YES];
