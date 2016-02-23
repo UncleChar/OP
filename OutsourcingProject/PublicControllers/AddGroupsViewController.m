@@ -9,6 +9,7 @@
 #import "AddGroupsViewController.h"
 #import "UserDeptViewController.h"
 #define kHeight 40
+#define kFont  14
 @interface AddGroupsViewController ()<UITextFieldDelegate>
 
 @property (nonatomic, strong) NSArray  *elementArray;
@@ -23,7 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"发通知";
+    self.title = @"新增分组";
 
     [self initElement];
     
@@ -47,9 +48,17 @@
         img.image = [UIImage imageNamed:_elementArray[2 * i]];
         [view addSubview:img];
         
-        UILabel *titleLabel1 = [[UILabel alloc]initWithFrame:CGRectMake(38, 10, 60, 20)];
+        
+        UILabel *titleLabel1 = [[UILabel alloc]init];
+        if (i == 2) {
+            titleLabel1.frame = CGRectMake(38, 0, 80, kHeight);
+        }else {
+        
+          titleLabel1.frame = CGRectMake(38, 0, 60, kHeight);
+        }
+       
         titleLabel1.text = _elementArray[i * 2 + 1];
-        titleLabel1.font = [UIFont systemFontOfSize:12];
+        titleLabel1.font = [UIFont systemFontOfSize:kFont];
         [view addSubview:titleLabel1];
     }
     
@@ -58,7 +67,7 @@
         submitBtn.tag = 333 + 1;
 //        [submitBtn setBackgroundImage:[UIImage imageNamed:@"矩形-9"] forState:UIControlStateNormal];
 
-    submitBtn.backgroundColor = kBtnColor;
+        submitBtn.backgroundColor = kBtnColor;
         [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
         [submitBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
         submitBtn.layer.cornerRadius = 4;
@@ -78,62 +87,26 @@
 - (void)addSubviews {
     
     
-    _groupNamesTF = [[UITextField alloc]initWithFrame:CGRectMake(95, 0, kScreenWidth - 120, kHeight)];
+    _groupNamesTF = [[UITextField alloc]initWithFrame:CGRectMake(100, 0, kScreenWidth - 120, kHeight)];
     [self.view addSubview:_groupNamesTF];
     
-    _remarkTF = [[UITextField alloc]initWithFrame:CGRectMake(95, 1 * kHeight + 1, kScreenWidth - 120, kHeight)];
+    _remarkTF = [[UITextField alloc]initWithFrame:CGRectMake(100, 1 * kHeight + 1, kScreenWidth - 120, kHeight)];
     [self.view addSubview:_remarkTF];
     
-    
-    
-//    _notiTypeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    _notiTypeBtn.tag = 888 + 0;
-//    _notiTypeBtn.backgroundColor = kTestColor;
-//    [_notiTypeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [_notiTypeBtn addTarget:self action:@selector(allBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    _notiTypeBtn.frame = CGRectMake(95, 0, kScreenWidth - 120, 40);
-//    _notiTypeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-//    _notiTypeBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-//    [_backgroungScrollView addSubview:_notiTypeBtn];
+
    
     _usersSelectedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    _usersSelectedBtn.backgroundColor = kTestColor;
+    _usersSelectedBtn.backgroundColor = kTestColor;
     _usersSelectedBtn.tag = 333 + 0;
     [_usersSelectedBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_usersSelectedBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    _usersSelectedBtn.frame = CGRectMake(95, 2 * kHeight + 2, kScreenWidth - 120, 40);
+    _usersSelectedBtn.frame = CGRectMake(100, 2 * kHeight + 2, kScreenWidth - 120, 40);
     _usersSelectedBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _usersSelectedBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:_usersSelectedBtn];
     
-//
-//    _meetingAddress = [[UITextField alloc]init];
-//    
-//    _meetingAddress.backgroundColor = kTestColor;
-//    _meetingAddress.frame = CGRectMake(95, 3 * kHeight+  3, kScreenWidth - 120, 40);
-//    _meetingAddress.font = [UIFont systemFontOfSize:12];
-//    _meetingAddress.delegate = self;
-//    [_backgroungScrollView addSubview:_meetingAddress];
-//    
-    
-    
-    
-    
 }
 
-//- (UIScrollView *)backgScrollView {
-//
-//    _backgroungScrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-//    _backgroungScrollView.backgroundColor = [UIColor redColor];
-////    _backgroungScrollView.contentSize = CGSizeMake(0, 0);
-//
-//    return _backgroungScrollView;
-//}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
 

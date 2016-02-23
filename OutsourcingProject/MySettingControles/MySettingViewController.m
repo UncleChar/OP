@@ -76,6 +76,8 @@
     exitBtn.backgroundColor = kBtnColor;
     [exitBtn addTarget:self action:@selector(exitBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [exitBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+    exitBtn.layer.cornerRadius = 4;
+    exitBtn.layer.masksToBounds = 1;
     [[self backgScrollView] addSubview:exitBtn];
 
     if (CGRectGetMaxY(exitBtn.frame) > kScreenHeight - 49) {

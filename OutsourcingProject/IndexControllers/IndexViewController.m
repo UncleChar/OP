@@ -13,6 +13,7 @@
 #import "UserDetailInfoViewController.h"
 #import "UserDeptViewController.h"
 #import "TaskViewController.h"
+#import "AddTaskViewController.h"
 
 #define kBtnMargin 15
 #define kBtnWdith ([UIScreen mainScreen].bounds.size.width - 75 ) / 4
@@ -180,7 +181,7 @@
         
             break;
         case 1:
-            
+              [self.navigationController pushViewController:[[AddTaskViewController alloc]init] animated:YES];
             
             break;
         case 2:

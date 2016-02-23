@@ -10,9 +10,9 @@
 #import "UserDeptViewController.h"
 #import "UUDatePicker.h"
 #define kHeight 40
-#define kFont  14
-#define kLabelWidth 70
-#define kContentStart 100
+#define kFont  15
+#define kLabelWidth 75
+#define kContentStart 105
 #define kContentWidth  [UIScreen mainScreen].bounds.size.width - kContentStart - 10
 @interface SendNotifiactionViewController ()<UUDatePickerDelegate,UITextFieldDelegate,UITextViewDelegate>
 

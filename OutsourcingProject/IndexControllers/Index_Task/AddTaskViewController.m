@@ -10,6 +10,7 @@
 #import "UserDeptViewController.h"
 #import "UUDatePicker.h"
 #define kHeight  40
+#define kFont  17
 @interface AddTaskViewController ()<UUDatePickerDelegate,UITextFieldDelegate,UITextViewDelegate>
 
 @property (nonatomic, strong) UIScrollView *backgroungScrollView;
@@ -70,14 +71,15 @@
     
     _taskTitleTF = [[UITextField alloc]init];
     _taskTitleTF.delegate = self;
+    _taskTitleTF.placeholder = @"请输入任务标题";
     _taskTitleTF.backgroundColor = kTestColor;
-    _taskTitleTF.frame = CGRectMake(85, 0, kScreenWidth - 70, kHeight);
+    _taskTitleTF.frame = CGRectMake(85, 1, kScreenWidth - 95, kHeight);
     [_backgroungScrollView addSubview:_taskTitleTF];
     _taskTitleTF.font = [UIFont systemFontOfSize:kFont];
 
     
     UILabel *receiveLabel = [[UILabel alloc]init];
-    receiveLabel.frame = CGRectMake(10, 42, 75, kHeight);
+    receiveLabel.frame = CGRectMake(10, 2 + kHeight, 75, kHeight);
     receiveLabel.text = @"接收人:";
     receiveLabel.textColor = [UIColor orangeColor];
     [_backgroungScrollView addSubview:receiveLabel];
@@ -88,16 +90,16 @@
     _receivedBtn.backgroundColor = kTestColor;
     [_receivedBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_receivedBtn addTarget:self action:@selector(taskBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    _receivedBtn.frame = CGRectMake(85, kHeight + 2, kScreenWidth - 70, kHeight);
+    _receivedBtn.frame = CGRectMake(85, kHeight + 2, kScreenWidth - 95, kHeight);
     _receivedBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _receivedBtn.titleLabel.font = [UIFont systemFontOfSize:kFont];
     [_backgroungScrollView addSubview:_receivedBtn];
     
     UILabel *startLabel = [[UILabel alloc]init];
-    startLabel.frame = CGRectMake(10, 83, kScreenWidth - 20, kHeight);
+    startLabel.frame = CGRectMake(10, 3 + 2 * kHeight, kScreenWidth - 20, kHeight);
     startLabel.text = @"开始时间:";
     startLabel.textColor = [UIColor orangeColor];
-    titleLabel.font = [UIFont systemFontOfSize:kFont];
+    startLabel.font = [UIFont systemFontOfSize:kFont];
     [_backgroungScrollView addSubview:startLabel];
     
     
@@ -133,7 +135,7 @@
     contentLabel.frame = CGRectMake(10, CGRectGetMaxY(_endTimeBtn.frame)+1, kScreenWidth - 20, kHeight);
     contentLabel.text = @"任务内容描述:";
     contentLabel.textColor = [UIColor orangeColor];
-    titleLabel.font = [UIFont systemFontOfSize:kFont];
+    contentLabel.font = [UIFont systemFontOfSize:kFont];
     [_backgroungScrollView addSubview:contentLabel];
     
     
@@ -159,9 +161,9 @@
     _cancelBtn.tag = 777 + 3;
     [_cancelBtn setBackgroundImage:[UIImage imageNamed:@"形状副本-拷贝"] forState:UIControlStateNormal];
     [_cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [_cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
     [_cancelBtn addTarget:self action:@selector(taskBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     _cancelBtn.frame = CGRectMake(kScreenWidth / 4 - 50, CGRectGetMaxY(textBackView.frame) + 20, 100, kHeight);
-    _cancelBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_backgroungScrollView addSubview:_cancelBtn];
     _cancelBtn.layer.cornerRadius = 4;
     _cancelBtn.layer.masksToBounds = 1;
@@ -170,10 +172,10 @@
     _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _saveBtn.tag = 777 + 3;
     _saveBtn.backgroundColor = kBtnColor;
+    [_saveBtn setTitle:@"保存" forState:UIControlStateNormal];
     [_saveBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_saveBtn addTarget:self action:@selector(taskBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     _saveBtn.frame = CGRectMake(kScreenWidth / 4 * 3 - 50, CGRectGetMaxY(textBackView.frame) + 20, 100, kHeight);
-    _saveBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_backgroungScrollView addSubview:_saveBtn];
     _saveBtn.layer.cornerRadius = 4;
     _saveBtn.layer.masksToBounds = 1;
