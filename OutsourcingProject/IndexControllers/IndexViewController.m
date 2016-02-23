@@ -15,8 +15,8 @@
 #import "TaskViewController.h"
 #import "AddTaskViewController.h"
 
-#define kBtnMargin 15
-#define kBtnWdith ([UIScreen mainScreen].bounds.size.width - 75 ) / 4
+#define kBtnMargin ([UIScreen mainScreen].bounds.size.width - 4 * 50) / 5
+#define kBtnWdith 50
 
 @interface IndexViewController ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
@@ -96,11 +96,10 @@
 - (void)creatScrollerView {
 
     NSArray *imagesURLStrings = @[
-                                  @"https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a4b3d7085dee3d6d2293d48b252b5910/0e2442a7d933c89524cd5cd4d51373f0830200ea.jpg",
-                                  @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
-                                  @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
+                                  @"http://pic13.nipic.com/20110408/7106592_143711518153_2.jpg",
+                                  @"http://pic19.nipic.com/20120319/9526373_201939127000_2.jpg"
                                   ];
-    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 20, kScreenWidth, 100) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 20, kScreenWidth, kScreenWidth * 0.25) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder"]];
     
     cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     cycleScrollView.currentPageDotColor = [UIColor whiteColor];
@@ -119,11 +118,12 @@
     for (int i = 0; i < 4; i ++) {
         
         UIButton *topBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        topBtn.frame = CGRectMake(i * (kBtnWdith + kBtnMargin )+ kBtnMargin, CGRectGetMaxY(cycleScrollView.frame) + kBtnMargin, kBtnWdith, kBtnWdith);
+
+        topBtn.frame = CGRectMake(i * (kBtnWdith + kBtnMargin )+ kBtnMargin, CGRectGetMaxY(cycleScrollView.frame) + kBtnMargin / 2, kBtnWdith, kBtnWdith);
         [topBtn setBackgroundImage:[UIImage imageNamed:backimgArray[i]] forState:UIControlStateNormal];
         topBtn.tag = 200 + i;
         topBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-        [topBtn setTitleEdgeInsets:UIEdgeInsetsMake(kBtnWdith + 2 * kBtnMargin, 0, 0, 0)];
+        [topBtn setTitleEdgeInsets:UIEdgeInsetsMake(kBtnWdith +  kBtnMargin, 0, 0, 0)];
         [topBtn setTitle:titleBtnArray[i] forState:UIControlStateNormal];
         [topBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.view addSubview:topBtn];
@@ -138,7 +138,7 @@
     
     if (!listTableView) {
         
-        listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, listStart + 3 * kBtnMargin - 10, kScreenWidth, kScreenHeight - listStart - 3 * kBtnMargin -49 + 10) style:UITableViewStyleGrouped];
+        listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, listStart + 10 + kBtnMargin, kScreenWidth, kScreenHeight - listStart  - kBtnMargin -49 + 27) style:UITableViewStyleGrouped];
         listTableView.delegate = self;
         listTableView.dataSource = self;
         listTableView.backgroundColor = [ConfigUITools colorWithR:245 G:245 B:245 A:1];

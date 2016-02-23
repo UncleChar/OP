@@ -24,6 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = kBackColor;
+    self.title = @"修改密码";
     [self initArray];
     [self.view addSubview:[self tableView]];
     
@@ -32,10 +33,8 @@
 //        leftItem.image = [UIImage imageNamed:@"backk"];
 //        self.navigationItem.leftBarButtonItem = leftItem;
     
-        self.title = @"修改密码";
 
- 
-    
+
     UIButton *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     submitBtn.frame = CGRectMake(20, CGRectGetMaxY(_setPasswordTableView.frame) + 30, kScreenWidth - 40, 40);
 //    [submitBtn setBackgroundImage:[UIImage imageNamed:@"矩形-9"] forState:UIControlStateNormal];
@@ -43,7 +42,9 @@
     [submitBtn setTitle:@"提交新密码" forState:UIControlStateNormal];
     [submitBtn addTarget:self action:@selector(submitBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:submitBtn];
-    // Do any additional setup after loading the view.
+    submitBtn.layer.cornerRadius = 4;
+    submitBtn.layer.masksToBounds  =1;
+
 }
 
 - (void)initArray {
@@ -70,8 +71,9 @@
 -(UITableView*)tableView
 {
     if (!_setPasswordTableView) {
-        _setPasswordTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 5, kScreenWidth, 150) style:UITableViewStylePlain];
-        
+        _setPasswordTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 1, kScreenWidth, 139) style:UITableViewStylePlain];
+        _setPasswordTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
         _setPasswordTableView.delegate=self;
         _setPasswordTableView.dataSource=self;
         _setPasswordTableView.scrollEnabled = NO;
@@ -83,7 +85,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 3;
+    return 7;
 }
 
 #pragma mark - UITableViewDataSource
@@ -97,15 +99,28 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    if ((indexPath.row + 1) % 2 == 1) {
         
-        cell.imageView.image = [UIImage imageNamed:_picsArray[indexPath.row]];
-        cell.textLabel.text = _titlesArray[indexPath.row];
-        UITextField *input = [[UITextField alloc]initWithFrame:CGRectMake(kScreenWidth / 2 - 30, 2, kScreenWidth / 2 + 20 , 40)];
+        
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = kBackColor;
+        
+        
+    }else {
+        
+        cell.imageView.image = [UIImage imageNamed:_picsArray[(indexPath.row + 1) / 2 - 1]];
+        cell.textLabel.text = _titlesArray[(indexPath.row + 1) / 2 - 1];
+        UITextField *input = [[UITextField alloc]initWithFrame:CGRectMake(kScreenWidth / 2 - 30, 0, kScreenWidth / 2 + 20 , 45)];
         input.tag = indexPath.row;
         input.secureTextEntry = YES;
-    
-    [_tfArray addObject:input];
+        [_tfArray addObject:input];
         [cell addSubview:input];
+
+        
+    }
+
 
     
     return cell;
@@ -113,7 +128,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    return 50;
+    if ((indexPath.row + 1 ) % 2 == 1) {
+        
+        return 1;
+        
+    }else {
+        
+        return 45;
+        
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

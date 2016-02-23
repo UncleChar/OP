@@ -151,8 +151,8 @@
 -(UITableView*)tableView
 {
     if (!_setTableView) {
-        _setTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_headImaView.frame)+5, kScreenWidth, 390) style:UITableViewStylePlain];
-        
+        _setTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_headImaView.frame)+5, kScreenWidth, 388) style:UITableViewStylePlain];
+        _setTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _setTableView.delegate=self;
         _setTableView.dataSource=self;
         _setTableView.scrollEnabled = NO;
@@ -162,9 +162,11 @@
 }
 
 
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 9;
+
+    return  16;
 }
 
 #pragma mark - UITableViewDataSource
@@ -178,35 +180,57 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if (indexPath.row == 7) {
-        
-        cell.backgroundColor = kBackColor;
-
-        
-    }else {
     
-        cell.imageView.image = [UIImage imageNamed:_cellImgArray[indexPath.row]];
-        cell.textLabel.text = _cellTitleArray[indexPath.row];
-        cell.detailTextLabel.text = _infoArray[indexPath.row];
+
         
-        if ( indexPath.row == 6 | indexPath.row == 8) {
+        if ((indexPath.row + 1) % 2 == 1) {
+            
+            
+           
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor = kBackColor;
 
-             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-            cell.detailTextLabel.textColor = [UIColor blackColor];
+            
+        }else {
+            
+            //        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            //        cell.imageView.image = [UIImage imageNamed:_cellImgArray[(indexPath.row + 1) / 2 - 1]];
+            //        cell.textLabel.text = _cellTitleArray[(indexPath.row + 1) / 2 - 1];
+            //        cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+            //
+            cell.imageView.image = [UIImage imageNamed:_cellImgArray[(indexPath.row + 1) / 2 - 1]];
+            cell.textLabel.text = _cellTitleArray[(indexPath.row + 1) / 2 - 1];
+            cell.detailTextLabel.text = _infoArray[(indexPath.row + 1) / 2 - 1];
+            
+            if ( indexPath.row  + 1 == 14  | indexPath.row  + 1 == 16) {
+                
+                cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+                cell.detailTextLabel.textColor = [UIColor blackColor];
+            }
+            
         }
-
-    }
-
+    
+    
+    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 7) {
+    
+    if ((indexPath.row + 1 ) % 2 == 1) {
         
-        return 30;
+        if (indexPath.row + 1 == 15) {
+            return 20;
+        }
+        return 1;
+        
+    }else {
+        
+        return 45;
+        
     }
-    return 45;
 }
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -214,7 +238,7 @@
     //    [self.navigationController pushViewController:use animated:YES];
     //     OPLog(@"dd%d",indexPath.row);
     
-    if (indexPath.row == 6) {
+    if (indexPath.row + 1  == 14) {
         
         [self.navigationController pushViewController:[[SetEmailViewController alloc]init] animated:YES];
 
@@ -222,7 +246,7 @@
     }
     
     
-    if (indexPath.row == 8) {
+    if (indexPath.row + 1 == 16) {
     
         
         [self.navigationController pushViewController:[[SetPasswordViewController alloc]init] animated:YES];

@@ -53,15 +53,9 @@
 
 
 - (void)initElement{
-    
-    
-    
-    
 
 //        biaoti  jieshouren 开始时间 要求办结时间 任务内msg_labels_t
-
-        
-    
+  
     UILabel *titleLabel = [[UILabel alloc]init];
     titleLabel.frame = CGRectMake(10, 1, 75, kHeight);
     titleLabel.text = @"标题:";
@@ -70,6 +64,8 @@
     titleLabel.font = [UIFont systemFontOfSize:kFont];
     
     _taskTitleTF = [[UITextField alloc]init];
+    _taskTitleTF.layer.cornerRadius = 4;
+    _taskTitleTF.layer.masksToBounds = 1;
     _taskTitleTF.delegate = self;
     _taskTitleTF.placeholder = @"请输入任务标题";
     _taskTitleTF.backgroundColor = kTestColor;
@@ -88,6 +84,8 @@
     _receivedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _receivedBtn.tag = 777 + 0;
     _receivedBtn.backgroundColor = kTestColor;
+    _receivedBtn.layer.cornerRadius = 4;
+    _receivedBtn.layer.masksToBounds = 1;
     [_receivedBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_receivedBtn addTarget:self action:@selector(taskBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     _receivedBtn.frame = CGRectMake(85, kHeight + 2, kScreenWidth - 95, kHeight);
@@ -105,6 +103,8 @@
     
     _startTimeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _startTimeBtn.tag = 777 + 1;
+    _startTimeBtn.layer.cornerRadius = 4;
+    _startTimeBtn.layer.masksToBounds = 1;
     _startTimeBtn.titleLabel.font = [UIFont systemFontOfSize:kFont];
     _startTimeBtn.backgroundColor = kTestColor;
     [_startTimeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -124,6 +124,8 @@
     _endTimeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _endTimeBtn.tag = 777 + 2;
     _endTimeBtn.titleLabel.font = [UIFont systemFontOfSize:kFont];
+    _endTimeBtn.layer.cornerRadius = 4;
+    _endTimeBtn.layer.masksToBounds = 1;
     _endTimeBtn.backgroundColor = kTestColor;
     [_endTimeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [_endTimeBtn addTarget:self action:@selector(taskBtnClicked:) forControlEvents:UIControlEventTouchUpInside];

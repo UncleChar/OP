@@ -162,8 +162,8 @@
 -(UITableView*)tableView
 {
     if (!_setTableView) {
-        _setTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 145, kScreenWidth, 270) style:UITableViewStylePlain];
-        
+        _setTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 131, kScreenWidth, 270 + 6 + 1) style:UITableViewStylePlain];
+        _setTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _setTableView.delegate=self;
         _setTableView.dataSource=self;
         _setTableView.scrollEnabled = NO;
@@ -173,7 +173,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 6;
+    return 6 * 2 + 1;
 }
 
 #pragma mark - UITableViewDataSource
@@ -187,32 +187,54 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
     }
     
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.imageView.image = [UIImage imageNamed:_cellImgArray[indexPath.row]];
-    cell.textLabel.text = _cellTitleArray[indexPath.row];
-    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-    //    cell.imageView.layer.cornerRadius = 24;
-    //    cell.imageView.layer.masksToBounds = 1;
-        [cell setSelected:YES animated:YES];
+    if ((indexPath.row + 1) % 2 == 1) {
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = kBackColor;
+//        cell.imageView.image = [UIImage imageNamed:_cellImgArray[indexPath.row]];
+//        cell.textLabel.text = _cellTitleArray[indexPath.row];
+//        cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+        
+    }else {
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.imageView.image = [UIImage imageNamed:_cellImgArray[(indexPath.row + 1) / 2 - 1]];
+        cell.textLabel.text = _cellTitleArray[(indexPath.row + 1) / 2 - 1];
+        cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+        
+    }
+    
+
+
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
     
-    return 45;
+    
+        if ((indexPath.row + 1 ) % 2 == 1) {
+            
+             return 1;
+            
+        }else {
+            
+             return 45;
+            
+        }
+    
+    
+
+    
+    
+
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-//    UserInfoViewController  *use = [[UserInfoViewController alloc]init];
-//    [self.navigationController pushViewController:use animated:YES];
-    
-//        if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0))
-//        {
-//            self.navigationController.navigationBar.translucent = YES;
-//        }
-    [self.navigationController pushViewController:_controllersArray[indexPath.row] animated:YES];
+    [self.navigationController pushViewController:_controllersArray[(indexPath.row + 1) / 2 - 1] animated:YES];
 
 }
 //- (void)selectedAvatarImg {

@@ -220,7 +220,7 @@
     [submitBtn addTarget:self action:@selector(allBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     submitBtn.layer.cornerRadius = 4;
     submitBtn.layer.masksToBounds = 1;
-    submitBtn.frame = CGRectMake(20, CGRectGetMaxY(_receiptTypeBtn.frame) + 25, kScreenWidth - 40, 40);
+    submitBtn.frame = CGRectMake(20, CGRectGetMaxY(_receiptTypeBtn.frame) + 15, kScreenWidth - 40, 40);
     [_backgroungScrollView addSubview:submitBtn];
     
     _lastElementMaxY = CGRectGetMaxY(_receiptTypeBtn.frame);
