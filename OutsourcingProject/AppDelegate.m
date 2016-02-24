@@ -35,6 +35,9 @@
     [self.hostReach startNotifier];
     
     
+    DBManager *db = [[DBManager sharedDBManager]initDBDirectoryWithPath:engineManager.dirDBSqlite];//打开数据库
+    [db createDBTableWithTableName:@"MarkDateList"];
+ 
 //    if ([self isExistenceNetwork]) {
 //        
 //        

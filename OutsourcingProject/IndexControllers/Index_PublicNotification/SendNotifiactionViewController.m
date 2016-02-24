@@ -50,6 +50,18 @@
 
 @implementation SendNotifiactionViewController
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    
+    [super viewWillAppear:YES];
+    if (_backgroungScrollView) {
+        
+        [DaiDodgeKeyboard addRegisterTheViewNeedDodgeKeyboard:_backgroungScrollView];
+        
+    }
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"发通知";
@@ -85,7 +97,7 @@
             UIView *view = [[UIView alloc]init];
         
             [_backgroungScrollView addSubview:view];
-            view.backgroundColor = [UIColor whiteColor];
+            view.backgroundColor = kBackColor;
             UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(10, 11 , 18, 18)];
             img.image = [UIImage imageNamed:_elementArray[2 * i]];
             [view addSubview:img];
@@ -130,6 +142,8 @@
     _meetingTitleTF.frame = CGRectMake(kContentStart, 0, kContentWidth, kHeight);
     _meetingTitleTF.font = [UIFont systemFontOfSize:kFont];
     _meetingTitleTF.delegate = self;
+    _meetingTitleTF.layer.cornerRadius = 4;
+    _meetingTitleTF.layer.masksToBounds = 1;
     [_backgroungScrollView addSubview:_meetingTitleTF];
 
     _notiTypeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -141,6 +155,8 @@
     _notiTypeBtn.frame = CGRectMake(kContentStart, kHeight + 1, kContentWidth, kHeight);
     _notiTypeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _notiTypeBtn.titleLabel.font = [UIFont systemFontOfSize:kFont];
+    _notiTypeBtn.layer.cornerRadius = 4;
+    _notiTypeBtn.layer.masksToBounds = 1;
     [_backgroungScrollView addSubview:_notiTypeBtn];
     
     
@@ -152,6 +168,8 @@
     _sendToBtn.frame = CGRectMake(kContentStart, 2 * (kHeight + 1), kContentWidth, kHeight);
     _sendToBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _sendToBtn.titleLabel.font = [UIFont systemFontOfSize:kFont];
+    _sendToBtn.layer.cornerRadius = 4;
+    _sendToBtn.layer.masksToBounds = 1;
     [_backgroungScrollView addSubview:_sendToBtn];
     
     
@@ -163,6 +181,8 @@
     _meetingTimeBtn.frame = CGRectMake(kContentStart, 3 * kHeight + 3, kContentWidth, kHeight);
     _meetingTimeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _meetingTimeBtn.titleLabel.font = [UIFont systemFontOfSize:kFont];
+    _meetingTimeBtn.layer.cornerRadius = 4;
+    _meetingTimeBtn.layer.masksToBounds = 1;
     [_backgroungScrollView addSubview:_meetingTimeBtn];
     
     
@@ -171,6 +191,8 @@
     _meetingAddress.frame = CGRectMake(kContentStart, 4 * kHeight+  4, kContentWidth, kHeight);
     _meetingAddress.font = [UIFont systemFontOfSize:kFont];
     _meetingAddress.delegate = self;
+    _meetingAddress.layer.cornerRadius = 4;
+    _meetingAddress.layer.masksToBounds = 1;
     [_backgroungScrollView addSubview:_meetingAddress];
 
     
@@ -179,12 +201,15 @@
     _leaderTF.frame = CGRectMake(kContentStart, 5 * kHeight+  5, kContentWidth, kHeight);
     _leaderTF.font = [UIFont systemFontOfSize:kFont];
     _leaderTF.delegate = self;
+    _leaderTF.layer.cornerRadius = 4;
+    _leaderTF.layer.masksToBounds = 1;
     [_backgroungScrollView addSubview:_leaderTF];
     
     UIView *textBackView = [[UIView alloc]initWithFrame:CGRectMake(10, 7 * kHeight+  7, kScreenWidth - 20, 3.5 * kHeight)];
     textBackView.backgroundColor = [UIColor blackColor];
     textBackView.layer.cornerRadius = 4;
     textBackView.layer.masksToBounds = 1;
+    
     [_backgroungScrollView addSubview:textBackView];
     
     
@@ -207,6 +232,8 @@
     _receiptTypeBtn.frame = CGRectMake(kContentStart, 7 * (kHeight + 1) + 3.5 * kHeight +2, kContentWidth, kHeight);
     _receiptTypeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _receiptTypeBtn.titleLabel.font = [UIFont systemFontOfSize:kFont];
+    _receiptTypeBtn.layer.cornerRadius = 4;
+    _receiptTypeBtn.layer.masksToBounds = 1;
     [_backgroungScrollView addSubview:_receiptTypeBtn];
     
     

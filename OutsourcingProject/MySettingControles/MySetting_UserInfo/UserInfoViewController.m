@@ -151,7 +151,7 @@
 -(UITableView*)tableView
 {
     if (!_setTableView) {
-        _setTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_headImaView.frame)+5, kScreenWidth, 388) style:UITableViewStylePlain];
+        _setTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_headImaView.frame)+1, kScreenWidth, 388) style:UITableViewStylePlain];
         _setTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _setTableView.delegate=self;
         _setTableView.dataSource=self;

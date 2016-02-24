@@ -14,6 +14,7 @@
 #import "UserDeptViewController.h"
 #import "TaskViewController.h"
 #import "AddTaskViewController.h"
+#import "ScheduleViewController.h"
 
 #define kBtnMargin ([UIScreen mainScreen].bounds.size.width - 4 * 50) / 5
 #define kBtnWdith 50
@@ -59,7 +60,7 @@
     [self configListView];
 //    [self getRequestData];
     
-//    [self getListData];
+    [self getListData];
 }
 
 - (void)initArray {
@@ -201,6 +202,41 @@
     
 }
 
+-(void)cellHeadBtnClicked:(UIButton *)sender
+{
+    //处理单击操作
+    switch (sender.tag - 900) {
+        case 0:
+            
+            [self.navigationController pushViewController:[[PublicNoticeViewController alloc]init] animated:YES];
+            
+            break;
+        case 1:
+            
+            [self.navigationController pushViewController:[[TaskViewController alloc]init] animated:YES];
+            
+            break;
+        case 2:
+            
+            [self.navigationController pushViewController:[[ScheduleViewController alloc]init] animated:YES];
+            
+            break;
+        case 3:
+        {
+            
+            
+        }
+            
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
+
+
 #pragma mark - UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
@@ -239,7 +275,7 @@
         default:
             break;
     }
-    return numberOfRows;
+    return 0;
 }
 
 #pragma mark - UITableViewDataSource
@@ -336,37 +372,6 @@
     return headView;
 }
 
--(void)cellHeadBtnClicked:(UIButton *)sender
-{
-    //处理单击操作
-    switch (sender.tag - 900) {
-        case 0:
-
-            [self.navigationController pushViewController:[[PublicNoticeViewController alloc]init] animated:YES];
-
-            break;
-        case 1:
-            
-            [self.navigationController pushViewController:[[TaskViewController alloc]init] animated:YES];
-
-            break;
-        case 2:
-            
-            
-            break;
-        case 3:
-        {
-        
-           
-        }
-            
-            break;
-            
-        default:
-            break;
-    }
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
@@ -397,7 +402,22 @@
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
     
-        
+        //    NSString * requestBody = [NSString stringWithFormat:
+        //                              @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+        //                              "<soap12:Envelope "
+        //                              "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+        //                              "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+        //                              "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+        //                              "<soap12:Body>"
+        //                              "<GetJsonListData xmlns=\"Net.GongHuiTong\">"
+        //                              "<logincookie>%@</logincookie>"
+        //                              "<datatype>%@</datatype>"
+        //                              "<pagesize>%d</pagesize>"
+        //                              "<navindex>%d</navindex>"
+        //                              "<filter>%@</filter>"
+        //                              " </GetJsonListData>"
+        //                              "</soap12:Body>"
+        //                              "</soap12:Envelope>",@"",@"banshizhinan",0,0,@""];
         //        ListDataArray = [[NSMutableArray alloc]initWithCapacity:0];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -406,18 +426,20 @@
                                   "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
                                   "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
                                   "<soap12:Body>"
-                                  "<GetTreeUserSysDept xmlns=\"Net.GongHuiTong\">"
-                                  "<logincookie>%@</logincookie>"
-                                  "<checktype>%@</checktype>"
-//                                  "<ChID>%d</ChID>"
-                                  " </GetTreeUserSysDept>"
+                                  "<GetJsonListData xmlns=\"Net.GongHuiTong\">"
+                                    "<logincookie>%@</logincookie>"
+                                    "<datatype>%@</datatype>"
+                                    "<pagesize>%d</pagesize>"
+                                    "<navindex>%d</navindex>"
+                                    "<filter>%@</filter>"
+                                    " </GetJsonListData>"
                                   "</soap12:Body>"
-                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"checkbox"];
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"richenganpai",0,0,@""];
         
         ReturnValueBlock returnBlock = ^(id resultValue){
-            OPLog(@"--%@",[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]);
-            OPLog(@"-cass-%@",[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] class]);
-            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]) {
+            OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
+            OPLog(@"-caRRss-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
+            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
                 
 //                dispatch_async(dispatch_get_main_queue(), ^{
                 
@@ -431,14 +453,14 @@
                 
             }else {
 
-                NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+                NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
                 
                 OPLog(@"%@",listDic);
 
             }
             
         };
-        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetTreeUserSysDeptResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonListDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
 
     
     }else {
@@ -456,6 +478,8 @@
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
 
+        
+        
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "

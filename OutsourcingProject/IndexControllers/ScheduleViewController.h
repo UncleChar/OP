@@ -10,4 +10,6 @@
 
 @interface ScheduleViewController : JustBackBtn
 
+@property (nonatomic, assign) NSDate  *activeDate;
+
 @end

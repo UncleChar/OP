@@ -115,7 +115,7 @@
 
     if (!_headImaView) {
         
-        _headImaView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 130)];
+        _headImaView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth * 0.33)];
         _headImaView.image = [UIImage imageNamed:@"background.jpg"];
         _headImaView.userInteractionEnabled = 1;
     }
@@ -130,7 +130,7 @@
 
     
     _avatarImgView = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth / 6, kScreenWidth / 6)];
-    _avatarImgView.center =CGPointMake(kScreenWidth / 12 + 20, _headImaView.center.y + 10);
+    _avatarImgView.center =CGPointMake(kScreenWidth / 12 + 20, kScreenWidth * 0.33 / 2);
     
     BOOL success;
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -162,7 +162,7 @@
 -(UITableView*)tableView
 {
     if (!_setTableView) {
-        _setTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 131, kScreenWidth, 270 + 6 + 1) style:UITableViewStylePlain];
+        _setTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, kScreenWidth * 0.33 + 1, kScreenWidth, 270 + 6 + 1) style:UITableViewStylePlain];
         _setTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _setTableView.delegate=self;
         _setTableView.dataSource=self;
