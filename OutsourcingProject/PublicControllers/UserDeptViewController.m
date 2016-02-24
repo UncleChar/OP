@@ -37,6 +37,8 @@
     _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 45) withTitles:@[@"组织结构", @"自定义组"]];
     _menu.delegate = self;
     [self.view addSubview:_menu];
+    
+    [[[MKSelectArray sharedInstance] initObject].selectArray removeAllObjects];
 
     if (!_dataArray) {
         
@@ -308,6 +310,14 @@
 - (void)editBtnClicked {
 
     [self.navigationController pushViewController:[[AddGroupsViewController alloc]init] animated:YES];
+
+}
+- (void)backBack {
+
+
+    _selectedBlock([[MKSelectArray sharedInstance] initObject].selectArray);
+    [self.navigationController popViewControllerAnimated:YES];
+    
 
 }
 

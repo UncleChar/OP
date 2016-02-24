@@ -54,11 +54,7 @@
     
     
     [super viewWillAppear:YES];
-    if (_backgroungScrollView) {
-        
-        [DaiDodgeKeyboard addRegisterTheViewNeedDodgeKeyboard:_backgroungScrollView];
-        
-    }
+
     
 }
 

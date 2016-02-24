@@ -15,6 +15,8 @@
 #import "TaskViewController.h"
 #import "AddTaskViewController.h"
 #import "ScheduleViewController.h"
+#import "ActivityViewController.h"
+
 
 #define kBtnMargin ([UIScreen mainScreen].bounds.size.width - 4 * 50) / 5
 #define kBtnWdith 50
@@ -100,7 +102,7 @@
                                   @"http://pic13.nipic.com/20110408/7106592_143711518153_2.jpg",
                                   @"http://pic19.nipic.com/20120319/9526373_201939127000_2.jpg"
                                   ];
-    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 20, kScreenWidth, kScreenWidth * 0.25) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 20, kScreenWidth, kScreenWidth * 0.35) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder"]];
     
     cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     cycleScrollView.currentPageDotColor = [UIColor whiteColor];
@@ -222,10 +224,9 @@
             
             break;
         case 3:
-        {
+    
+            [self.navigationController pushViewController:[[ActivityViewController alloc]init] animated:YES];
             
-            
-        }
             
             break;
             

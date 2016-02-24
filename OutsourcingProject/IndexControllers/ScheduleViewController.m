@@ -129,9 +129,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (nil == cell) {
         
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
     }
-    //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (indexPath.row == 0) {
         
@@ -140,8 +140,8 @@
         //        cell.textLabel.text = _cellTitleArray[indexPath.row];
         
         cell.textLabel.text = @"新建日程";
-        cell.detailTextLabel.text = @"业务指导";
-        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+        
+//        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
         
     }else {
     
@@ -149,8 +149,8 @@
         //        cell.textLabel.text = _cellTitleArray[indexPath.row];
         
         cell.textLabel.text = @"测试收藏的view";
-        cell.detailTextLabel.text = @"业务指导";
-        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+//        cell.detailTextLabel.text = @"业务指导";
+//        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
     
         
     }
@@ -171,6 +171,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
+    if (indexPath.row == _modelsArray.count) {
+        
+        [self.navigationController pushViewController:[[AddScheduleViewController alloc]init] animated:YES];
+        
+    }
     
 }
 

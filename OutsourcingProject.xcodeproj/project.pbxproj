@@ -467,6 +467,7 @@
 		DB6B3C721C781A6B00F0CB62 /* HorizontalMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C6F1C781A6B00F0CB62 /* HorizontalMenu.m */; };
 		DB6B3C731C781A6B00F0CB62 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C711C781A6B00F0CB62 /* Utility.m */; };
 		DB6B3C761C78213C00F0CB62 /* MultiTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C751C78213C00F0CB62 /* MultiTextView.m */; };
+		DBC996FD1C7DD45B000525A3 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC996FC1C7DD45B000525A3 /* ActivityViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DBD401ED1C7CA0BE0097F526 /* ScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD401EC1C7CA0BE0097F526 /* ScheduleViewController.m */; };
 		DBEB03AC1C784C2A005401A8 /* JustBackBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = DBEB03AB1C784C2A005401A8 /* JustBackBtn.m */; };
 		DBEB03AE1C786453005401A8 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DBEB03AD1C786453005401A8 /* 4.jpg */; };
@@ -1224,6 +1225,8 @@
 		DB6B3C711C781A6B00F0CB62 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
 		DB6B3C741C78213C00F0CB62 /* MultiTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiTextView.h; sourceTree = "<group>"; };
 		DB6B3C751C78213C00F0CB62 /* MultiTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiTextView.m; sourceTree = "<group>"; };
+		DBC996FB1C7DD45B000525A3 /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
+		DBC996FC1C7DD45B000525A3 /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
 		DBD401EB1C7CA0BE0097F526 /* ScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScheduleViewController.h; path = OutsourcingProject/IndexControllers/ScheduleViewController.h; sourceTree = SOURCE_ROOT; };
 		DBD401EC1C7CA0BE0097F526 /* ScheduleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScheduleViewController.m; path = OutsourcingProject/IndexControllers/ScheduleViewController.m; sourceTree = SOURCE_ROOT; };
 		DBEB03AA1C784C2A005401A8 /* JustBackBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JustBackBtn.h; sourceTree = "<group>"; };
@@ -1409,6 +1412,8 @@
 			children = (
 				9D054B551C7C31E9003FB2C6 /* PublicNoticeViewController.h */,
 				9D054B561C7C31E9003FB2C6 /* PublicNoticeViewController.m */,
+				DBC996FB1C7DD45B000525A3 /* ActivityViewController.h */,
+				DBC996FC1C7DD45B000525A3 /* ActivityViewController.m */,
 				9D054B571C7C31E9003FB2C6 /* SendNotifiactionViewController.h */,
 				9D054B581C7C31E9003FB2C6 /* SendNotifiactionViewController.m */,
 			);
@@ -3173,6 +3178,7 @@
 				DB0815A91C773CC800284FDB /* Reachability.m in Sources */,
 				9D7A24C81C7AD9150022375A /* UIScrollView+Touch.m in Sources */,
 				9D82A73A1C75C6AC0072E354 /* UIView+SDExtension.m in Sources */,
+				DBC996FD1C7DD45B000525A3 /* ActivityViewController.m in Sources */,
 				9D82A6BB1C759E470072E354 /* MASCompositeConstraint.m in Sources */,
 				DBEB03AC1C784C2A005401A8 /* JustBackBtn.m in Sources */,
 				9D82A7231C75C5D90072E354 /* UIView+WebCacheOperation.m in Sources */,

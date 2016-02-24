@@ -10,5 +10,6 @@
 
 @interface JustBackBtn : UIViewController
 
+- (void)backBack;
 
 @end
