@@ -139,6 +139,7 @@
     _userAccount = [[UITextField alloc]init];
     _userAccount.placeholder = @"  请输入工会会员号";
     _userAccount.delegate = self;
+    _userAccount.text = @"tflb";
     _userAccount.textColor = [UIColor whiteColor];
     _userAccount.backgroundColor = [ConfigUITools colorWithR:209 G:34 B:52 A:1];
     _userAccount.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -159,6 +160,7 @@
     _userPassword = [[UITextField alloc]init];
     _userPassword.placeholder = @"  请输入密码 ";
     _userPassword.delegate = self;
+    _userPassword.text = @"123456";
     _userPassword.secureTextEntry = YES;
     _userPassword.textColor = [UIColor whiteColor];
     _userPassword.backgroundColor = [ConfigUITools colorWithR:209 G:34 B:52 A:1];

@@ -149,7 +149,7 @@
             
                 [_dataArray removeAllObjects];
                 OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
-                OPLog(@"-caRRss-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
+                OPLog(@"-unionSub-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
                 if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
                     
                     //                dispatch_async(dispatch_get_main_queue(), ^{

@@ -537,6 +537,10 @@
 		DB6B3C721C781A6B00F0CB62 /* HorizontalMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C6F1C781A6B00F0CB62 /* HorizontalMenu.m */; };
 		DB6B3C731C781A6B00F0CB62 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C711C781A6B00F0CB62 /* Utility.m */; };
 		DB6B3C761C78213C00F0CB62 /* MultiTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C751C78213C00F0CB62 /* MultiTextView.m */; };
+		DBC997001C7F4766000525A3 /* AchievementModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC996FF1C7F4766000525A3 /* AchievementModel.m */; settings = {ASSET_TAGS = (); }; };
+		DBC997031C7F5264000525A3 /* ConsultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997021C7F5264000525A3 /* ConsultModel.m */; settings = {ASSET_TAGS = (); }; };
+		DBC997061C7F5600000525A3 /* NotiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997051C7F5600000525A3 /* NotiModel.m */; settings = {ASSET_TAGS = (); }; };
+		DBC997091C7F5CF9000525A3 /* TaskModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997081C7F5CF9000525A3 /* TaskModel.m */; settings = {ASSET_TAGS = (); }; };
 		DBEB03AE1C786453005401A8 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DBEB03AD1C786453005401A8 /* 4.jpg */; };
 		DBEB03D41C787BCF005401A8 /* iconfont-ren(1)-拷贝.png in Resources */ = {isa = PBXBuildFile; fileRef = DBEB03B31C787BCF005401A8 /* iconfont-ren(1)-拷贝.png */; };
 		DBEB03D51C787BCF005401A8 /* iconfont-ren(1)-拷贝@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DBEB03B41C787BCF005401A8 /* iconfont-ren(1)-拷贝@2x.png */; };
@@ -1366,6 +1370,14 @@
 		DB6B3C711C781A6B00F0CB62 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
 		DB6B3C741C78213C00F0CB62 /* MultiTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiTextView.h; sourceTree = "<group>"; };
 		DB6B3C751C78213C00F0CB62 /* MultiTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiTextView.m; sourceTree = "<group>"; };
+		DBC996FE1C7F4766000525A3 /* AchievementModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementModel.h; sourceTree = "<group>"; };
+		DBC996FF1C7F4766000525A3 /* AchievementModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AchievementModel.m; sourceTree = "<group>"; };
+		DBC997011C7F5264000525A3 /* ConsultModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsultModel.h; sourceTree = "<group>"; };
+		DBC997021C7F5264000525A3 /* ConsultModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsultModel.m; sourceTree = "<group>"; };
+		DBC997041C7F5600000525A3 /* NotiModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotiModel.h; sourceTree = "<group>"; };
+		DBC997051C7F5600000525A3 /* NotiModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotiModel.m; sourceTree = "<group>"; };
+		DBC997071C7F5CF9000525A3 /* TaskModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskModel.h; sourceTree = "<group>"; };
+		DBC997081C7F5CF9000525A3 /* TaskModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskModel.m; sourceTree = "<group>"; };
 		DBEB03AD1C786453005401A8 /* 4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 4.jpg; sourceTree = "<group>"; };
 		DBEB03B31C787BCF005401A8 /* iconfont-ren(1)-拷贝.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-ren(1)-拷贝.png"; sourceTree = "<group>"; };
 		DBEB03B41C787BCF005401A8 /* iconfont-ren(1)-拷贝@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-ren(1)-拷贝@2x.png"; sourceTree = "<group>"; };
@@ -1724,6 +1736,14 @@
 				9DE3D7A11C7D6A5300D654AA /* ScheduleModel.m */,
 				9D736A551C7EC1C700271EC4 /* ClassifyModel.h */,
 				9D736A561C7EC1C700271EC4 /* ClassifyModel.m */,
+				DBC996FE1C7F4766000525A3 /* AchievementModel.h */,
+				DBC996FF1C7F4766000525A3 /* AchievementModel.m */,
+				DBC997011C7F5264000525A3 /* ConsultModel.h */,
+				DBC997021C7F5264000525A3 /* ConsultModel.m */,
+				DBC997041C7F5600000525A3 /* NotiModel.h */,
+				DBC997051C7F5600000525A3 /* NotiModel.m */,
+				DBC997071C7F5CF9000525A3 /* TaskModel.h */,
+				DBC997081C7F5CF9000525A3 /* TaskModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3472,6 +3492,7 @@
 			files = (
 				9D82A6691C759B020072E354 /* LoginViewController.m in Sources */,
 				9D736A571C7EC1C700271EC4 /* ClassifyModel.m in Sources */,
+				DBC997061C7F5600000525A3 /* NotiModel.m in Sources */,
 				9DE3D7CF1C7D6BCC00D654AA /* NSString+FSExtension.m in Sources */,
 				9DE3D7C41C7D6BCC00D654AA /* FSCalendar.m in Sources */,
 				9D82A68F1C759BB30072E354 /* JHXMLParser.m in Sources */,
@@ -3528,8 +3549,10 @@
 				9D054B821C7C34A6003FB2C6 /* MySendingViewController.m in Sources */,
 				9DE3D7921C7D4B9600D654AA /* FMDatabaseAdditions.m in Sources */,
 				9D054B7C1C7C3452003FB2C6 /* SystemSettingViewController.m in Sources */,
+				DBC997001C7F4766000525A3 /* AchievementModel.m in Sources */,
 				9D054B791C7C342F003FB2C6 /* UserInfoViewController.m in Sources */,
 				9D82A7221C75C5D90072E354 /* UIImageView+WebCache.m in Sources */,
+				DBC997091C7F5CF9000525A3 /* TaskModel.m in Sources */,
 				9D82A7341C75C6AC0072E354 /* TAAbstractDotView.m in Sources */,
 				9D82A7391C75C6AC0072E354 /* SDCycleScrollView.m in Sources */,
 				DB46A0C81C7B2C7A00D69165 /* RATreeView+Private.m in Sources */,
@@ -3599,6 +3622,7 @@
 				9D2E18371C76E931008CB937 /* AppEngine.m in Sources */,
 				9D82A71E1C75C5D90072E354 /* UIImage+GIF.m in Sources */,
 				9DE3D7A21C7D6A5300D654AA /* ScheduleModel.m in Sources */,
+				DBC997031C7F5264000525A3 /* ConsultModel.m in Sources */,
 				9D82A63F1C757B080072E354 /* NSObject+SBJSON.m in Sources */,
 				9DE3D7951C7D4B9600D654AA /* FMResultSet.m in Sources */,
 				9DE3D7CB1C7D6BCC00D654AA /* FSCalendarHeader.m in Sources */,

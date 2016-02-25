@@ -17,6 +17,8 @@
 #import "ScheduleViewController.h"
 #import "ActivityViewController.h"
 
+#import "NotiModel.h"
+#import "TaskModel.h"
 
 #define kBtnMargin ([UIScreen mainScreen].bounds.size.width - 4 * 50) / 5
 #define kBtnWdith 50
@@ -62,7 +64,10 @@
     [self configListView];
 //    [self getRequestData];
     
-    [self getListData];
+//    [self getListDataWithType:@"newtongzhigonggao" withTag:0];
+
+    [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
+     [self getListDataWithType:@"newgongzuorenwu" pageSize:0 navIndex:0 filter:@"" withTag:1];
 }
 
 - (void)initArray {
@@ -251,32 +256,32 @@
         case 0:
             
             numberOfRows = notiArray.count;
-            numberOfRows = 3;
+//            numberOfRows = 3;
             
             break;
         case 1:
             
             numberOfRows = taskArray.count;
-            numberOfRows = 2;
+//            numberOfRows = 4;
             
             break;
         case 2:
             
             numberOfRows = scheduleArray.count;
-            numberOfRows = 1;
+//            numberOfRows = 1;
             
             break;
         case 3:
             
             numberOfRows = activeArray.count;
-            numberOfRows = 5;
+//            numberOfRows = 5;
             
             break;
             
         default:
             break;
     }
-    return 0;
+    return numberOfRows;
 }
 
 #pragma mark - UITableViewDataSource
@@ -290,10 +295,35 @@
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
     }
     
-//    cell.imageView.image = [UIImage imageNamed:@"icon"];
-    cell.textLabel.text = @"我是测试cell行";
+    switch (indexPath.section) {
+        case 0:
+            
+            cell.textLabel.text = [notiArray[indexPath.row] chtopic];
+            
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"【%@】",[notiArray[indexPath.row] urgLevel]];
+            break;
+        case 1:
+            cell.textLabel.text = [taskArray[indexPath.row] chtopic];
+            
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"【%@】",[taskArray[indexPath.row] ExpDate]];
+            
+            
+            break;
+        case 2:
+            
+            
+            break;
+        case 3:
+            
+            
+            break;
+            
+        default:
+            break;
+    }
     
-    cell.detailTextLabel.text = @"【急】";
+//    cell.imageView.image = [UIImage imageNamed:@"icon"];
+
 //    cell.imageView.layer.cornerRadius = 24;
 //    cell.imageView.layer.masksToBounds = 1;
 //    [cell setSelected:YES animated:YES];
@@ -395,31 +425,13 @@
 }
 
 
-- (void)getRequestData {
-   
-}
-- (void)getListData {
+- (void)getListDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)navIndex filter:(NSString *)filter withTag:(NSInteger)tag{
+
+
 
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
-    
-        //    NSString * requestBody = [NSString stringWithFormat:
-        //                              @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-        //                              "<soap12:Envelope "
-        //                              "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-        //                              "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
-        //                              "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
-        //                              "<soap12:Body>"
-        //                              "<GetJsonListData xmlns=\"Net.GongHuiTong\">"
-        //                              "<logincookie>%@</logincookie>"
-        //                              "<datatype>%@</datatype>"
-        //                              "<pagesize>%d</pagesize>"
-        //                              "<navindex>%d</navindex>"
-        //                              "<filter>%@</filter>"
-        //                              " </GetJsonListData>"
-        //                              "</soap12:Body>"
-        //                              "</soap12:Envelope>",@"",@"banshizhinan",0,0,@""];
-        //        ListDataArray = [[NSMutableArray alloc]initWithCapacity:0];
+
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "
@@ -430,35 +442,94 @@
                                   "<GetJsonListData xmlns=\"Net.GongHuiTong\">"
                                     "<logincookie>%@</logincookie>"
                                     "<datatype>%@</datatype>"
-                                    "<pagesize>%d</pagesize>"
-                                    "<navindex>%d</navindex>"
+                                    "<pagesize>%ld</pagesize>"
+                                    "<navindex>%ld</navindex>"
                                     "<filter>%@</filter>"
                                     " </GetJsonListData>"
                                   "</soap12:Body>"
-                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"richenganpai",0,0,@""];
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,pageSize,navIndex,filter];
         
         ReturnValueBlock returnBlock = ^(id resultValue){
+            
+            
+              dispatch_async(dispatch_get_main_queue(), ^{
+                  
+                  
             OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
-            OPLog(@"-caRRss-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
+            OPLog(@"-index-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
             if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
                 
-//                dispatch_async(dispatch_get_main_queue(), ^{
+
                 
                     //                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                     //                            [alert show];
                     
-                    OPLog(@"rrrrrrrrrrrrrerror: account or password error !");
-//                    [SVProgressHUD showErrorWithStatus:@"Account or password error!"];
-//                    
-//                });
+
                 
             }else {
 
                 NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
                 
-                OPLog(@"%@",listDic);
+//                OPLog(@"%@",listDic);
+                
+                
+                OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
+                
+                switch (tag) {
+                    case 0:
+                        [notiArray removeAllObjects];
+                        for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                            NotiModel  *model = [[NotiModel alloc]init];
+                            
+                            [model setValuesForKeysWithDictionary:dict];
+                            [notiArray addObject:model];
+                            
+                        }
+                        
+                        for (NotiModel *model in notiArray) {
+                            
+                            OPLog(@"%@   %@",model.senderName,model.chtopic);
+                        }
+                        break;
+                    case 1:
+                        
+                        [taskArray removeAllObjects];
+                        for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                            TaskModel  *model = [[TaskModel alloc]init];
+                            
+                            [model setValuesForKeysWithDictionary:dict];
+                            [taskArray addObject:model];
+                            
+                        }
+                        
+                        for (TaskModel *model in taskArray) {
+                            
+                            OPLog(@"%@   %@",model.readStatus,model.chtopic);
+                        }
+
+                        break;
+                    case 2:
+                        
+                        
+                        break;
+                    case 3:
+                        
+                        
+                        break;
+                        
+                    default:
+                        break;
+                }
+                
+
+                
+                [listTableView reloadData];
+
 
             }
+                  
+                  
+              });
             
         };
         [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonListDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
