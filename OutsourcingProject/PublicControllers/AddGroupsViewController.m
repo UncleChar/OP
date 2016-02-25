@@ -132,6 +132,7 @@
            
             UserDeptViewController *userDep = [[UserDeptViewController alloc]init];
             userDep.isJump = YES;
+            userDep.isBlock = YES;
             userDep.selectedBlock = ^(NSMutableArray *array){
                 
                 OPLog(@"block %@",array);

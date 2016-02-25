@@ -314,8 +314,12 @@
 }
 - (void)backBack {
 
+    if (_isBlock) {
+       
+        _selectedBlock([[MKSelectArray sharedInstance] initObject].selectArray);
+        
+    }
 
-    _selectedBlock([[MKSelectArray sharedInstance] initObject].selectArray);
     [self.navigationController popViewControllerAnimated:YES];
     
 

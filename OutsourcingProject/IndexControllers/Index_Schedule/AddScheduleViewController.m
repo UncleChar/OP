@@ -343,6 +343,7 @@
         
             UserDeptViewController *de = [[UserDeptViewController alloc]init];
             de.isJump = YES;
+            de.isBlock = YES;
             de.selectedBlock = ^(NSMutableArray *array){
                 NSString *title = @"";
                 if (array.count > 0) {

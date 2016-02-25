@@ -13,5 +13,6 @@ typedef void(^selectedUsersBlock)(NSMutableArray *);
 
 @property (nonatomic, assign) BOOL  isJump;
 @property (nonatomic, strong) selectedUsersBlock selectedBlock;
+@property (nonatomic, assign) BOOL  isBlock;
 
 @end

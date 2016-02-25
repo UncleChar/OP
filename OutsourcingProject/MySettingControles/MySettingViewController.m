@@ -96,7 +96,7 @@
     }
     if (!_cellImgArray) {
         
-        _cellImgArray = @[@"iconfont-ren(1)",@"iconfont-shoucang",@"iconfont-zixun",@"iconfont-bianji",@"iconfont-people",@"iconfont-shezhi"];
+        _cellImgArray = @[@"iconfont-ren(1)",@"iconfont-shoucang",@"iconfont-zixun",@"iconfont-zixun",@"iconfont-people",@"iconfont-shezhi"];
     }
     if (!_controllersArray) {
         

@@ -77,7 +77,8 @@
     
     _activeLabel = [[UILabel alloc]initWithFrame:CGRectMake(5,  kScreenHeight * 0.5 - 40 , kScreenWidth - 10, 25)];
     _activeLabel.text = dateaf;
-    _activeLabel.textColor = [UIColor orangeColor];
+//    _activeLabel.textAlignment = 1;
+    _activeLabel.textColor = [UIColor purpleColor];
     _activeLabel.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:_activeLabel];
     
@@ -262,6 +263,7 @@
     NSString *dateaf = [dff stringFromDate:date];
 
     _activeLabel.text = dateaf;
+    _activeLabel.textColor = [UIColor purpleColor];
     
 }
 

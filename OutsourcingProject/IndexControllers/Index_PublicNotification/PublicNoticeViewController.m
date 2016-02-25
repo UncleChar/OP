@@ -138,7 +138,7 @@
 - (UITextField *)searchTextFieldWithTag:(NSInteger)tag {
     
     UITextField *tf;
-    UIImageView *leftImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"condSearch@2x"]];
+    UIImageView *leftImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shape-4"]];
     leftImg.frame = CGRectMake(5, 7.5, 15, 15);
     
     switch (tag) {
