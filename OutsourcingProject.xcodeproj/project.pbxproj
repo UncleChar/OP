@@ -362,6 +362,9 @@
 		9DE3D8111C7D83A300D654AA /* 矩形-9.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3D7F01C7D83A300D654AA /* 矩形-9.png */; };
 		9DE3D8121C7D83A300D654AA /* 矩形-9@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3D7F11C7D83A300D654AA /* 矩形-9@2x.png */; };
 		9DE3D8131C7D83A300D654AA /* 矩形-9@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3D7F21C7D83A300D654AA /* 矩形-9@3x.png */; };
+		9DF68BF81C7FE69700F61A13 /* GuideModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF68BF71C7FE69700F61A13 /* GuideModel.m */; };
+		9DF68BFB1C7FED9500F61A13 /* SubjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF68BFA1C7FED9500F61A13 /* SubjectDetailViewController.m */; };
+		9DF68BFF1C7FF53700F61A13 /* SubGuideModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF68BFE1C7FF53700F61A13 /* SubGuideModel.m */; };
 		DB0815A91C773CC800284FDB /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0815A81C773CC800284FDB /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB08291C1C775B690043FE30 /* 启动页-0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB08291B1C775B690043FE30 /* 启动页-0.jpg */; };
 		DB08291E1C775D1E0043FE30 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB08291D1C775D1E0043FE30 /* LaunchScreen.xib */; };
@@ -537,10 +540,10 @@
 		DB6B3C721C781A6B00F0CB62 /* HorizontalMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C6F1C781A6B00F0CB62 /* HorizontalMenu.m */; };
 		DB6B3C731C781A6B00F0CB62 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C711C781A6B00F0CB62 /* Utility.m */; };
 		DB6B3C761C78213C00F0CB62 /* MultiTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C751C78213C00F0CB62 /* MultiTextView.m */; };
-		DBC997001C7F4766000525A3 /* AchievementModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC996FF1C7F4766000525A3 /* AchievementModel.m */; settings = {ASSET_TAGS = (); }; };
-		DBC997031C7F5264000525A3 /* ConsultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997021C7F5264000525A3 /* ConsultModel.m */; settings = {ASSET_TAGS = (); }; };
-		DBC997061C7F5600000525A3 /* NotiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997051C7F5600000525A3 /* NotiModel.m */; settings = {ASSET_TAGS = (); }; };
-		DBC997091C7F5CF9000525A3 /* TaskModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997081C7F5CF9000525A3 /* TaskModel.m */; settings = {ASSET_TAGS = (); }; };
+		DBC997001C7F4766000525A3 /* AchievementModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC996FF1C7F4766000525A3 /* AchievementModel.m */; };
+		DBC997031C7F5264000525A3 /* ConsultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997021C7F5264000525A3 /* ConsultModel.m */; };
+		DBC997061C7F5600000525A3 /* NotiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997051C7F5600000525A3 /* NotiModel.m */; };
+		DBC997091C7F5CF9000525A3 /* TaskModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997081C7F5CF9000525A3 /* TaskModel.m */; };
 		DBEB03AE1C786453005401A8 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DBEB03AD1C786453005401A8 /* 4.jpg */; };
 		DBEB03D41C787BCF005401A8 /* iconfont-ren(1)-拷贝.png in Resources */ = {isa = PBXBuildFile; fileRef = DBEB03B31C787BCF005401A8 /* iconfont-ren(1)-拷贝.png */; };
 		DBEB03D51C787BCF005401A8 /* iconfont-ren(1)-拷贝@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DBEB03B41C787BCF005401A8 /* iconfont-ren(1)-拷贝@2x.png */; };
@@ -1175,6 +1178,12 @@
 		9DE3D7F01C7D83A300D654AA /* 矩形-9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "矩形-9.png"; sourceTree = "<group>"; };
 		9DE3D7F11C7D83A300D654AA /* 矩形-9@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "矩形-9@2x.png"; sourceTree = "<group>"; };
 		9DE3D7F21C7D83A300D654AA /* 矩形-9@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "矩形-9@3x.png"; sourceTree = "<group>"; };
+		9DF68BF61C7FE69700F61A13 /* GuideModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideModel.h; sourceTree = "<group>"; };
+		9DF68BF71C7FE69700F61A13 /* GuideModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideModel.m; sourceTree = "<group>"; };
+		9DF68BF91C7FED9500F61A13 /* SubjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectDetailViewController.h; sourceTree = "<group>"; };
+		9DF68BFA1C7FED9500F61A13 /* SubjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectDetailViewController.m; sourceTree = "<group>"; };
+		9DF68BFD1C7FF53700F61A13 /* SubGuideModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubGuideModel.h; sourceTree = "<group>"; };
+		9DF68BFE1C7FF53700F61A13 /* SubGuideModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubGuideModel.m; sourceTree = "<group>"; };
 		DB0815A71C773CC800284FDB /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		DB0815A81C773CC800284FDB /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		DB08291B1C775B690043FE30 /* 启动页-0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "启动页-0.jpg"; sourceTree = "<group>"; };
@@ -1744,6 +1753,8 @@
 				DBC997051C7F5600000525A3 /* NotiModel.m */,
 				DBC997071C7F5CF9000525A3 /* TaskModel.h */,
 				DBC997081C7F5CF9000525A3 /* TaskModel.m */,
+				9DF68BF61C7FE69700F61A13 /* GuideModel.h */,
+				9DF68BF71C7FE69700F61A13 /* GuideModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1799,8 +1810,11 @@
 		9D7369DF1C7EBB7700271EC4 /* UnionProjectsControlles */ = {
 			isa = PBXGroup;
 			children = (
+				9DF68BFC1C7FF50400F61A13 /* SubjModels */,
 				9D7369EA1C7EBC2A00271EC4 /* UnionSubjectsViewController.h */,
 				9D7369E91C7EBC2A00271EC4 /* UnionSubjectsViewController.m */,
+				9DF68BF91C7FED9500F61A13 /* SubjectDetailViewController.h */,
+				9DF68BFA1C7FED9500F61A13 /* SubjectDetailViewController.m */,
 			);
 			path = UnionProjectsControlles;
 			sourceTree = "<group>";
@@ -2436,6 +2450,15 @@
 			path = addSchule;
 			sourceTree = "<group>";
 		};
+		9DF68BFC1C7FF50400F61A13 /* SubjModels */ = {
+			isa = PBXGroup;
+			children = (
+				9DF68BFD1C7FF53700F61A13 /* SubGuideModel.h */,
+				9DF68BFE1C7FF53700F61A13 /* SubGuideModel.m */,
+			);
+			path = SubjModels;
+			sourceTree = "<group>";
+		};
 		DB0815A61C773CC800284FDB /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
@@ -2938,7 +2961,7 @@
 				TargetAttributes = {
 					9D82A5551C7568E50072E354 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = XP83374CHB;
+						DevelopmentTeam = LL8B8YCXA2;
 					};
 					9D82A56E1C7568E50072E354 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -3623,6 +3646,7 @@
 				9D82A71E1C75C5D90072E354 /* UIImage+GIF.m in Sources */,
 				9DE3D7A21C7D6A5300D654AA /* ScheduleModel.m in Sources */,
 				DBC997031C7F5264000525A3 /* ConsultModel.m in Sources */,
+				9DF68BF81C7FE69700F61A13 /* GuideModel.m in Sources */,
 				9D82A63F1C757B080072E354 /* NSObject+SBJSON.m in Sources */,
 				9DE3D7951C7D4B9600D654AA /* FMResultSet.m in Sources */,
 				9DE3D7CB1C7D6BCC00D654AA /* FSCalendarHeader.m in Sources */,
@@ -3633,8 +3657,10 @@
 				9D82A7381C75C6AC0072E354 /* SDCollectionViewCell.m in Sources */,
 				9D82A69D1C759BB80072E354 /* SVProgressHUD.m in Sources */,
 				9DE3D7C91C7D6BCC00D654AA /* FSCalendarEventIndicator.m in Sources */,
+				9DF68BFF1C7FF53700F61A13 /* SubGuideModel.m in Sources */,
 				9D82A6BE1C759E470072E354 /* MASLayoutConstraint.m in Sources */,
 				9D82A5D41C7578730072E354 /* MJRefreshBackNormalFooter.m in Sources */,
+				9DF68BFB1C7FED9500F61A13 /* SubjectDetailViewController.m in Sources */,
 				DB46A0C61C7B2C7A00D69165 /* RATreeNodeInfo.m in Sources */,
 				DB46A0C51C7B2C7A00D69165 /* RATreeNodeInfo+Private.m in Sources */,
 				9D82A5CC1C7578730072E354 /* MJRefreshBackFooter.m in Sources */,
@@ -3692,8 +3718,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3715,7 +3741,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "16ea9ff4-9cf8-4f46-a38a-f0b5b4ab14f2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3738,8 +3764,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -3754,7 +3780,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "16ea9ff4-9cf8-4f46-a38a-f0b5b4ab14f2";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -3772,7 +3798,7 @@
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Lingli.OutsourcingProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.char.GongHuiTong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -3783,12 +3809,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OutsourcingProject/PrefixHeader.pch";
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Lingli.OutsourcingProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.char.GongHuiTong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

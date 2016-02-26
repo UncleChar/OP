@@ -62,7 +62,7 @@
 
         cell.textLabel.text = @"测试收藏的view";
         cell.detailTextLabel.text = @"业务指导";
-        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+        cell.detailTextLabel.textColor = [UIColor grayColor];
 
 
     

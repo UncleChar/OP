@@ -139,7 +139,7 @@
     
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_dataArray[indexPath.row] dataType],[_dataArray[indexPath.row] FinshDate]];
 
-    cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+    cell.detailTextLabel.textColor = [UIColor grayColor];
 //    cell.detailTextLabel.font = [UIFont systemFontOfSize:<#(CGFloat)#>]
     
     return cell;

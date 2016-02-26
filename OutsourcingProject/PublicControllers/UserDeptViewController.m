@@ -199,7 +199,7 @@
                     NSString *homePath = NSHomeDirectory();
                     NSString *namePlitPath2 = [homePath stringByAppendingString:@"/Documents/usersTree.plist"];
                     BOOL b1 = [listDic writeToFile:namePlitPath2 atomically:YES];
-                    b1 ? OPLog(@"写入沙盒成功"):OPLog(@"写入沙盒失败");
+//                    b1 ? OPLog(@"写入沙盒成功"):OPLog(@"写入沙盒失败");
                     
                     OPLog(@"%@",kPlistPath);
                     

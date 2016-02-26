@@ -1,124 +1,52 @@
 //
-//  MyConsultViewController.m
+//  SubjectDetailViewController.m
 //  OutsourcingProject
 //
-//  Created by UncleChar on 16/2/19.
+//  Created by LingLi on 16/2/26.
 //  Copyright © 2016年 LingLi. All rights reserved.
 //
 
-#import "MyConsultViewController.h"
-#import "ConsultModel.h"
-@interface MyConsultViewController ()<HorizontalMenuDelegate,UITableViewDelegate,UITableViewDataSource>
-
-@property (nonatomic, strong) HorizontalMenu *menu;//
-@property (nonatomic, strong) UIScrollView   *workBackScrollView;
-@property (nonatomic, strong) UIView         *topBackView;
-@property (nonatomic, strong) UIView         *workView;
-@property (nonatomic, strong) NSMutableArray         *dataArray;
-@property (nonatomic, strong) UIView         *searchView;
-
-@property (nonatomic, strong) UITableView  *listTableView;
-
-
+#import "SubjectDetailViewController.h"
+#import "SubGuideModel.h"
+@interface SubjectDetailViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate>
+@property (nonatomic, strong) UITableView *subjectTableView;
+@property (nonatomic, strong) NSMutableArray *dataArray;
 @end
 
-@implementation MyConsultViewController
+@implementation SubjectDetailViewController
 
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    self.title = @"我的咨询";
     
+    [super viewDidLoad];
+    self.title = self.subjectTitle;
+    if (!_subjectTableView) {
+        _subjectTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 20) style:UITableViewStylePlain];
+        
+        _subjectTableView.delegate=self;
+        _subjectTableView.dataSource=self;
+//        _subjectTableView.backgroundColor = kBtnColor;
+
+        
+    }
+    [self.view addSubview:_subjectTableView];
     if (!_dataArray) {
         
         _dataArray = [NSMutableArray arrayWithCapacity:0];
+        
     }
     
     
-    _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) withTitles:@[ @"我收到的咨询", @"我发出的咨询"]];
-    _menu.delegate = self;
-    [self.view addSubview:_menu];
-    
-    [self configListView];
-    
-    [self getUnionSubjectsDataWithType:@"shoudaodeneibuzixun" pageSize:0 navIndex:0 filter:@"" withTag:0 ];
-
-
-}
-
-
-- (void)configListView {
-    
-    if (!_listTableView) {
-        
-        _listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, kScreenHeight -  -49  - 64 - 45- 48) style:UITableViewStylePlain];
-        _listTableView.delegate = self;
-        _listTableView.dataSource = self;
-        _listTableView.backgroundColor = kBackColor;
-        [self.view addSubview:_listTableView];
-    }
-    
-    _listTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
-        
-        for (int i = 0; i < 4; i ++) {
-            
-            
-            
-        }
-        
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            
-            [NSThread sleepForTimeInterval:5];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                
-                
-                [_listTableView.mj_header endRefreshing];
-                [_listTableView reloadData];
-                
-            });
-        });
-    }];
+    [self getUnionSubjectsDetailWithType:self.dataType pageSize:0 navIndex:0 filter:self.filter withTag:self.requestTag];
     
     
 }
-
-- (void)clieckButton:(UIButton *)button
-{
-    
-    
-    switch (button.tag) {
-        case 0:
-            
-            [self getUnionSubjectsDataWithType:@"shoudaodeneibuzixun" pageSize:0 navIndex:0 filter:@"" withTag:0 ];
-            
-            
-            break;
-        case 1:
-            
-            [self getUnionSubjectsDataWithType:@"fachudeneibuzixun" pageSize:0 navIndex:0 filter:@"" withTag:0 ];
-            
-            
-            
-            break;
-            
-        default:
-            break;
-    }
-    
-    
-}
-
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     return _dataArray.count;
 }
-
 
 #pragma mark - UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -130,33 +58,38 @@
         
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
     }
+    //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    cell.imageView.image = [UIImage imageNamed:@"iconfont-gongwenbao（合并）-拷贝-5"];
-//    cell.textLabel.text = [_dataArray[indexPath.row] ChTopic];
     
-//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_dataArray[indexPath.row] dataType],[_dataArray[indexPath.row] FinshDate]];
+    cell.imageView.image = [UIImage imageNamed:@"iconfont-iconfont73（合并）-拷贝-3"];
+    //        cell.textLabel.text = _cellTitleArray[indexPath.row];
     
+    cell.textLabel.text = [_dataArray[indexPath.row] ChTopic];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_dataArray[indexPath.row] DataType],[_dataArray[indexPath.row] PublishDate]];
     cell.detailTextLabel.textColor = [UIColor grayColor];
-    //    cell.detailTextLabel.font = [UIFont systemFontOfSize:<#(CGFloat)#>]
+//    cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+    
+    
     
     return cell;
 }
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//
-//
-//
-//
-//}
-
-
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 60;
+    
+    return 70;
 }
 
-- (void)getUnionSubjectsDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter withTag:(NSInteger)Tag{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //    UserInfoViewController  *use = [[UserInfoViewController alloc]init];
+    //    [self.navigationController pushViewController:use animated:YES];
+    //    [self.navigationController pushViewController:_controllersArray[indexPath.row] animated:NO];
+    
+}
+
+
+- (void)getUnionSubjectsDetailWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter withTag:(NSInteger)Tag{
     
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
@@ -185,13 +118,13 @@
                 [_dataArray removeAllObjects];
                 
                 OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
-                OPLog(@"-consult-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
+                OPLog(@"-SubDetail-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
                 if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
                     
                     
                     
-                    //                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您还没有发出的成果哦" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    //                    [alert show];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"暂时无更多数据哦" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
                     
                     OPLog(@" error !");
                     
@@ -205,19 +138,19 @@
                     OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
                     
                     for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
-                        ConsultModel  *model = [[ConsultModel alloc]init];
+                        SubGuideModel  *model = [[SubGuideModel alloc]init];
                         
                         [model setValuesForKeysWithDictionary:dict];
                         [_dataArray addObject:model];
                         
                     }
                     
-                    for (ConsultModel *model in _dataArray) {
+                    for (SubGuideModel *model in _dataArray) {
                         
-                        OPLog(@"%@   %@",model.chContent,model.chContent);
+                        OPLog(@"topic%@ ",model.ChTopic);
                     }
                     
-                    [_listTableView reloadData];
+                    [_subjectTableView reloadData];
                     
                     
                     
@@ -247,5 +180,5 @@
     
 }
 
-
 @end
+
