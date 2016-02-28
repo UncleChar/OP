@@ -8,7 +8,8 @@
 
 #import "PublicNoticeViewController.h"
 #import "SendNotifiactionViewController.h"
-
+#import "NotiTableViewCell.h"
+#import "IndexNotiModel.h"
 @interface PublicNoticeViewController ()<HorizontalMenuDelegate,UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (nonatomic, strong) UITableView    *showTableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
@@ -38,7 +39,16 @@
     self.title = @"通知公告";
     self.view.backgroundColor = kBackColor;
     
-   _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) withTitles:@[@"会议通知", @"其他通知", @"我发出的通知"]];
+    [self configUI];
+
+     [self getUnionSubjectsDataWithType:@"huiyitongzhi" pageSize:0 navIndex:0 filter:@"" withTag:0 ];
+}
+
+
+
+- (void)configUI {
+
+    _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) withTitles:@[@"会议通知", @"其他通知", @"我发出的通知"]];
     _menu.delegate = self;
     [self.view addSubview:_menu];
     
@@ -46,34 +56,38 @@
     _topSearchView = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, 40)];
     _topSearchView.backgroundColor = kBackColor;
     [self.view addSubview:_topSearchView];
-
+    
     [_topSearchView addSubview:[self searchTextFieldWithTag:0]];
     [self initShowTableView];
     
     
-   
+    
     if (!_dataArray) {
         
         _dataArray = [NSMutableArray arrayWithCapacity:0];
         
     }
     
-
+    
+    
+    
     UIButton *sendNotiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [sendNotiBtn setBackgroundImage:[UIImage imageNamed:@"send"] forState:UIControlStateNormal];
+    //    [sendNotiBtn setBackgroundImage:[UIImage imageNamed:@"send"] forState:UIControlStateNormal];
     sendNotiBtn.backgroundColor = kTinColor;
     sendNotiBtn.layer.cornerRadius = 4;
     sendNotiBtn.layer.masksToBounds = 1;
     sendNotiBtn.frame = CGRectMake(20, CGRectGetMaxY(_showTableView.frame) + 5.5 , kScreenWidth - 40, 40);
-//    sendNotiBtn.alpha = 0.7;
+    //    sendNotiBtn.alpha = 0.7;
     [sendNotiBtn setTitle:@"发通知" forState:UIControlStateNormal];
     [sendNotiBtn addTarget:self action:@selector(sendNotiBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:sendNotiBtn];
+
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 3;
+    return _dataArray.count;
 }
 
 #pragma mark - UITableViewDataSource
@@ -81,35 +95,22 @@
     
     static NSString *cellID = @"cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    NotiTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (nil == cell) {
         
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+        cell = [[NotiTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
     }
-    //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    
-    cell.imageView.image = [UIImage imageNamed:@"iconfont-shoucang(2)（合并）-拷贝"];
-    //        cell.textLabel.text = _cellTitleArray[indexPath.row]
-    
+
  
-    cell.textLabel.text  = @"业务指导";
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
-    cell.detailTextLabel.textColor = [UIColor lightGrayColor];
-    
-    MultiTextView *labelView = [self richLabelWithFrame:CGRectMake(75, 48, kScreenWidth - 80, 20)];
-    
-    [cell addSubview:labelView];
-    
-    
-    
+    cell.model = _dataArray[indexPath.row];
+
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    return 70;
+    return 60;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -212,16 +213,27 @@
 
 
 
-- (MultiTextView *)richLabelWithFrame:(CGRect)frame {
+- (MultiTextView *)richLabelWithFrame:(CGRect)frame withTitleArray:(NSArray *)array {
     
     NSMutableArray* setArray_f = [[NSMutableArray alloc] initWithCapacity:5];
-    [setArray_f addObject:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor redColor],@"Color",[UIFont systemFontOfSize:15],@"Font",nil]];
-    [setArray_f addObject:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor grayColor],@"Color",[UIFont systemFontOfSize:15],@"Font",nil]];
 
-    
     MultiTextView* showLable = [[MultiTextView alloc] initWithFrame:frame];
     showLable.alignmentType = Muti_Alignment_Left_Type;
-    [showLable setShowText:@"急|   刘德华   2016-2-19" Setting:setArray_f];
+    if ([array[0] isEqualToString:@"急"]) {
+        
+        [setArray_f addObject:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor redColor],@"Color",[UIFont systemFontOfSize:15],@"Font",nil]];
+        [setArray_f addObject:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor grayColor],@"Color",[UIFont systemFontOfSize:15],@"Font",nil]];
+
+        [showLable setShowText:[NSString stringWithFormat:@"急|    %@     %@",array[1],array[2]]Setting:setArray_f];
+    }else {
+    
+        [setArray_f addObject:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor grayColor],@"Color",[UIFont systemFontOfSize:15],@"Font",nil]];
+        [setArray_f addObject:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor grayColor],@"Color",[UIFont systemFontOfSize:15],@"Font",nil]];
+        [showLable setShowText:[NSString stringWithFormat:@"%@    %@     %@",array[0],array[1],array[2]] Setting:setArray_f];
+    
+    }
+    
+    
 
     return showLable;
     
@@ -238,6 +250,7 @@
 
             [_meetingSearchTF removeFromSuperview];
             [_topSearchView addSubview: [self searchTextFieldWithTag:0]];
+            [self getUnionSubjectsDataWithType:@"huiyitongzhi" pageSize:0 navIndex:0 filter:@"" withTag:0 ];
             
             break;
         case 1:
@@ -247,6 +260,8 @@
             }
             [_topSearchView addSubview: [self searchTextFieldWithTag:1]];
             
+            
+            
             break;
         case 2:
             
@@ -254,6 +269,7 @@
                 [_otherSearchTF removeFromSuperview];
             }
            [_topSearchView addSubview: [self searchTextFieldWithTag:2]];
+            [self getUnionSubjectsDataWithType:@"qitatongzhi" pageSize:0 navIndex:0 filter:@"" withTag:0 ];
             
             break;
             
@@ -269,6 +285,98 @@
     OPLog(@"%@",_meetingSearchTF.text);
     [self.view endEditing:YES];
     return 1;
+}
+
+- (void)getUnionSubjectsDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter withTag:(NSInteger)Tag{
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showWithStatus:@"增在加载..."];
+        NSString * requestBody = [NSString stringWithFormat:
+                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                  "<soap12:Envelope "
+                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+                                  "<soap12:Body>"
+                                  "<GetJsonListData xmlns=\"Net.GongHuiTong\">"
+                                  "<logincookie>%@</logincookie>"
+                                  "<datatype>%@</datatype>"
+                                  "<pagesize>%ld</pagesize>"
+                                  "<navindex>%ld</navindex>"
+                                  "<filter>%@</filter>"
+                                  " </GetJsonListData>"
+                                  "</soap12:Body>"
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)pageSize,(long)index,filter];
+        
+        ReturnValueBlock returnBlock = ^(id resultValue){
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [_dataArray removeAllObjects];
+                
+                OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
+                OPLog(@"-show-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
+                if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
+                    
+                    [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
+                    
+                    //                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您还没有发出的成果哦" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    //                    [alert show];
+                    
+                    OPLog(@"rrrrrrrrrrrrrerror: account or password error !");
+                    
+                    
+                }else {
+                    
+                    NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+                    [SVProgressHUD showSuccessWithStatus:@"加载完成"];
+                    //                    OPLog(@"%@",listDic);
+                    
+                    OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
+                    
+                    for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                        IndexNotiModel  *model = [[IndexNotiModel alloc]init];
+                        
+                        [model setValuesForKeysWithDictionary:dict];
+                        [_dataArray addObject:model];
+                        
+                    }
+                    
+                    for (IndexNotiModel *model in _dataArray) {
+                        
+                        OPLog(@"%@   %@",model.senderName,model.chContent);
+                    }
+                    
+                    [_showTableView reloadData];
+                    
+                    
+                    
+                    
+                    
+                    
+                }
+                
+                
+                
+            });
+            
+            
+        };
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonListDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+        
+    }
+    
+    
+    
 }
 
 - (void)sendNotiBtnClicked:(UIButton *)sender {

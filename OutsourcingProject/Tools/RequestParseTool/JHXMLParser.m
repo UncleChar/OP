@@ -293,7 +293,7 @@
     [xmlWriter writeEndElement];
     [xmlWriter writeEndElement];
     [xmlWriter writeEndDocument];
-    OPLog(@"%@", [xmlWriter toString]);
+    OPLog(@"99%@", [xmlWriter toString]);
     
     return [xmlWriter toString];
 

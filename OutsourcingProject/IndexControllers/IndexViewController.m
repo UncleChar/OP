@@ -432,6 +432,9 @@
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
 
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showWithStatus:@"增在加载..."];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "
@@ -454,12 +457,13 @@
             
               dispatch_async(dispatch_get_main_queue(), ^{
                   
-                  
+                  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
             OPLog(@"-index-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
             if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
                 
 
+                [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
                 
                     //                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                     //                            [alert show];
@@ -469,7 +473,7 @@
             }else {
 
                 NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                
+                [SVProgressHUD showSuccessWithStatus:@"加载完成"];
 //                OPLog(@"%@",listDic);
                 
                 
@@ -480,10 +484,8 @@
                         [notiArray removeAllObjects];
                         for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
                             NotiModel  *model = [[NotiModel alloc]init];
-                            
                             [model setValuesForKeysWithDictionary:dict];
-                            [notiArray addObject:model];
-                            
+                            [notiArray addObject:model];                            
                         }
                         
                         for (NotiModel *model in notiArray) {
@@ -550,7 +552,8 @@
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
 
-        
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showWithStatus:@"增在加载..."];
         
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
@@ -573,7 +576,7 @@
                 
                 //                dispatch_async(dispatch_get_main_queue(), ^{
                 
-                
+                [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
                 //                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 //                            [alert show];
                 
@@ -585,7 +588,7 @@
             }else {
                 
                 NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                
+                [SVProgressHUD showSuccessWithStatus:@"加载完成"];
                 OPLog(@"%@",listDic);
                 
             }

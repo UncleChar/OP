@@ -79,6 +79,10 @@
     [self.view addSubview:_topSearchView];
     
     [_topSearchView addSubview:[self searchTextFieldWithTag:0]];
+    
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(resetBtnClicked)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+
 
 
 
@@ -94,6 +98,7 @@
         {
             SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
             subD.requestTag = sender.tag;
+            subD.MokuaiTag = _deeperApiTag;
             subD.dataType = @"zhengcefagui";
             subD.filter =  [NSString stringWithFormat:@"Datatype=\"%@\"",sender.titleLabel.text];
             subD.subjectTitle = sender.titleLabel.text;
@@ -106,6 +111,7 @@
         {
             SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
             subD.requestTag = sender.tag;
+            subD.MokuaiTag = _deeperApiTag;
             subD.dataType = @"yewuzhidao";
             subD.filter =  [NSString stringWithFormat:@"moduletype=\"%@\"",sender.titleLabel.text];
             subD.subjectTitle = sender.titleLabel.text;
@@ -119,6 +125,7 @@
         {
             SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
             subD.requestTag = sender.tag;
+            subD.MokuaiTag = _deeperApiTag;
             subD.dataType = @"shoudaodechengguozhanshi";
             subD.filter =  [NSString stringWithFormat:@"Fld_40_2=\"%@\"",sender.titleLabel.text];
             subD.subjectTitle = sender.titleLabel.text;
@@ -142,7 +149,7 @@
     UITextField *tf;
     UIImageView *leftImg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"shape-4"]];
     leftImg.frame = CGRectMake(5, 7.5, 15, 15);
-    
+    [self.view endEditing:YES];
     switch (tag) {
         case 0:
         {
@@ -178,6 +185,7 @@
                 _guideSearchTF.leftView = leftImg;
                 _guideSearchTF.placeholder = @"搜索业务指导";
                 //                _meetingSearchTF.text = @"";
+                _guideSearchTF.returnKeyType =UIReturnKeySearch;
                 _guideSearchTF.leftViewMode = UITextFieldViewModeUnlessEditing;
                 _guideSearchTF.borderStyle = UITextBorderStyleRoundedRect;
                 _guideSearchTF.clearButtonMode = UITextFieldViewModeAlways;
@@ -197,6 +205,7 @@
                 _showSearchTF.backgroundColor = [UIColor whiteColor];
                 _showSearchTF.leftView = leftImg;
                 _showSearchTF.placeholder = @"搜索成果展示";
+                _showSearchTF.returnKeyType =UIReturnKeySearch;
                 //                _meetingSearchTF.text = @"";
                 _showSearchTF.leftViewMode = UITextFieldViewModeUnlessEditing;
                 _showSearchTF.borderStyle = UITextBorderStyleRoundedRect;
@@ -320,17 +329,31 @@
         case 1:
             
              OPLog(@"777$%@",_guideSearchTF.text);
+        {
+            //yuhehr@qq.com    YHsys@1205
+            OPLog(@"666$%@",_policySearchTF.text);
+            SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
+            subD.dataType = @"yewuzhidao";
+            subD.filter =  [NSString stringWithFormat:@"chtopic like \"%%%@%%\"",_guideSearchTF.text];
+            //           subD.filter =  @"chtopic like \"%中国%\"";
+            [self.navigationController pushViewController:subD animated:YES];
+        }
             
             break;
         case 2:
             
-//             OPLog(@"888$%@",_showSearchTF.text);
-//            SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
-//            subD.requestTag = sender.tag;
-//            subD.dataType = @"shoudaodechengguozhanshi";
-//            subD.filter =  [NSString stringWithFormat:@"Fld_40_2=\"%@\"",sender.titleLabel.text];
-//            subD.subjectTitle = sender.titleLabel.text;
-//            [self.navigationController pushViewController:subD animated:YES];
+
+        {
+            //yuhehr@qq.com    YHsys@1205
+
+            SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
+            subD.dataType = @"shoudaodechengguozhanshi";
+
+            subD.filter =  [NSString stringWithFormat:@"fld_40_1 like \"%%%@%%\"",_showSearchTF.text];
+            //           subD.filter =  @"chtopic like \"%中国%\"";
+            [self.navigationController pushViewController:subD animated:YES];
+        }
+            
             
             break;
             
@@ -340,6 +363,62 @@
     
     [self.view endEditing:YES];
     return 1;
+}
+
+
+- (void)resetBtnClicked {
+    
+    
+    switch (_searchApiTag) {
+        case 0:
+        {
+        
+        
+            [_policyBackView removeFromSuperview];
+            _policyBackView = nil;
+//            [_policySearchTF removeFromSuperview];
+//            _policySearchTF = nil;
+            [self.view addSubview:[self getUnionSubjectsDataWithType:@"zhengcefaguifenlei" pageSize:0 navIndex:0 filter:@"" onScrollView:_policyBackView withApiTag:0 forViewTag:0 ]];
+        }
+            
+            break;
+            
+        case 1:
+            
+        {
+            
+            [_guideBackView removeFromSuperview];
+            _guideBackView = nil;
+//            [_guideSearchTF removeFromSuperview];
+//            _guideSearchTF = nil;
+             [self.view addSubview:[self getUnionSubjectsDataWithType:@"mokuaifenlei" pageSize:0 navIndex:0 filter:@"uppermodulename=\"业务指导\"" onScrollView:_guideBackView withApiTag:1 forViewTag:1 ]];
+            
+            
+        }
+            break;
+            
+            
+        case 2:
+        {
+            
+//            [_showSearchTF removeFromSuperview];
+//            _showSearchTF = nil;
+            [_showBackView removeFromSuperview];
+            _showBackView = nil;
+            [self.view addSubview:[self getUnionSubjectsDataWithType:@"chengguofenlei" pageSize:0 navIndex:0 filter:@"" onScrollView:_showBackView withApiTag:0 forViewTag:2 ]];
+            
+            
+            
+        }
+            
+            break;
+            
+        default:
+            break;
+    }
+    
+    
+    
 }
 
 - (UIScrollView *)getUnionSubjectsDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter onScrollView:(UIScrollView *)scrollView withApiTag:(NSInteger)apiTag forViewTag:(NSUInteger)viewTag{
@@ -377,7 +456,9 @@
     }
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
-        
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showWithStatus:@"增在加载..."];
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "
@@ -398,34 +479,24 @@
         ReturnValueBlock returnBlock = ^(id resultValue){
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                 
                 [_dataArray removeAllObjects];
                 OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
-                OPLog(@"-unionSub-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
+
                 if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
-                    
-                    //                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"暂时无更多数据哦" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    [alert show];
-                    
-                    OPLog(@"rrrrrrrrrrrrrerror: account or password error !");
-                    //                    [SVProgressHUD showErrorWithStatus:@"Account or password error!"];
-                    //
-                    //                });
+
+                    [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
+
                     
                 }else if( [[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]isEqualToString:@"用户未登录！"]) {
                     
-                    
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"用户未登录！!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    [alert show];
-                    
-                    
-                    
+                     [SVProgressHUD showSuccessWithStatus:@"用户未登录！"];
+    
                 }else {
                     
                     {
-                        
+                         [SVProgressHUD showSuccessWithStatus:@"加载完成"];
                         NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
                         
                         //                    OPLog(@"%@",listDic);
@@ -605,5 +676,7 @@
     return scrollView;
     
 }
+
+
 
 @end

@@ -139,7 +139,8 @@
 
                 if ([[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] isEqualToString:@"用户未登录！"]) {
 
-                    
+                    [SVProgressHUD showErrorWithStatus:@"用户未登录！"];
+
                     
                     NSFileManager *file =  [NSFileManager defaultManager];
                     
@@ -148,51 +149,39 @@
                         
                     }else {
                     
-                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"用户未登录,请重新登录" message:@"是否重新登录 " preferredStyle:UIAlertControllerStyleAlert];
-                        
-                        
-                        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                            
-                            [self.navigationController pushViewController:[[LoginViewController alloc] init] animated:YES];
-                            
-                        }];
-                        
-                        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-                            
-                            
-                            
-                        }];
-                        
-                        [alertController addAction:cancelAction];
-                        [alertController addAction:okAction];
-                        
-                        [self.navigationController presentViewController:alertController animated:YES completion:nil];
+//                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"用户未登录,请重新登录" message:@"是否重新登录 " preferredStyle:UIAlertControllerStyleAlert];
+//                        
+//                        
+//                        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//                            
+//                            [self.navigationController pushViewController:[[LoginViewController alloc] init] animated:YES];
+//                            
+//                        }];
+//                        
+//                        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+//                            
+//                            
+//                            
+//                        }];
+//                        
+//                        [alertController addAction:cancelAction];
+//                        [alertController addAction:okAction];
+//                        
+//                        [self.navigationController presentViewController:alertController animated:YES completion:nil];
                     
                     }
                     
     
                 }
-                
-                
-                
-                
                 if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]) {
                     
-                    //                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    
-                    //                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    //                            [alert show];
-                    
-                    OPLog(@"rrrrrrrrrrrrrerror: account or password error !");
-                    //                    [SVProgressHUD showErrorWithStatus:@"Account or password error!"];
-                    //
-                    //                });
+                    [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
+
                     
                 }else {
                     
                     NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                    
+                    [SVProgressHUD showSuccessWithStatus:@"加载完成"];
                     //                OPLog(@"%@",listDic);
                     
                     //先获取到家目录。然后再拼接一个documents

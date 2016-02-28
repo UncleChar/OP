@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 #define kPadding  [UIScreen mainScreen].bounds.size.width / 5 
-@interface LoginViewController ()<UITextFieldDelegate>
+@interface LoginViewController ()<UITextFieldDelegate,UIScrollViewDelegate>
 
 {
     
@@ -58,6 +58,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    self.view.backgroundColor = kBtnColor;
 
     [self configLoginVCUI];
   
@@ -86,24 +87,25 @@
 
     UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     scrollView.pagingEnabled = YES;
+    scrollView.delegate = self;
     scrollView.showsHorizontalScrollIndicator = NO;
     
     for (int i = 0; i < 4; i ++) {
         UIImageView *iv = [[UIImageView alloc] initWithFrame:CGRectMake(i * kScreenWidth, 0, kScreenWidth, kScreenHeight)];
         iv.image = [UIImage imageNamed:[NSString stringWithFormat:@"%i.jpg", i + 1]];
         [scrollView addSubview:iv];
-        
-        if (3 == i) { // 创建进入应用按钮
-            
-            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake((kScreenWidth - 150) / 2, kScreenHeight - 110, 150, 40)];
-            btn.backgroundColor = [ConfigUITools colorWithR:197 G:37 B:45 A:1];
-            btn.layer.cornerRadius = 4;
-            btn.layer.masksToBounds = 1;
-            [btn setTitle:@"进入应用" forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
-            iv.userInteractionEnabled = YES;
-            [iv addSubview:btn];
-        }
+//        
+//        if (3 == i) { // 创建进入应用按钮
+//            
+//            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake((kScreenWidth - 150) / 2, kScreenHeight - 110, 150, 40)];
+//            btn.backgroundColor = [ConfigUITools colorWithR:197 G:37 B:45 A:1];
+//            btn.layer.cornerRadius = 4;
+//            btn.layer.masksToBounds = 1;
+//            [btn setTitle:@"进入应用" forState:UIControlStateNormal];
+//            [btn addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
+//            iv.userInteractionEnabled = YES;
+//            [iv addSubview:btn];
+//        }
     }
     
     scrollView.contentSize = CGSizeMake(kScreenWidth * 4, 0);
@@ -112,7 +114,21 @@
 
 
 }
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
+//    NSLog(@"---%@", NSStringFromCGPoint(scrollView.contentOffset) );
+    if (scrollView.contentOffset.x >3 * kScreenWidth + 10) {
+        
+//        [UIView animateWithDuration:2 animations:^{
+//            
+//            _inScrollerView.alpha = 0;
+//            
+//        }];
+        
+        [self loginAction];
+    }
+
+}
 - (void)loginAction {
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -273,11 +289,12 @@
         case 1:
         {
             [self.view endEditing:YES];
-
             
             if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
 
                 [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+
+                [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
                 [SVProgressHUD showWithStatus:@"正在登录..."];
                 
                 NSString *requestBody = [NSString stringWithFormat:
@@ -297,66 +314,63 @@
 
   
                 ReturnValueBlock returnBlock = ^(id resultValue){
-
-                    OPLog(@"------%@----------",[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"]);
                     
-                    OPLog(@"------%@----------",[[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"] class]);
-                    if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"]) {
+                    
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
                         
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                           
-                            
-//                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-//                            [alert show];
 
-                            OPLog(@" Login error: account or password error !");
+                        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                        
+                        OPLog(@"------%@----------",[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"]);
+                        
+                        if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"]) {
+                            
+                            
+                            
                             [SVProgressHUD showErrorWithStatus:@"Account or password error!"];
                             
-                        });
-    
-                    }else {
-                    
-                    
-                        NSError *error;
-                        NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
-                        
-                        OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
-                        Users *userModel = [[Users alloc]init];
-                        for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
                             
-                            [userModel setValuesForKeysWithDictionary:dict];
                             
-                        }
-                        
-                        OPLog(@"%@,444 %@",userModel.deptname,userModel.xingbie);
-                        
-                        [[AppEngine GetAppEngine] saveUserLoginInfo:(NSMutableDictionary *)[listDic objectForKey:@"rows"][0]];
-                        
-                        
-                        OPLog(@"%@,555 %@",[AppEngine GetAppEngine].owner.deptname,[AppEngine GetAppEngine].owner.xingbie);
-                        
-                        
-                        NSUserDefaults *store = [NSUserDefaults standardUserDefaults];
-                        [store setBool:YES forKey:kUserLoginStatus];
-                        [store synchronize];
-                        
-                        dispatch_async(dispatch_get_main_queue(), ^{
+                        }else {
                             
+                            
+                            NSError *error;
+                            NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
+                            [SVProgressHUD showSuccessWithStatus:@"登录成功"];
 
-                            [SVProgressHUD showSuccessWithStatus:@"Login succeed"];
+                            OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
+                            Users *userModel = [[Users alloc]init];
+                            for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                                
+                                [userModel setValuesForKeysWithDictionary:dict];
+                                
+                            }
+                            
+                            OPLog(@"%@,444 %@",userModel.deptname,userModel.xingbie);
+                            
+                            [[AppEngine GetAppEngine] saveUserLoginInfo:(NSMutableDictionary *)[listDic objectForKey:@"rows"][0]];
+                            
+                            
+                            OPLog(@"%@,555 %@",[AppEngine GetAppEngine].owner.deptname,[AppEngine GetAppEngine].owner.xingbie);
+                            
+                            
+                            NSUserDefaults *store = [NSUserDefaults standardUserDefaults];
+                            [store setBool:YES forKey:kUserLoginStatus];
+                            [store synchronize];
+                            
+                            
+                            [SVProgressHUD showSuccessWithStatus:@"登录成功!"];
                             
                             
                             [AppDelegate getAppDelegate].window.rootViewController = [[MainTabBarController alloc]init];
-                        });
-                        
-
-                    
-                    }
-                    
-                    
-                   
+                       
+                            
+                        }
+     
+                    });
+   
                 };
-                
                 
                 ErrorCodeBlock errorBlock = ^(id errorValue){
                 
@@ -365,52 +379,13 @@
                 };
                 [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"CheckUserLoginResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:errorBlock];
                 
-                
-                //            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                //
-                //
-                //                [NSThread sleepForTimeInterval:2];
-                //                dispatch_async(dispatch_get_main_queue(), ^{
-                //
-                ////                    [AppDelegate getAppDelegate].window.rootViewController = [[MainTabBarController alloc]init];
-                //
-                //
-                //                    if ([_userAccount.text isEqualToString:@"tflb"] && [_userPassword.text isEqualToString:@"123456"]) {
-                //
-                //                        [SVProgressHUD showSuccessWithStatus:@"Success"];
-                //
-                //                        [AppDelegate getAppDelegate].window.rootViewController = [[MainTabBarController alloc]init];
-                //
-                //                        NSUserDefaults *store = [NSUserDefaults standardUserDefaults];
-                //                        [store setBool:YES forKey:kUserLoginStatus];
-                //                        [store synchronize];
-                // 
-                //                    }else {
-                //                    
-                //                        [SVProgressHUD showErrorWithStatus:@"Account or password error"];
-                //
-                //                    }
-                //                    
-                //                });
-                //            });
-
-                
-                
-
-                
-                
-                
+   
             }else {
 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [alert show];
             }
-            
-            
-            
-            
-            
-            
+    
         }
             break;
             

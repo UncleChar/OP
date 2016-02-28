@@ -60,6 +60,8 @@
     [[UINavigationBar appearance] setTranslucent:NO];
 //    [[UINavigationBar appearance] setTranslucent:NO];
 
+    
+//    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     NSDictionary * dict=[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
     [[UINavigationBar appearance] setTitleTextAttributes: dict];
     

@@ -16,4 +16,7 @@
 @property (nonatomic, strong) NSString  *dataType;
 @property (nonatomic, strong) NSString  *filter;
 
+@property (nonatomic, assign) NSInteger MokuaiTag;
+
+
 @end

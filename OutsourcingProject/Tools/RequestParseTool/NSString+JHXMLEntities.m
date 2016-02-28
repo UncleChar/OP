@@ -17,6 +17,7 @@
     string = [string stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
     string = [string stringByReplacingOccurrencesOfString:@"&lt;" withString:@"<"];
     string = [string stringByReplacingOccurrencesOfString:@"&gt;" withString:@">"];
+//    string = [string stringByReplacingOccurrencesOfString:@"&gt;" withString:@"\n"];
     
     
     

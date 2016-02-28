@@ -40,6 +40,7 @@
     self.navigationController.navigationBarHidden = 1;
     self.tabBarController.tabBar.hidden = 0;
 
+
     //    [_userChatTableView.mj_header beginRefreshing];
     
     
@@ -98,17 +99,7 @@
         
         _cellImgArray = @[@"iconfont-ren(1)",@"iconfont-shoucang",@"iconfont-zixun",@"iconfont-zixun",@"iconfont-people",@"iconfont-shezhi"];
     }
-    if (!_controllersArray) {
-        
-        _controllersArray = [NSMutableArray arrayWithCapacity:0];
-        [_controllersArray addObject:[[UserInfoViewController alloc]init]];
-        [_controllersArray addObject:[[MyFavorViewController alloc]init]];
-        [_controllersArray addObject:[[MyShowViewController alloc]init]];
-        [_controllersArray addObject:[[MyConsultViewController alloc]init]];
-        [_controllersArray addObject:[[MySendingViewController alloc]init]];
-        [_controllersArray addObject:[[SystemSettingViewController alloc]init]];
 
-    }
 }
 
 - (UIImageView *)headImaView {
@@ -234,14 +225,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
+    _controllersArray = [NSMutableArray arrayWithCapacity:0];
+    [_controllersArray addObject:[[UserInfoViewController alloc]init]];
+    [_controllersArray addObject:[[MyFavorViewController alloc]init]];
+    [_controllersArray addObject:[[MyShowViewController alloc]init]];
+    [_controllersArray addObject:[[MyConsultViewController alloc]init]];
+    [_controllersArray addObject:[[MySendingViewController alloc]init]];
+    [_controllersArray addObject:[[SystemSettingViewController alloc]init]];
+
     [self.navigationController pushViewController:_controllersArray[(indexPath.row + 1) / 2 - 1] animated:YES];
 
 }
-//- (void)selectedAvatarImg {
-//
-//    OPLog(@"EEEE");
-//    [self TAKE]
-//}
+
 
 
 

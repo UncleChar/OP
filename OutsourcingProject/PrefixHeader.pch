@@ -37,7 +37,7 @@ typedef void (^ErrorCodeBlock) (id errorCode);
 
 #define kDriftDuration     0.40
 
-
+//jmwl
 //#define kPersonalizedSignature @"userSign"
 #define kUserLoginStatus       @"isLoginSuccess"
 #define kNetworkConnecting       @"networkConnecting"
@@ -51,6 +51,8 @@ typedef void (^ErrorCodeBlock) (id errorCode);
 #define kTinColor  [ConfigUITools colorWithR:214 G:35 B:36 A:1]
 #define kBtnColor  [ConfigUITools colorWithR:200 G:60 B:61 A:1]
 #define REQUEST_HOST @"http://101.231.51.219:888/admin/appintinfo.asmx"
+#define kPageSize  10
+#define WeakSelf __weak typeof(self) weakSelf = self;
 
 //#define kFont 14
 

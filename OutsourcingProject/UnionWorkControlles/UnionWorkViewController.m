@@ -7,8 +7,9 @@
 //
 
 #import "UnionWorkViewController.h"
+#import "SubjectDetailViewController.h"
 #import "ClassifyModel.h"
-
+#import "WorkModel.h"
 #define kHeight 40
 #define kFont  15
 #define kLabelWidth 75
@@ -46,6 +47,12 @@
 
 @implementation UnionWorkViewController
 
+-(void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:YES];
+    self.tabBarController.tabBar.hidden = NO;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"工会工作";
@@ -53,7 +60,7 @@
     [self configUI];
     
     
-     [_workView addSubview:[self getUnionSubjectsDataWithType:@"chengguofenlei" pageSize:0 navIndex:0 filter:@"" onScrollView:_workBackScrollView withTag:0 ]];
+     [_workView addSubview:[self getUnionSubjectsDataWithType:@"mokuaifenlei" pageSize:0 navIndex:0 filter:@"uppermodulename=\"通用办公\"" onScrollView:_workBackScrollView withTag:0 ]];
     
 
 
@@ -287,6 +294,18 @@
 
 }
 
+- (void)selectedModel:(UIButton *)sender {
+    
+            SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
+            subD.requestTag = sender.tag;
+            subD.dataType = @"zhengcefagui";
+            subD.filter =  [NSString stringWithFormat:@"Datatype=\"%@\"",sender.titleLabel.text];
+            subD.subjectTitle = sender.titleLabel.text;
+            [self.navigationController pushViewController:subD animated:YES];
+            
+        }
+
+
 - (UIScrollView *)getUnionSubjectsDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter onScrollView:(UIScrollView *)scrollView withTag:(NSInteger)viewTag{
     
     
@@ -299,7 +318,8 @@
     
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
-        
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        [SVProgressHUD showWithStatus:@"增在加载..."];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "
@@ -326,44 +346,25 @@
                 OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
                 OPLog(@"-unionWor-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
                 if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
-                    
-                    //                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    //                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    //                            [alert show];
-                    
-                    OPLog(@"rrrrrrrrrrrrrerror: account or password error !");
-                    //                    [SVProgressHUD showErrorWithStatus:@"Account or password error!"];
-                    //
-                    //                });
+
+                    [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
+
                     
                 }else {
                     
                     NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                    
+                    [SVProgressHUD showSuccessWithStatus:@"加载完成"];
                     OPLog(@"%@",listDic);
                     
                     OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
                     
                     for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
-                        ClassifyModel  *classifyModel = [[ClassifyModel alloc]init];
-                        classifyModel.iconcode = [dict objectForKey:@"iconcode"];
-                        classifyModel.classifyName = [dict objectForKey:@"typename"];
+                        WorkModel  *classifyModel = [[WorkModel alloc]init];
+                        [classifyModel setValuesForKeysWithDictionary:dict];
                         [_dataArray addObject:classifyModel];
                         
                     }
-                    
-                    for (ClassifyModel *model in _dataArray) {
-                        
-                        OPLog(@"%@   %@",model.classifyName,model.iconcode);
-                    }
-                    
-
-                            
-                    
-                        
-                            
-                            
+ 
                             NSInteger line = 0;
                             if (_dataArray.count % kRow == 0) {
                                 
@@ -391,12 +392,12 @@
                                     }
                                     UIButton *topBtn = [UIButton buttonWithType:UIButtonTypeCustom];
                                     topBtn.frame = CGRectMake(kBtnMargin + j *  (kBtnMargin + kBtnWdith),  kBtnMargin + i *(kBtnMargin + kBtnWdith + kTopToBot), kBtnWdith , kBtnWdith );
-                                    NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"icon_%@",[_dataArray[kRow * i + j] iconcode]] ofType:@"png"];
+                                    NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"icon_%@",[_dataArray[kRow * i + j] appicon]] ofType:@"png"];
                                     [topBtn setBackgroundImage:[UIImage imageWithContentsOfFile:path] forState:UIControlStateNormal];
-                                    topBtn.tag = [[_dataArray[kRow * i + j] iconcode] integerValue];
+                                    topBtn.tag = [[_dataArray[kRow * i + j] appicon] integerValue];
                                     topBtn.titleLabel.font = [UIFont systemFontOfSize:12];
                                     [topBtn setTitleEdgeInsets:UIEdgeInsetsMake(kBtnWdith +  kBtnMargin + 4, -kBtnMargin / 2, 0, -kBtnMargin / 2)];
-                                    [topBtn setTitle:[_dataArray[kRow * i + j] classifyName] forState:UIControlStateNormal];
+                                    [topBtn setTitle:[_dataArray[kRow * i + j] modulename] forState:UIControlStateNormal];
                                     [topBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                                     [topBtn addTarget:self action:@selector(selectedModel:) forControlEvents:UIControlEventTouchUpInside];
                                     [scrollView addSubview:topBtn];

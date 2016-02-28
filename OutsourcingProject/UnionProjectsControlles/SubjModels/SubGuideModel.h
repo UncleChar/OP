@@ -17,4 +17,10 @@
 @property (nonatomic, strong) NSString *SnID;
 @property (nonatomic, strong) NSString *senderIconpic;
 @property (nonatomic, strong) NSString *senderName;
+
+//以下是区别成果展示多出来的model的信息
+@property (nonatomic, strong) NSString *acceptStatus;
+@property (nonatomic, strong) NSString *readStatus;
+@property (nonatomic, strong) NSString *chContent;
+@property (nonatomic, strong) NSString *FinshDate;
 @end
