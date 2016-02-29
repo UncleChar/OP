@@ -497,8 +497,8 @@
                         
                         [taskArray removeAllObjects];
                         for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
-                            TaskModel  *model = [[TaskModel alloc]init];
                             
+                            TaskModel  *model = [[TaskModel alloc]init];
                             [model setValuesForKeysWithDictionary:dict];
                             [taskArray addObject:model];
                             

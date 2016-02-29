@@ -321,6 +321,7 @@
               OPLog(@"666$%@",_policySearchTF.text);
             SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
             subD.dataType = @"zhengcefagui";
+            subD.MokuaiTag = 0;
             subD.filter =  [NSString stringWithFormat:@"chtopic like \"%%%@%%\"",_policySearchTF.text];
 //           subD.filter =  @"chtopic like \"%中国%\"";
             [self.navigationController pushViewController:subD animated:YES];
@@ -334,6 +335,7 @@
             OPLog(@"666$%@",_policySearchTF.text);
             SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
             subD.dataType = @"yewuzhidao";
+            subD.MokuaiTag = 1;
             subD.filter =  [NSString stringWithFormat:@"chtopic like \"%%%@%%\"",_guideSearchTF.text];
             //           subD.filter =  @"chtopic like \"%中国%\"";
             [self.navigationController pushViewController:subD animated:YES];
@@ -348,7 +350,7 @@
 
             SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
             subD.dataType = @"shoudaodechengguozhanshi";
-
+            subD.MokuaiTag = 2;
             subD.filter =  [NSString stringWithFormat:@"fld_40_1 like \"%%%@%%\"",_showSearchTF.text];
             //           subD.filter =  @"chtopic like \"%中国%\"";
             [self.navigationController pushViewController:subD animated:YES];

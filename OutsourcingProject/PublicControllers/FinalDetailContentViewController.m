@@ -46,13 +46,13 @@
 - (void)configUIWith:(BOOL)isBtn {
 
    senderLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 1, kScreenWidth, 29)];
-    senderLabel.text =   [NSString stringWithFormat:@"发布者:    %@",self.senderName];
+//    senderLabel.text =   [NSString stringWithFormat:@"发布者:    %@",self.senderName];
     //    titleLabel.textAlignment = 1;
     senderLabel.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:senderLabel];
     
     dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 30, kScreenWidth, 30)];
-    dateLabel.text = [NSString stringWithFormat:@"发布时间:    %@",self.sendDate];
+//    dateLabel.text = [NSString stringWithFormat:@"发布时间:    %@",self.sendDate];
     //    titleLabel1.textAlignment = 1;
     dateLabel.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:dateLabel];
@@ -60,14 +60,14 @@
 
     if (isBtn) {
         
-        showWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 60, kScreenWidth, kScreenHeight - 150 )];
+        showWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 60, kScreenWidth, kScreenHeight - 180 )];
         
         [showWebView sizeToFit];
         showWebView.scalesPageToFit = YES;
         [self.view addSubview:showWebView];
         
         
-        UIView *bottomView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(showWebView.frame) - 48, kScreenWidth,80 )];
+        UIView *bottomView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenHeight - 60 - 64, kScreenWidth,60 )];
         bottomView.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:bottomView];
         
@@ -94,6 +94,8 @@
         
         [showWebView sizeToFit];
         showWebView.scalesPageToFit = YES;
+//        [showWebView sizeToFit];
+//        showWebView.scalesPageToFit = YES;
         [self.view addSubview:showWebView];
         
     
@@ -117,19 +119,29 @@
     
     senderLabel.text =   [NSString stringWithFormat:@"发布者:    %@",[[[dict objectForKey:@"rows"] lastObject] objectForKey:@"senderName"]];
     
+    if ([[[dict objectForKey:@"rows"] lastObject] objectForKey:@"sendDate"]) {
+        
+        dateLabel.text = [NSString stringWithFormat:@"发布时间:    %@",[[[dict objectForKey:@"rows"] lastObject] objectForKey:@"sendDate"]];
+        
+    }
+    
+    if ([[[dict objectForKey:@"rows"] lastObject] objectForKey:@"PublishDate"]) {
+        
+         dateLabel.text =     [NSString stringWithFormat:@"发布时间:    %@",[[[dict objectForKey:@"rows"] lastObject] objectForKey:@"PublishDate"]];
+    }
   
 
     
-    if (self.diffTag == 2) {
-        
-       dateLabel.text = [NSString stringWithFormat:@"发布时间:    %@",[[[dict objectForKey:@"rows"] lastObject] objectForKey:@"sendDate"]];
-
-        
-    }else {
-    
-    
-    dateLabel.text =     [NSString stringWithFormat:@"发布时间:    %@",[[[dict objectForKey:@"rows"] lastObject] objectForKey:@"PublishDate"]];
-    }
+//    if (self.diffTag == 2) {
+//        
+//       dateLabel.text = [NSString stringWithFormat:@"发布时间:    %@",[[[dict objectForKey:@"rows"] lastObject] objectForKey:@"sendDate"]];
+//
+//        
+//    }else {
+//    
+//    
+//    dateLabel.text =     [NSString stringWithFormat:@"发布时间:    %@",[[[dict objectForKey:@"rows"] lastObject] objectForKey:@"PublishDate"]];
+//    }
 //
 //    
 //    if (!dateLabel.text) {
@@ -170,8 +182,8 @@
     
     NSString *content = [string htmlEntityDecode];
     
-    content = [NSString stringWithFormat:@"<div> style= 'font-size:19px' %@</div>",content];
-    content = [content stringByReplacingOccurrencesOfString:@"[img_http" withString:@"<center><img src = http"];
+    content = [NSString stringWithFormat:@"<div style='font-size: 40px'>  %@</div>",content];
+    content = [content stringByReplacingOccurrencesOfString:@"[img_http" withString:@"<center><img style='width:100%;' src = http"];
     
     content = [content stringByReplacingOccurrencesOfString:@"/ueditor/server/upload/../../../../" withString:@"/"];
     content = [content stringByReplacingOccurrencesOfString:@"]" withString:@"/></center>"];

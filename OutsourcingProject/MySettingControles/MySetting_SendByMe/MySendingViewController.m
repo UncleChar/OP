@@ -7,13 +7,26 @@
 //
 
 #import "MySendingViewController.h"
-
+#import "NotiTableViewCell.h"
+#import "IndexNotiModel.h"
+#import "SendingDetailViewController.h"
 @interface MySendingViewController ()<UITableViewDelegate,UITableViewDataSource>
 
-@property (nonatomic, strong) NSMutableArray         *dataArray;
+{
+    
+    ReturnValueBlock returnBlock;
+}
+@property (nonatomic, strong) UITableView *favorTableView;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+
+@property (nonatomic, assign) NSInteger  pageSize;//每页的个数
+@property (nonatomic, assign) NSInteger  pageIndex;//从0页开始
+@property (nonatomic, assign) NSInteger  pageSendIndex;//从0页开始
+@property (nonatomic, assign) NSInteger  requestTag;//从0页开始
+@property (nonatomic, assign) BOOL        isHeaderRefersh;
+@property (nonatomic, assign) BOOL        isFooterRefersh;
 
 
-@property (nonatomic, strong) UITableView  *listTableView;
 
 
 
@@ -29,109 +42,229 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我发出的通知";
+
+    if (!_favorTableView) {
+        _favorTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
+        
+        _favorTableView.delegate=self;
+        _favorTableView.dataSource=self;
+        //        _favorTableView.scrollEnabled = NO;
+        
+    }
+    [self.view addSubview:_favorTableView];
     if (!_dataArray) {
         
         _dataArray = [NSMutableArray arrayWithCapacity:0];
+        
     }
+    _pageIndex = 1;
+    _pageSize = 8;
+    [self handleRequsetDate];
     
-    [self configListView];
+    [self getMyReceivedShowDataWithType:@"fachudetongzhi" pageSize:_pageSize navIndex:0 filter:@""];
     
-    [self getUnionSubjectsDataWithType:@"fachudetongzhi" pageSize:0 navIndex:0 filter:@"" withTag:0 ];
-
-}
-
-- (void)configListView {
     
-    if (!_listTableView) {
-        
-        _listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight -  -49  - 64 - 48) style:UITableViewStylePlain];
-        _listTableView.delegate = self;
-        _listTableView.dataSource = self;
-        _listTableView.backgroundColor = kBackColor;
-        [self.view addSubview:_listTableView];
-    }
     
-    _listTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    
+    // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
+    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    
+    // 禁止自动加载
+    footer.automaticallyRefresh = NO;
+    
+    // 设置footer
+    _favorTableView.mj_footer = footer;
+    
+    _favorTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         
         
-        for (int i = 0; i < 4; i ++) {
-            
-            
-            
-        }
+        _isHeaderRefersh = YES;
+        _isFooterRefersh = NO;
+        
+        [self getMyReceivedShowDataWithType:@"fachudetongzhi" pageSize:_pageSize navIndex:0 filter:@""];
         
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            
-            [NSThread sleepForTimeInterval:5];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                
-                
-                [_listTableView.mj_header endRefreshing];
-                [_listTableView reloadData];
-                
-            });
-        });
     }];
     
     
+    
+    
 }
-
-
-
-
-
+- (void)loadMoreData {
+    
+    
+    
+    _isFooterRefersh = YES;
+    
+    [self getMyReceivedShowDataWithType:@"fachudetongzhi" pageSize:_pageSize navIndex:_pageIndex filter:@""];
+    
+    
+    
+    
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     return _dataArray.count;
 }
 
-
 #pragma mark - UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *cellID = @"cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    
+    NotiTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (nil == cell) {
         
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+        cell = [[NotiTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
     }
     
-    cell.imageView.image = [UIImage imageNamed:@"iconfont-gongwenbao（合并）-拷贝-5"];
-//    cell.textLabel.text = [_dataArray[indexPath.row] ChTopic];
     
-//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_dataArray[indexPath.row] dataType],[_dataArray[indexPath.row] FinshDate]];
+    cell.model = _dataArray[indexPath.row];
     
-    cell.detailTextLabel.textColor = [UIColor lightGrayColor];
-    //    cell.detailTextLabel.font = [UIFont systemFontOfSize:<#(CGFloat)#>]
+    return cell;
+    
+    
     
     return cell;
 }
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//
-//
-//
-//
-//}
-
-
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 60;
+    
+    return 70;
 }
 
-- (void)getUnionSubjectsDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter withTag:(NSInteger)Tag{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    //
+    //    ContentViewController *fuck = [[ContentViewController alloc]init];
+    //    fuck.dataType = [_dataArray[indexPath.row] dataType];
+    //    fuck.chID = [_dataArray[indexPath.row] ChID];
+    //     fuck.titleTop = [_dataArray[indexPath.row] ChTopic];
+    //
+    //    [self.navigationController pushViewController:fuck animated:YES];
+    ////    [self getTreeUserSysDeptwith:[_dataArray[indexPath.row] dataType] chid:[[_dataArray[indexPath.row] ChID] integerValue]];
+    //
+    
+    SendingDetailViewController  *contentVc = [[ SendingDetailViewController alloc]init];
+    
+    contentVc.ChTopic = [_dataArray[indexPath.row] ChTopic];;
+    
+    contentVc.chContent = [_dataArray[indexPath.row] chContent];
+    contentVc.isReceipt = [_dataArray[indexPath.row] isReceipt];
+    contentVc.sendDate = [_dataArray[indexPath.row] sendDate];
+     contentVc.senderName = [_dataArray[indexPath.row] senderName];
+   
+    
+    
+    
+    [self.navigationController pushViewController:contentVc animated:YES];
+//
+    
+}
+
+
+
+- (void)handleRequsetDate {
+    
+    __weak typeof(self) weakSelf = self;
+    returnBlock = ^(id resultValue){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [weakSelf.favorTableView.mj_header endRefreshing];
+            // 拿到当前的上拉刷新控件，结束刷新状态
+            [weakSelf.favorTableView.mj_footer endRefreshing];
+            //            [weakSelf.dataArray removeAllObjects];
+            
+            
+            OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
+            OPLog(@"-show-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
+            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
+                
+                //                if (_requestTag == 1) {
+                //
+                //                    [weakSelf.dataArray removeAllObjects];
+                //
+                //                }else {
+                //
+                //
+                //                    [weakSelf.senddataArray removeAllObjects];
+                //                }
+                [weakSelf.favorTableView reloadData];
+                
+                [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
+                
+            }else {
+                
+                
+                
+                NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+                
+                OPLog(@"----far--%@----------",[listDic objectForKey:@"rows"]);
+                
+                NSInteger countArray = 0;
+                if (weakSelf.isFooterRefersh) {
+                    
+                    countArray =weakSelf.dataArray.count;
+                    weakSelf.pageIndex ++;
+                    
+                }
+                
+                if (weakSelf.isHeaderRefersh) {
+                    
+                    
+                    [weakSelf.dataArray removeAllObjects];
+                    
+                    
+                    weakSelf.isHeaderRefersh = NO;
+                    
+                }
+                
+                
+                for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                    IndexNotiModel  *model = [[IndexNotiModel alloc]init];
+                    
+                    [model setValuesForKeysWithDictionary:dict];
+                    [weakSelf.dataArray addObject:model];
+                    
+                }
+                
+
+                
+                if (weakSelf.isFooterRefersh) {
+                    
+                    
+                    [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"增加了%ld条内容", weakSelf.dataArray.count - countArray]];
+                    
+                    
+                }else {
+                    
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"加载完成"];
+                }
+                
+                
+                
+                
+                [weakSelf.favorTableView reloadData];
+                
+            }
+            
+        });
+        
+        
+    };
+    
+}
+
+
+- (void)getMyReceivedShowDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter{
     
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
         [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
-        [SVProgressHUD showWithStatus:@"增在加载..."];
+        //        [SVProgressHUD showWithStatus:@"增在加载..."];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "
@@ -149,65 +282,15 @@
                                   "</soap12:Body>"
                                   "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)pageSize,(long)index,filter];
         
-        ReturnValueBlock returnBlock = ^(id resultValue){
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [_dataArray removeAllObjects];
-                
-                OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
-                OPLog(@"-sendNoti-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
-                if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
-                    
-                    [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
-                    
-                    //                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"您还没有发出的成果哦" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    //                    [alert show];
-                    
-                    OPLog(@"rrrrrrrrrrrrrerror: account or password error !");
-                    
-                    
-                }else {
-                    
-                    NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                    [SVProgressHUD showSuccessWithStatus:@"加载完成"];
-                    //                    OPLog(@"%@",listDic);
-                    
-                    OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
-                    
-//                    for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
-//                        AchievementModel  *model = [[AchievementModel alloc]init];
-//                        
-//                        [model setValuesForKeysWithDictionary:dict];
-//                        [_dataArray addObject:model];
-//                        
-//                    }
-                    
-//                    for (AchievementModel *model in _dataArray) {
-//                        
-//                        OPLog(@"%@   %@",model.senderName,model.chContent);
-//                    }
-//                    
-                    [_listTableView reloadData];
-                    
-                    
-                    
-                    
-                    
-                    
-                }
-                
-                
-                
-            });
-            
-            
-        };
+        
+        
         [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonListDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
         
         
     }else {
-        
+        [_favorTableView.mj_header endRefreshing];
+        // 拿到当前的上拉刷新控件，结束刷新状态
+        [_favorTableView.mj_footer endRefreshing];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
         
@@ -217,7 +300,6 @@
     
     
 }
-
 
 
 

@@ -233,7 +233,7 @@
     
     }
 
-    cell.selectionStyle = 0;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }
@@ -419,6 +419,10 @@
         
     }else {
         
+        
+        [_listTableView.mj_header endRefreshing];
+        // 拿到当前的上拉刷新控件，结束刷新状态
+        [_listTableView.mj_footer endRefreshing];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
         

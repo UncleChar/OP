@@ -125,7 +125,7 @@
     
     if (!_showTableView) {
         _showTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topSearchView.frame), kScreenWidth, kScreenHeight - 40 - CGRectGetMaxY(_topSearchView.frame) - 75) style:UITableViewStylePlain];
-        
+        _showTableView.backgroundColor = kBackColor;
         _showTableView.delegate=self;
         _showTableView.dataSource=self;
         

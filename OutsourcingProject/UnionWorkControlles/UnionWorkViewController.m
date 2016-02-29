@@ -10,6 +10,10 @@
 #import "SubjectDetailViewController.h"
 #import "ClassifyModel.h"
 #import "WorkModel.h"
+#import "MyFavorViewController.h"
+#import "MySendingViewController.h"
+#import "MyConsultViewController.h"
+
 #define kHeight 40
 #define kFont  15
 #define kLabelWidth 75
@@ -115,7 +119,7 @@
             [topBtn setBackgroundImage:[UIImage imageWithContentsOfFile:path] forState:UIControlStateNormal];
         }
         
-        topBtn.tag = 555 + 1;
+        topBtn.tag = 555 + i;
         topBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         [topBtn setTitleEdgeInsets:UIEdgeInsetsMake(kBtnWdith +  kBtnMargin + 4, -kBtnMargin / 2, 0, -kBtnMargin / 2)];
         [topBtn setTitle:titleArr[i] forState:UIControlStateNormal];
@@ -235,15 +239,15 @@
     
     switch (sender.tag - 555) {
         case 0:
-            
+            [self.navigationController pushViewController:[[MyFavorViewController alloc]init] animated:YES];
             
             break;
         case 1:
-            
+             [self.navigationController pushViewController:[[MyConsultViewController alloc]init] animated:YES];
             
             break;
         case 2:
-            
+             [self.navigationController pushViewController:[[MySendingViewController alloc]init] animated:YES];
             
             break;
             

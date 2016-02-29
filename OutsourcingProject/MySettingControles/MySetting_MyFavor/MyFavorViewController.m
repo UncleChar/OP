@@ -125,6 +125,7 @@
         cell.detailTextLabel.textColor = [UIColor grayColor];
 
 
+     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }
@@ -163,65 +164,6 @@
 }
 
 
-- (void)getTreeUserSysDeptwith:(NSString *)datatype chid:(NSInteger) chid {
-    
-    
-    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
-        
-        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
-        [SVProgressHUD showWithStatus:@"增在加载..."];
-        
-        NSString * requestBody = [NSString stringWithFormat:
-                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-                                  "<soap12:Envelope "
-                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
-                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
-                                  "<soap12:Body>"
-                                  "<GetJsonContentData xmlns=\"Net.GongHuiTong\">"
-                                  "<logincookie>%@</logincookie>"
-                                  "<datatype>%@</datatype>"
-                                   "<ChID>%ld</ChID>"
-                                  " </GetJsonContentData>"
-                                  "</soap12:Body>"
-                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],datatype,chid];
-        
-        ReturnValueBlock returnBlock = ^(id resultValue){
-            OPLog(@"%@",[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]);
-            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]) {
-                
-                //                dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
-                //                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                //                            [alert show];
-                
-                OPLog(@"rrrrrrrrrrrrrerror: account or password error !");
-                //                    [SVProgressHUD showErrorWithStatus:@"Account or password error!"];
-                //
-                //                });
-                
-            }else {
-                
-                NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                [SVProgressHUD showSuccessWithStatus:@"加载完成"];
-                OPLog(@"%@",listDic);
-                
-            }
-            
-        };
-        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonContentDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
-        
-        
-    }else {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-        [alert show];
-        
-        
-    }
-    
-}
 
 - (void)handleRequsetDate {
     
@@ -347,7 +289,9 @@
         
         
     }else {
-        
+        [_favorTableView.mj_header endRefreshing];
+        // 拿到当前的上拉刷新控件，结束刷新状态
+        [_favorTableView.mj_footer endRefreshing];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
         
