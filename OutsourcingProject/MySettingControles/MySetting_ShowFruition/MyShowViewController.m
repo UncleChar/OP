@@ -10,6 +10,7 @@
 #import "AchievementModel.h"
 #import "ContentViewController.h"
 #import "FuckingViewController.h"
+#import "FinalDetailContentViewController.h"
 @interface MyShowViewController ()<HorizontalMenuDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     
@@ -239,29 +240,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-
-//    ContentViewController  *contentVc = [[ContentViewController alloc]init];
 //
-//        if (_requestTag == 1) {
+//    FinalDetailContentViewController  *contentVc = [[ FinalDetailContentViewController alloc]init];
+//
+//            contentVc.dataType = @"zhengcefagui";
 //            
 //            contentVc.chID = [_dataArray[indexPath.row] ChID];
 //            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
-//            contentVc.dataType = @"shoudaodechengguozhanshi";
-//            contentVc.diffTag = 2;
-//
-//
-//
-//        }else {
+//            contentVc.isBtn = YES;
+//            contentVc.diffContent = [_dataArray[indexPath.row] chContent];
 //            
-//
-//            contentVc.chID = [_senddataArray[indexPath.row] ChID];
-//            contentVc.titleTop = [_senddataArray[indexPath.row] ChTopic];
-//            contentVc.dataType = @"fachudechengguozhanshi";
-//            contentVc.diffTag = 2;
-//
-//
-//
-//        }
+//    [self.navigationController pushViewController:contentVc animated:YES];
     FuckingViewController *fuck = [[FuckingViewController alloc]init];
     fuck.titleTop = [_dataArray[indexPath.row] ChTopic];
     fuck.content = [_dataArray[indexPath.row] chContent];

@@ -10,6 +10,7 @@
 #import "AchievementModel.h"
 #import "FuckingViewController.h"
 #import "ContentViewController.h"
+#import "FinalDetailContentViewController.h"
 @interface MyFavorViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate>
 {
     
@@ -47,7 +48,7 @@
         _dataArray = [NSMutableArray arrayWithCapacity:0];
         
     }
-    _pageIndex = 0;
+    _pageIndex = 1;
     _pageSize = 8;
     [self handleRequsetDate];
     
@@ -70,7 +71,6 @@
         
         _isHeaderRefersh = YES;
         _isFooterRefersh = NO;
-        _pageIndex = 1;
             
             [self getMyReceivedShowDataWithType:@"wodeshoucang" pageSize:_pageSize navIndex:0 filter:@""];
 
@@ -136,14 +136,28 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    ContentViewController *fuck = [[ContentViewController alloc]init];
+//    fuck.dataType = [_dataArray[indexPath.row] dataType];
+//    fuck.chID = [_dataArray[indexPath.row] ChID];
+//     fuck.titleTop = [_dataArray[indexPath.row] ChTopic];
+//    
+//    [self.navigationController pushViewController:fuck animated:YES];
+////    [self getTreeUserSysDeptwith:[_dataArray[indexPath.row] dataType] chid:[[_dataArray[indexPath.row] ChID] integerValue]];
+//    
     
-    ContentViewController *fuck = [[ContentViewController alloc]init];
-    fuck.dataType = [_dataArray[indexPath.row] dataType];
-    fuck.chID = [_dataArray[indexPath.row] ChID];
-     fuck.titleTop = [_dataArray[indexPath.row] ChTopic];
-    
-    [self.navigationController pushViewController:fuck animated:YES];
-//    [self getTreeUserSysDeptwith:[_dataArray[indexPath.row] dataType] chid:[[_dataArray[indexPath.row] ChID] integerValue]];
+    FinalDetailContentViewController  *contentVc = [[ FinalDetailContentViewController alloc]init];
+
+            contentVc.dataType = [_dataArray[indexPath.row] dataType];;
+            
+            contentVc.chID = [_dataArray[indexPath.row] ChID];
+            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
+
+            contentVc.isBtn = 1;
+
+            
+            
+            [self.navigationController pushViewController:contentVc animated:YES];
 
     
 }

@@ -26,6 +26,13 @@
 
 @property (nonatomic, assign) BOOL        isRefersh;
 
+@property (nonatomic, assign) NSInteger  pageSendIndex;
+
+
+@property (nonatomic, assign) BOOL        isHeaderRefersh;
+@property (nonatomic, assign) BOOL        isFooterRefersh;
+@property (nonatomic, assign) BOOL        isOnceShow;
+
 @end
 
 @implementation SubjectDetailViewController
@@ -35,26 +42,41 @@
     
     [super viewDidLoad];
     self.title = self.subjectTitle;
-    _pageIndex = 0;
+    _pageIndex = 1;
+    _pageSendIndex = 0;
     _pageSize = 8;
   
+    _isOnceShow = YES;
 
    
     if (!_subjectTableView) {
         _subjectTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 20) style:UITableViewStylePlain];
         _subjectTableView.delegate=self;
         _subjectTableView.dataSource=self;
-//        _subjectTableView.separatorStyle = 
         _subjectTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             
+            _isHeaderRefersh = YES;
+            _isFooterRefersh = NO;
+            _pageIndex = 1;
 
             _isRefersh = YES;
-            [self getUnionSubjectsDetailWithType:self.dataType pageSize:_pageSize navIndex:_pageIndex filter:self.filter withTag:self.requestTag];
+            _isOnceShow = NO;
+            [self getUnionSubjectsDetailWithType:self.dataType pageSize:_pageSize navIndex:0 filter:self.filter withTag:self.requestTag];
 
         }];
 
    
     }
+    // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
+    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    
+    // 禁止自动加载
+    footer.automaticallyRefresh = NO;
+    
+    // 设置footer
+    _subjectTableView.mj_footer = footer;
+
+ 
     [self.view addSubview:_subjectTableView];
     if (!_dataArray) {
         
@@ -63,7 +85,21 @@
     }
     [self handleRequsetDate];
     
+    [self getUnionSubjectsDetailWithType:self.dataType pageSize:_pageSize navIndex:0 filter:self.filter withTag:self.requestTag];
+    
+    
+}
+
+- (void)loadMoreData {
+    
+
+    
+    _isFooterRefersh = YES;
+
+     _isOnceShow = NO;
     [self getUnionSubjectsDetailWithType:self.dataType pageSize:_pageSize navIndex:_pageIndex filter:self.filter withTag:self.requestTag];
+    
+    
     
     
 }
@@ -74,6 +110,9 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
              [weakSelf.subjectTableView.mj_header endRefreshing];
+ 
+            // 拿到当前的上拉刷新控件，结束刷新状态
+            [weakSelf.subjectTableView.mj_footer endRefreshing];
             
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
             OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
@@ -88,14 +127,31 @@
                 
                 
             }else {
-                
-                weakSelf.pageIndex ++;
+
                 NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                [SVProgressHUD showSuccessWithStatus:@"加载完成"];
+
+            
                 OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
+
                 
+                NSInteger countArray = 0;
+                if (weakSelf.isFooterRefersh) {
+
+                        countArray =weakSelf.dataArray.count;
+                        weakSelf.pageIndex ++;
+
+                    
+                }
                 
-                NSInteger countArray =weakSelf.dataArray.count;
+                if (weakSelf.isHeaderRefersh) {
+                    
+
+                        [weakSelf.dataArray removeAllObjects];
+
+                    
+                    weakSelf.isHeaderRefersh = NO;
+                    
+                }
                 
                 for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
                     SubGuideModel  *model = [[SubGuideModel alloc]init];
@@ -104,15 +160,22 @@
                     
                 }
                 
-                for (SubGuideModel *model in weakSelf.dataArray) {
+                
+                if (weakSelf.isFooterRefersh) {
                     
-                    OPLog(@"topic%@ ",model.ChTopic);
+
+                        
+                        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"增加了%ld条内容", weakSelf.dataArray.count - countArray]];
+                        
+
+                    
+                }else {
+                    
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"加载完成"];
                 }
-                if (weakSelf.isRefersh) {
-                    
-                    [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"增加了%ld条内容", weakSelf.dataArray.count - countArray]];
-                    
-                }
+                
+
                 
                 [weakSelf.subjectTableView reloadData];
    
@@ -185,6 +248,7 @@
             contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
             
             contentVc.diffTag = _MokuaiTag;
+            contentVc.isBtn = NO;
             contentVc.diffContent = [_dataArray[indexPath.row] chContent];
             
             
@@ -194,7 +258,7 @@
         case 1:
         {
             contentVc.dataType = @"yewuzhidao";
-        
+            contentVc.isBtn = 1;
             contentVc.chID = [_dataArray[indexPath.row] ChID];
             contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
             
@@ -208,7 +272,7 @@
             break;
         case 2:
         {
-            
+             contentVc.isBtn = 1;
             
             contentVc.dataType = @"shoudaodechengguozhanshi";
             
@@ -245,7 +309,14 @@
 
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
         [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
-        [SVProgressHUD showWithStatus:@"增在加载..."];
+        
+        
+        if (_isOnceShow ) {
+            
+            [SVProgressHUD showSuccessWithStatus:@"加载完成"];
+        }
+        
+
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
