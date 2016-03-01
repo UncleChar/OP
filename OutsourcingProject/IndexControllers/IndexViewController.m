@@ -17,7 +17,7 @@
 #import "ScheduleViewController.h"
 #import "ActivityViewController.h"
 #import "CheckUnionViewConreoller.h"
-
+#import "NotiDetialViewController.h"
 #import "NotiModel.h"
 #import "TaskModel.h"
 
@@ -406,6 +406,33 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    switch (indexPath.section) {
+        case 0:
+        {
+            NotiDetialViewController *noti = [[NotiDetialViewController alloc]init];
+            noti.ChID = [notiArray[indexPath.row] ChID];
+            noti.headTag = 0;
+            [self.navigationController pushViewController:noti animated:YES];
+        }
+            break;
+        case 1:
+        {
+        
+            NotiDetialViewController *noti = [[NotiDetialViewController alloc]init];
+            noti.headTag = 1;
+            noti.ChID = [taskArray[indexPath.row] ChID];
+            noti.ExpDate = [taskArray[indexPath.row] ExpDate];
+//            noti.chContent = [taskArray[indexPath.row] chContent];
+//            noti.aSendDate = [taskArray[indexPath.row] SendDate];
+            
+            [self.navigationController pushViewController:noti animated:YES];
+        }
+            
+            break;
+            
+        default:
+            break;
+    }
     
 //    ChatRoomViewController *chatRoomVC = [[ChatRoomViewController alloc]init];
 //    chatRoomVC.chatRoomTitle = _userSearchResultArrary[indexPath.row];

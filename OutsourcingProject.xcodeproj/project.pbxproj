@@ -525,6 +525,7 @@
 		DB6B3C731C781A6B00F0CB62 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C711C781A6B00F0CB62 /* Utility.m */; };
 		DB6B3C761C78213C00F0CB62 /* MultiTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C751C78213C00F0CB62 /* MultiTextView.m */; };
 		DBB0C1661C849AFF00C7F058 /* SendingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1651C849AFF00C7F058 /* SendingDetailViewController.m */; };
+		DBB0C1691C85D03900C7F058 /* NotiDetialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1681C85D03900C7F058 /* NotiDetialViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DBB51B141C82031100B5DC1A /* FuckingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B131C82031100B5DC1A /* FuckingViewController.m */; };
 		DBB51B171C83130000B5DC1A /* AddConsultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B161C83130000B5DC1A /* AddConsultViewController.m */; };
 		DBB51B1A1C83261800B5DC1A /* FinalDetailContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B191C83261800B5DC1A /* FinalDetailContentViewController.m */; };
@@ -1357,6 +1358,8 @@
 		DB6B3C751C78213C00F0CB62 /* MultiTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiTextView.m; sourceTree = "<group>"; };
 		DBB0C1641C849AFE00C7F058 /* SendingDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendingDetailViewController.h; sourceTree = "<group>"; };
 		DBB0C1651C849AFF00C7F058 /* SendingDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingDetailViewController.m; sourceTree = "<group>"; };
+		DBB0C1671C85D03900C7F058 /* NotiDetialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotiDetialViewController.h; sourceTree = "<group>"; };
+		DBB0C1681C85D03900C7F058 /* NotiDetialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotiDetialViewController.m; sourceTree = "<group>"; };
 		DBB51B121C82031100B5DC1A /* FuckingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuckingViewController.h; sourceTree = "<group>"; };
 		DBB51B131C82031100B5DC1A /* FuckingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuckingViewController.m; sourceTree = "<group>"; };
 		DBB51B151C83130000B5DC1A /* AddConsultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddConsultViewController.h; sourceTree = "<group>"; };
@@ -1560,6 +1563,8 @@
 				9D054B561C7C31E9003FB2C6 /* PublicNoticeViewController.m */,
 				9D054B571C7C31E9003FB2C6 /* SendNotifiactionViewController.h */,
 				9D054B581C7C31E9003FB2C6 /* SendNotifiactionViewController.m */,
+				DBB0C1671C85D03900C7F058 /* NotiDetialViewController.h */,
+				DBB0C1681C85D03900C7F058 /* NotiDetialViewController.m */,
 			);
 			path = Index_PublicNotification;
 			sourceTree = "<group>";
@@ -3546,6 +3551,7 @@
 				DB46A0CC1C7B2C7A00D69165 /* RATreeView.m in Sources */,
 				9D054B851C7C34B1003FB2C6 /* MyFavorViewController.m in Sources */,
 				9D054B501C7C28BE003FB2C6 /* AlertTipsViewTool.m in Sources */,
+				DBB0C1691C85D03900C7F058 /* NotiDetialViewController.m in Sources */,
 				DB46A0CB1C7B2C7A00D69165 /* RATreeView+UIScrollView.m in Sources */,
 				9D054B7F1C7C3493003FB2C6 /* MyShowViewController.m in Sources */,
 				9DE3D7931C7D4B9600D654AA /* FMDatabasePool.m in Sources */,
@@ -3735,7 +3741,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "00f0d7f2-3e91-4155-825b-9e134ed1b7b4";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3774,7 +3780,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "00f0d7f2-3e91-4155-825b-9e134ed1b7b4";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
