@@ -182,7 +182,7 @@
     
     NSString *content = [string htmlEntityDecode];
     
-    content = [NSString stringWithFormat:@"<div style='font-size: 40px'>  %@</div>",content];
+    content = [NSString stringWithFormat:@"<div style='font-size: 45px'>  %@</div>",content];
     content = [content stringByReplacingOccurrencesOfString:@"[img_http" withString:@"<center><img style='width:100%;' src = http"];
     
     content = [content stringByReplacingOccurrencesOfString:@"/ueditor/server/upload/../../../../" withString:@"/"];
@@ -217,9 +217,6 @@
 //    }
 //    
 //    [self createUIAfterRequestDataWithUrl:imgUrl content:contentStr];
-    
-
-
 
 }
 

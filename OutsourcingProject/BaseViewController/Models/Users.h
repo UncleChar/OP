@@ -25,4 +25,18 @@
 @property (nonatomic, retain) NSString*   xingbie;
 @property (nonatomic, retain) NSString*   xingming;
 
+
+
+@property (nonatomic, retain) NSString*   lizhidate;
+@property (nonatomic, retain) NSString*   phone;
+@property (nonatomic, retain) NSString*   qqid;
+@property (nonatomic, retain) NSString*   ruzhidate;
+
+@property (nonatomic, retain) NSString*   tel_home;
+@property (nonatomic, retain) NSString*   tel_office;
+
+@property (nonatomic, retain) NSString*   zhiwu;
+@property (nonatomic, retain) NSString*   zhize;
+
+
 @end

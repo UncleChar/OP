@@ -51,12 +51,12 @@
 
 + (void)sizeToScroll:(UIScrollView *)scroll withStandardElementMaxY:(CGFloat)maxY forStepsH:(CGFloat)stepsH{
     
-    OPLog(@"kContentHeight %f",kContentHeight);
-    OPLog(@"margin %f",stepsH);
-    OPLog(@"maxY %f",maxY);
+//    OPLog(@"kContentHeight %f",kContentHeight);
+//    OPLog(@"margin %f",stepsH);
+//    OPLog(@"maxY %f",maxY);
     CGFloat t = kContentHeight;
     CGFloat margin = maxY - t;
-    OPLog(@"margin %f",margin);
+//    OPLog(@"margin %f",margin);
 
     
     if (maxY > kContentHeight) {
@@ -68,6 +68,22 @@
     
 }
 
++ (CGFloat)calculateTextHeight:(NSString *)text size:(CGSize)size font:(UIFont *)font
+{
+    // 文本计算矩形的方法
+    /** 参数
+     1 文本所在范围
+     2 绘制选项,
+     NSStringDrawingUsesLineFragmentOrigin
+     NSStringDrawingUsesFontLeading 计算时使用行间距
+     3 文本属性字典
+     4 上下文
+     */
+    
+    CGRect rect = [text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{ NSFontAttributeName : font } context:nil];
+    
+    return rect.size.height;
+}
 
 
 @end

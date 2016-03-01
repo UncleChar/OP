@@ -122,8 +122,8 @@
         [netStatus setBool:NO forKey:kNetworkConnecting];
         [netStatus synchronize];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-        [alert show];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//        [alert show];
 
         self.isReachable = NO;
 

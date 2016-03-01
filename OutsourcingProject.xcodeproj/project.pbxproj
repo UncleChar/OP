@@ -118,6 +118,7 @@
 		9D2E186B1C770D0C008CB937 /* placeholder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9D2E186A1C770D0C008CB937 /* placeholder@2x.png */; };
 		9D2E186D1C770D59008CB937 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9D2E186C1C770D59008CB937 /* background.jpg */; };
 		9D2E18701C771661008CB937 /* AppEngineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2E186F1C771661008CB937 /* AppEngineManager.m */; };
+		9D39C10D1C85AC2300A9FA7C /* CheckUnionViewConreoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D39C10C1C85AC2300A9FA7C /* CheckUnionViewConreoller.m */; };
 		9D7369D51C7EAC2E00271EC4 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7369D31C7EAC2E00271EC4 /* ActivityViewController.m */; };
 		9D7369DA1C7EACAA00271EC4 /* ScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7369D81C7EACAA00271EC4 /* ScheduleViewController.m */; };
 		9D7369DB1C7EACAA00271EC4 /* AddScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7369D91C7EACAA00271EC4 /* AddScheduleViewController.m */; };
@@ -301,6 +302,7 @@
 		9DB6A35E1C7F171D00671A72 /* 矩形-15.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DB6A3461C7F171D00671A72 /* 矩形-15.png */; };
 		9DB6A35F1C7F171D00671A72 /* 矩形-15@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DB6A3471C7F171D00671A72 /* 矩形-15@2x.png */; };
 		9DB6A3601C7F171D00671A72 /* 矩形-15@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DB6A3481C7F171D00671A72 /* 矩形-15@3x.png */; };
+		9DB6C0DB1C85872900C6A1D3 /* AddActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DB6C0DA1C85872900C6A1D3 /* AddActivityViewController.m */; };
 		9DE3D7911C7D4B9600D654AA /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3D7871C7D4B9600D654AA /* FMDatabase.m */; };
 		9DE3D7921C7D4B9600D654AA /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3D7891C7D4B9600D654AA /* FMDatabaseAdditions.m */; };
 		9DE3D7931C7D4B9600D654AA /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3D78B1C7D4B9600D654AA /* FMDatabasePool.m */; };
@@ -355,6 +357,7 @@
 		9DE3D80E1C7D83A300D654AA /* 矩形-19-拷贝.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3D7ED1C7D83A300D654AA /* 矩形-19-拷贝.png */; };
 		9DE3D80F1C7D83A300D654AA /* 矩形-19-拷贝@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3D7EE1C7D83A300D654AA /* 矩形-19-拷贝@2x.png */; };
 		9DE3D8101C7D83A300D654AA /* 矩形-19-拷贝@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3D7EF1C7D83A300D654AA /* 矩形-19-拷贝@3x.png */; };
+		9DEBF16A1C856D6E0050F6DA /* ActivityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DEBF1691C856D6E0050F6DA /* ActivityDetailViewController.m */; };
 		9DF68BF81C7FE69700F61A13 /* GuideModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF68BF71C7FE69700F61A13 /* GuideModel.m */; };
 		9DF68BFB1C7FED9500F61A13 /* SubjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF68BFA1C7FED9500F61A13 /* SubjectDetailViewController.m */; };
 		9DF68BFF1C7FF53700F61A13 /* SubGuideModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF68BFE1C7FF53700F61A13 /* SubGuideModel.m */; };
@@ -521,7 +524,7 @@
 		DB6B3C721C781A6B00F0CB62 /* HorizontalMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C6F1C781A6B00F0CB62 /* HorizontalMenu.m */; };
 		DB6B3C731C781A6B00F0CB62 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C711C781A6B00F0CB62 /* Utility.m */; };
 		DB6B3C761C78213C00F0CB62 /* MultiTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C751C78213C00F0CB62 /* MultiTextView.m */; };
-		DBB0C1661C849AFF00C7F058 /* SendingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1651C849AFF00C7F058 /* SendingDetailViewController.m */; settings = {ASSET_TAGS = (); }; };
+		DBB0C1661C849AFF00C7F058 /* SendingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1651C849AFF00C7F058 /* SendingDetailViewController.m */; };
 		DBB51B141C82031100B5DC1A /* FuckingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B131C82031100B5DC1A /* FuckingViewController.m */; };
 		DBB51B171C83130000B5DC1A /* AddConsultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B161C83130000B5DC1A /* AddConsultViewController.m */; };
 		DBB51B1A1C83261800B5DC1A /* FinalDetailContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B191C83261800B5DC1A /* FinalDetailContentViewController.m */; };
@@ -802,6 +805,8 @@
 		9D2E186C1C770D59008CB937 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
 		9D2E186E1C771661008CB937 /* AppEngineManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppEngineManager.h; sourceTree = "<group>"; };
 		9D2E186F1C771661008CB937 /* AppEngineManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppEngineManager.m; sourceTree = "<group>"; };
+		9D39C10B1C85AC2300A9FA7C /* CheckUnionViewConreoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckUnionViewConreoller.h; sourceTree = "<group>"; };
+		9D39C10C1C85AC2300A9FA7C /* CheckUnionViewConreoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckUnionViewConreoller.m; sourceTree = "<group>"; };
 		9D7369D31C7EAC2E00271EC4 /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
 		9D7369D41C7EAC2E00271EC4 /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
 		9D7369D61C7EACAA00271EC4 /* AddScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddScheduleViewController.h; sourceTree = "<group>"; };
@@ -1079,6 +1084,8 @@
 		9DB6A3461C7F171D00671A72 /* 矩形-15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "矩形-15.png"; sourceTree = "<group>"; };
 		9DB6A3471C7F171D00671A72 /* 矩形-15@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "矩形-15@2x.png"; sourceTree = "<group>"; };
 		9DB6A3481C7F171D00671A72 /* 矩形-15@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "矩形-15@3x.png"; sourceTree = "<group>"; };
+		9DB6C0D91C85872900C6A1D3 /* AddActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddActivityViewController.h; sourceTree = "<group>"; };
+		9DB6C0DA1C85872900C6A1D3 /* AddActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddActivityViewController.m; sourceTree = "<group>"; };
 		9DE3D7861C7D4B9600D654AA /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		9DE3D7871C7D4B9600D654AA /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		9DE3D7881C7D4B9600D654AA /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -1157,6 +1164,8 @@
 		9DE3D7ED1C7D83A300D654AA /* 矩形-19-拷贝.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "矩形-19-拷贝.png"; sourceTree = "<group>"; };
 		9DE3D7EE1C7D83A300D654AA /* 矩形-19-拷贝@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "矩形-19-拷贝@2x.png"; sourceTree = "<group>"; };
 		9DE3D7EF1C7D83A300D654AA /* 矩形-19-拷贝@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "矩形-19-拷贝@3x.png"; sourceTree = "<group>"; };
+		9DEBF1681C856D6E0050F6DA /* ActivityDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityDetailViewController.h; sourceTree = "<group>"; };
+		9DEBF1691C856D6E0050F6DA /* ActivityDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityDetailViewController.m; sourceTree = "<group>"; };
 		9DF68BF61C7FE69700F61A13 /* GuideModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideModel.h; sourceTree = "<group>"; };
 		9DF68BF71C7FE69700F61A13 /* GuideModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideModel.m; sourceTree = "<group>"; };
 		9DF68BF91C7FED9500F61A13 /* SubjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectDetailViewController.h; sourceTree = "<group>"; };
@@ -1585,6 +1594,8 @@
 				DBB51B131C82031100B5DC1A /* FuckingViewController.m */,
 				DBB51B181C83261800B5DC1A /* FinalDetailContentViewController.h */,
 				DBB51B191C83261800B5DC1A /* FinalDetailContentViewController.m */,
+				9D39C10B1C85AC2300A9FA7C /* CheckUnionViewConreoller.h */,
+				9D39C10C1C85AC2300A9FA7C /* CheckUnionViewConreoller.m */,
 			);
 			path = PublicControllers;
 			sourceTree = "<group>";
@@ -1784,6 +1795,10 @@
 			children = (
 				9D7369D41C7EAC2E00271EC4 /* ActivityViewController.h */,
 				9D7369D31C7EAC2E00271EC4 /* ActivityViewController.m */,
+				9DEBF1681C856D6E0050F6DA /* ActivityDetailViewController.h */,
+				9DEBF1691C856D6E0050F6DA /* ActivityDetailViewController.m */,
+				9DB6C0D91C85872900C6A1D3 /* AddActivityViewController.h */,
+				9DB6C0DA1C85872900C6A1D3 /* AddActivityViewController.m */,
 			);
 			path = Index_Activity;
 			sourceTree = "<group>";
@@ -3521,6 +3536,7 @@
 				9D82A5DA1C7578730072E354 /* MJRefreshConst.m in Sources */,
 				9D054B771C7C342F003FB2C6 /* SetEmailViewController.m in Sources */,
 				9D82A5DD1C7578730072E354 /* UIView+MJExtension.m in Sources */,
+				9DB6C0DB1C85872900C6A1D3 /* AddActivityViewController.m in Sources */,
 				9DE3D79B1C7D4BF700D654AA /* MarkDateModel.m in Sources */,
 				DB46A0C31C7B2C7A00D69165 /* RATreeNode.m in Sources */,
 				9DE3D7C81C7D6BCC00D654AA /* FSCalendarConstance.m in Sources */,
@@ -3558,6 +3574,7 @@
 				9DE3D7C31C7D6BCC00D654AA /* FSCalendar+IBExtension.m in Sources */,
 				9D054B781C7C342F003FB2C6 /* SetPasswordViewController.m in Sources */,
 				9D82A6411C757B080072E354 /* SBJSON.m in Sources */,
+				9D39C10D1C85AC2300A9FA7C /* CheckUnionViewConreoller.m in Sources */,
 				9DE3D7CA1C7D6BCC00D654AA /* FSCalendarFlowLayout.m in Sources */,
 				DBB51B171C83130000B5DC1A /* AddConsultViewController.m in Sources */,
 				9D82A6C21C759E470072E354 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
@@ -3583,6 +3600,7 @@
 				9D82A7171C75C5D90072E354 /* SDWebImageCompat.m in Sources */,
 				9D82A6BC1C759E470072E354 /* MASConstraint.m in Sources */,
 				DBB51B1A1C83261800B5DC1A /* FinalDetailContentViewController.m in Sources */,
+				9DEBF16A1C856D6E0050F6DA /* ActivityDetailViewController.m in Sources */,
 				9D82A71D1C75C5D90072E354 /* UIButton+WebCache.m in Sources */,
 				9DE3D7CE1C7D6BCC00D654AA /* NSDate+FSExtension.m in Sources */,
 				9D82A6901C759BB30072E354 /* NSString+JHXMLEntities.m in Sources */,
@@ -3717,7 +3735,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "9c1f8379-89fd-435e-9080-5951f1ca1a0f";
+				PROVISIONING_PROFILE = "00f0d7f2-3e91-4155-825b-9e134ed1b7b4";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3756,7 +3774,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "9c1f8379-89fd-435e-9080-5951f1ca1a0f";
+				PROVISIONING_PROFILE = "00f0d7f2-3e91-4155-825b-9e134ed1b7b4";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -3774,7 +3792,7 @@
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mm.ght;
+				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -3791,7 +3809,7 @@
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mm.ght;
+				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

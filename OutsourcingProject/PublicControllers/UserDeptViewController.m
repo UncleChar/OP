@@ -48,7 +48,7 @@
     
     [self configUIWith:self.isJump];
     
-    [self requestForUserDept];
+    [self requestForUserDeptWithCheckType:@"checkbox" requestTag:0];
     
   
 }
@@ -110,9 +110,9 @@
 
 }
 
-- (void)requestForUserDept {
+- (void)requestForUserDeptWithCheckType:(NSString *)checktype requestTag:(NSInteger )reqTag {
     
-    
+    //
     if ([AppDelegate isNetworkConecting]) {
 
         NSString * requestBody = [NSString stringWithFormat:
@@ -127,7 +127,7 @@
                                   "<checktype>%@</checktype>"
                                   " </GetTreeUserSysDept>"
                                   "</soap12:Body>"
-                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"checkbox"];
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],checktype];
         
         ReturnValueBlock returnBlock = ^(id resultValue){
             
@@ -182,17 +182,16 @@
                     
                     NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
                     [SVProgressHUD showSuccessWithStatus:@"加载完成"];
-                    //                OPLog(@"%@",listDic);
+
+                       
+                        //先获取到家目录。然后再拼接一个documents
+                        NSString *homePath = NSHomeDirectory();
+                        NSString *namePlitPath2 = [homePath stringByAppendingString:@"/Documents/usersTree.plist"];
+                        BOOL b1 = [listDic writeToFile:namePlitPath2 atomically:YES];
+//                        b1 ? OPLog(@"写入沙盒成功"):OPLog(@"写入沙盒失败");
                     
-                    //先获取到家目录。然后再拼接一个documents
-                    NSString *homePath = NSHomeDirectory();
-                    NSString *namePlitPath2 = [homePath stringByAppendingString:@"/Documents/usersTree.plist"];
-                    BOOL b1 = [listDic writeToFile:namePlitPath2 atomically:YES];
-//                    b1 ? OPLog(@"写入沙盒成功"):OPLog(@"写入沙盒失败");
-                    
-                    OPLog(@"%@",kPlistPath);
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
+                        OPLog(@"%@",kPlistPath);
+                        
                         
                         NSArray *dataArray = [[NSArray alloc] initWithContentsOfFile:kPlistPath];
                         //    OPLog(@"rrr %@",dataArray);
@@ -200,7 +199,10 @@
                         MKTreeView *view = [[MKTreeView instanceView] initTreeWithFrame:CGRectMake(0, 0, kScreenWidth, CGRectGetHeight(_organizeStructureView.frame) + 45) dataArray:dataArray haveHiddenSelectBtn:NO haveHeadView:NO isEqualX:NO];
                         view.delegate = self;
                         [_organizeStructureView addSubview:view];
-                    });
+                        
+                   
+
+                   
                     
                 }
                 
@@ -223,6 +225,127 @@
     }
     
 }
+
+
+- (void)requestForCusDeptWithCheckType:(NSString *)checktype requestTag:(NSInteger )reqTag {
+    
+    //
+    if ([AppDelegate isNetworkConecting]) {
+        
+        NSString * requestBody = [NSString stringWithFormat:
+                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                  "<soap12:Envelope "
+                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+                                  "<soap12:Body>"
+                                  "<GetTreeUserCusDept xmlns=\"Net.GongHuiTong\">"
+                                  "<logincookie>%@</logincookie>"
+                                  "<checktype>%@</checktype>"
+                                  " </GetTreeUserCusDept>"
+                                  "</soap12:Body>"
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],checktype];
+        
+        ReturnValueBlock returnBlock = ^(id resultValue){
+            
+            //ui需要回到主线程！！！！！
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                OPLog(@"000:%@",[[resultValue lastObject] objectForKey:@"GetTreeUserCusDeptResult"]);
+                OPLog(@"0class0:%@",[[[resultValue lastObject] objectForKey:@"GetTreeUserCusDeptResult"] class]);
+                
+                if ([[[resultValue lastObject] objectForKey:@"GetTreeUserCusDeptResult"] isEqualToString:@"用户未登录！"]) {
+                    
+                    [SVProgressHUD showErrorWithStatus:@"用户未登录！"];
+                    
+                    
+                    NSFileManager *file =  [NSFileManager defaultManager];
+                    
+                    if ([file fileExistsAtPath:kPlistPath]) {
+                        
+                        
+                    }else {
+                        
+                        //                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"用户未登录,请重新登录" message:@"是否重新登录 " preferredStyle:UIAlertControllerStyleAlert];
+                        //
+                        //
+                        //                        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                        //
+                        //                            [self.navigationController pushViewController:[[LoginViewController alloc] init] animated:YES];
+                        //
+                        //                        }];
+                        //
+                        //                        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
+                        //
+                        //
+                        //
+                        //                        }];
+                        //
+                        //                        [alertController addAction:cancelAction];
+                        //                        [alertController addAction:okAction];
+                        //
+                        //                        [self.navigationController presentViewController:alertController animated:YES completion:nil];
+                        
+                    }
+                    
+                    
+                }
+                if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetTreeUserCusDeptResult"]) {
+                    
+                    [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
+                    
+                    
+                }else {
+                    
+                    SBJSON *jsonParser = [[SBJSON alloc] init];
+                    
+                    NSError *parseError = nil;
+                    NSDictionary * result = [jsonParser objectWithString:[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]
+                                                                   error:&parseError];
+                    NSLog(@"jsonParserresult:%@",result);
+                    if (result) {
+                        
+                        [SVProgressHUD showSuccessWithStatus:@"加载完成"];
+                        
+                        
+                        OPLog(@"%@",result);
+                        
+                    }else {
+                    
+                        [SVProgressHUD showSuccessWithStatus:@"没有更多数据哦"];
+                        
+                        
+
+                    
+                    }
+
+                        
+  
+                    
+                    
+                    
+                }
+                
+                
+            });
+            
+        };
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetTreeUserCusDeptResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        
+    }else {
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无网络连接,请检查网络!" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            
+        }];
+        
+        [alertController addAction:okAction];
+        [self.navigationController  presentViewController:alertController animated:YES completion:nil];
+        
+    }
+    
+}
+
 
 #pragma mark - HorizontalMenuDelegate
 
@@ -259,6 +382,7 @@
                 _customStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, kScreenHeight - 160)];
                 _customStructureView.backgroundColor = kBackColor;
                 [self.view addSubview:_customStructureView];
+                [self requestForCusDeptWithCheckType:@"checkbox" requestTag:1];
              
                 
             }else {
@@ -268,7 +392,7 @@
             
             }
             
-            [AppEngineManager showTipsWithTitle:@"暂无数据"];
+//            [AppEngineManager showTipsWithTitle:@"暂无数据"];
             
             break;
 
@@ -285,7 +409,7 @@
 {
     OPLog(@"--%@",item.userID);
     UserDetailInfoViewController *userDetailVC = [[UserDetailInfoViewController alloc]init];
-    userDetailVC.userName = item.name;
+    userDetailVC.userID = item.userID;
 //    userDetailVC.userDept = item.
     [self.navigationController pushViewController:userDetailVC animated:YES];
 }

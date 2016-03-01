@@ -18,5 +18,6 @@
 
 + (void)sizeToScroll:(UIScrollView *)scroll withStandardElementMaxY:(CGFloat)maxY forStepsH:(CGFloat)stepsH;
 
++ (CGFloat)calculateTextHeight:(NSString *)text size:(CGSize)size font:(UIFont *)font;
 
 @end

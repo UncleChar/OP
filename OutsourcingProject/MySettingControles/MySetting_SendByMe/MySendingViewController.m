@@ -155,6 +155,7 @@
     contentVc.isReceipt = [_dataArray[indexPath.row] isReceipt];
     contentVc.sendDate = [_dataArray[indexPath.row] sendDate];
      contentVc.senderName = [_dataArray[indexPath.row] senderName];
+    contentVc.chContent = [_dataArray[indexPath.row] chContent];
    
     
     

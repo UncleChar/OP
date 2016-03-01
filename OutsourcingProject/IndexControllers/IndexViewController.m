@@ -16,6 +16,7 @@
 #import "AddTaskViewController.h"
 #import "ScheduleViewController.h"
 #import "ActivityViewController.h"
+#import "CheckUnionViewConreoller.h"
 
 #import "NotiModel.h"
 #import "TaskModel.h"
@@ -38,6 +39,7 @@
     NSMutableArray   *activeArray;
 
 }
+@property (nonatomic, assign) BOOL isRefresh;
 @end
 
 
@@ -152,31 +154,19 @@
         listTableView.backgroundColor = [ConfigUITools colorWithR:245 G:245 B:245 A:1];
         [self.view addSubview:listTableView];
     }
-
+    
+    
+    
     listTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        
 
+        _isRefresh = 1;
+        [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
+        [self getListDataWithType:@"newgongzuorenwu" pageSize:0 navIndex:0 filter:@"" withTag:1];
         
-        for (int i = 0; i < 4; i ++) {
-            
-//            [_userChatArrary addObject:MessaageVCRandomData];
-            
-        }
-        
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            
-            [NSThread sleepForTimeInterval:5];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                
-                
-                [listTableView.mj_header endRefreshing];
-                [listTableView reloadData];
-                
-            });
-        });
     }];
+
+
 
     
 }
@@ -194,6 +184,7 @@
             break;
         case 2:
             
+            [self.navigationController pushViewController:[[CheckUnionViewConreoller alloc]init] animated:YES];
             
             break;
         case 3:
@@ -299,13 +290,31 @@
         case 0:
             
             cell.textLabel.text = [notiArray[indexPath.row] chtopic];
-            
             cell.detailTextLabel.text = [NSString stringWithFormat:@"【%@】",[notiArray[indexPath.row] urgLevel]];
+            if ([[notiArray[indexPath.row] urgLevel] isEqualToString:@"急"]) {
+               
+                cell.textLabel.textColor = [UIColor orangeColor];
+                cell.detailTextLabel.textColor = [UIColor orangeColor];
+            }else if([[notiArray[indexPath.row] urgLevel] isEqualToString:@"一般"]) {
+            
+                cell.textLabel.textColor = [UIColor grayColor];
+                cell.detailTextLabel.textColor = [UIColor grayColor];
+            
+            }else {
+            
+            
+                cell.textLabel.textColor = [UIColor redColor];
+                cell.detailTextLabel.textColor = [UIColor redColor];
+            
+            }
             break;
         case 1:
             cell.textLabel.text = [taskArray[indexPath.row] chtopic];
             
             cell.detailTextLabel.text = [NSString stringWithFormat:@"【%@】",[taskArray[indexPath.row] ExpDate]];
+            CGRect frame = cell.textLabel.frame;
+            frame.size.width = 160;
+            cell.textLabel.frame = frame;
             
             
             break;
@@ -330,14 +339,6 @@
 
     return cell;
 }
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//
-//    
-//
-//
-//}
-
-
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -421,7 +422,7 @@
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
     [AppEngineManager showTipsWithTitle:[NSString stringWithFormat:@"您点击的是第%ld张图片",(long)index + 1]];
-//    [self.navigationController pushViewController:[NSClassFromString(@"DemoVCWithXib") new] animated:YES];
+
 }
 
 
@@ -432,9 +433,10 @@
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
 
+        
         [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
         [SVProgressHUD showWithStatus:@"增在加载..."];
-        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+//        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "
@@ -456,26 +458,30 @@
             
             
               dispatch_async(dispatch_get_main_queue(), ^{
-                  
-                  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+                  [listTableView.mj_header endRefreshing];
+                 
             OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
             OPLog(@"-index-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
             if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
                 
 
                 [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
-                
-                    //                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    //                            [alert show];
-                    
+
 
                 
             }else {
 
                 NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                [SVProgressHUD showSuccessWithStatus:@"加载完成"];
-//                OPLog(@"%@",listDic);
+                if (_isRefresh) {
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"刷新完成"];
+                    
+                }else {
                 
+                    [SVProgressHUD showSuccessWithStatus:@"加载完成"];
+                }
+                
+
                 
                 OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
                 
@@ -488,19 +494,26 @@
                             [notiArray addObject:model];                            
                         }
                         
-                        for (NotiModel *model in notiArray) {
-                            
-                            OPLog(@"%@   %@",model.senderName,model.chtopic);
-                        }
+//                        for (NotiModel *model in notiArray) {
+//                            
+//                            OPLog(@"%@   %@",model.senderName,model.chtopic);
+//                        }
                         break;
                     case 1:
                         
                         [taskArray removeAllObjects];
+                        int k = 0;
                         for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
                             
-                            TaskModel  *model = [[TaskModel alloc]init];
-                            [model setValuesForKeysWithDictionary:dict];
-                            [taskArray addObject:model];
+
+                            if (k <= 3) {
+                                TaskModel  *model = [[TaskModel alloc]init];
+                                [model setValuesForKeysWithDictionary:dict];
+                                [taskArray addObject:model];
+                                k ++;
+                                
+                            }
+
                             
                         }
                         
@@ -522,9 +535,7 @@
                     default:
                         break;
                 }
-                
 
-                
                 [listTableView reloadData];
 
 
@@ -539,6 +550,7 @@
     
     }else {
     
+        [listTableView.mj_header endRefreshing];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
         
@@ -546,65 +558,10 @@
     }
 
 }
+- (void)viewWillDisappear:(BOOL)animated {
 
-- (void)getTreeUserSysDept {
-    
-    
-    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
-
-        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
-        [SVProgressHUD showWithStatus:@"增在加载..."];
-        
-        NSString * requestBody = [NSString stringWithFormat:
-                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-                                  "<soap12:Envelope "
-                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
-                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
-                                  "<soap12:Body>"
-                                  "<GetTreeUserSysDept xmlns=\"Net.GongHuiTong\">"
-                                  "<logincookie>%@</logincookie>"
-                                  "<checktype>%@</checktype>"
-                                  //                                  "<ChID>%d</ChID>"
-                                  " </GetTreeUserSysDept>"
-                                  "</soap12:Body>"
-                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"checkbox"];
-        
-        ReturnValueBlock returnBlock = ^(id resultValue){
-            OPLog(@"%@",[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]);
-            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]) {
-                
-                //                dispatch_async(dispatch_get_main_queue(), ^{
-                
-                [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
-                //                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Account or password error!" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                //                            [alert show];
-                
-                OPLog(@"rrrrrrrrrrrrrerror: account or password error !");
-                //                    [SVProgressHUD showErrorWithStatus:@"Account or password error!"];
-                //
-                //                });
-                
-            }else {
-                
-                NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                [SVProgressHUD showSuccessWithStatus:@"加载完成"];
-                OPLog(@"%@",listDic);
-                
-            }
-            
-        };
-        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetTreeUserSysDeptResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
-        
-        
-    }else {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-        [alert show];
-        
-        
-    }
-    
+    [super viewWillDisappear:YES];
+    [SVProgressHUD dismiss];
 }
 
 @end

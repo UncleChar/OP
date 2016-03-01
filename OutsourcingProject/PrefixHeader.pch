@@ -54,6 +54,7 @@ typedef void (^ErrorCodeBlock) (id errorCode);
 #define kPageSize  10
 #define WeakSelf __weak typeof(self) weakSelf = self;
 
+#define OPFont(size) [UIFont systemFontOfSize:size]
 //#define kFont 14
 
 

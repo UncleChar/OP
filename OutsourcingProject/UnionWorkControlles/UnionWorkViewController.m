@@ -42,7 +42,7 @@
 @property (nonatomic, strong) UITextField  *unionPresidentTF;
 
 @property (nonatomic, strong) UIButton     *searchBtn;
-@property (nonatomic, strong) NSMutableArray         *elementArray;
+@property (nonatomic, strong) NSArray         *elementArray;
 
 
 @end
@@ -67,6 +67,8 @@
      [_workView addSubview:[self getUnionSubjectsDataWithType:@"mokuaifenlei" pageSize:0 navIndex:0 filter:@"uppermodulename=\"通用办公\"" onScrollView:_workBackScrollView withTag:0 ]];
     
 
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(resetBtnClicked)];
+    self.navigationItem.rightBarButtonItem = rightItem;
 
 }
 
@@ -300,6 +302,7 @@
 
 - (void)selectedModel:(UIButton *)sender {
     
+    OPLog(@"000 %@",sender.titleLabel.text);
             SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
             subD.requestTag = sender.tag;
             subD.dataType = @"zhengcefagui";
@@ -400,6 +403,7 @@
                                     [topBtn setBackgroundImage:[UIImage imageWithContentsOfFile:path] forState:UIControlStateNormal];
                                     topBtn.tag = [[_dataArray[kRow * i + j] appicon] integerValue];
                                     topBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+                                    topBtn.tag = [[_dataArray[kRow * i + j] appicon]integerValue ];
                                     [topBtn setTitleEdgeInsets:UIEdgeInsetsMake(kBtnWdith +  kBtnMargin + 4, -kBtnMargin / 2, 0, -kBtnMargin / 2)];
                                     [topBtn setTitle:[_dataArray[kRow * i + j] modulename] forState:UIControlStateNormal];
                                     [topBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -439,7 +443,18 @@
     
 }
 
+- (void)resetBtnClicked {
+    
 
+    
+            
+    [_workBackScrollView removeFromSuperview];
+    _workBackScrollView = nil;
+    
+    [_workView addSubview:[self getUnionSubjectsDataWithType:@"mokuaifenlei" pageSize:0 navIndex:0 filter:@"uppermodulename=\"通用办公\"" onScrollView:_workBackScrollView withTag:0 ]];
+    
+    
+}
 
 
 @end

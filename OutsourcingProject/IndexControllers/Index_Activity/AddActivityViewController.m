@@ -1,14 +1,14 @@
 //
-//  AddConsultViewController.m
+//  AddActivityViewController.m
 //  OutsourcingProject
 //
-//  Created by UncleChar on 16/2/28.
+//  Created by LingLi on 16/3/1.
 //  Copyright © 2016年 LingLi. All rights reserved.
 //
 
-#import "AddConsultViewController.h"
+#import "AddActivityViewController.h"
 #import "UserDeptViewController.h"
-#import "UUDatePicker.h"
+
 
 
 
@@ -18,7 +18,7 @@
 #define kContentStart 105
 #define kContentWidth  [UIScreen mainScreen].bounds.size.width - kContentStart - 10
 
-@interface AddConsultViewController ()<UITextFieldDelegate,UITextViewDelegate>
+@interface AddActivityViewController ()<UITextFieldDelegate,UITextViewDelegate>
 
 @property (nonatomic, strong) UIScrollView *backgroungScrollView;
 
@@ -35,12 +35,10 @@
 
 
 @end
-
-@implementation AddConsultViewController
-
+@implementation AddActivityViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"新建咨询";
+    self.title = @"新建动态";
     
     _backgroungScrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     _backgroungScrollView.backgroundColor = kBackColor;
@@ -60,7 +58,7 @@
 
 - (void)initElement{
     
-
+    
     NSArray *arr = @[@"iconfont-banshizhinan.png",@"标题:",@"iconfont-people",@"接收人:"];
     
     for (int i = 0; i < 2; i ++) {
@@ -82,15 +80,11 @@
         titleLabel1.text = arr[i * 2 + 1];
         titleLabel1.font = [UIFont systemFontOfSize:kFont];
         [view addSubview:titleLabel1];
-
+        
         view.frame = CGRectMake(0, i * (kHeight + 1), kScreenWidth, kHeight);
         titleLabel1.frame = CGRectMake(38, 10, kLabelWidth, 20);
-   
+        
     }
-
-    
-    
-    
     
 
     _taskTitleTF = [[UITextField alloc]init];
@@ -102,22 +96,22 @@
     [_backgroungScrollView addSubview:_taskTitleTF];
     _taskTitleTF.font = [UIFont systemFontOfSize:kFont];
     
-
+    
     _receivedBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _receivedBtn.tag = 777 + 0;
     _receivedBtn.backgroundColor = kTestColor;
     _receivedBtn.layer.cornerRadius = 4;
     _receivedBtn.layer.masksToBounds = 1;
     [_receivedBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_receivedBtn addTarget:self action:@selector(activityBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_receivedBtn addTarget:self action:@selector(consultBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     _receivedBtn.frame = CGRectMake(kContentStart,  (kHeight + 1) + 1, kContentWidth, kHeight);
     _receivedBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _receivedBtn.titleLabel.font = [UIFont systemFontOfSize:kFont];
     [_backgroungScrollView addSubview:_receivedBtn];
     
-       UILabel *contentLabel = [[UILabel alloc]init];
+    UILabel *contentLabel = [[UILabel alloc]init];
     contentLabel.frame = CGRectMake(10, CGRectGetMaxY(_receivedBtn.frame)+1, kScreenWidth - 20, kHeight);
-    contentLabel.text = @"咨询内容:";
+    contentLabel.text = @"动态内容:";
     contentLabel.textColor = [UIColor orangeColor];
     contentLabel.font = [UIFont systemFontOfSize:kFont];
     [_backgroungScrollView addSubview:contentLabel];
@@ -140,19 +134,19 @@
     _taskContentTView.layer.masksToBounds = 1;
     [textBackView addSubview:_taskContentTView];
     
-
+    
     
     _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _saveBtn.tag = 777 + 1;
     _saveBtn.backgroundColor = kBtnColor;
     [_saveBtn setTitle:@"提交" forState:UIControlStateNormal];
     [_saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_saveBtn addTarget:self action:@selector(activityBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_saveBtn addTarget:self action:@selector(consultBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     _saveBtn.frame = CGRectMake(20, CGRectGetMaxY(textBackView.frame) + 20, kScreenWidth - 40, kHeight);
     [_backgroungScrollView addSubview:_saveBtn];
     _saveBtn.layer.cornerRadius = 4;
     _saveBtn.layer.masksToBounds = 1;
-
+    
     [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(_saveBtn.frame) + 25 forStepsH:0];
     
 }
@@ -172,7 +166,7 @@
     
 }
 
-- (void)activityBtnClicked:(UIButton *)sender {
+- (void)consultBtnClicked:(UIButton *)sender {
     
     switch (sender.tag - 777) {
         case 0:
@@ -209,7 +203,7 @@
             
             if ([AppDelegate isNetworkConecting]) {
                 
-                [SVProgressHUD showSuccessWithStatus:@"我要提交了哦"];
+                  [SVProgressHUD showSuccessWithStatus:@"我要提交了哦"];
                 
                 
             }else {
@@ -265,6 +259,5 @@
     
     [DaiDodgeKeyboard removeRegisterTheViewNeedDodgeKeyboard];
 }
-
 
 @end

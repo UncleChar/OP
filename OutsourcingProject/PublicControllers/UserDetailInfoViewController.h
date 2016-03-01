@@ -12,6 +12,6 @@
 
 
 @property (nonatomic, strong) NSString *userName;
-@property (nonatomic, strong) NSString *userDept;
+@property (nonatomic, strong) NSString *userID;
 
 @end
