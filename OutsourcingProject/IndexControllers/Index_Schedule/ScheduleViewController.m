@@ -12,6 +12,10 @@
 
 #define kFont 16
 @interface ScheduleViewController ()<FSCalendarDataSource,FSCalendarDelegate,UITableViewDataSource,UITableViewDelegate>
+{
+    ReturnValueBlock returnBlock;
+
+}
 @property (nonatomic, strong) UITableView      *scheduleTableView;
 @property (nonatomic, strong) NSMutableArray   *dataArray;
 
@@ -113,6 +117,15 @@
     [creatBtn setTitle:@"新建日程" forState:UIControlStateNormal];
     [self.view addSubview:creatBtn];
     
+    
+    [self handleRequsetDetaiDate];
+
+//    
+//    [self getMyReceivedShowDataWithType:@"shoudaodegongzuodongtai" pageSize:_pageSize navIndex:0 filter:@""];
+//    
+//    [self NotiDetailWithType:@"newrichenganpai" chid:[self.ChID integerValue]];
+//    
+
     
 
 }
@@ -343,6 +356,90 @@
         
     }else {
         
+        
+        
+    }
+    
+    
+    
+}
+
+- (void)handleRequsetDetaiDate {
+    
+    
+    __weak typeof (self) weakSelf = self;
+    returnBlock = ^(id resultValue){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            
+            OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]);
+            
+            
+            
+            
+            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]) {
+                
+                
+                
+            }else {
+                
+                SBJSON *jsonParser = [[SBJSON alloc] init];
+                NSError *parseError = nil;
+                NSDictionary * result = [jsonParser objectWithString:[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]
+                                                               error:&parseError];
+                NSLog(@"jsonParserresult:%@",[result objectForKey:@"rows"]);
+                NSDictionary *detailDict = [result objectForKey:@"rows"][0];
+                
+//                [weakSelf configAfterData:detailDict];
+                
+                
+                
+                //                OPLog(@"----far--%@----------",[[result objectForKey:@"rows"][0] class ]);
+                //                NSString *replace = [[result objectForKey:@"rows"][0] objectForKey:@"receiveNames"];
+                //                replace = [replace stringByReplacingOccurrencesOfString:@"," withString:@" "];
+                //                weakSelf.senderLabel.text = [NSString stringWithFormat:@"  通知接收者:    %@",replace];;
+                //
+                
+            }
+            
+        });
+        
+        
+        
+    };
+    
+}
+
+- (void)NotiDetailWithType:(NSString *)type chid:(NSInteger)cid {
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        //        [SVProgressHUD showWithStatus:@"增在加载..."];
+        NSString * requestBody = [NSString stringWithFormat:
+                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                  "<soap12:Envelope "
+                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+                                  "<soap12:Body>"
+                                  "<GetJsonContentData xmlns=\"Net.GongHuiTong\">"
+                                  "<logincookie>%@</logincookie>"
+                                  "<datatype>%@</datatype>"
+                                  "<ChID>%ld</ChID>"
+                                  " </GetJsonContentData>"
+                                  "</soap12:Body>"
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)cid];
+        
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonContentDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
         
         
     }

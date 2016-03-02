@@ -526,6 +526,7 @@
 		DB6B3C761C78213C00F0CB62 /* MultiTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6B3C751C78213C00F0CB62 /* MultiTextView.m */; };
 		DBB0C1661C849AFF00C7F058 /* SendingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1651C849AFF00C7F058 /* SendingDetailViewController.m */; };
 		DBB0C1691C85D03900C7F058 /* NotiDetialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1681C85D03900C7F058 /* NotiDetialViewController.m */; settings = {ASSET_TAGS = (); }; };
+		DBB0C16C1C872DB000C7F058 /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C16B1C872DB000C7F058 /* ForgetPwdViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DBB51B141C82031100B5DC1A /* FuckingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B131C82031100B5DC1A /* FuckingViewController.m */; };
 		DBB51B171C83130000B5DC1A /* AddConsultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B161C83130000B5DC1A /* AddConsultViewController.m */; };
 		DBB51B1A1C83261800B5DC1A /* FinalDetailContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B191C83261800B5DC1A /* FinalDetailContentViewController.m */; };
@@ -1360,6 +1361,8 @@
 		DBB0C1651C849AFF00C7F058 /* SendingDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendingDetailViewController.m; sourceTree = "<group>"; };
 		DBB0C1671C85D03900C7F058 /* NotiDetialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotiDetialViewController.h; sourceTree = "<group>"; };
 		DBB0C1681C85D03900C7F058 /* NotiDetialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotiDetialViewController.m; sourceTree = "<group>"; };
+		DBB0C16A1C872DB000C7F058 /* ForgetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgetPwdViewController.h; sourceTree = "<group>"; };
+		DBB0C16B1C872DB000C7F058 /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
 		DBB51B121C82031100B5DC1A /* FuckingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuckingViewController.h; sourceTree = "<group>"; };
 		DBB51B131C82031100B5DC1A /* FuckingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuckingViewController.m; sourceTree = "<group>"; };
 		DBB51B151C83130000B5DC1A /* AddConsultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddConsultViewController.h; sourceTree = "<group>"; };
@@ -1987,6 +1990,8 @@
 				9D82A6681C759B020072E354 /* LoginViewController.m */,
 				9D82A58D1C756ED10072E354 /* MainTabBarController.h */,
 				9D82A58E1C756ED10072E354 /* MainTabBarController.m */,
+				DBB0C16A1C872DB000C7F058 /* ForgetPwdViewController.h */,
+				DBB0C16B1C872DB000C7F058 /* ForgetPwdViewController.m */,
 			);
 			path = BaseViewController;
 			sourceTree = "<group>";
@@ -3624,6 +3629,7 @@
 				9D7369E71C7EBC1400271EC4 /* JustBackBtn.m in Sources */,
 				9D82A5D51C7578730072E354 /* MJRefreshBackStateFooter.m in Sources */,
 				9D82A6C41C759E470072E354 /* ViewController+MASAdditions.m in Sources */,
+				DBB0C16C1C872DB000C7F058 /* ForgetPwdViewController.m in Sources */,
 				9D82A7191C75C5D90072E354 /* SDWebImageDownloader.m in Sources */,
 				9D82A7201C75C5D90072E354 /* UIImage+WebP.m in Sources */,
 				9D7369DB1C7EACAA00271EC4 /* AddScheduleViewController.m in Sources */,

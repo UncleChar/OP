@@ -72,7 +72,7 @@
         
     }else {
         
-        self.window.rootViewController = [[LoginViewController alloc]init];
+        self.window.rootViewController = [[UINavigationController alloc]initWithRootViewController:[[LoginViewController alloc]init]];
         
     }
     

@@ -259,6 +259,7 @@
                 [_activeSearchTF removeFromSuperview];
             }
             [_topSearchView addSubview: [self searchTextFieldWithTag:1]];
+            [self getUnionSubjectsDataWithType:@"qitatongzhi" pageSize:0 navIndex:0 filter:@"" withTag:0 ];
             
             
             
@@ -269,7 +270,7 @@
                 [_otherSearchTF removeFromSuperview];
             }
            [_topSearchView addSubview: [self searchTextFieldWithTag:2]];
-            [self getUnionSubjectsDataWithType:@"qitatongzhi" pageSize:0 navIndex:0 filter:@"" withTag:0 ];
+            [self getUnionSubjectsDataWithType:@"fachudetongzhi" pageSize:0 navIndex:0 filter:@"" withTag:0 ];
             
             break;
             

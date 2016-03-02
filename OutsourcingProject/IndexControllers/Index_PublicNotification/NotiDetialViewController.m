@@ -45,9 +45,9 @@
     _backgroungScrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     _backgroungScrollView.backgroundColor = [UIColor whiteColor];
     _backgroungScrollView.userInteractionEnabled = YES;
-    [DaiDodgeKeyboard addRegisterTheViewNeedDodgeKeyboard:_backgroungScrollView];
     [self.view addSubview:_backgroungScrollView];
-    
+    [DaiDodgeKeyboard addRegisterTheViewNeedDodgeKeyboard:_backgroungScrollView];
+
 
     
     
@@ -274,6 +274,10 @@
         [quckBtn addTarget:self action:@selector(shouBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [_backgroungScrollView addSubview:quckBtn];
         [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(quckBtn.frame) + 25 forStepsH:0];
+        
+        
+        [self handleRequsetDetaiDate];
+        [self NotiDetailWithType:@"shoudaodegongzuorenwu" chid:[self.ChID integerValue]];
 
     }
    
@@ -286,8 +290,9 @@
         _senderLabel.text = [NSString stringWithFormat:@"  通知发送者:    %@",[dict objectForKey:@"senderName"]];
         dateLabel.text = [NSString stringWithFormat:@"  发送时间:    %@",[dict objectForKey:@"sendDate"]];
         repeatLabel.text =[NSString stringWithFormat:@"  回执时间:    %@",[dict objectForKey:@"receiptDate"]];
+        NSString *str = [[dict objectForKey:@"chContent"] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
         
-        CGFloat descLabelHeight = [ConfigUITools calculateTextHeight:[dict objectForKey:@"chContent"] size:CGSizeMake(kScreenWidth, MAXFLOAT) font:OPFont(16)];
+        CGFloat descLabelHeight = [ConfigUITools calculateTextHeight:str size:CGSizeMake(kScreenWidth, MAXFLOAT) font:OPFont(16)];
         
         CGFloat height;
         if (descLabelHeight <40.0) {
@@ -316,6 +321,36 @@
     
     if (self.headTag == 1) {
         
+        titleLabel.text = [dict objectForKey:@"ChTopic"];
+        _senderLabel.text = [NSString stringWithFormat:@"  通知发送者:    %@",[dict objectForKey:@"senderName"]];
+        dateLabel.text = [NSString stringWithFormat:@"  发送时间:    %@",[dict objectForKey:@"sendDate"]];
+        repeatLabel.text =[NSString stringWithFormat:@"  完成期限:    %@",[dict objectForKey:@"ExpDate"]];
+        NSString *str = [[dict objectForKey:@"chContent"] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+        
+        CGFloat descLabelHeight = [ConfigUITools calculateTextHeight:str size:CGSizeMake(kScreenWidth, MAXFLOAT) font:OPFont(16)];
+        
+        CGFloat height;
+        if (descLabelHeight <40.0) {
+            
+            height = 40;
+            
+        }else {
+            
+            height = descLabelHeight;
+            
+        }
+        contentLabel.frame =CGRectMake(0, 176, kScreenWidth , height);
+        contentLabel.text = [dict objectForKey:@"chContent"];
+        backView.frame =CGRectMake(0, CGRectGetMaxY(contentLabel.frame)+ 1, kScreenWidth, 50);
+        UIView  *lineView1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
+        lineView1.backgroundColor = [ConfigUITools colorWithR:77 G:184 B:73 A:1];
+        [backView addSubview:lineView1];
+        
+        textBackView.frame =CGRectMake(10, CGRectGetMaxY(backView.frame)+1, kScreenWidth - 20, 100);
+        
+        okBtn.frame = CGRectMake(20, CGRectGetMaxY(textBackView.frame) + 5, kScreenWidth - 40, 40);
+        
+        [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(okBtn.frame) + 25 forStepsH:0];
         
     }
 }

@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "MainTabBarController.h"
+#import "ForgetPwdViewController.h"
 #import <UIKit/UIKit.h>
 
 #define kPadding  [UIScreen mainScreen].bounds.size.width / 5 
@@ -282,6 +283,7 @@
         case 2:
         {
         
+            [self.navigationController pushViewController:[[ForgetPwdViewController alloc]init] animated:YES];
             OPLog(@" 忘记密码 ？");
         }
             

@@ -70,6 +70,10 @@
 
     [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
      [self getListDataWithType:@"newgongzuorenwu" pageSize:0 navIndex:0 filter:@"" withTag:1];
+    [self getListDataWithType:@"newrichenganpai" pageSize:0 navIndex:0 filter:@"" withTag:2];
+    [self getListDataWithType:@"newgongzuodongtai" pageSize:0 navIndex:0 filter:@"" withTag:3];
+
+
 }
 
 - (void)initArray {
@@ -337,6 +341,7 @@
 //    cell.imageView.layer.masksToBounds = 1;
 //    [cell setSelected:YES animated:YES];
 
+    cell.selectionStyle = 0;
     return cell;
 }
 
@@ -422,25 +427,15 @@
             noti.headTag = 1;
             noti.ChID = [taskArray[indexPath.row] ChID];
             noti.ExpDate = [taskArray[indexPath.row] ExpDate];
-//            noti.chContent = [taskArray[indexPath.row] chContent];
-//            noti.aSendDate = [taskArray[indexPath.row] SendDate];
-            
             [self.navigationController pushViewController:noti animated:YES];
-        }
             
+        }
             break;
             
         default:
             break;
     }
-    
-//    ChatRoomViewController *chatRoomVC = [[ChatRoomViewController alloc]init];
-//    chatRoomVC.chatRoomTitle = _userSearchResultArrary[indexPath.row];
-//    self.userSearchController.searchBar.hidden = YES;
-//    [self.userSearchController.searchBar resignFirstResponder];
-//    
-//    [[AppEngineManager sharedInstance] baseViewControllerPushViewController:chatRoomVC animated:YES];
-//    
+   
 }
 
 
@@ -463,7 +458,6 @@
         
         [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
         [SVProgressHUD showWithStatus:@"增在加载..."];
-//        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "
@@ -515,10 +509,17 @@
                 switch (tag) {
                     case 0:
                         [notiArray removeAllObjects];
+                        int p = 0;
                         for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
-                            NotiModel  *model = [[NotiModel alloc]init];
-                            [model setValuesForKeysWithDictionary:dict];
-                            [notiArray addObject:model];                            
+                            
+                            if (p <= 3) {
+                                NotiModel  *model = [[NotiModel alloc]init];
+                                [model setValuesForKeysWithDictionary:dict];
+                                [notiArray addObject:model];
+                                p ++;
+                                
+                            }
+                            
                         }
                         
 //                        for (NotiModel *model in notiArray) {
@@ -532,7 +533,6 @@
                         int k = 0;
                         for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
                             
-
                             if (k <= 3) {
                                 TaskModel  *model = [[TaskModel alloc]init];
                                 [model setValuesForKeysWithDictionary:dict];
@@ -551,11 +551,39 @@
 
                         break;
                     case 2:
+                        [scheduleArray removeAllObjects];
+                        int j = 0;
+                        for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                            
+                            if (j <= 3) {
+                                TaskModel  *model = [[TaskModel alloc]init];
+                                [model setValuesForKeysWithDictionary:dict];
+                                [scheduleArray addObject:model];
+                                j ++;
+                                
+                            }
+                            
+                            
+                        }
                         
+                       
                         
                         break;
                     case 3:
-                        
+                        [activeArray removeAllObjects];
+                        int q = 0;
+                        for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                            
+                            if (q <= 3) {
+                                
+                                TaskModel  *model = [[TaskModel alloc]init];
+                                [model setValuesForKeysWithDictionary:dict];
+                                [activeArray addObject:model];
+                                q ++;
+                                
+                            }
+                            
+                        }
                         
                         break;
                         
@@ -565,13 +593,13 @@
 
                 [listTableView reloadData];
 
-
             }
                   
                   
-              });
+           });
             
         };
+        
         [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonListDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
 
     
