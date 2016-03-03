@@ -19,4 +19,12 @@
 @property (nonatomic, assign) BOOL isBtn;//区分第三种model
 @property (nonatomic, strong) NSString *sendDate;
 @property (nonatomic, strong) NSString *senderName;
+
+
+@property (nonatomic, assign) BOOL isHasClassify;//区分
+@property (nonatomic, assign) BOOL isReceiver;
+
+@property (nonatomic, strong) NSString *showTitle;
+
+
 @end

@@ -120,6 +120,16 @@
         
         cell.detailTextLabel.text = @"成果展示";
     }
+    if ( [[_dataArray[indexPath.row] dataType] isEqualToString:@"yewuzhidao"]) {
+        
+        cell.detailTextLabel.text = @"业务指导";
+    }
+    if ( [[_dataArray[indexPath.row] dataType] isEqualToString:@"zhengcefagui"]) {
+        
+        cell.detailTextLabel.text = @"政策法规";
+    }
+    
+    
 //        cell.detailTextLabel.text = [_dataArray[indexPath.row] DataType];
 //    OPLog(@"dd %@",[_dataArray[indexPath.row] DataType]);
         cell.detailTextLabel.textColor = [UIColor grayColor];
@@ -153,8 +163,9 @@
             
             contentVc.chID = [_dataArray[indexPath.row] ChID];
             contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
-
+            contentVc.isHasClassify = NO;
             contentVc.isBtn = 1;
+            contentVc.showTitle = @"收藏详情";
 
             
             

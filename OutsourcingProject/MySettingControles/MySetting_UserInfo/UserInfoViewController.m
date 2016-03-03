@@ -99,59 +99,59 @@
     }
 }
 
-- (UIImageView *)headImaView {
-    
-    if (!_headImaView) {
-        
-        _headImaView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
-        _headImaView.image = [UIImage imageNamed:@"background.jpg"];
-        _headImaView.userInteractionEnabled = 1;
-    }
-    
-    if (nil == [AppEngineManager sharedInstance].leftViewElementsPath) {
-        
-        [[AppEngineManager sharedInstance] createSubDirectoryName:kAvatarImgFloderName underSuperDirectory:[AppEngineManager sharedInstance].dirDocument];
-        OPLog(@"headImageFile-->%@",[AppEngineManager sharedInstance].leftViewElementsPath);
-    }
-    
-    NSString *imageFilePath = [[AppEngineManager sharedInstance].leftViewElementsPath stringByAppendingPathComponent:@"/userAvatar.jpg"];
-    
-    
-    _avatarImgView = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth - 100, 15, kScreenWidth / 6, kScreenWidth / 6)];
-    _avatarImgView.enabled = NO;
-//    _avatarImgView.center =CGPointMake(kScreenWidth *5 / 6 + 20, _headImaView.center.y + 10);
-    
-    BOOL success;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    success = [fileManager fileExistsAtPath:imageFilePath];
-    if(success) {
-        
-        [_avatarImgView setBackgroundImage:[UIImage imageWithContentsOfFile:imageFilePath] forState:UIControlStateNormal];
-    }else {
-        
-        
-        [_avatarImgView setBackgroundImage:[UIImage imageNamed:@"placeholder"] forState:UIControlStateNormal];
-        
-    }
-    
-    
-    [_avatarImgView addTarget:self action:@selector(takePictureClick:) forControlEvents:UIControlEventTouchUpInside];
-    _avatarImgView.layer.masksToBounds = 1;
-    _avatarImgView.layer.cornerRadius =  kScreenWidth / 12;
-    [_headImaView addSubview:_avatarImgView];
-    
-    _organizeLabel = [[UILabel alloc]initWithFrame:CGRectMake(30, 30, 50, 30)];
-    _organizeLabel.text = @"头像";
-    
-    [_headImaView addSubview:_organizeLabel];
-    return _headImaView;
-    
-}
+//- (UIImageView *)headImaView {
+//    
+//    if (!_headImaView) {
+//        
+//        _headImaView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
+//        _headImaView.image = [UIImage imageNamed:@"background.jpg"];
+//        _headImaView.userInteractionEnabled = 1;
+//    }
+//    
+//    if (nil == [AppEngineManager sharedInstance].leftViewElementsPath) {
+//        
+//        [[AppEngineManager sharedInstance] createSubDirectoryName:kAvatarImgFloderName underSuperDirectory:[AppEngineManager sharedInstance].dirDocument];
+//        OPLog(@"headImageFile-->%@",[AppEngineManager sharedInstance].leftViewElementsPath);
+//    }
+//    
+//    NSString *imageFilePath = [[AppEngineManager sharedInstance].leftViewElementsPath stringByAppendingPathComponent:@"/userAvatar.jpg"];
+//    
+//    
+//    _avatarImgView = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth - 100, 15, kScreenWidth / 6, kScreenWidth / 6)];
+//    _avatarImgView.enabled = NO;
+////    _avatarImgView.center =CGPointMake(kScreenWidth *5 / 6 + 20, _headImaView.center.y + 10);
+//    
+//    BOOL success;
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    
+//    success = [fileManager fileExistsAtPath:imageFilePath];
+//    if(success) {
+//        
+//        [_avatarImgView setBackgroundImage:[UIImage imageWithContentsOfFile:imageFilePath] forState:UIControlStateNormal];
+//    }else {
+//        
+//        
+//        [_avatarImgView setBackgroundImage:[UIImage imageNamed:@"placeholder"] forState:UIControlStateNormal];
+//        
+//    }
+//    
+//    
+//    [_avatarImgView addTarget:self action:@selector(takePictureClick:) forControlEvents:UIControlEventTouchUpInside];
+//    _avatarImgView.layer.masksToBounds = 1;
+//    _avatarImgView.layer.cornerRadius =  kScreenWidth / 12;
+//    [_headImaView addSubview:_avatarImgView];
+//    
+//    _organizeLabel = [[UILabel alloc]initWithFrame:CGRectMake(30, 30, 50, 30)];
+//    _organizeLabel.text = @"头像";
+//    
+//    [_headImaView addSubview:_organizeLabel];
+//    return _headImaView;
+//    
+//}
 -(UITableView*)tableView
 {
     if (!_setTableView) {
-        _setTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_headImaView.frame)+1, kScreenWidth, 388) style:UITableViewStylePlain];
+        _setTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 1, kScreenWidth, 388) style:UITableViewStylePlain];
         _setTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _setTableView.delegate=self;
         _setTableView.dataSource=self;
@@ -262,7 +262,7 @@
 
 
 //从相册获取图片
--(void)takePictureClick:(UIButton *)sender
+-(void)takePictureClick:(UIGestureRecognizer *)sender
 {
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择头像来源" message:nil preferredStyle:UIAlertControllerStyleActionSheet];

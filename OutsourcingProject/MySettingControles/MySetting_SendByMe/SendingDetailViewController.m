@@ -16,64 +16,100 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"通知详情";
+    self.title = @"我发出的通知详情";
     
     _backgroungScrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     _backgroungScrollView.backgroundColor = kBackColor;
     _backgroungScrollView.userInteractionEnabled = YES;
     [self.view addSubview:_backgroungScrollView];
     
-    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 1, kScreenWidth, 50)];
+    UITextView *titleLabel = [[UITextView alloc]init];
     titleLabel.text =self.ChTopic;
     titleLabel.textAlignment = 1;
     titleLabel.backgroundColor = [UIColor whiteColor];
+    titleLabel.font = [UIFont systemFontOfSize:17];
     [self.backgroungScrollView addSubview:titleLabel];
     
-    UIView  *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 51, kScreenWidth, 2)];
-    lineView.backgroundColor = [UIColor orangeColor];
-    [titleLabel addSubview:lineView];
     
-    UILabel *senderLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 53, kScreenWidth, 40)];
+    NSString *contenttitle = [self.ChTopic htmlEntityDecode];
+    // 计算model.desc文字的高度
+    CGFloat descLabelH = [ConfigUITools calculateTextHeight:contenttitle size:CGSizeMake(kScreenWidth, MAXFLOAT) font:OPFont(17)];
+    
+    CGFloat height;
+    if (descLabelH <40) {
+        
+        height = 40;
+        
+    }else {
+        
+        height = descLabelH + 15;
+        
+    }
+    titleLabel.frame = CGRectMake(0, 1, kScreenWidth, height);
+    titleLabel.text = contenttitle;
+    titleLabel.userInteractionEnabled = NO;
+    
+    
+    
+    UIView  *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, height+ 1, kScreenWidth, 2)];
+    lineView.backgroundColor = [UIColor orangeColor];
+    [_backgroungScrollView addSubview:lineView];
+    
+    UILabel *senderLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, height+ 3, kScreenWidth, 40)];
     senderLabel.text =   [NSString stringWithFormat:@"  通知发送者:    %@",self.senderName];
     //    titleLabel.textAlignment = 1;
     senderLabel.backgroundColor = [UIColor whiteColor];
     [self.backgroungScrollView addSubview:senderLabel];
     
-    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 94, kScreenWidth, 40)];
+    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, height+ 44, kScreenWidth, 40)];
     dateLabel.text = [NSString stringWithFormat:@"  发送时间:       %@",self.sendDate];
     //    titleLabel1.textAlignment = 1;
     dateLabel.backgroundColor = [UIColor whiteColor];
     [self.backgroungScrollView addSubview:dateLabel];
 
     
-    UILabel *receiptLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 135, kScreenWidth, 40)];
+    UILabel *receiptLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, height+ 85, kScreenWidth, 40)];
     receiptLabel.text = [NSString stringWithFormat:@"  回执时间:       %@",self.isReceipt];
     //    titleLabel1.textAlignment = 1;
     receiptLabel.backgroundColor = [UIColor whiteColor];
     [self.backgroungScrollView addSubview:receiptLabel];
     
     
-    // 计算model.desc文字的高度
-    CGFloat descLabelHeight = [ConfigUITools calculateTextHeight:self.chContent size:CGSizeMake(kScreenWidth, MAXFLOAT) font:OPFont(14.0f)];
-
-    CGFloat height;
-    if (descLabelHeight <40.0) {
-        
-        height = 40;
-        
-    }else {
     
-        height = descLabelHeight;
-        
-    }
+    NSString *conten = [self.chContent htmlEntityDecode];
+//    // 计算model.desc文字的高度
+//    CGFloat descLabelHeight = [ConfigUITools calculateTextHeight:conten size:CGSizeMake(kScreenWidth, MAXFLOAT) font:OPFont(14.0f)];
+//
+//    CGFloat height1;
+//    if (descLabelHeight <40.0) {
+//        
+//        height1 = 40;
+//        
+//    }else {
+//    
+//        height1 = descLabelHeight;
+//        
+//    }
     
-    UILabel *contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 176, kScreenWidth , height)];
-    contentLabel.text = self.chContent;
-    contentLabel.backgroundColor = [UIColor whiteColor];
-    contentLabel.font = OPFont(14.0);
-    [self.backgroungScrollView addSubview:contentLabel];
+//    UITextView *contentView = [[UITextView alloc]initWithFrame:CGRectMake(0, 176, kScreenWidth , height1)];
+//    contentView.text = conten;
+//    contentView.backgroundColor = [UIColor whiteColor];
+//    contentView.font = OPFont(14.0);
+//    [self.backgroungScrollView addSubview:contentView];
     
-     [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(contentLabel.frame) + 25 forStepsH:0];
+    
+   UITextView *showWebView = [[UITextView alloc] initWithFrame:CGRectMake(0, height + 127, kScreenWidth, kScreenHeight- height- 127 - 64 )];
+    
+//    [showWebView sizeToFit];
+//    showWebView.scalesPageToFit = YES;
+    //        [showWebView sizeToFit];
+    //        showWebView.scalesPageToFit = YES;
+    showWebView.text = conten;
+    [showWebView setEditable:NO];
+    [self.view addSubview:showWebView];
+//    [showWebView loadHTMLString:self.chContent baseURL:[NSURL URLWithString:@"www.baidu.com"]];
+    
+//     [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(contentView.frame) + 25 forStepsH:0];
     
 }
 

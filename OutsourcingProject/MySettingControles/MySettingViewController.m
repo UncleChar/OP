@@ -22,7 +22,7 @@
 @property  (nonatomic, strong) UIScrollView  *backScrollView;
 @property (nonatomic, strong) UITableView  *setTableView;
 @property (nonatomic, strong) UIImageView  *headImaView;
-@property (nonatomic, strong) UIButton     *avatarImgView;
+@property (nonatomic, strong) UIImageView     *avatarImgView;
 @property (nonatomic, strong) UILabel      *organizeLabel;
 @property (nonatomic, strong) NSArray      *cellTitleArray;
 @property (nonatomic, strong) NSArray      *cellImgArray;
@@ -109,6 +109,7 @@
         _headImaView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth * 0.33)];
         _headImaView.image = [UIImage imageNamed:@"background.jpg"];
         _headImaView.userInteractionEnabled = 1;
+      
     }
     
     if (nil == [AppEngineManager sharedInstance].leftViewElementsPath) {
@@ -120,28 +121,35 @@
     NSString *imageFilePath = [[AppEngineManager sharedInstance].leftViewElementsPath stringByAppendingPathComponent:@"/userAvatar.jpg"];
 
     
-    _avatarImgView = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth / 6, kScreenWidth / 6)];
+    _avatarImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth / 6, kScreenWidth / 6)];
     _avatarImgView.center =CGPointMake(kScreenWidth / 12 + 20, kScreenWidth * 0.33 / 2);
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(takePictureClick:)];
+    [_avatarImgView addGestureRecognizer:tap];
     
     BOOL success;
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     success = [fileManager fileExistsAtPath:imageFilePath];
-    if(success) {
-       
-                [_avatarImgView setBackgroundImage:[UIImage imageWithContentsOfFile:imageFilePath] forState:UIControlStateNormal];
-    }else {
-    
-    
-        [_avatarImgView setBackgroundImage:[UIImage imageNamed:@"placeholder"] forState:UIControlStateNormal];
-        
-    }
+//    if(success) {
+//       
+//                [_avatarImgView setBackgroundImage:[UIImage imageWithContentsOfFile:imageFilePath] forState:UIControlStateNormal];
+//    }else {
+//    
+//    
+//        [_avatarImgView setBackgroundImage:[UIImage imageNamed:@"placeholder"] forState:UIControlStateNormal];
+//        
+//    }
 
-
-    [_avatarImgView addTarget:self action:@selector(takePictureClick:) forControlEvents:UIControlEventTouchUpInside];
     _avatarImgView.layer.masksToBounds = 1;
     _avatarImgView.layer.cornerRadius =  kScreenWidth / 12;
     [_headImaView addSubview:_avatarImgView];
+    
+    NSUserDefaults *info = [NSUserDefaults standardUserDefaults];
+    
+    NSString *url = [info objectForKey:@"iconpic"];
+    [_avatarImgView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    
     
     _organizeLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_avatarImgView.frame) + 20, CGRectGetMidY(_avatarImgView.frame) - 15, kScreenWidth - CGRectGetMaxX(_avatarImgView.frame) - 20 - 20, 30)];
     _organizeLabel.text = [[NSUserDefaults standardUserDefaults]objectForKey:@"deptname"];
@@ -312,7 +320,8 @@
     //UIImage *smallImage=[self scaleFromImage:image toSize:CGSizeMake(80.0f, 80.0f)];//将图片尺寸改为80*80
     UIImage *smallImage = [self thumbnailWithImageWithoutScale:image size:CGSizeMake(100, 100)];
     [UIImageJPEGRepresentation(smallImage, 1.0f) writeToFile:imageFilePath atomically:YES];//写入文件
-    [_avatarImgView setBackgroundImage:[UIImage imageWithContentsOfFile:imageFilePath] forState:UIControlStateNormal];//读取图片文件
+//    [_avatarImgView setBackgroundImage:[UIImage imageWithContentsOfFile:imageFilePath] forState:UIControlStateNormal];//读取图片文件
+    _avatarImgView.image = [UIImage imageWithContentsOfFile:imageFilePath];
     
 }
 

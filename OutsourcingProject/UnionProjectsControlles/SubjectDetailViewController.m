@@ -245,11 +245,12 @@
             contentVc.dataType = @"zhengcefagui";
             
             contentVc.chID = [_dataArray[indexPath.row] ChID];
-            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
+//            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
             
-            contentVc.diffTag = _MokuaiTag;
+//            contentVc.diffTag = _MokuaiTag;
             contentVc.isBtn = NO;
-            contentVc.diffContent = [_dataArray[indexPath.row] chContent];
+            contentVc.showTitle = @"政策法规详情";
+//            contentVc.diffContent = [_dataArray[indexPath.row] chContent];
             
             
             [self.navigationController pushViewController:contentVc animated:YES];
@@ -259,11 +260,12 @@
         {
             contentVc.dataType = @"yewuzhidao";
             contentVc.isBtn = 1;
+            contentVc.showTitle = @"业务知道详情";
             contentVc.chID = [_dataArray[indexPath.row] ChID];
-            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
-            
-            contentVc.diffTag = _MokuaiTag;
-            contentVc.diffContent = [_dataArray[indexPath.row] chContent];
+//            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
+//            
+//            contentVc.diffTag = _MokuaiTag;
+//            contentVc.diffContent = [_dataArray[indexPath.row] chContent];
             
             
             [self.navigationController pushViewController:contentVc animated:YES];
@@ -275,12 +277,12 @@
              contentVc.isBtn = 1;
             
             contentVc.dataType = @"shoudaodechengguozhanshi";
-            
+            contentVc.showTitle = @"成果展示详情";
             contentVc.chID = [_dataArray[indexPath.row] ChID];
-            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
-            
-            contentVc.diffTag = _MokuaiTag;
-            contentVc.diffContent = [_dataArray[indexPath.row] chContent];
+//            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
+//            
+//            contentVc.diffTag = _MokuaiTag;
+//            contentVc.diffContent = [_dataArray[indexPath.row] chContent];
             
             
             [self.navigationController pushViewController:contentVc animated:YES];

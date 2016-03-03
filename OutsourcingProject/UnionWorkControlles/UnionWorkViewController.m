@@ -13,6 +13,13 @@
 #import "MyFavorViewController.h"
 #import "MySendingViewController.h"
 #import "MyConsultViewController.h"
+#import "ScheduleViewController.h"
+#import "TaskViewController.h"
+#import "ActivityViewController.h"
+#import "PublicNoticeViewController.h"
+#import "MyShowViewController.h"
+#import "UserDeptViewController.h"
+
 
 #define kHeight 40
 #define kFont  15
@@ -302,15 +309,55 @@
 
 - (void)selectedModel:(UIButton *)sender {
     
-    OPLog(@"000 %@",sender.titleLabel.text);
-            SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
-            subD.requestTag = sender.tag;
-            subD.dataType = @"zhengcefagui";
-            subD.filter =  [NSString stringWithFormat:@"Datatype=\"%@\"",sender.titleLabel.text];
-            subD.subjectTitle = sender.titleLabel.text;
-            [self.navigationController pushViewController:subD animated:YES];
-            
-        }
+    NSString *modelName = sender.titleLabel.text;
+    
+    UIViewController  *modelCopntroller = [[UIViewController alloc]init];
+    if ([modelName isEqualToString:@"日程安排"]) {
+        
+        modelCopntroller = [[ScheduleViewController alloc]init];
+        
+    }
+    if ([modelName isEqualToString:@"工作动态"]) {
+        
+        modelCopntroller = [[ActivityViewController alloc]init];
+    }
+    if ([modelName isEqualToString:@"通知公告"]) {
+        
+        modelCopntroller = [[PublicNoticeViewController alloc]init];
+    }
+    if ([modelName isEqualToString:@"通讯录"]) {
+        modelCopntroller = [[UserDeptViewController alloc]init];
+        
+    }
+    if ([modelName isEqualToString:@"公文收文"]) {
+        
+//        modelCopntroller = [[ScheduleViewController alloc]init];
+    }
+    if ([modelName isEqualToString:@"公文发文"]) {
+        
+//        modelCopntroller = [[ScheduleViewController alloc]init];
+    }
+    if ([modelName isEqualToString:@"成果展示"]) {
+        
+        modelCopntroller = [[MyShowViewController alloc]init];
+    }
+    if ([modelName isEqualToString:@"工作任务"]) {
+        
+        modelCopntroller = [[TaskViewController alloc]init];
+    }
+    if ([modelName isEqualToString:@"内部咨询"]) {
+        
+        modelCopntroller = [[MyConsultViewController alloc]init];
+    }
+
+//            SubjectDetailViewController *subD = [[SubjectDetailViewController alloc]init];
+//            subD.requestTag = sender.tag;
+//            subD.dataType = @"zhengcefagui";
+//            subD.filter =  [NSString stringWithFormat:@"Datatype=\"%@\"",sender.titleLabel.text];
+//            subD.subjectTitle = sender.titleLabel.text;
+            [self.navigationController pushViewController:modelCopntroller animated:YES];
+    
+}
 
 
 - (UIScrollView *)getUnionSubjectsDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter onScrollView:(UIScrollView *)scrollView withTag:(NSInteger)viewTag{

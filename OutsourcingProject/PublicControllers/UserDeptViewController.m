@@ -231,7 +231,7 @@
     
     //
     if ([AppDelegate isNetworkConecting]) {
-        
+        [SVProgressHUD showWithStatus:@"增在加载"];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "

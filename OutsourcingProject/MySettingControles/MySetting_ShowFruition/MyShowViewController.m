@@ -93,19 +93,7 @@
     
     // 设置footer
     _listTableView.mj_footer = footer;
-    
-//    _listTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-//        
-//        _isRefersh = YES;
-//        if (_requestTag == 0) {
-//            
-//            [self getMyReceivedShowDataWithType:@"fachudechengguozhanshi" pageSize:_pageSize navIndex:_pageSendIndex filter:@""];
-//            
-//        }else {
-//            
-//            [self getMyReceivedShowDataWithType:@"shoudaodechengguozhanshi" pageSize:_pageSize navIndex:_pageIndex filter:@"fld_40_1 like \"%%\""];
-//        }
-//    }];
+
     
     _listTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         
@@ -128,7 +116,7 @@
 }
 - (void)loadMoreData {
 
-//        _listTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+
     
             _isFooterRefersh = YES;
             if (_requestTag == 0) {
@@ -139,7 +127,7 @@
     
                 [self getMyReceivedShowDataWithType:@"shoudaodechengguozhanshi" pageSize:_pageSize navIndex:_pageIndex filter:@"fld_40_1 like \"%%\""];
             }
-//        }];
+
 
 
     
@@ -240,24 +228,42 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-//
-//    FinalDetailContentViewController  *contentVc = [[ FinalDetailContentViewController alloc]init];
-//
-//            contentVc.dataType = @"zhengcefagui";
-//            
-//            contentVc.chID = [_dataArray[indexPath.row] ChID];
-//            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
-//            contentVc.isBtn = YES;
-//            contentVc.diffContent = [_dataArray[indexPath.row] chContent];
-//            
-//    [self.navigationController pushViewController:contentVc animated:YES];
-    FuckingViewController *fuck = [[FuckingViewController alloc]init];
-    fuck.titleTop = [_dataArray[indexPath.row] ChTopic];
-    fuck.content = [_dataArray[indexPath.row] chContent];
-    fuck.sendDate = [_dataArray[indexPath.row] sendDate];
-    fuck.senderName = [_dataArray[indexPath.row] senderName];
+
+    FinalDetailContentViewController  *contentVc = [[ FinalDetailContentViewController alloc]init];
+
     
-    [self.navigationController pushViewController:fuck animated:YES];
+    
+    
+    if (_requestTag == 0) {
+        
+        
+        contentVc.dataType = @"fachudechengguozhanshi";
+        contentVc.chID = [_senddataArray[indexPath.row] ChID];
+        contentVc.isBtn = YES;
+        contentVc.isReceiver = NO;
+        contentVc.isHasClassify = YES;
+        contentVc.showTitle = @"发出的成果展示";
+        
+    }else {
+        
+        contentVc.dataType = @"shoudaodechengguozhanshi";
+        contentVc.chID = [_dataArray[indexPath.row] ChID];
+        contentVc.isBtn = YES;
+        contentVc.isReceiver = YES;
+        contentVc.isHasClassify = YES;
+        contentVc.showTitle = @"收到的成果展示";
+        
+    }
+    
+    
+            
+    [self.navigationController pushViewController:contentVc animated:YES];
+    
+    
+
+    
+    
+
     
 
 }
@@ -296,7 +302,7 @@
 //                    
 //                    [weakSelf.senddataArray removeAllObjects];
 //                }
-                [weakSelf.listTableView reloadData];
+//                [weakSelf.listTableView reloadData];
 
                 [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
       

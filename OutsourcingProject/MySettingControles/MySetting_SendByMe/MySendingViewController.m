@@ -122,6 +122,7 @@
     
     
     cell.model = _dataArray[indexPath.row];
+    cell.selectionStyle = 0;
     
     return cell;
     

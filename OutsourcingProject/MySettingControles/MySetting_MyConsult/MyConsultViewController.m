@@ -11,7 +11,7 @@
 #import "AddConsultViewController.h"
 #import "AchievementModel.h"
 #import "ContentViewController.h"
-#import "FuckingViewController.h"
+#import "FinalDetailContentViewController.h"
 @interface MyConsultViewController ()<HorizontalMenuDelegate,UITableViewDelegate,UITableViewDataSource>
 
 {
@@ -215,14 +215,14 @@
         cell.imageView.image = [UIImage imageNamed:@"iconfont-gongwenbao（合并）-拷贝-5"];
         cell.textLabel.text = [_senddataArray[indexPath.row] ChTopic];
         
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_senddataArray[indexPath.row] dataType],[_senddataArray[indexPath.row] FinshDate]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_senddataArray[indexPath.row] readStatus],[_senddataArray[indexPath.row] FinshDate]];
         cell.detailTextLabel.textColor = [UIColor grayColor];
     }else {
         
         cell.imageView.image = [UIImage imageNamed:@"iconfont-gongwenbao（合并）-拷贝-5"];
         cell.textLabel.text = [_dataArray[indexPath.row] ChTopic];
         
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_dataArray[indexPath.row] dataType],[_dataArray[indexPath.row] FinshDate]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_dataArray[indexPath.row] readStatus],[_dataArray[indexPath.row] FinshDate]];
         cell.detailTextLabel.textColor = [UIColor grayColor];
         
     }
@@ -234,36 +234,60 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+//    
+//    //    ContentViewController  *contentVc = [[ContentViewController alloc]init];
+//    //
+//    //        if (_requestTag == 1) {
+//    //
+//    //            contentVc.chID = [_dataArray[indexPath.row] ChID];
+//    //            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
+//    //            contentVc.dataType = @"shoudaodechengguozhanshi";
+//    //            contentVc.diffTag = 2;
+//    //
+//    //
+//    //
+//    //        }else {
+//    //
+//    //
+//    //            contentVc.chID = [_senddataArray[indexPath.row] ChID];
+//    //            contentVc.titleTop = [_senddataArray[indexPath.row] ChTopic];
+//    //            contentVc.dataType = @"fachudechengguozhanshi";
+//    //            contentVc.diffTag = 2;
+//    //
+//    //
+//    //
+//    //        }
+//    FuckingViewController *fuck = [[FuckingViewController alloc]init];
+//    fuck.titleTop = [_dataArray[indexPath.row] ChTopic];
+//    fuck.content = [_dataArray[indexPath.row] chContent];
+//    fuck.sendDate = [_dataArray[indexPath.row] sendDate];
+//    fuck.senderName = [_dataArray[indexPath.row] senderName];
+//    
+//    [self.navigationController pushViewController:fuck animated:YES];
     
-    //    ContentViewController  *contentVc = [[ContentViewController alloc]init];
-    //
-    //        if (_requestTag == 1) {
-    //
-    //            contentVc.chID = [_dataArray[indexPath.row] ChID];
-    //            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
-    //            contentVc.dataType = @"shoudaodechengguozhanshi";
-    //            contentVc.diffTag = 2;
-    //
-    //
-    //
-    //        }else {
-    //
-    //
-    //            contentVc.chID = [_senddataArray[indexPath.row] ChID];
-    //            contentVc.titleTop = [_senddataArray[indexPath.row] ChTopic];
-    //            contentVc.dataType = @"fachudechengguozhanshi";
-    //            contentVc.diffTag = 2;
-    //
-    //
-    //
-    //        }
-    FuckingViewController *fuck = [[FuckingViewController alloc]init];
-    fuck.titleTop = [_dataArray[indexPath.row] ChTopic];
-    fuck.content = [_dataArray[indexPath.row] chContent];
-    fuck.sendDate = [_dataArray[indexPath.row] sendDate];
-    fuck.senderName = [_dataArray[indexPath.row] senderName];
-    
-    [self.navigationController pushViewController:fuck animated:YES];
+    FinalDetailContentViewController  *contentVc = [[ FinalDetailContentViewController alloc]init];
+
+    if (_requestTag == 0) {
+ 
+        contentVc.dataType = @"shoudaodeneibuzixun";
+        contentVc.chID = [_senddataArray[indexPath.row] ChID];
+        contentVc.isBtn = YES;
+        contentVc.isHasClassify = YES;
+        contentVc.isReceiver = YES;
+        contentVc.showTitle = @"收到的咨询";
+        
+    }else {
+        
+        contentVc.dataType = @"fachudeneibuzixun";
+        contentVc.chID = [_dataArray[indexPath.row] ChID];
+        contentVc.isBtn = YES;
+        contentVc.isHasClassify = YES;
+        contentVc.isReceiver = NO;
+        contentVc.showTitle = @"发出的咨询";
+
+    }
+
+    [self.navigationController pushViewController:contentVc animated:YES];
     
     
 }
@@ -381,8 +405,21 @@
                 }
                 
                 
-                
-                
+                if (_requestTag == 0) {
+                    
+                    CGRect frame = weakSelf.listTableView.frame;
+                    frame.size.height = _senddataArray.count * 60;
+                    weakSelf.listTableView.frame = frame;
+                    
+                }else {
+                    
+                    
+                    CGRect frame = weakSelf.listTableView.frame;
+                    frame.size.height = _dataArray.count * 60;
+                    weakSelf.listTableView.frame = frame;
+                    
+                }
+
                 [weakSelf.listTableView reloadData];
                 
             }
