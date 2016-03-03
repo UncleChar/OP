@@ -260,7 +260,7 @@
         {
             contentVc.dataType = @"yewuzhidao";
             contentVc.isBtn = 1;
-            contentVc.showTitle = @"业务知道详情";
+            contentVc.showTitle = @"业务指导详情";
             contentVc.chID = [_dataArray[indexPath.row] ChID];
 //            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
 //            

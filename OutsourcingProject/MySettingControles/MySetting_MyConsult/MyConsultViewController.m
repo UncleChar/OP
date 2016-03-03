@@ -22,14 +22,14 @@
 @property (nonatomic, strong) UIScrollView   *workBackScrollView;
 @property (nonatomic, strong) UIView         *topBackView;
 @property (nonatomic, strong) UIView         *workView;
-@property (nonatomic, strong) NSMutableArray         *dataArray;
-@property (nonatomic, strong) NSMutableArray         *senddataArray;
+@property (nonatomic, strong) NSMutableArray         *receiveDataArray;
+@property (nonatomic, strong) NSMutableArray         *sendDataArray;
 @property (nonatomic, strong) UIView         *searchView;
 
 @property (nonatomic, strong) UITableView  *listTableView;
 @property (nonatomic, assign) NSInteger  pageSize;//每页的个数
-@property (nonatomic, assign) NSInteger  pageIndex;//从0页开始
 @property (nonatomic, assign) NSInteger  pageSendIndex;//从0页开始
+@property (nonatomic, assign) NSInteger  pageReceiveIndex;//从0页开始
 @property (nonatomic, assign) NSInteger  requestTag;//从0页开始
 @property (nonatomic, assign) BOOL        isHeaderRefersh;
 @property (nonatomic, assign) BOOL        isFooterRefersh;
@@ -45,22 +45,22 @@
     [super viewDidLoad];
     self.title = @"我的咨询";
     
-    if (!_dataArray) {
+    if (!_receiveDataArray) {
         
-        _dataArray = [NSMutableArray arrayWithCapacity:0];
+        _receiveDataArray = [NSMutableArray arrayWithCapacity:0];
     }
     
-    if (!_senddataArray) {
+    if (!_sendDataArray) {
         
-        _senddataArray  = [NSMutableArray arrayWithCapacity:0];
+        _sendDataArray  = [NSMutableArray arrayWithCapacity:0];
     }
     
     
     _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) withTitles:@[ @"我收到的咨询", @"我发出的咨询"]];
     _menu.delegate = self;
     [self.view addSubview:_menu];
-    _pageIndex = 1;
-    _pageSendIndex = 0;
+    _pageReceiveIndex = 1;
+    _pageSendIndex = 1;
     _pageSize = 8;
     
     [self configListView];
@@ -108,13 +108,14 @@
         
         _isHeaderRefersh = YES;
         _isFooterRefersh = NO;
-        _pageIndex = 1;
+
+        
         if (_requestTag == 0) {
-            
+            _pageReceiveIndex = 1;
             [self getMyReceivedShowDataWithType:@"shoudaodeneibuzixun" pageSize:_pageSize navIndex:0 filter:@""];
             
         }else {
-            
+            _pageSendIndex = 1;
             [self getMyReceivedShowDataWithType:@"fachudeneibuzixun" pageSize:_pageSize navIndex:0 filter:@""];
         }
         
@@ -127,11 +128,11 @@
     _isFooterRefersh = YES;
     if (_requestTag == 0) {
         
-        [self getMyReceivedShowDataWithType:@"shoudaodeneibuzixun" pageSize:_pageSize navIndex:_pageSendIndex filter:@""];
+        [self getMyReceivedShowDataWithType:@"shoudaodeneibuzixun" pageSize:_pageSize navIndex:_pageReceiveIndex filter:@""];
         
     }else {
         
-        [self getMyReceivedShowDataWithType:@"fachudeneibuzixun" pageSize:_pageSize navIndex:_pageIndex filter:@""];
+        [self getMyReceivedShowDataWithType:@"fachudeneibuzixun" pageSize:_pageSize navIndex:_pageSendIndex filter:@""];
     }
 
     
@@ -149,7 +150,7 @@
             _isHeaderRefersh  = NO;//重新归置刷新状态
             _isFooterRefersh = NO;
             [_listTableView reloadData];
-            if (_senddataArray.count == 0) {
+            if (_receiveDataArray.count == 0) {
                 
                 [self getMyReceivedShowDataWithType:@"shoudaodeneibuzixun" pageSize:_pageSize navIndex:0 filter:@""];
                 
@@ -165,7 +166,7 @@
             _isFooterRefersh = NO;
             _isHeaderRefersh  = NO;//重新归置刷新状态只让chongfu刷新的时候提醒增加的条数
             [_listTableView reloadData];
-            if (_dataArray.count == 0) {
+            if (_sendDataArray.count == 0) {
                 
                 //
                 //            [self getUnionSubjectsDataWithType:@"shoudaodechengguozhanshi" pageSize:0 navIndex:0 filter:[NSString stringWithFormat:@"fld_40_1 like \"%%\""] withTag:0 ];
@@ -190,11 +191,11 @@
     
     if (_requestTag == 0) {
         
-        return _senddataArray.count;
+        return _receiveDataArray.count;
         
     }
     
-    return _dataArray.count;
+    return _sendDataArray.count;
     
 }
 
@@ -213,16 +214,16 @@
         
         
         cell.imageView.image = [UIImage imageNamed:@"iconfont-gongwenbao（合并）-拷贝-5"];
-        cell.textLabel.text = [_senddataArray[indexPath.row] ChTopic];
+        cell.textLabel.text = [_receiveDataArray[indexPath.row] ChTopic];
         
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_senddataArray[indexPath.row] readStatus],[_senddataArray[indexPath.row] FinshDate]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_receiveDataArray[indexPath.row] readStatus],[_receiveDataArray[indexPath.row] FinshDate]];
         cell.detailTextLabel.textColor = [UIColor grayColor];
     }else {
         
         cell.imageView.image = [UIImage imageNamed:@"iconfont-gongwenbao（合并）-拷贝-5"];
-        cell.textLabel.text = [_dataArray[indexPath.row] ChTopic];
+        cell.textLabel.text = [_sendDataArray[indexPath.row] ChTopic];
         
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_dataArray[indexPath.row] readStatus],[_dataArray[indexPath.row] FinshDate]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_sendDataArray[indexPath.row] readStatus],[_sendDataArray[indexPath.row] FinshDate]];
         cell.detailTextLabel.textColor = [UIColor grayColor];
         
     }
@@ -234,43 +235,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    
-//    //    ContentViewController  *contentVc = [[ContentViewController alloc]init];
-//    //
-//    //        if (_requestTag == 1) {
-//    //
-//    //            contentVc.chID = [_dataArray[indexPath.row] ChID];
-//    //            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
-//    //            contentVc.dataType = @"shoudaodechengguozhanshi";
-//    //            contentVc.diffTag = 2;
-//    //
-//    //
-//    //
-//    //        }else {
-//    //
-//    //
-//    //            contentVc.chID = [_senddataArray[indexPath.row] ChID];
-//    //            contentVc.titleTop = [_senddataArray[indexPath.row] ChTopic];
-//    //            contentVc.dataType = @"fachudechengguozhanshi";
-//    //            contentVc.diffTag = 2;
-//    //
-//    //
-//    //
-//    //        }
-//    FuckingViewController *fuck = [[FuckingViewController alloc]init];
-//    fuck.titleTop = [_dataArray[indexPath.row] ChTopic];
-//    fuck.content = [_dataArray[indexPath.row] chContent];
-//    fuck.sendDate = [_dataArray[indexPath.row] sendDate];
-//    fuck.senderName = [_dataArray[indexPath.row] senderName];
-//    
-//    [self.navigationController pushViewController:fuck animated:YES];
     
     FinalDetailContentViewController  *contentVc = [[ FinalDetailContentViewController alloc]init];
 
     if (_requestTag == 0) {
  
         contentVc.dataType = @"shoudaodeneibuzixun";
-        contentVc.chID = [_senddataArray[indexPath.row] ChID];
+        contentVc.chID = [_receiveDataArray[indexPath.row] ChID];
         contentVc.isBtn = YES;
         contentVc.isHasClassify = YES;
         contentVc.isReceiver = YES;
@@ -279,7 +250,7 @@
     }else {
         
         contentVc.dataType = @"fachudeneibuzixun";
-        contentVc.chID = [_dataArray[indexPath.row] ChID];
+        contentVc.chID = [_sendDataArray[indexPath.row] ChID];
         contentVc.isBtn = YES;
         contentVc.isHasClassify = YES;
         contentVc.isReceiver = NO;
@@ -342,25 +313,25 @@
                 if (weakSelf.isFooterRefersh) {
                     if (_requestTag == 0) {
                         
-                        weakSelf.pageSendIndex ++;
-                        countArray = weakSelf.senddataArray.count;
+                        weakSelf.pageReceiveIndex ++;
+                        countArray = weakSelf.receiveDataArray.count;
                         
                     }else {
-                        countArray =weakSelf.dataArray.count;
-                        weakSelf.pageIndex ++;
+                        countArray =weakSelf.sendDataArray.count;
+                        weakSelf.pageSendIndex ++;
                     }
                     
                 }
                 
                 if (weakSelf.isHeaderRefersh) {
                     
-                    if (_requestTag == 1) {
+                    if (_requestTag == 0) {
                         
-                        [weakSelf.dataArray removeAllObjects];
+                        [weakSelf.receiveDataArray removeAllObjects];
                     }else {
                         
                         
-                        [weakSelf.senddataArray removeAllObjects];
+                        [weakSelf.sendDataArray removeAllObjects];
                     }
                     
                     weakSelf.isHeaderRefersh = NO;
@@ -373,12 +344,12 @@
                     [model setValuesForKeysWithDictionary:dict];
                     
                     
-                    if (_requestTag == 1) {
+                    if (_requestTag == 0) {
                         
-                        [weakSelf.dataArray addObject:model];
+                        [weakSelf.receiveDataArray addObject:model];
                     }else {
                         
-                        [weakSelf.senddataArray addObject:model];
+                        [weakSelf.sendDataArray addObject:model];
                     }
                     
                 }
@@ -386,14 +357,14 @@
                 
                 if (weakSelf.isFooterRefersh) {
                     
-                    if (_requestTag == 1) {
+                    if (_requestTag == 0) {
                         
-                        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"增加了%ld条内容", weakSelf.dataArray.count - countArray]];
+                        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"增加了%ld条内容", weakSelf.receiveDataArray.count - countArray]];
                         
                     }else {
                         
                         
-                        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"增加了%ld条内容", weakSelf.senddataArray.count - countArray]];
+                        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"增加了%ld条内容", weakSelf.sendDataArray.count - countArray]];
                         
                         
                     }
@@ -405,20 +376,20 @@
                 }
                 
                 
-                if (_requestTag == 0) {
-                    
-                    CGRect frame = weakSelf.listTableView.frame;
-                    frame.size.height = _senddataArray.count * 60;
-                    weakSelf.listTableView.frame = frame;
-                    
-                }else {
-                    
-                    
-                    CGRect frame = weakSelf.listTableView.frame;
-                    frame.size.height = _dataArray.count * 60;
-                    weakSelf.listTableView.frame = frame;
-                    
-                }
+//                if (_requestTag == 0) {
+//                    
+//                    CGRect frame = weakSelf.listTableView.frame;
+//                    frame.size.height = _senddataArray.count * 60;
+//                    weakSelf.listTableView.frame = frame;
+//                    
+//                }else {
+//                    
+//                    
+//                    CGRect frame = weakSelf.listTableView.frame;
+//                    frame.size.height = _dataArray.count * 60;
+//                    weakSelf.listTableView.frame = frame;
+//                    
+//                }
 
                 [weakSelf.listTableView reloadData];
                 

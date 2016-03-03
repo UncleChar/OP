@@ -20,6 +20,7 @@
 #import "NotiDetialViewController.h"
 #import "NotiModel.h"
 #import "TaskModel.h"
+#import "IndexPubTableViewCell.h"
 
 #define kBtnMargin ([UIScreen mainScreen].bounds.size.width - 4 * 50) / 5
 #define kBtnWdith 50
@@ -284,43 +285,25 @@
     
     static NSString *cellID = @"cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    if (nil == cell) {
-        
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellID];
-    }
+//    IndexPubTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+//    if (nil == cell) {
+    
+        IndexPubTableViewCell *cell = [[IndexPubTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+//    }
     
     switch (indexPath.section) {
         case 0:
             
-            cell.textLabel.text = [notiArray[indexPath.row] chtopic];
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"【%@】",[notiArray[indexPath.row] urgLevel]];
-            if ([[notiArray[indexPath.row] urgLevel] isEqualToString:@"急"]) {
-               
-                cell.textLabel.textColor = [UIColor orangeColor];
-                cell.detailTextLabel.textColor = [UIColor orangeColor];
-            }else if([[notiArray[indexPath.row] urgLevel] isEqualToString:@"一般"]) {
-            
-                cell.textLabel.textColor = [UIColor grayColor];
-                cell.detailTextLabel.textColor = [UIColor grayColor];
-            
-            }else {
-            
-            
-                cell.textLabel.textColor = [UIColor redColor];
-                cell.detailTextLabel.textColor = [UIColor redColor];
-            
-            }
+            cell.pubModel = notiArray[indexPath.row];
+
             break;
         case 1:
-            cell.textLabel.text = [taskArray[indexPath.row] chtopic];
-            
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"【%@】",[taskArray[indexPath.row] ExpDate]];
-            CGRect frame = cell.textLabel.frame;
-            frame.size.width = 160;
-            cell.textLabel.frame = frame;
             
             
+            cell.pubModel = taskArray[indexPath.row];
+
+//            
+//            
             break;
         case 2:
             

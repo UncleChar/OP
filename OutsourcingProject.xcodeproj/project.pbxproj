@@ -528,6 +528,7 @@
 		DBB0C1661C849AFF00C7F058 /* SendingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1651C849AFF00C7F058 /* SendingDetailViewController.m */; };
 		DBB0C1691C85D03900C7F058 /* NotiDetialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1681C85D03900C7F058 /* NotiDetialViewController.m */; };
 		DBB0C16C1C872DB000C7F058 /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C16B1C872DB000C7F058 /* ForgetPwdViewController.m */; };
+		DBB0C1701C88816300C7F058 /* IndexPubTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C16F1C88816300C7F058 /* IndexPubTableViewCell.m */; settings = {ASSET_TAGS = (); }; };
 		DBB51B141C82031100B5DC1A /* FuckingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B131C82031100B5DC1A /* FuckingViewController.m */; };
 		DBB51B171C83130000B5DC1A /* AddConsultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B161C83130000B5DC1A /* AddConsultViewController.m */; };
 		DBB51B1A1C83261800B5DC1A /* FinalDetailContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B191C83261800B5DC1A /* FinalDetailContentViewController.m */; };
@@ -1366,6 +1367,8 @@
 		DBB0C1681C85D03900C7F058 /* NotiDetialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotiDetialViewController.m; sourceTree = "<group>"; };
 		DBB0C16A1C872DB000C7F058 /* ForgetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgetPwdViewController.h; sourceTree = "<group>"; };
 		DBB0C16B1C872DB000C7F058 /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
+		DBB0C16E1C88816300C7F058 /* IndexPubTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexPubTableViewCell.h; sourceTree = "<group>"; };
+		DBB0C16F1C88816300C7F058 /* IndexPubTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexPubTableViewCell.m; sourceTree = "<group>"; };
 		DBB51B121C82031100B5DC1A /* FuckingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuckingViewController.h; sourceTree = "<group>"; };
 		DBB51B131C82031100B5DC1A /* FuckingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuckingViewController.m; sourceTree = "<group>"; };
 		DBB51B151C83130000B5DC1A /* AddConsultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddConsultViewController.h; sourceTree = "<group>"; };
@@ -2503,6 +2506,7 @@
 		DB0829201C7760690043FE30 /* IndexControllers */ = {
 			isa = PBXGroup;
 			children = (
+				DBB0C16D1C88813600C7F058 /* IndexViews */,
 				9D054B651C7C32BA003FB2C6 /* IndexViewController.h */,
 				9D054B661C7C32BA003FB2C6 /* IndexViewController.m */,
 				9D054B521C7C310A003FB2C6 /* Index_PublicNotification */,
@@ -2761,6 +2765,15 @@
 				DB6B3C711C781A6B00F0CB62 /* Utility.m */,
 			);
 			path = Segument;
+			sourceTree = "<group>";
+		};
+		DBB0C16D1C88813600C7F058 /* IndexViews */ = {
+			isa = PBXGroup;
+			children = (
+				DBB0C16E1C88816300C7F058 /* IndexPubTableViewCell.h */,
+				DBB0C16F1C88816300C7F058 /* IndexPubTableViewCell.m */,
+			);
+			path = IndexViews;
 			sourceTree = "<group>";
 		};
 		DBC9970C1C809EDD000525A3 /* WorkModels */ = {
@@ -3643,6 +3656,7 @@
 				9D82A5CF1C7578730072E354 /* MJRefreshHeader.m in Sources */,
 				9D054B611C7C3242003FB2C6 /* userDetailInfoViewController.m in Sources */,
 				9D82A7161C75C5D90072E354 /* SDImageCache.m in Sources */,
+				DBB0C1701C88816300C7F058 /* IndexPubTableViewCell.m in Sources */,
 				9D7A24C11C7AC67C0022375A /* UUDatePicker.m in Sources */,
 				9D82A5D11C7578730072E354 /* MJRefreshAutoNormalFooter.m in Sources */,
 				DBC997121C80A390000525A3 /* IndexNotiModel.m in Sources */,
@@ -3812,7 +3826,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "47730a08-06f4-410a-8e4c-52723aa28fa1";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -3829,7 +3843,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "47730a08-06f4-410a-8e4c-52723aa28fa1";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
