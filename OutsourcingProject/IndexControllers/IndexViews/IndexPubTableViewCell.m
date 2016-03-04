@@ -7,8 +7,11 @@
 //
 
 #import "IndexPubTableViewCell.h"
-#import "IndexNotiModel.h"
+
 #import "TaskModel.h"
+#import "NotiModel.h"
+#import "ActivityModel.h"
+//#import ""
 @interface IndexPubTableViewCell ()
 {
     
@@ -27,7 +30,7 @@
         
         //        self.backgroundColor = [ConfigUITools colorRandomly];
         self.backgroundColor = [UIColor whiteColor];
-        
+        self.selectionStyle = 0;
         [self creatSelectBtn];
         
     }
@@ -40,51 +43,69 @@
     
 
     
-    nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(5, 0, kScreenWidth / 2 -  10 , 40)];
+    nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, kScreenWidth / 3 * 2   -15, 40)];
     [nameLabel setTextColor:[UIColor whiteColor]];
     nameLabel.textColor = [UIColor blackColor];
-    //    emailLabel.font = [UIFont systemFontOfSize:16];
+    nameLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    nameLabel.font = [UIFont systemFontOfSize:15];
     [self.contentView addSubview:nameLabel];
     
-    urgLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth / 2 + 10 , 40, kScreenWidth / 2 - 15, 40)];
+    urgLabel = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth / 3 * 2 + 5 , 0, kScreenWidth / 3 - 15, 40)];
     [urgLabel setTextColor:[UIColor whiteColor]];
+    urgLabel.textAlignment = 2;
     urgLabel.font = [UIFont systemFontOfSize:13];
-    urgLabel.textColor = [UIColor grayColor];
+    urgLabel.textColor = [UIColor blackColor];
     [self.contentView addSubview:urgLabel];
   
 }
 
 - (void)setPubModel:(id)pubModel {
 
-    if ([pubModel isKindOfClass:[IndexNotiModel class]]) {
+
+    if ([pubModel isMemberOfClass:[NotiModel class]]) {
         
         nameLabel.text = [pubModel chtopic];
         urgLabel.text = [NSString stringWithFormat:@"[ %@ ]",[pubModel urgLevel]];
         if ([[pubModel urgLevel] isEqualToString:@"急"]) {
             
             urgLabel.textColor = [UIColor orangeColor];
+            nameLabel.textColor = [UIColor orangeColor];
 
         }else if([[pubModel urgLevel] isEqualToString:@"一般"]) {
             
-               urgLabel.textColor = [UIColor grayColor];
+            urgLabel.textColor = [UIColor blackColor];
+            nameLabel.textColor = [UIColor blackColor];
             
         }else {
             
             
                 urgLabel.textColor = [UIColor redColor];
+                nameLabel.textColor = [UIColor redColor];
             
         }
         
     }
     
-    if ([pubModel isKindOfClass:[TaskModel class]]) {
+    if ([pubModel isMemberOfClass:[TaskModel class]]) {
         
         
         nameLabel.text = [pubModel chtopic];
         urgLabel.text = [NSString stringWithFormat:@"[ %@ ]",[pubModel ExpDate]];
-       
-          urgLabel.textColor = [UIColor grayColor];
+        urgLabel.textColor = [UIColor blackColor];
+        nameLabel.textColor = [UIColor blackColor];
+
     }
+    
+    if ([pubModel isMemberOfClass:[ActivityModel class]]) {
+        
+        
+        nameLabel.text = [pubModel ChTopic];
+        urgLabel.text = [NSString stringWithFormat:@"[ %@ ]",[pubModel sendDate]];
+        
+        urgLabel.textColor = [UIColor blackColor];
+        nameLabel.textColor = [UIColor blackColor];
+    }
+
 
 
 }

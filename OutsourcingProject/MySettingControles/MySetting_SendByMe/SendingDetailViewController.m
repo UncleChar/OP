@@ -9,6 +9,12 @@
 #import "SendingDetailViewController.h"
 
 @interface SendingDetailViewController ()
+{
+    
+    ReturnValueBlock returnBlock;
+    UILabel *dateLabel;
+    
+}
 @property (nonatomic, strong) UIScrollView *backgroungScrollView;
 @end
 
@@ -61,59 +67,118 @@
     senderLabel.backgroundColor = [UIColor whiteColor];
     [self.backgroungScrollView addSubview:senderLabel];
     
-    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, height+ 44, kScreenWidth, 40)];
+    dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, height+ 44, kScreenWidth, 40)];
     dateLabel.text = [NSString stringWithFormat:@"  发送时间:       %@",self.sendDate];
     //    titleLabel1.textAlignment = 1;
     dateLabel.backgroundColor = [UIColor whiteColor];
     [self.backgroungScrollView addSubview:dateLabel];
+    
+    [self handleRequsetDetaiDate];
+    
+    [self NotiDetailWithType:@"fachudetongzhi" chid:[self.chID integerValue]];
+   
+}
+
+
+- (void)configAfterData:(NSDictionary *)dict {
+
+       NSString *conten = [dict objectForKey:@"chContent"];
+
+       UITextView *showView = [[UITextView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(dateLabel.frame) + 1, kScreenWidth, kScreenHeight- CGRectGetMaxY(dateLabel.frame) - 1 - 64 )];
+    
+    //    [showWebView sizeToFit];
+    //    showWebView.scalesPageToFit = YES;
+        //        [showWebView sizeToFit];
+        //        showWebView.scalesPageToFit = YES;
+        showView.text = conten;
+        showView.font = OPFont(16);
+        [showView setEditable:NO];
+        [self.view addSubview:showView];
+    
+    
 
     
-    UILabel *receiptLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, height+ 85, kScreenWidth, 40)];
-    receiptLabel.text = [NSString stringWithFormat:@"  回执时间:       %@",self.isReceipt];
-    //    titleLabel1.textAlignment = 1;
-    receiptLabel.backgroundColor = [UIColor whiteColor];
-    [self.backgroungScrollView addSubview:receiptLabel];
+}
+
+- (void)handleRequsetDetaiDate {
     
     
-    
-    NSString *conten = [self.chContent htmlEntityDecode];
-//    // 计算model.desc文字的高度
-//    CGFloat descLabelHeight = [ConfigUITools calculateTextHeight:conten size:CGSizeMake(kScreenWidth, MAXFLOAT) font:OPFont(14.0f)];
-//
-//    CGFloat height1;
-//    if (descLabelHeight <40.0) {
-//        
-//        height1 = 40;
-//        
-//    }else {
-//    
-//        height1 = descLabelHeight;
-//        
-//    }
-    
-//    UITextView *contentView = [[UITextView alloc]initWithFrame:CGRectMake(0, 176, kScreenWidth , height1)];
-//    contentView.text = conten;
-//    contentView.backgroundColor = [UIColor whiteColor];
-//    contentView.font = OPFont(14.0);
-//    [self.backgroungScrollView addSubview:contentView];
-    
-    
-   UITextView *showWebView = [[UITextView alloc] initWithFrame:CGRectMake(0, height + 127, kScreenWidth, kScreenHeight- height- 127 - 64 )];
-    
-//    [showWebView sizeToFit];
-//    showWebView.scalesPageToFit = YES;
-    //        [showWebView sizeToFit];
-    //        showWebView.scalesPageToFit = YES;
-    showWebView.text = conten;
-    [showWebView setEditable:NO];
-    [self.view addSubview:showWebView];
-//    [showWebView loadHTMLString:self.chContent baseURL:[NSURL URLWithString:@"www.baidu.com"]];
-    
-//     [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(contentView.frame) + 25 forStepsH:0];
+    __weak typeof (self) weakSelf = self;
+    returnBlock = ^(id resultValue){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            
+            
+            
+            
+            
+            
+            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]) {
+                 [SVProgressHUD showErrorWithStatus:@"没有数据哦"];
+                OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]);
+                
+                
+            }else {
+                
+                SBJSON *jsonParser = [[SBJSON alloc] init];
+                NSError *parseError = nil;
+                NSString *str  =   [[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"] ;
+                //                NSLog(@"ssss %@",str);
+                str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                NSDictionary * result = [jsonParser objectWithString:str
+                                                               error:&parseError];
+                NSLog(@"jsonParserresult:%@",[result objectForKey:@"rows"]);
+                NSDictionary *detailDict = [result objectForKey:@"rows"][0];
+                
+                [weakSelf configAfterData:detailDict];
+
+                
+            }
+            
+        });
+        
+        
+        
+    };
     
 }
 
 
+- (void)NotiDetailWithType:(NSString *)type chid:(NSInteger)cid {
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        //        [SVProgressHUD showWithStatus:@"增在加载..."];
+        NSString * requestBody = [NSString stringWithFormat:
+                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                  "<soap12:Envelope "
+                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+                                  "<soap12:Body>"
+                                  "<GetJsonContentData xmlns=\"Net.GongHuiTong\">"
+                                  "<logincookie>%@</logincookie>"
+                                  "<datatype>%@</datatype>"
+                                  "<ChID>%ld</ChID>"
+                                  " </GetJsonContentData>"
+                                  "</soap12:Body>"
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)cid];
+
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonContentDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+        
+    }
+    
+    
+    
+}
 
 
 @end

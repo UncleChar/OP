@@ -22,4 +22,5 @@
 @property (nonatomic, strong) NSString *senderIconpic;
 @property (nonatomic, strong) NSString *senderName;
 @property (nonatomic, strong) NSString *urgLevel;
+//@property (nonatomic, strong) NSString *receiptDate;
 @end

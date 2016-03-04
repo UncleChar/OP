@@ -14,5 +14,7 @@
 @property (nonatomic, strong) NSString *isReceipt;
 @property (nonatomic, strong) NSString *ChTopic;
 @property (nonatomic, strong) NSString *chContent;
+@property (nonatomic, strong) NSString *chID;
+@property (nonatomic, strong) NSString *receiptDate;
 
 @end

@@ -49,25 +49,17 @@
     [super viewDidLoad];
     self.title = @"通知详情";
     self.view.backgroundColor = [UIColor whiteColor];
-    
-//    _backgroungScrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-//    _backgroungScrollView.backgroundColor = [UIColor whiteColor];
-//    _backgroungScrollView.userInteractionEnabled = YES;
-//    [self.view addSubview:_backgroungScrollView];
-//    [DaiDodgeKeyboard addRegisterTheViewNeedDodgeKeyboard:_backgroungScrollView];
 
-    if (self.headTag == 0) {
+    [DaiDodgeKeyboard addRegisterTheViewNeedDodgeKeyboard:self.view];
+
+   
         
         titleView = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kTitleH)];
         titleView.textAlignment = 1;
         titleView.font = [UIFont boldSystemFontOfSize:17];
         titleView.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:titleView];
-        
 
-        
-       
-        
         _senderLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(titleView.frame), kScreenWidth, kLabelH)];
         _senderLabel.text =   [NSString stringWithFormat:@"  通知发送者:    %@",@""];
         //    titleLabel.textAlignment = 1;
@@ -82,7 +74,7 @@
 
         
         dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_senderLabel.frame), kScreenWidth, kLabelH)];
-        dateLabel.text = [NSString stringWithFormat:@"  发送时间:       %@",@""];
+        dateLabel.text = [NSString stringWithFormat:@"  发送时间:         %@",@""];
         //    titleLabel1.textAlignment = 1;
         dateLabel.font = OPFont(16);
         dateLabel.backgroundColor = [UIColor whiteColor];
@@ -90,8 +82,15 @@
 
         
         publicDateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(dateLabel.frame), kScreenWidth, kLabelH)];
-        publicDateLabel.text = [NSString stringWithFormat:@"  回执时间:       %@",@""];
-
+        
+        if (_modelTag == 0) {
+            
+             publicDateLabel.text = [NSString stringWithFormat:@"  回执时间:         %@",@""];
+        }
+        if (_modelTag == 1) {
+            
+             publicDateLabel.text = [NSString stringWithFormat:@"  完成期限:         %@",@""];
+        }
         publicDateLabel.font = OPFont(16);
         publicDateLabel.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:publicDateLabel];
@@ -113,9 +112,7 @@
         [contentView setEditable:NO];
         [contentBackView addSubview:contentView];
 
-        
-        
-        
+
         quickSelectedBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth/3 * 2 - 5, CGRectGetMaxY(contentBackView.frame) + 3, kScreenWidth / 3, kAnswerH / 4)];
         [quickSelectedBtn setBackgroundImage:[UIImage imageNamed:@"形状副本-拷贝"] forState:UIControlStateNormal];
         quickSelectedBtn.layer.cornerRadius = 4;
@@ -140,12 +137,12 @@
         _taskContentTView.layer.cornerRadius = 4;
         _taskContentTView.layer.masksToBounds = 1;
         [textBackView addSubview:_taskContentTView];
+
+    
+    if (_modelTag == 0) {
+    
         
-        
-       
-        
-        
-        okBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(textBackView.frame) + 5, kScreenWidth - 40, kSubmitH / 2)];
+        okBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(textBackView.frame) + kSubmitH / 2 - kSubmitH / 10 * 3.5 / 2, kScreenWidth - 40, kSubmitH / 10 * 3.5)];
         okBtn.backgroundColor = kBtnColor;
         [okBtn setTitle:@"回复" forState:UIControlStateNormal];
         //    deleteBtn.layer.cornerRadius = 25;
@@ -158,209 +155,78 @@
         [okBtn addTarget:self action:@selector(shouBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:okBtn];
         
+    }
+    if (_modelTag == 1) {
+    
+        okBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(textBackView.frame) + kSubmitH / 10, kScreenWidth - 40, kSubmitH / 10 * 3.5)];
+        okBtn.backgroundColor = kBtnColor;
+        [okBtn setTitle:@"回复" forState:UIControlStateNormal];
+        //    deleteBtn.layer.cornerRadius = 25;
+        //    deleteBtn.layer.masksToBounds = 1;
+        okBtn.titleLabel.font = OPFont(16);
+        okBtn.tag = 201;
+        [okBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        okBtn.layer.cornerRadius = 4;
+        okBtn.layer.masksToBounds = 1;
+        [okBtn addTarget:self action:@selector(shouBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:okBtn];
         
-//        [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(okBtn.frame) + 25 forStepsH:0];
-        
-        
+        quckBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(okBtn.frame) + kSubmitH / 10, kScreenWidth - 40, kSubmitH / 10 * 3.5)];
+        quckBtn.backgroundColor = kBtnColor;
+        [quckBtn setTitle:@"回复并完成" forState:UIControlStateNormal];
+        quckBtn.titleLabel.font = OPFont(16);
+        quckBtn.tag = 202;
+        [quckBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        quckBtn.layer.cornerRadius = 4;
+        quckBtn.layer.masksToBounds = 1;
+        [quckBtn addTarget:self action:@selector(shouBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:quckBtn];
+
+    
+    
+    }
+
         [self handleRequsetDetaiDate];
-        [self NotiDetailWithType:@"qitatongzhi" chid:[self.ChID integerValue]];
+    
+    if (_modelTag == 0) {
         
+         [self NotiDetailWithType:@"qitatongzhi" chid:[self.ChID integerValue]];
+    }
+    if (_modelTag == 1) {
+        
+         [self NotiDetailWithType:@"shoudaodegongzuorenwu" chid:[self.ChID integerValue]];
     }
     
-//    if (self.headTag == 1) {
-//        
-//        titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 1, kScreenWidth, 50)];
-//        titleLabel.text =[NSString stringWithFormat:@"%@",self.ChTopic];
-//        titleLabel.textAlignment = 1;
-//        titleLabel.font = [UIFont boldSystemFontOfSize:17];
-//        titleLabel.backgroundColor = [UIColor whiteColor];
-//        [self.backgroungScrollView addSubview:titleLabel];
-//        
-//        UIView  *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 51, kScreenWidth, 2)];
-//        lineView.backgroundColor = [UIColor orangeColor];
-//        [titleLabel addSubview:lineView];
-//        
-//        _senderLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 53, kScreenWidth, 40)];
-//        _senderLabel.text =   [NSString stringWithFormat:@"  通知发送者:    %@",@"---"];
-//        //    titleLabel.textAlignment = 1;
-//        _senderLabel.font = OPFont(16);
-//        _senderLabel.backgroundColor = [UIColor whiteColor];
-//        [self.backgroungScrollView addSubview:_senderLabel];
-//        
-//        dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 94, kScreenWidth, 40)];
-//        dateLabel.text = [NSString stringWithFormat:@"  发送时间:       %@",self.aSendDate];
-//        //    titleLabel1.textAlignment = 1;
-//        dateLabel.font = OPFont(16);
-//        dateLabel.backgroundColor = [UIColor whiteColor];
-//        [self.backgroungScrollView addSubview:dateLabel];
-//        
-//        
-//        repeatLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 135, kScreenWidth, 40)];
-//     
-//        repeatLabel.text = [NSString stringWithFormat:@"  完成期限:       %@",self.ExpDate];
-//       
-//        
-//        repeatLabel.font = OPFont(16);
-//        repeatLabel.backgroundColor = [UIColor whiteColor];
-//        [self.backgroungScrollView addSubview:repeatLabel];
-//        
-////        // 计算model.desc文字的高度
-////        NSString *str = [self.ChTopic htmlEntityDecode];
-////        CGFloat descLabelHeight = [ConfigUITools calculateTextHeight:str size:CGSizeMake(kScreenWidth, MAXFLOAT) font:OPFont(16)];
-////        
-////        CGFloat height;
-////        if (descLabelHeight <40.0) {
-////            
-////            height = 40;
-////            
-////        }else {
-////            
-////            height = descLabelHeight;
-////            
-////        }
-//        contentLabel = [[UITextView alloc]init];
-//        contentLabel.frame =CGRectMake(0, 176, kScreenWidth , 40);
-//        contentLabel.text =@"";
-//        contentLabel.backgroundColor = [UIColor whiteColor];
-//        contentLabel.font = OPFont(16);
-//        [self.backgroungScrollView addSubview:contentLabel];
-//        OPLog(@"ff %f",CGRectGetMaxY(contentLabel.frame));
-//        backView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(contentLabel.frame)+ 1, kScreenWidth, 50)];
-//        backView.backgroundColor = [UIColor whiteColor];
-//        [self.backgroungScrollView addSubview:backView];
-//        
-//
-//        deleteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth/3 * 2 - 5, 5, kScreenWidth / 3, 40)];
-//        [deleteBtn setBackgroundImage:[UIImage imageNamed:@"形状副本-拷贝"] forState:UIControlStateNormal];
-//        deleteBtn.layer.cornerRadius = 4;
-//        deleteBtn.layer.masksToBounds = 1;
-//        [deleteBtn setTitle:@"快速回复" forState:UIControlStateNormal];
-//        deleteBtn.titleLabel.font = OPFont(16);
-//        deleteBtn.tag = 200;
-//        [deleteBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-//        [deleteBtn addTarget:self action:@selector(shouBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//        [backView addSubview:deleteBtn];
-//        
-//        textBackView = [[UIView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(backView.frame)+1, kScreenWidth - 20, 100)];
-//        textBackView.backgroundColor = [UIColor grayColor];
-//        textBackView.layer.cornerRadius = 4;
-//        textBackView.layer.masksToBounds = 1;
-//        [_backgroungScrollView addSubview:textBackView];
-//        
-//        _taskContentTView = [[UITextView alloc]init];
-//        //    _contentTView.backgroundColor = kTestColor;
-//        _taskContentTView.frame = CGRectMake(1, 1, kScreenWidth - 22, CGRectGetHeight(textBackView.frame) - 2);
-//        _taskContentTView.font = [UIFont systemFontOfSize:14];
-//        _taskContentTView.layer.cornerRadius = 4;
-//        _taskContentTView.layer.masksToBounds = 1;
-//        [textBackView addSubview:_taskContentTView];
-//
-//        
-//        okBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(textBackView.frame) + 5, kScreenWidth - 40, 40)];
-//        okBtn.backgroundColor = kBtnColor;
-//        [okBtn setTitle:@"回复" forState:UIControlStateNormal];
-//        //    deleteBtn.layer.cornerRadius = 25;
-//        //    deleteBtn.layer.masksToBounds = 1;
-//        okBtn.titleLabel.font = OPFont(16);
-//        okBtn.tag = 201;
-//        [okBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//        okBtn.layer.cornerRadius = 4;
-//        okBtn.layer.masksToBounds = 1;
-//        [okBtn addTarget:self action:@selector(shouBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//        [_backgroungScrollView addSubview:okBtn];
-//        
-//        
-//        quckBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(okBtn.frame) + 5, kScreenWidth - 40, 40)];
-//        quckBtn.backgroundColor = kBtnColor;
-//        [quckBtn setTitle:@"回复并完成" forState:UIControlStateNormal];
-//        quckBtn.titleLabel.font = OPFont(16);
-//        quckBtn.tag = 202;
-//        [quckBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//        quckBtn.layer.cornerRadius = 4;
-//        quckBtn.layer.masksToBounds = 1;
-//        [quckBtn addTarget:self action:@selector(shouBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//        [_backgroungScrollView addSubview:quckBtn];
-//        [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(quckBtn.frame) + 25 forStepsH:0];
-//        
-//        
-//        [self handleRequsetDetaiDate];
-//        [self NotiDetailWithType:@"shoudaodegongzuorenwu" chid:[self.ChID integerValue]];
-//
-//    }
+    
+    
+    
    
 }
 - (void)configAfterData:(NSDictionary *)dict {
 
-    if (self.headTag == 0) {
+
         
         titleView.text = [dict objectForKey:@"ChTopic"];
         _senderLabel.text = [NSString stringWithFormat:@"  通知发送者:    %@",[dict objectForKey:@"senderName"]];
         dateLabel.text = [NSString stringWithFormat:@"  发送时间:    %@",[dict objectForKey:@"sendDate"]];
-        publicDateLabel.text =[NSString stringWithFormat:@"  回执时间:    %@",[dict objectForKey:@"receiptDate"]];
+        
+        if (_modelTag == 0) {
+            
+            publicDateLabel.text = [NSString stringWithFormat:@"  回执时间:       %@",[dict objectForKey:@"receiptDate"]];
+        }
+        if (_modelTag == 1) {
+            
+            publicDateLabel.text = [NSString stringWithFormat:@"  完成期限:       %@",[dict objectForKey:@"ExpDate"]];
+        }
         
         NSString *str = [[dict objectForKey:@"chContent"] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
-        
-//        CGFloat descLabelHeight = [ConfigUITools calculateTextHeight:str size:CGSizeMake(kScreenWidth, MAXFLOAT) font:OPFont(16)];
-//        
-//        CGFloat height;
-//        if (descLabelHeight <40.0) {
-//            
-//            height = 40;
-//            
-//        }else {
-//            
-//            height = descLabelHeight;
-//            
-//        }
 
         contentView.text = [dict objectForKey:@"chContent"];
         
         UIView  *lineView1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
         lineView1.backgroundColor = [ConfigUITools colorWithR:77 G:184 B:73 A:1];
         [backView addSubview:lineView1];
-        
-//        textBackView.frame =CGRectMake(10, CGRectGetMaxY(backView.frame)+1, kScreenWidth - 20, 100);
-        
-//        okBtn.frame = CGRectMake(20, CGRectGetMaxY(textBackView.frame) + 5, kScreenWidth - 40, 40);
-        
-//        [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(okBtn.frame) + 25 forStepsH:0];
-   
-    }
-    
-//    if (self.headTag == 1) {
-//        
-//        titleLabel.text = [dict objectForKey:@"ChTopic"];
-//        _senderLabel.text = [NSString stringWithFormat:@"  通知发送者:    %@",[dict objectForKey:@"senderName"]];
-//        dateLabel.text = [NSString stringWithFormat:@"  发送时间:    %@",[dict objectForKey:@"sendDate"]];
-//        repeatLabel.text =[NSString stringWithFormat:@"  完成期限:    %@",[dict objectForKey:@"ExpDate"]];
-//        NSString *str = [[dict objectForKey:@"chContent"] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
-//        
-//        CGFloat descLabelHeight = [ConfigUITools calculateTextHeight:str size:CGSizeMake(kScreenWidth, MAXFLOAT) font:OPFont(16)];
-//        
-//        CGFloat height;
-//        if (descLabelHeight <40.0) {
-//            
-//            height = 40;
-//            
-//        }else {
-//            
-//            height = descLabelHeight;
-//            
-//        }
-//        contentLabel.frame =CGRectMake(0, 176, kScreenWidth , height);
-//        contentLabel.text = [dict objectForKey:@"chContent"];
-//        backView.frame =CGRectMake(0, CGRectGetMaxY(contentLabel.frame)+ 1, kScreenWidth, 50);
-//        UIView  *lineView1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 1)];
-//        lineView1.backgroundColor = [ConfigUITools colorWithR:77 G:184 B:73 A:1];
-//        [backView addSubview:lineView1];
-//        
-//        textBackView.frame =CGRectMake(10, CGRectGetMaxY(backView.frame)+1, kScreenWidth - 20, 100);
-//        
-//        okBtn.frame = CGRectMake(20, CGRectGetMaxY(textBackView.frame) + 5, kScreenWidth - 40, 40);
-//        
-//        [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(okBtn.frame) + 25 forStepsH:0];
-//        
-//    }
+
 }
 
 
@@ -519,10 +385,14 @@
                 
                 SBJSON *jsonParser = [[SBJSON alloc] init];
                 NSError *parseError = nil;
-                NSDictionary * result = [jsonParser objectWithString:[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]
+                NSString *str  =   [[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"] ;
+//                NSLog(@"ssss %@",str);
+                str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                NSDictionary * result = [jsonParser objectWithString:str
                                                                error:&parseError];
                 NSLog(@"jsonParserresult:%@",[result objectForKey:@"rows"]);
                 NSDictionary *detailDict = [result objectForKey:@"rows"][0];
+                
                 
                 [weakSelf configAfterData:detailDict];
                 
@@ -584,7 +454,7 @@
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
 
-    [_backgroungScrollView endEditing:YES];
+    [self.view endEditing:YES];
 
 }
 

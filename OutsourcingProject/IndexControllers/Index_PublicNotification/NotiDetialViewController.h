@@ -21,7 +21,7 @@ typedef void(^DeleteBlock)( NSInteger tag);
 @property (nonatomic, strong) NSString *ChTopic;
 @property (nonatomic, strong) NSString *chContent;
 @property (nonatomic, strong) DeleteBlock deleteBlock;
-@property (nonatomic, assign) NSInteger headTag;
+@property (nonatomic, assign) NSInteger modelTag;
 @property (nonatomic, strong) NSString *ChID;
 
 

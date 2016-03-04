@@ -19,7 +19,7 @@
 #import "PublicNoticeViewController.h"
 #import "MyShowViewController.h"
 #import "UserDeptViewController.h"
-
+#import "SendOfficialViewController.h"
 
 #define kHeight 40
 #define kFont  15
@@ -330,12 +330,18 @@
         
     }
     if ([modelName isEqualToString:@"公文收文"]) {
+//        fld_41_14=43
         
-//        modelCopntroller = [[ScheduleViewController alloc]init];
+        SendOfficialViewController *offRec = [[SendOfficialViewController alloc]init];
+        offRec.filter = @"fld_41_14=43";
+        offRec.subTitle = @"公文收文";
+        modelCopntroller = offRec;
     }
     if ([modelName isEqualToString:@"公文发文"]) {
-        
-//        modelCopntroller = [[ScheduleViewController alloc]init];
+        SendOfficialViewController *offSen = [[SendOfficialViewController alloc]init];
+        offSen.filter = @"fld_41_14=44";
+        offSen.subTitle = @"公文发文";
+        modelCopntroller = offSen;
     }
     if ([modelName isEqualToString:@"成果展示"]) {
         

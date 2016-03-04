@@ -123,6 +123,7 @@
     
     _avatarImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth / 6, kScreenWidth / 6)];
     _avatarImgView.center =CGPointMake(kScreenWidth / 12 + 20, kScreenWidth * 0.33 / 2);
+    _avatarImgView.userInteractionEnabled = 1;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(takePictureClick:)];
     [_avatarImgView addGestureRecognizer:tap];
@@ -152,7 +153,7 @@
     
     
     _organizeLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_avatarImgView.frame) + 20, CGRectGetMidY(_avatarImgView.frame) - 15, kScreenWidth - CGRectGetMaxX(_avatarImgView.frame) - 20 - 20, 30)];
-    _organizeLabel.text = [[NSUserDefaults standardUserDefaults]objectForKey:@"deptname"];
+    _organizeLabel.text = [[NSUserDefaults standardUserDefaults]objectForKey:@"xingming"];
 
     [_headImaView addSubview:_organizeLabel];
     return _headImaView;
@@ -258,7 +259,7 @@
 
 
 //从相册获取图片
--(void)takePictureClick:(UIButton *)sender
+-(void)takePictureClick:(UITapGestureRecognizer *)sender
 {
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择头像来源" message:nil preferredStyle:UIAlertControllerStyleActionSheet];

@@ -20,6 +20,7 @@
 #import "NotiDetialViewController.h"
 #import "NotiModel.h"
 #import "TaskModel.h"
+#import "ActivityModel.h"
 #import "IndexPubTableViewCell.h"
 
 #define kBtnMargin ([UIScreen mainScreen].bounds.size.width - 4 * 50) / 5
@@ -252,25 +253,25 @@
         case 0:
             
             numberOfRows = notiArray.count;
-//            numberOfRows = 3;
+
             
             break;
         case 1:
             
             numberOfRows = taskArray.count;
-//            numberOfRows = 4;
+
             
             break;
         case 2:
             
             numberOfRows = scheduleArray.count;
-//            numberOfRows = 1;
+
             
             break;
         case 3:
             
             numberOfRows = activeArray.count;
-//            numberOfRows = 5;
+
             
             break;
             
@@ -285,12 +286,12 @@
     
     static NSString *cellID = @"cell";
     
-//    IndexPubTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-//    if (nil == cell) {
+    IndexPubTableViewCell *cell = (IndexPubTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellID];
+    if (nil == cell) {
     
-        IndexPubTableViewCell *cell = [[IndexPubTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-//    }
-    
+        cell = [[IndexPubTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+    }
+
     switch (indexPath.section) {
         case 0:
             
@@ -298,33 +299,24 @@
 
             break;
         case 1:
-            
-            
+ 
             cell.pubModel = taskArray[indexPath.row];
-
-//            
-//            
+           
             break;
         case 2:
-            
-            
+
             break;
         case 3:
             
+            cell.pubModel = activeArray[indexPath.row];
             
             break;
             
         default:
             break;
     }
+
     
-//    cell.imageView.image = [UIImage imageNamed:@"icon"];
-
-//    cell.imageView.layer.cornerRadius = 24;
-//    cell.imageView.layer.masksToBounds = 1;
-//    [cell setSelected:YES animated:YES];
-
-    cell.selectionStyle = 0;
     return cell;
 }
 
@@ -399,7 +391,7 @@
         {
             NotiDetialViewController *noti = [[NotiDetialViewController alloc]init];
             noti.ChID = [notiArray[indexPath.row] ChID];
-            noti.headTag = 0;
+            noti.modelTag = 0;
             [self.navigationController pushViewController:noti animated:YES];
         }
             break;
@@ -407,7 +399,7 @@
         {
         
             NotiDetialViewController *noti = [[NotiDetialViewController alloc]init];
-            noti.headTag = 1;
+            noti.modelTag = 1;
             noti.ChID = [taskArray[indexPath.row] ChID];
             noti.ExpDate = [taskArray[indexPath.row] ExpDate];
             [self.navigationController pushViewController:noti animated:YES];
@@ -559,7 +551,7 @@
                             
                             if (q <= 3) {
                                 
-                                TaskModel  *model = [[TaskModel alloc]init];
+                                ActivityModel  *model = [[ActivityModel alloc]init];
                                 [model setValuesForKeysWithDictionary:dict];
                                 [activeArray addObject:model];
                                 q ++;
