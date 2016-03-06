@@ -534,6 +534,7 @@
 		DBB0C1691C85D03900C7F058 /* NotiDetialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1681C85D03900C7F058 /* NotiDetialViewController.m */; };
 		DBB0C16C1C872DB000C7F058 /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C16B1C872DB000C7F058 /* ForgetPwdViewController.m */; };
 		DBB0C1701C88816300C7F058 /* IndexPubTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C16F1C88816300C7F058 /* IndexPubTableViewCell.m */; };
+		DBB0C1731C89C0AF00C7F058 /* OfficialDeatilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1721C89C0AF00C7F058 /* OfficialDeatilViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DBB51B141C82031100B5DC1A /* FuckingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B131C82031100B5DC1A /* FuckingViewController.m */; };
 		DBB51B171C83130000B5DC1A /* AddConsultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B161C83130000B5DC1A /* AddConsultViewController.m */; };
 		DBB51B1A1C83261800B5DC1A /* FinalDetailContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B191C83261800B5DC1A /* FinalDetailContentViewController.m */; };
@@ -1384,6 +1385,8 @@
 		DBB0C16B1C872DB000C7F058 /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
 		DBB0C16E1C88816300C7F058 /* IndexPubTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexPubTableViewCell.h; sourceTree = "<group>"; };
 		DBB0C16F1C88816300C7F058 /* IndexPubTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexPubTableViewCell.m; sourceTree = "<group>"; };
+		DBB0C1711C89C0AF00C7F058 /* OfficialDeatilViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfficialDeatilViewController.h; sourceTree = "<group>"; };
+		DBB0C1721C89C0AF00C7F058 /* OfficialDeatilViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfficialDeatilViewController.m; sourceTree = "<group>"; };
 		DBB51B121C82031100B5DC1A /* FuckingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuckingViewController.h; sourceTree = "<group>"; };
 		DBB51B131C82031100B5DC1A /* FuckingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuckingViewController.m; sourceTree = "<group>"; };
 		DBB51B151C83130000B5DC1A /* AddConsultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddConsultViewController.h; sourceTree = "<group>"; };
@@ -1845,6 +1848,8 @@
 				9D7369E11C7EBBD600271EC4 /* UnionWorkViewController.m */,
 				9D8303A21C898F5D00A2744C /* SendOfficialViewController.h */,
 				9D8303A31C898F5D00A2744C /* SendOfficialViewController.m */,
+				DBB0C1711C89C0AF00C7F058 /* OfficialDeatilViewController.h */,
+				DBB0C1721C89C0AF00C7F058 /* OfficialDeatilViewController.m */,
 			);
 			path = UnionWorkControlles;
 			sourceTree = "<group>";
@@ -3027,7 +3032,7 @@
 				TargetAttributes = {
 					9D82A5551C7568E50072E354 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = XP83374CHB;
+						DevelopmentTeam = LL8B8YCXA2;
 					};
 					9D82A56E1C7568E50072E354 = {
 						CreatedOnToolsVersion = 7.1.1;
@@ -3567,6 +3572,7 @@
 				DB0815A91C773CC800284FDB /* Reachability.m in Sources */,
 				9D7369E21C7EBBD600271EC4 /* UnionWorkViewController.m in Sources */,
 				9D82A73A1C75C6AC0072E354 /* UIView+SDExtension.m in Sources */,
+				DBB0C1731C89C0AF00C7F058 /* OfficialDeatilViewController.m in Sources */,
 				9D7369D51C7EAC2E00271EC4 /* ActivityViewController.m in Sources */,
 				9D82A6BB1C759E470072E354 /* MASCompositeConstraint.m in Sources */,
 				9D82A7231C75C5D90072E354 /* UIView+WebCacheOperation.m in Sources */,
@@ -3782,8 +3788,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3805,7 +3811,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "a4f16ba6-7431-4a6c-b88e-6658c32c1614";
+				PROVISIONING_PROFILE = "100d6be8-14b6-43b1-853f-478548e2c54b";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3828,8 +3834,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -3844,7 +3850,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "a4f16ba6-7431-4a6c-b88e-6658c32c1614";
+				PROVISIONING_PROFILE = "100d6be8-14b6-43b1-853f-478548e2c54b";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -3862,9 +3868,9 @@
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mm.gonghuitong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a4f16ba6-7431-4a6c-b88e-6658c32c1614";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -3879,9 +3885,9 @@
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mm.gonghuitong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a4f16ba6-7431-4a6c-b88e-6658c32c1614";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

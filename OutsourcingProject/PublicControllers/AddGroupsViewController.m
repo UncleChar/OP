@@ -11,7 +11,10 @@
 #define kHeight 40
 #define kFont  14
 @interface AddGroupsViewController ()<UITextFieldDelegate>
-
+{
+    
+    ReturnValueBlock returnBlock;
+}
 @property (nonatomic, strong) NSArray  *elementArray;
 
 @property (nonatomic, strong) UITextField  *groupNamesTF;
@@ -165,6 +168,19 @@
             
         case 1:
         {
+            
+//            _submitBtnBlock( YES);
+//            [self.navigationController popViewControllerAnimated:YES];
+
+        
+         
+             NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"tongxunlufenzu"};
+             NSLog(@"%@",[JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"DataType":@"通讯录",@"MemberCode":@"0",@"RealName":@"破破破",@"Phone":@"233423422323",@"Content":@"测试",@"Topic":@"垃圾"} fileNames:@[@"1",@"2  "] fileExtNames:@[@".jpg",@".jpg"] fileDesc:@[@"ceshi1",@"ceshi2"] fileData:@[@"adadadda",@"sdfddssfsddsffsf"]]);
+
+            
+            
+            [self handleRequsetDate];
+            [self submitAddUserWithType:@"tongxunlufenzu" xmlString:@""];
 
         }
             break;
@@ -174,6 +190,80 @@
     }
     
 }
+
+
+- (void)handleRequsetDate {
+    
+    __weak typeof(self) weakSelf = self;
+    returnBlock = ^(id resultValue){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"AddAppInfoResult"]);
+            OPLog(@"-show-%@",[[[resultValue lastObject] objectForKey:@"AddAppInfoResult"] class]);
+            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"AddAppInfoResult"]) {
+                
+            
+                
+                [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
+                
+            }else {
+                
+                
+                
+                NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"AddAppInfoResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+                
+                OPLog(@"----far--%@----------",[listDic objectForKey:@"rows"]);
+                
+            }
+        });
+        
+        
+    };
+    
+}
+
+
+- (void)submitAddUserWithType:(NSString *)type xmlString:(NSString *)xmlString
+{
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        //        [SVProgressHUD showWithStatus:@"增在加载..."];
+        NSString * requestBody = [NSString stringWithFormat:
+                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                  "<soap12:Envelope "
+                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+                                  "<soap12:Body>"
+                                  "<AddAppInfo xmlns=\"Net.GongHuiTong\">"
+                                  "<logincookie>%@</logincookie>"
+                                  "<datatype>%@</datatype>"
+                                  "<xmlinfo>%@</xmlinfo>"
+                                  " </AddAppInfo>"
+                                  "</soap12:Body>"
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,xmlString];
+        
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"AddAppInfoResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+        
+    }
+    
+    
+    
+}
+
+
+
 
 @end
 

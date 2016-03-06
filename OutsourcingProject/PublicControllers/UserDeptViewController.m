@@ -12,8 +12,10 @@
 #import "MKSelectArray.h"
 #import "MKTreeView.h"
 #define kPlistPath [NSHomeDirectory() stringByAppendingString:@"/Documents/usersTree.plist"]
+#define kPlistCusPath [NSHomeDirectory() stringByAppendingString:@"/Documents/usersCusTree.plist"]
 
-@interface UserDeptViewController ()<HorizontalMenuDelegate,UITextFieldDelegate,TreeDelegate>
+
+@interface UserDeptViewController ()<HorizontalMenuDelegate,UITextFieldDelegate,TreeDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView    *showTableView;
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) UIView         *topSearchView;
@@ -24,6 +26,11 @@
 
 @property (nonatomic, strong) UIView         *organizeStructureView;
 @property (nonatomic, strong) UIView         *customStructureView;
+
+@property (nonatomic, strong) UIView         *customB;
+@property (nonatomic, strong) UIView         *orgainB;
+
+@property (nonatomic, assign) NSInteger       requestTag;
 
 
 @end
@@ -38,6 +45,14 @@
     _menu.delegate = self;
     [self.view addSubview:_menu];
     
+//    _customB = [[UIView alloc]initWithFrame:self.view.frame];
+//    _customB.backgroundColor = kBackColor;
+//    [self.view addSubview:_customB];
+    
+//    _orgainB = [[UIView alloc]initWithFrame:self.view.frame];
+//    _orgainB.backgroundColor = kBackColor;
+//    [self.view addSubview:_orgainB];
+    
     [[[MKSelectArray sharedInstance] initObject].selectArray removeAllObjects];
 
     if (!_dataArray) {
@@ -45,6 +60,7 @@
         _dataArray = [NSMutableArray arrayWithCapacity:0];
         
     }
+    _requestTag = 0;
     
     [self configUIWith:self.isJump];
     
@@ -74,10 +90,11 @@
         blockBtn.frame = CGRectMake(30, CGRectGetMaxY(_organizeStructureView.frame) + 5 , kScreenWidth - 60, 40);
 //        [blockBtn setBackgroundImage:[UIImage imageNamed:@"矩形-9"] forState:UIControlStateNormal];
         blockBtn.backgroundColor = kBtnColor;
+        blockBtn.tag = 100;
         [blockBtn setTitle:@"选择" forState:UIControlStateNormal];
         blockBtn.layer.cornerRadius = 4;
         blockBtn.layer.masksToBounds = 1;
-        [self.view addSubview:blockBtn];
+        [_orgainB addSubview:blockBtn];
         
         
     }
@@ -91,13 +108,19 @@
 
 - (void)initViewsWithHeight:(CGFloat)height {
 
-    if (!_organizeStructureView) {
+    if (!_orgainB) {
         
-        _organizeStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, height)];
+        
+        _orgainB = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, kScreenHeight - 64-45)];
+        _orgainB.backgroundColor = kBackColor;
+        [self.view addSubview:_orgainB];
+        
+        _organizeStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, height)];
         _organizeStructureView.backgroundColor = kBackColor;
-        [self.view addSubview:_organizeStructureView];
+        [_orgainB addSubview:_organizeStructureView];
         
     }
+    
     
     
 }
@@ -134,7 +157,7 @@
             //ui需要回到主线程！！！！！
             dispatch_async(dispatch_get_main_queue(), ^{
                 
-                OPLog(@"000:%@",[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]);
+//                OPLog(@"000:%@",[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]);
                 OPLog(@"0class0:%@",[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] class]);
 
                 if ([[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] isEqualToString:@"用户未登录！"]) {
@@ -191,6 +214,7 @@
 //                        b1 ? OPLog(@"写入沙盒成功"):OPLog(@"写入沙盒失败");
                     
                         OPLog(@"%@",kPlistPath);
+                     OPLog(@"%@",listDic);
                         
                         
                         NSArray *dataArray = [[NSArray alloc] initWithContentsOfFile:kPlistPath];
@@ -298,15 +322,36 @@
                 }else {
                     
                     SBJSON *jsonParser = [[SBJSON alloc] init];
+                    NSString *string =[ [resultValue lastObject] objectForKey:@"GetTreeUserCusDeptResult"];
+//                    string = [string stringByReplacingOccurrencesOfString:@"  " withString:@""];
+                    
+                    
                     
                     NSError *parseError = nil;
-                    NSDictionary * result = [jsonParser objectWithString:[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]
+                    NSDictionary * result = [jsonParser objectWithString:string
                                                                    error:&parseError];
                     NSLog(@"jsonParserresult:%@",result);
                     if (result) {
                         
                         [SVProgressHUD showSuccessWithStatus:@"加载完成"];
                         
+                        
+                        //先获取到家目录。然后再拼接一个documents
+                        NSString *homePath = NSHomeDirectory();
+                        NSString *namePlitPath2 = [homePath stringByAppendingString:@"/Documents/usersCusTree.plist"];
+                        BOOL b1 = [result writeToFile:namePlitPath2 atomically:YES];
+                        //                        b1 ? OPLog(@"写入沙盒成功"):OPLog(@"写入沙盒失败");
+                        
+                        OPLog(@"%@",kPlistCusPath);
+                        
+                        
+                        NSArray *dataArray = [[NSArray alloc] initWithContentsOfFile:kPlistCusPath];
+                        //    OPLog(@"rrr %@",dataArray);
+                        //frame 尺寸 dataArray 数据源 haveHiddenSelectBtn 是否隐藏选择按钮 haveHeadView 是否有head isEqualX每个cell的x是否相等
+                        MKTreeView *view = [[MKTreeView instanceView] initTreeWithFrame:CGRectMake(0, 0, kScreenWidth, CGRectGetHeight(_customStructureView.frame) + 45) dataArray:dataArray haveHiddenSelectBtn:NO haveHeadView:NO isEqualX:NO];
+                        view.delegate = self;
+                        [_customStructureView addSubview:view];
+
                         
                         OPLog(@"%@",result);
                         
@@ -357,14 +402,15 @@
         case 0:
             
         {
-            if (_organizeStructureView) {
+            [[[MKSelectArray sharedInstance] initObject].selectArray removeAllObjects];
+            if (_orgainB) {
                 
-                _organizeStructureView.hidden = NO;
+                _orgainB.hidden = NO;
             }
             
-            if (_customStructureView) {
+            if (_customB) {
                 
-                _customStructureView.hidden = YES;
+                _customB.hidden = YES;
             }
         
         
@@ -373,26 +419,52 @@
             break;
         case 1:
             
-            if (_organizeStructureView ) {
+            [[[MKSelectArray sharedInstance] initObject].selectArray removeAllObjects];
+            if (_orgainB ) {
                
-                _organizeStructureView.hidden = YES;
+                _orgainB.hidden = YES;
             }
-            if (!_customStructureView) {
+            
+            if (!_customB) {
                 
-                _customStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, kScreenHeight - 160)];
-                _customStructureView.backgroundColor = kBackColor;
-                [self.view addSubview:_customStructureView];
+                
+                _customB = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, kScreenHeight - 64 - 45)];
+                _customB.backgroundColor = kBackColor;
+                [self.view addSubview:_customB];
+                
+                if (_isJump) {
+                    
+                    _customStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 110 - 50)];
+                    _customStructureView.backgroundColor = kBackColor;
+                    [_customB addSubview:_customStructureView];
+                    
+                    UIButton *blockBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                    [blockBtn addTarget:self action:@selector(blockBtn) forControlEvents:UIControlEventTouchUpInside];
+                    blockBtn.frame = CGRectMake(30, CGRectGetMaxY(_customStructureView.frame) + 5 , kScreenWidth - 60, 40);
+                    //        [blockBtn setBackgroundImage:[UIImage imageNamed:@"矩形-9"] forState:UIControlStateNormal];
+                    blockBtn.backgroundColor = kBtnColor;
+                    blockBtn.tag = 101;
+                    [blockBtn setTitle:@"选择" forState:UIControlStateNormal];
+                    blockBtn.layer.cornerRadius = 4;
+                    blockBtn.layer.masksToBounds = 1;
+                    [_customB addSubview:blockBtn];
+                }else {
+                    
+                    _customStructureView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight - 110)];
+                    _customStructureView.backgroundColor = kBackColor;
+                    [_customB addSubview:_customStructureView];
+                }
+
                 [self requestForCusDeptWithCheckType:@"checkbox" requestTag:1];
-             
                 
             }else {
             
-                _customStructureView.hidden = NO;
+                _customB.hidden = NO;
             
             
             }
             
-//            [AppEngineManager showTipsWithTitle:@"暂无数据"];
+
             
             break;
 
@@ -403,7 +475,6 @@
     
     
 }
-
 
 - (void)itemSelectInfo:(MKPeopleCellModel *)item
 {
@@ -422,7 +493,22 @@
 }
 - (void)editBtnClicked {
 
-    [self.navigationController pushViewController:[[AddGroupsViewController alloc]init] animated:YES];
+    AddGroupsViewController *addVC = [[AddGroupsViewController alloc]init];
+    
+    addVC.submitBtnBlock = ^(BOOL isSuccess){
+    
+        if (isSuccess) {
+            
+            [SVProgressHUD showSuccessWithStatus:@"DONE"];
+            
+        }else {
+        
+        
+        }
+    
+    };
+    
+    [self.navigationController pushViewController:addVC animated:YES];
 
 }
 - (void)backBack {
@@ -434,6 +520,12 @@
     }
 
     [self.navigationController popViewControllerAnimated:YES];
+    
+
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+
     
 
 }

@@ -114,7 +114,32 @@
     return self;
 
 }
+- (BOOL)treeView:(RATreeView *)treeView canEditRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo {
 
+
+    return YES;
+
+}
+
+- (void)treeView:(RATreeView *)treeView didDeselectRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo {
+
+
+    OPLog(@"ok?");
+
+}
+- (void)treeView:(RATreeView *)treeView didEndEditingRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo {
+
+    OPLog(@"delete");
+
+}
+- (void)treeView:(RATreeView *)treeView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo {
+
+    MKPeopleCellModel *model = item;
+    OPLog(@"%@   ----- name:%@",model.mobileID,model.name);
+    
+    OPLog(@"aaaaaaa");
+    
+}
 - (void)treeDataSetting
 {
     //根据自己的的数据源进行解析
@@ -128,35 +153,54 @@
         {
             NSArray *modelTwoArray = [[modelOneArray objectAtIndex:j] valueForKey:@"children"];
             NSMutableArray *mutableThree = [[NSMutableArray alloc] init];
-            for (int k = 0; k < modelTwoArray.count; k ++)
-            {
-                NSArray *modelThreeArray = [[modelTwoArray objectAtIndex:k] valueForKey:@"children"];
+            
+            if (modelTwoArray.count > 0) {
                 
-                if (modelThreeArray.count == 0)
+                for (int k = 0; k < modelTwoArray.count; k ++)
                 {
-                    MKPeopleCellModel *modelFour = [MKPeopleCellModel dataObjectWithName:[[modelTwoArray objectAtIndex:k] valueForKey:@"name"] children:nil];
-                    modelFour.pId = [[modelTwoArray objectAtIndex:k] valueForKey:@"pId"];
-                    modelFour.userID = [[modelTwoArray objectAtIndex:k] valueForKey:@"id"];
-                    modelFour.name = [[modelTwoArray objectAtIndex:k] valueForKey:@"name"];
-                    [mutableThree addObject:modelFour];
-                }
-                else
-                {
-                    NSMutableArray *mutableFour = [[NSMutableArray alloc] init];
-                    for (int l = 0; l < modelThreeArray.count; l ++)
+                    NSArray *modelThreeArray = [[modelTwoArray objectAtIndex:k] valueForKey:@"children"];
+                    
+                    
+                    if (modelThreeArray.count == 0)
                     {
-                        MKPeopleCellModel *modelFour = [MKPeopleCellModel dataObjectWithName:[[modelThreeArray objectAtIndex:l] valueForKey:@"name"] children:nil];
-                        modelFour.pId = [[modelThreeArray objectAtIndex:l] valueForKey:@"pId"];
-                        modelFour.userID = [[modelThreeArray objectAtIndex:l] valueForKey:@"id"];
-                        modelFour.name = [[modelThreeArray objectAtIndex:k] valueForKey:@"name"];
-                        [mutableFour addObject:modelFour];
+                        MKPeopleCellModel *modelFour = [MKPeopleCellModel dataObjectWithName:[[modelTwoArray objectAtIndex:k] valueForKey:@"name"] children:nil];
+                        modelFour.pId = [[modelTwoArray objectAtIndex:k] valueForKey:@"pId"];
+                        modelFour.userID = [[modelTwoArray objectAtIndex:k] valueForKey:@"id"];
+                        modelFour.name = [[modelTwoArray objectAtIndex:k] valueForKey:@"name"];
+                        [mutableThree addObject:modelFour];
                     }
-                    MKPeopleCellModel *modelThree = [MKPeopleCellModel dataObjectWithName:[[modelTwoArray objectAtIndex:k] valueForKey:@"name"] children:mutableFour];
-                    [mutableThree addObject:modelThree];
+                    else
+                    {
+                        NSMutableArray *mutableFour = [[NSMutableArray alloc] init];
+                        for (int l = 0; l < modelThreeArray.count; l ++)
+                        {
+                            MKPeopleCellModel *modelFour = [MKPeopleCellModel dataObjectWithName:[[modelThreeArray objectAtIndex:l] valueForKey:@"name"] children:nil];
+                            modelFour.pId = [[modelThreeArray objectAtIndex:l] valueForKey:@"pId"];
+                            modelFour.userID = [[modelThreeArray objectAtIndex:l] valueForKey:@"id"];
+                            modelFour.name = [[modelThreeArray objectAtIndex:k] valueForKey:@"name"];
+                            [mutableFour addObject:modelFour];
+                        }
+                        MKPeopleCellModel *modelThree = [MKPeopleCellModel dataObjectWithName:[[modelTwoArray objectAtIndex:k] valueForKey:@"name"] children:mutableFour];
+                        [mutableThree addObject:modelThree];
+                    }
                 }
+                
+                MKPeopleCellModel *modelTwo = [MKPeopleCellModel dataObjectWithName:[[modelOneArray objectAtIndex:j] valueForKey:@"name"] children:mutableThree];
+                [mutabletwo addObject:modelTwo];
+                
+                
+            }else {
+            
+                MKPeopleCellModel *modelTwo = [MKPeopleCellModel dataObjectWithName:[[modelOneArray objectAtIndex:j] valueForKey:@"name"] children:nil];
+                modelTwo.pId = [[modelOneArray objectAtIndex:j] valueForKey:@"pId"];
+                modelTwo.userID = [[modelOneArray objectAtIndex:j] valueForKey:@"id"];
+                modelTwo.name = [[modelOneArray objectAtIndex:j] valueForKey:@"name"];
+                [mutabletwo addObject:modelTwo];
+                
             }
-            MKPeopleCellModel *modelTwo = [MKPeopleCellModel dataObjectWithName:[[modelOneArray objectAtIndex:j] valueForKey:@"name"] children:mutableThree];
-            [mutabletwo addObject:modelTwo];
+            
+
+           
         }
         MKPeopleCellModel *modelOne = [MKPeopleCellModel dataObjectWithName:[[self.nodeArray objectAtIndex:i] valueForKey:@"name"] children:mutabletwo];
         [mutableOne addObject:modelOne];
@@ -317,7 +361,6 @@
     }
     [self.treeView reloadData];
 }
-
 #pragma mark - Child节点选择改变父节点
 - (id)childChangeParent:(RATreeNodeInfo*)treeNodeInfo treeTableViewCell:(MKPeopleSelectTableCell *)cell treeLever:(NSInteger)lever childArray:(NSArray *)childArray selectCount:(NSInteger)selectCount
 {
@@ -380,6 +423,8 @@
     {
         MKPeopleCellModel *model = treeNodeInfo.item;
         model.isCheck = cell.select;
+        OPLog(@"hahah ID%@",model.userID);
+
         if (model.userID != nil)
         {
             if (cell.select == YES && (treeNodeInfo.treeDepthLevel == 4 || treeNodeInfo.treeDepthLevel == 3)) {
@@ -390,10 +435,18 @@
             else if (cell.select == NO && (treeNodeInfo.treeDepthLevel == 4 || treeNodeInfo.treeDepthLevel == 3))
             {
                 [[[MKSelectArray sharedInstance] initObject].selectArray removeObject:[NSDictionary dictionaryWithObjectsAndKeys:model.userID, @"id", model.pId, @"pId",model.name, @"name",nil]];
+            }else if (cell.select == NO && (treeNodeInfo.treeDepthLevel == 2 || treeNodeInfo.treeDepthLevel == 3) ){
+            
+                [[[MKSelectArray sharedInstance] initObject].selectArray removeObject:[NSDictionary dictionaryWithObjectsAndKeys:model.userID, @"id", model.pId, @"pId",model.name, @"name",nil]];
+
+            }else if (cell.select == YES && (treeNodeInfo.treeDepthLevel == 2 || treeNodeInfo.treeDepthLevel == 3) ){
+                
+                [[[MKSelectArray sharedInstance] initObject].selectArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:model.userID, @"id", model.pId, @"pId",model.name, @"name",nil]];
+                
             }
         }
         self.treeView.isClose = YES;
-        NSLog(@"----%@",[[MKSelectArray sharedInstance] initObject].selectArray);
+//        NSLog(@"----%@",[[MKSelectArray sharedInstance] initObject].selectArray);
         return [treeNodeInfo.item name]; //RADataObject  叶子节点  要 return 节点
     }
     else
@@ -473,6 +526,10 @@
 
 - (void)treeView:(RATreeView *)treeView didSelectRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo
 {
+    
+    MKPeopleCellModel *model = treeNodeInfo.item;
+     OPLog(@"depcellname ID%@",model.name);
+    OPLog(@"depcell ID%@",model.pId);
     if (treeNodeInfo.positionInSiblings == 0 &&treeNodeInfo.treeDepthLevel == 0)//若是选择收件栏cell，旋转图标
     {
         UIImageView *imgView = (UIImageView *)[self viewWithTag:ARROW_IMG];

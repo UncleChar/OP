@@ -83,12 +83,18 @@
         contentLabel.font = OPFont(16);
         [self.backgroungScrollView addSubview:contentLabel];
         
-        backView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(contentLabel.frame)+ 1, kScreenWidth, 60)];
+
+    
+    
+    
+    if (_isDeleteBtn) {
+        
+        backView = [[UIView alloc]initWithFrame:CGRectMake(0, kScreenHeight - 64 - 60, kScreenWidth, 60)];
         backView.backgroundColor = [UIColor whiteColor];
         [self.backgroungScrollView addSubview:backView];
         
         deleteBtn = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth/2 - 25, 5, 50, 50)];
-        deleteBtn.backgroundColor = [ConfigUITools colorWithR:245.0 G:88.0 B:142.0 A:1];
+        deleteBtn.backgroundColor = [ConfigUITools colorWithR:154 G:58 B:61 A:1];
         [deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
         deleteBtn.layer.cornerRadius = 25;
         deleteBtn.layer.masksToBounds = 1;
@@ -96,7 +102,10 @@
         [deleteBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [deleteBtn addTarget:self action:@selector(deleteBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         [backView addSubview:deleteBtn];
-        [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(backView.frame) + 25 forStepsH:0];
+//        [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(backView.frame) + 25 forStepsH:0];
+        
+    }
+
 
         
     

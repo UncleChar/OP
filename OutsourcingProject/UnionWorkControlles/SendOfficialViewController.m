@@ -14,6 +14,7 @@
 #import "FinalDetailContentViewController.h"
 #import "OfficalDocModel.h"
 #import "OfficalDocCell.h"
+#import "OfficialDeatilViewController.h"
 @interface SendOfficialViewController ()<HorizontalMenuDelegate,UITableViewDelegate,UITableViewDataSource>
 
 {
@@ -78,7 +79,7 @@
     
     if (!_listTableView) {
         
-        _listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, kScreenHeight -  -49  - 64 - 45- 48 - 50) style:UITableViewStylePlain];
+        _listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, kScreenHeight -  -49  - 64 - 45- 48) style:UITableViewStylePlain];
         _listTableView.delegate = self;
         _listTableView.dataSource = self;
         _listTableView.backgroundColor = kBackColor;
@@ -86,15 +87,15 @@
         
     }
     
-    UIButton *createBtn  = [UIButton buttonWithType:UIButtonTypeCustom];
-    createBtn.frame = CGRectMake(30, CGRectGetMaxY(_listTableView.frame) + 5, (kScreenWidth - 60) , 40);
-    //    [exitBtn setBackgroundImage:[UIImage imageNamed:@"矩形-9"] forState:UIControlStateNormal];
-    createBtn.backgroundColor = kBtnColor;
-    [createBtn addTarget:self action:@selector(createBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [createBtn setTitle:@"新增咨询" forState:UIControlStateNormal];
-    createBtn.layer.cornerRadius = 4;
-    createBtn.layer.masksToBounds = 1;
-    [self.view addSubview:createBtn];
+//    UIButton *createBtn  = [UIButton buttonWithType:UIButtonTypeCustom];
+//    createBtn.frame = CGRectMake(30, CGRectGetMaxY(_listTableView.frame) + 5, (kScreenWidth - 60) , 40);
+//    //    [exitBtn setBackgroundImage:[UIImage imageNamed:@"矩形-9"] forState:UIControlStateNormal];
+//    createBtn.backgroundColor = kBtnColor;
+//    [createBtn addTarget:self action:@selector(createBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    [createBtn setTitle:@"新增咨询" forState:UIControlStateNormal];
+//    createBtn.layer.cornerRadius = 4;
+//    createBtn.layer.masksToBounds = 1;
+//    [self.view addSubview:createBtn];
     
     
     // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
@@ -237,32 +238,31 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    
-//    FinalDetailContentViewController  *contentVc = [[ FinalDetailContentViewController alloc]init];
-//    
-//    if (_requestTag == 0) {
-//        
-//        contentVc.dataType = @"shoudaodeneibuzixun";
-//        contentVc.chID = [_receiveDataArray[indexPath.row] ChID];
-//        contentVc.isBtn = YES;
-//        contentVc.isHasClassify = YES;
-//        contentVc.isReceiver = YES;
-//        contentVc.showTitle = @"收到的咨询";
-//        
-//    }else {
-//        
-//        contentVc.dataType = @"fachudeneibuzixun";
-//        contentVc.chID = [_sendDataArray[indexPath.row] ChID];
-//        contentVc.isBtn = YES;
-//        contentVc.isHasClassify = YES;
-//        contentVc.isReceiver = NO;
-//        contentVc.showTitle = @"发出的咨询";
-//        
-//    }
-//    
-//    [self.navigationController pushViewController:contentVc animated:YES];
-//    
-//    
+
+    OfficalDocModel *model;
+    if (_requestTag == 0) {
+        
+        model = _receiveDataArray[indexPath.row];
+    }else {
+    
+        model = _sendDataArray[indexPath.row];
+    }
+    
+    OfficialDeatilViewController *offVC = [[OfficialDeatilViewController alloc]init];
+    
+    offVC.titleTopic = model.chtopic;
+    offVC.senderName = model.senderName;
+    offVC.senderDept = model.fawendept;
+    offVC.sendDate   = model.publishDate;
+    offVC.content    = model.chContent;
+    offVC.numberT    = model.wenhao;
+    offVC.chid       = model.ChID;
+    offVC.secretLevel= model.secretlevel;
+    offVC.requestTag = _requestTag;
+    
+    [self.navigationController pushViewController:offVC animated:YES];
+    
+    
 }
 
 

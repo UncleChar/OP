@@ -230,6 +230,7 @@
         fuck.senderName = [_receivedataArray[indexPath.row] senderName];
         fuck.ChID = [_receivedataArray[indexPath.row] ChID];
         fuck.blockTag = 0;
+        fuck.isDeleteBtn = NO;
         
     }else {
     
@@ -239,6 +240,7 @@
         fuck.receiverName = [_senddataArray[indexPath.row] receiverName];
         fuck.ChID = [_senddataArray[indexPath.row] ChID];
          fuck.blockTag = 1;
+        fuck.isDeleteBtn = YES;
     
     }
 

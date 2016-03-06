@@ -20,4 +20,6 @@ typedef void(^DeleteBlock)( NSInteger tag);
 @property (nonatomic, strong) DeleteBlock deleteBlock;
 @property (nonatomic, assign) NSInteger blockTag;
 @property (nonatomic, strong) NSString *ChID;
+
+@property (nonatomic, assign) BOOL isDeleteBtn;
 @end

@@ -8,6 +8,8 @@
 
 #import "JustBackBtn.h"
 
-@interface AddGroupsViewController : JustBackBtn
+typedef void(^SubmitAddUserGroups)( BOOL isSuccess);
 
+@interface AddGroupsViewController : JustBackBtn
+@property (nonatomic, strong) SubmitAddUserGroups submitBtnBlock;
 @end
