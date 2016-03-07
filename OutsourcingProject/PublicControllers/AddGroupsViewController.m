@@ -12,7 +12,6 @@
 #define kFont  14
 @interface AddGroupsViewController ()<UITextFieldDelegate>
 {
-    
     ReturnValueBlock returnBlock;
 }
 @property (nonatomic, strong) NSArray  *elementArray;
@@ -20,6 +19,9 @@
 @property (nonatomic, strong) UITextField  *groupNamesTF;
 @property (nonatomic, strong) UITextField  *remarkTF;
 @property (nonatomic, strong) UIButton  *usersSelectedBtn;
+@property (nonatomic, strong) NSString  *idString;
+@property (nonatomic, strong) NSString  *nameString;
+
 
 @end
 
@@ -139,6 +141,36 @@
             userDep.selectedBlock = ^(NSMutableArray *array){
                 
                 OPLog(@"block %@",array);
+                _idString = @"";
+                _nameString = @"";
+                NSMutableArray  *idStringArr = [[NSMutableArray alloc]init];
+                NSMutableArray  *nameStringArr = [[NSMutableArray alloc]init];
+                for (NSDictionary *dict in array) {
+                    
+                    [idStringArr addObject:[dict objectForKey:@"id"]];
+                    [nameStringArr addObject:[dict objectForKey:@"name"]];
+                }
+
+                if (idStringArr.count > 0) {
+                    
+                    if (idStringArr.count >= 2 ) {
+                        
+                        _idString = [idStringArr componentsJoinedByString:@","];
+                        _nameString = [nameStringArr componentsJoinedByString:@","];
+                        
+                    }else {
+                        
+                        _idString = idStringArr[0];
+                        _nameString = nameStringArr[0];
+                    }
+                    
+                }else {
+                
+                
+                }
+
+                OPLog(@"string %@",_idString);
+                OPLog(@"stringName %@",_nameString);
                 
                 NSString *title = @"";
                 if (array.count > 0) {
@@ -169,18 +201,22 @@
         case 1:
         {
             
-//            _submitBtnBlock( YES);
-//            [self.navigationController popViewControllerAnimated:YES];
+
 
         
          
-             NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"tongxunlufenzu"};
-             NSLog(@"%@",[JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"DataType":@"通讯录",@"MemberCode":@"0",@"RealName":@"破破破",@"Phone":@"233423422323",@"Content":@"测试",@"Topic":@"垃圾"} fileNames:@[@"1",@"2  "] fileExtNames:@[@".jpg",@".jpg"] fileDesc:@[@"ceshi1",@"ceshi2"] fileData:@[@"adadadda",@"sdfddssfsddsffsf"]]);
+//             NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"tongxunlufenzu"};
+//             NSLog(@"%@",[JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"DataType":@"通讯录",@"MemberCode":@"0",@"RealName":@"破破破",@"Phone":@"233423422323",@"Content":@"测试",@"Topic":@"垃圾"} fileNames:@[@"1",@"2  "] fileExtNames:@[@".jpg",@".jpg"] fileDesc:@[@"ceshi1",@"ceshi2"] fileData:@[@"adadadda",@"sdfddssfsddsffsf"]]);
+            //4个字段，fld_46_1存组名，fld_46_2备注，fld_46_3用户id,fld_46_4用户姓名
+            
+            NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"tongxunlufenzu"};
+//            NSLog(@"%@",[JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"fld_46_1":_groupNamesTF.text,@"fld_46_2":_remarkTF.text,@"fld_46_3":_idString,@"fld_46_4":_nameString} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil]);
 
-            
-            
-            [self handleRequsetDate];
-            [self submitAddUserWithType:@"tongxunlufenzu" xmlString:@""];
+            NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"fld_46_1":_groupNamesTF.text,@"fld_46_2":_remarkTF.text,@"fld_46_3":_idString,@"fld_46_4":_nameString} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+//            xmlString = [xmlString htmlEntityDecode];
+
+            OPLog(@"---xml    %@",xmlString);
+            [self submitAddUserWithXmlString:xmlString];
 
         }
             break;
@@ -214,6 +250,8 @@
                 
                 OPLog(@"----far--%@----------",[listDic objectForKey:@"rows"]);
                 
+                
+                
             }
         });
         
@@ -223,31 +261,39 @@
 }
 
 
-- (void)submitAddUserWithType:(NSString *)type xmlString:(NSString *)xmlString
+- (void)submitAddUserWithXmlString:(NSString *)xmlString
 {
     
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
         [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
-        //        [SVProgressHUD showWithStatus:@"增在加载..."];
-        NSString * requestBody = [NSString stringWithFormat:
-                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-                                  "<soap12:Envelope "
-                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
-                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
-                                  "<soap12:Body>"
-                                  "<AddAppInfo xmlns=\"Net.GongHuiTong\">"
-                                  "<logincookie>%@</logincookie>"
-                                  "<datatype>%@</datatype>"
-                                  "<xmlinfo>%@</xmlinfo>"
-                                  " </AddAppInfo>"
-                                  "</soap12:Body>"
-                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,xmlString];
         
         
+          __weak typeof(self) weakSelf = self;
+            ReturnValueBlock returnBlockPost = ^(id resultValue){
+                
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                
+                    NSLog(@"AddAppInfoResult::%@",[[resultValue lastObject] objectForKey:@"AddAppInfoResult"]);
+                    NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"AddAppInfoResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+                    
+                    NSLog(@"AddAppInfoResult::%@",listDic);
+                    weakSelf.submitBtnBlock( YES);
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                
+                
+                
+                });
+
+
+            
         
-        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"AddAppInfoResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        
+            };
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:xmlString parseParameters:@[@"AddAppInfoResult"] WithReturnValeuBlock:returnBlockPost WithErrorCodeBlock:nil];
         
         
     }else {

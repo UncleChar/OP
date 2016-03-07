@@ -362,6 +362,8 @@
 		9DE3D80F1C7D83A300D654AA /* 矩形-19-拷贝@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3D7EE1C7D83A300D654AA /* 矩形-19-拷贝@2x.png */; };
 		9DE3D8101C7D83A300D654AA /* 矩形-19-拷贝@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3D7EF1C7D83A300D654AA /* 矩形-19-拷贝@3x.png */; };
 		9DEBF16A1C856D6E0050F6DA /* ActivityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DEBF1691C856D6E0050F6DA /* ActivityDetailViewController.m */; };
+		9DEDCF021C8D7D0600733786 /* TaskTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DEDCF011C8D7D0600733786 /* TaskTableViewCell.m */; };
+		9DEDCF051C8D86E400733786 /* FinshiedTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DEDCF041C8D86E400733786 /* FinshiedTaskViewController.m */; };
 		9DF204FE1C891F0E00BC1DD4 /* ActivityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF204FD1C891F0E00BC1DD4 /* ActivityModel.m */; };
 		9DF205011C89692000BC1DD4 /* SearchNotiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF205001C89692000BC1DD4 /* SearchNotiViewController.m */; };
 		9DF68BF81C7FE69700F61A13 /* GuideModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF68BF71C7FE69700F61A13 /* GuideModel.m */; };
@@ -534,7 +536,7 @@
 		DBB0C1691C85D03900C7F058 /* NotiDetialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1681C85D03900C7F058 /* NotiDetialViewController.m */; };
 		DBB0C16C1C872DB000C7F058 /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C16B1C872DB000C7F058 /* ForgetPwdViewController.m */; };
 		DBB0C1701C88816300C7F058 /* IndexPubTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C16F1C88816300C7F058 /* IndexPubTableViewCell.m */; };
-		DBB0C1731C89C0AF00C7F058 /* OfficialDeatilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1721C89C0AF00C7F058 /* OfficialDeatilViewController.m */; settings = {ASSET_TAGS = (); }; };
+		DBB0C1731C89C0AF00C7F058 /* OfficialDeatilViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB0C1721C89C0AF00C7F058 /* OfficialDeatilViewController.m */; };
 		DBB51B141C82031100B5DC1A /* FuckingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B131C82031100B5DC1A /* FuckingViewController.m */; };
 		DBB51B171C83130000B5DC1A /* AddConsultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B161C83130000B5DC1A /* AddConsultViewController.m */; };
 		DBB51B1A1C83261800B5DC1A /* FinalDetailContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B191C83261800B5DC1A /* FinalDetailContentViewController.m */; };
@@ -1184,6 +1186,10 @@
 		9DE3D7EF1C7D83A300D654AA /* 矩形-19-拷贝@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "矩形-19-拷贝@3x.png"; sourceTree = "<group>"; };
 		9DEBF1681C856D6E0050F6DA /* ActivityDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityDetailViewController.h; sourceTree = "<group>"; };
 		9DEBF1691C856D6E0050F6DA /* ActivityDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityDetailViewController.m; sourceTree = "<group>"; };
+		9DEDCF001C8D7D0600733786 /* TaskTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskTableViewCell.h; sourceTree = "<group>"; };
+		9DEDCF011C8D7D0600733786 /* TaskTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskTableViewCell.m; sourceTree = "<group>"; };
+		9DEDCF031C8D86E400733786 /* FinshiedTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinshiedTaskViewController.h; sourceTree = "<group>"; };
+		9DEDCF041C8D86E400733786 /* FinshiedTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinshiedTaskViewController.m; sourceTree = "<group>"; };
 		9DF204FC1C891F0E00BC1DD4 /* ActivityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityModel.h; sourceTree = "<group>"; };
 		9DF204FD1C891F0E00BC1DD4 /* ActivityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityModel.m; sourceTree = "<group>"; };
 		9DF204FF1C89692000BC1DD4 /* SearchNotiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchNotiViewController.h; sourceTree = "<group>"; };
@@ -1574,10 +1580,13 @@
 		9D054B511C7C30E3003FB2C6 /* Index_Task */ = {
 			isa = PBXGroup;
 			children = (
+				9DEDCEFF1C8D7CE200733786 /* Views */,
 				9D054B8C1C7C35B1003FB2C6 /* TaskViewController.h */,
 				9D054B8D1C7C35B1003FB2C6 /* TaskViewController.m */,
 				9D054BEA1C7C5148003FB2C6 /* AddTaskViewController.h */,
 				9D054BEB1C7C5148003FB2C6 /* AddTaskViewController.m */,
+				9DEDCF031C8D86E400733786 /* FinshiedTaskViewController.h */,
+				9DEDCF041C8D86E400733786 /* FinshiedTaskViewController.m */,
 			);
 			path = Index_Task;
 			sourceTree = "<group>";
@@ -2504,6 +2513,15 @@
 				9DE3D7EF1C7D83A300D654AA /* 矩形-19-拷贝@3x.png */,
 			);
 			path = addSchule;
+			sourceTree = "<group>";
+		};
+		9DEDCEFF1C8D7CE200733786 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9DEDCF001C8D7D0600733786 /* TaskTableViewCell.h */,
+				9DEDCF011C8D7D0600733786 /* TaskTableViewCell.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		9DF68BFC1C7FF50400F61A13 /* SubjModels */ = {
@@ -3581,6 +3599,7 @@
 				9D2E18701C771661008CB937 /* AppEngineManager.m in Sources */,
 				9D82A6BD1C759E470072E354 /* MASConstraintMaker.m in Sources */,
 				9D82A7371C75C6AC0072E354 /* TAPageControl.m in Sources */,
+				9DEDCF051C8D86E400733786 /* FinshiedTaskViewController.m in Sources */,
 				9D82A6BF1C759E470072E354 /* MASViewAttribute.m in Sources */,
 				9D82A5D31C7578730072E354 /* MJRefreshBackGifFooter.m in Sources */,
 				9D82A6C01C759E470072E354 /* MASViewConstraint.m in Sources */,
@@ -3614,6 +3633,7 @@
 				9D054B851C7C34B1003FB2C6 /* MyFavorViewController.m in Sources */,
 				9D054B501C7C28BE003FB2C6 /* AlertTipsViewTool.m in Sources */,
 				DBB0C1691C85D03900C7F058 /* NotiDetialViewController.m in Sources */,
+				9DEDCF021C8D7D0600733786 /* TaskTableViewCell.m in Sources */,
 				DB46A0CB1C7B2C7A00D69165 /* RATreeView+UIScrollView.m in Sources */,
 				9D054B7F1C7C3493003FB2C6 /* MyShowViewController.m in Sources */,
 				9DE3D7931C7D4B9600D654AA /* FMDatabasePool.m in Sources */,
@@ -3788,8 +3808,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Zhang (86236CK7Q3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Zhang (86236CK7Q3)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3811,7 +3831,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "100d6be8-14b6-43b1-853f-478548e2c54b";
+				PROVISIONING_PROFILE = "47730a08-06f4-410a-8e4c-52723aa28fa1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3834,8 +3854,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Zhang (86236CK7Q3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Zhang (86236CK7Q3)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -3850,7 +3870,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "100d6be8-14b6-43b1-853f-478548e2c54b";
+				PROVISIONING_PROFILE = "47730a08-06f4-410a-8e4c-52723aa28fa1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -3868,7 +3888,7 @@
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mm.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -3885,7 +3905,7 @@
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mm.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

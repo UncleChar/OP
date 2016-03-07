@@ -43,6 +43,9 @@
 @property (nonatomic, strong) UIButton     *receiptTypeBtn;
 @property (nonatomic, assign) float         lastElementMaxY;
 
+@property (nonatomic, strong) NSString  *idString;
+@property (nonatomic, strong) NSString  *nameString;
+
 //@property (nonatomic, strong) UIButton     *submitBtn;
 
 
@@ -281,6 +284,40 @@
             UserDeptViewController *de = [[UserDeptViewController alloc]init];
             de.isJump = YES;
             de.selectedBlock = ^(NSMutableArray *array){
+                
+                _idString = @"";
+                _nameString = @"";
+                NSMutableArray  *idStringArr = [[NSMutableArray alloc]init];
+                NSMutableArray  *nameStringArr = [[NSMutableArray alloc]init];
+                for (NSDictionary *dict in array) {
+                    
+                    [idStringArr addObject:[dict objectForKey:@"id"]];
+                    [nameStringArr addObject:[dict objectForKey:@"name"]];
+                }
+                
+                if (idStringArr.count > 0) {
+                    
+                    if (idStringArr.count >= 2 ) {
+                        
+
+                    _idString = [idStringArr componentsJoinedByString:@","];
+                    _nameString = [nameStringArr componentsJoinedByString:@","];
+                        
+                    }else {
+                        
+                        _idString = idStringArr[0];
+                        _nameString = nameStringArr[0];
+                    }
+                    
+                }else {
+                    
+                    
+                }
+                
+                OPLog(@"string %@",_idString);
+                OPLog(@"stringName %@",_nameString);
+                
+
                 NSString *title = @"";
                 if (array.count > 0) {
                     NSMutableArray *arr = [[NSMutableArray alloc]init];
@@ -334,9 +371,17 @@
         
             if ([AppDelegate isNetworkConecting]) {
                 
+                NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"huiyitongzhi"};
+
+                NSString *scode =  [_notiTypeBtn.titleLabel.text isEqualToString:@"会议通知"  ]? @"37" : @"35";
+                NSString *rep =  [_receiptTypeBtn.titleLabel.text isEqualToString:@"无需回执"]? @"否" : @"是";
                 
+                NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"fld_34_1":_meetingTitleTF.text,@"fld_34_2":_contentTView.text,@"fld_34_3":scode,@"fld_34_4":_notiTypeBtn.titleLabel.text,@"fld_34_5":_meetingTimeBtn.titleLabel.text,@"fld_34_7":rep,@"fld_34_9":_idString,@"fld_34_10":_nameString,@"fld_34_11":_meetingAddress.text,@"fld_34_12":@"",@"fld_34_13":_leaderTF.text} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+    
                 
-                
+                OPLog(@"---xml    %@",xmlString);
+                [self submitAddUserWithXmlString:xmlString];
+
             }else {
             
                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无网络连接,请检查网络!" message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -545,6 +590,55 @@
     }
 
 }
+
+- (void)submitAddUserWithXmlString:(NSString *)xmlString
+{
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        
+        
+        __weak typeof(self) weakSelf = self;
+        ReturnValueBlock returnBlockPost = ^(id resultValue){
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSLog(@"AddAppInfoResult::%@",[[resultValue lastObject] objectForKey:@"AddAppInfoResult"]);
+                
+                if ([[[resultValue lastObject] objectForKey:@"AddAppInfoResult"] isEqualToString:@"操作失败！"]) {
+                    
+                    [SVProgressHUD showErrorWithStatus:@"操作失败!"];
+                    
+                    
+                }else {
+                    
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"发送通知成功!"];
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+                
+   
+            });
+            
+   
+        };
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:xmlString parseParameters:@[@"AddAppInfoResult"] WithReturnValeuBlock:returnBlockPost WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+    }
+    
+   
+}
+
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     

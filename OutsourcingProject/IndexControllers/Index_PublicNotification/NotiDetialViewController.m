@@ -41,13 +41,23 @@
 @property (nonatomic, strong) NSArray      *elementArray;
 @property (nonatomic, strong) UIView       *coverView;
 @property (nonatomic, strong) UIView       *topView;
+@property (nonatomic, assign) NSInteger     moduleTag;
 @end
 
 @implementation NotiDetialViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"通知详情";
+    if (_modelTag == 0) {
+       
+          self.title = @"通知详情";
+        
+    }else {
+    
+          self.title = @"任务详情";
+        
+    }
+  
     self.view.backgroundColor = [UIColor whiteColor];
 
     [DaiDodgeKeyboard addRegisterTheViewNeedDodgeKeyboard:self.view];
@@ -164,7 +174,7 @@
         //    deleteBtn.layer.cornerRadius = 25;
         //    deleteBtn.layer.masksToBounds = 1;
         okBtn.titleLabel.font = OPFont(16);
-        okBtn.tag = 201;
+        okBtn.tag = 202;
         [okBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         okBtn.layer.cornerRadius = 4;
         okBtn.layer.masksToBounds = 1;
@@ -175,7 +185,7 @@
         quckBtn.backgroundColor = kBtnColor;
         [quckBtn setTitle:@"回复并完成" forState:UIControlStateNormal];
         quckBtn.titleLabel.font = OPFont(16);
-        quckBtn.tag = 202;
+        quckBtn.tag = 203;
         [quckBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         quckBtn.layer.cornerRadius = 4;
         quckBtn.layer.masksToBounds = 1;
@@ -236,24 +246,144 @@
         case 0:
         {
         
-            NSArray *contentArr = @[@"  你好,已收到通知,我们将准时参加!",@"  你好,已收到通知,我们确定安排后,会及时回复!",@"  你好,已收到通知,因故无法参加,请知悉!"];
-            [self showSelectedWithTitle:@"请选择回复内容" subTitles:contentArr];
+            if (_modelTag == 0) {
+                
+                NSArray *contentArr = @[@"  你好,已收到通知,我们将准时参加!",@"  你好,已收到通知,我们确定安排后,会及时回复!",@"  你好,已收到通知,因故无法参加,请知悉!"];
+                [self showSelectedWithTitle:@"请选择回复内容" subTitles:contentArr];
+            }else {
+            
+                NSArray *contentArr = @[@"  收到",@"  我知道了",@"  好的"];
+                [self showSelectedWithTitle:@"请选择回复内容" subTitles:contentArr];
+            }
+//            NSArray *contentArr = @[@"  你好,已收到通知,我们将准时参加!",@"  你好,已收到通知,我们确定安排后,会及时回复!",@"  你好,已收到通知,因故无法参加,请知悉!"];
+//            [self showSelectedWithTitle:@"请选择回复内容" subTitles:contentArr];
         }
             
             break;
-        case 1:
+        case 1://通知的回复
         {
 
-            [SVProgressHUD showSuccessWithStatus:@"回复哦"];
+//            [SVProgressHUD showSuccessWithStatus:@"回复哦"];
+
+            
+            if ([AppDelegate isNetworkConecting]) {
+               
+                    
+                    NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"tongzhigonggao",@"id":@([self.ChID integerValue])};
+                
+                   self.moduleTag = 100;
+                    NSDateFormatter *df = [[NSDateFormatter alloc]init];
+                    //设置转换格式
+                    df.dateFormat = @"yyyy-MM-dd HH:mm";
+                    NSString *str = [df stringFromDate:[NSDate date]];
+
+                    NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"EditAppInfo" xmlInfo:YES resouresInfo:@{@"fld_35_6":@(1),@"fld_35_7":str,@"fld_35_8":_taskContentTView.text} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                    OPLog(@"---xml    %@",xmlString);
+                    [self submitAddUserWithXmlString:xmlString];
+            
+            }else {
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无网络连接,请检查网络!" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                
+                
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    
+                    
+                    
+                }];
+                
+                [alertController addAction:okAction];
+                
+                [self.navigationController  presentViewController:alertController animated:YES completion:nil];
+                
+            }
+
+            
+            
         
         }
             
             
             break;
-        case 2:
+        case 2://任务的回复
         {
 
-            [SVProgressHUD showSuccessWithStatus:@"回复并完成哦"];
+          
+            if ([AppDelegate isNetworkConecting]) {
+                
+                self.moduleTag = 101;
+                NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"gongzuorenwu",@"id":@([self.ChID integerValue])};
+                
+                NSDateFormatter *df = [[NSDateFormatter alloc]init];
+                //设置转换格式
+                df.dateFormat = @"yyyy-MM-dd HH:mm";
+                NSString *str = [df stringFromDate:[NSDate date]];
+                
+                NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"EditAppInfo" xmlInfo:YES resouresInfo:@{@"fld_29_6":str,@"fld_29_10":@"0",@"fld_29_14":_taskContentTView.text} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                OPLog(@"---xml    %@",xmlString);
+                [self submitAddUserWithXmlString:xmlString];
+                
+            }else {
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无网络连接,请检查网络!" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                
+                
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    
+                    
+                    
+                }];
+                
+                [alertController addAction:okAction];
+                
+                [self.navigationController  presentViewController:alertController animated:YES completion:nil];
+                
+            }
+
+            
+            
+            
+        }
+            
+            
+            break;
+            
+        case 3://任务的恢复并完成
+        {
+            
+            if ([AppDelegate isNetworkConecting]) {
+                self.moduleTag = 102;
+//                self.enum_type = ENUM_DetailTypeShouldRefresh;
+                NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"gongzuorenwu",@"id":@([self.ChID integerValue])};
+                
+                NSDateFormatter *df = [[NSDateFormatter alloc]init];
+                //设置转换格式
+                df.dateFormat = @"yyyy-MM-dd HH:mm";
+                NSString *str = [df stringFromDate:[NSDate date]];
+                
+                NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"EditAppInfo" xmlInfo:YES resouresInfo:@{@"fld_29_6":str,@"fld_29_10":@"1",@"fld_29_14":_taskContentTView.text} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                OPLog(@"---xml    %@",xmlString);
+                [self submitAddUserWithXmlString:xmlString];
+                
+            }else {
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无网络连接,请检查网络!" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                
+                
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    
+                    
+                    
+                }];
+                
+                [alertController addAction:okAction];
+                
+                [self.navigationController  presentViewController:alertController animated:YES completion:nil];
+                
+            }
+
+            
+            
             
         }
             
@@ -266,6 +396,75 @@
 
 }
 
+
+- (void)submitAddUserWithXmlString:(NSString *)xmlString
+{
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        
+        
+        __weak typeof(self) weakSelf = self;
+        ReturnValueBlock returnBlockPost = ^(id resultValue){
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSLog(@"EditAppInfoResult::%@",[[resultValue lastObject] objectForKey:@"EditAppInfoResult"]);
+                
+                if ([[[resultValue lastObject] objectForKey:@"EditAppInfoResult"] isEqualToString:@"操作失败！"]) {
+                    
+                    [SVProgressHUD showErrorWithStatus:@"操作失败!"];
+                    
+                    
+                }else {
+                    
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"回执成功!"];
+                    switch (weakSelf.moduleTag - 100) {
+                        case 0:
+                            
+                            
+                            
+                            break;
+                            
+                        case 1:
+                            
+                            
+                            break;
+                            
+                        case 2:
+                            weakSelf.refreshBlock( YES);
+                            
+                            break;
+                            
+                        default:
+                            break;
+                    }
+                    
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+                
+                
+            });
+            
+            
+        };
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:xmlString parseParameters:@[@"EditAppInfoResult"] WithReturnValeuBlock:returnBlockPost WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+    }
+    
+    
+}
 
 - (void)showSelectedWithTitle:(NSString *)title subTitles:(NSArray *)array {
     
@@ -287,7 +486,7 @@
     
     [[UIApplication sharedApplication].keyWindow addSubview:_topView];
     
-    UILabel *infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth * 2 / 3, 60)];
+    UILabel *infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_topView.frame), 60)];
     infoLabel.font = [UIFont systemFontOfSize:20];
     infoLabel.textAlignment = 1;
     infoLabel.textColor = [ConfigUITools colorWithR:90 G:173 B:243 A:1];

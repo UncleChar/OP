@@ -8,182 +8,358 @@
 
 #import "TaskViewController.h"
 #import "AddTaskViewController.h"
-
+#import "NotiTableViewCell.h"
+#import "IndexNotiModel.h"
+#import "AddTaskViewController.h"
+#import "TaskTableViewCell.h"
+#import "NotiDetialViewController.h"
+#import "FinshiedTaskViewController.h"
 @interface TaskViewController ()<HorizontalMenuDelegate,UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
-@property (nonatomic, strong) UITableView    *taskTableView;
-@property (nonatomic, strong) NSMutableArray *dataArray;
+{
+    
+    ReturnValueBlock returnBlock;
+}
+
 @property (nonatomic, strong) HorizontalMenu *menu;//
 
-//@property (nonatomic, strong) UIView         *organizeStructureView;
-//@property (nonatomic, strong) UIView         *customStructureView;
+@property (nonatomic, strong) UITableView    *showTableView;
+@property (nonatomic, strong) NSMutableArray *mettingDataArray;
+@property (nonatomic, strong) NSMutableArray *otherDataArray;
+@property (nonatomic, strong) NSMutableArray *SendDataArray;
+@property (nonatomic, strong) NSMutableArray *searchDataArray;
+@property (nonatomic, strong) UIView         *topSearchView;
+@property (nonatomic, strong) UITextField    *meetingSearchTF;      //
+@property (nonatomic, strong) UITextField    *otherSearchTF;      //
+@property (nonatomic, strong) UITextField    *sendSearchTF;
+
+
+@property (nonatomic, assign) NSInteger  pageSize;//每页的个数
+@property (nonatomic, assign) NSInteger  pageSendNotiIndex;//从0页开始
+@property (nonatomic, assign) NSInteger  pageMeetingNotiIndex;//从0页开始
+@property (nonatomic, assign) NSInteger  pageOtherNotiIndex;//从0页开始
+@property (nonatomic, assign) NSInteger  requestTag;//从0页开始
+@property (nonatomic, assign) BOOL        isHeaderRefersh;
+@property (nonatomic, assign) BOOL        isFooterRefersh;
+@property (nonatomic, assign) BOOL        isSearch;
 
 
 @end
 
 @implementation TaskViewController
 
-
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     self.title = @"工作任务";
-    _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 45) withTitles:@[@"我收到的任务", @"我发出的任务",@"结束的任务"]];
-    _menu.delegate = self;
-    [self.view addSubview:_menu];
+    self.view.backgroundColor = kBackColor;
+    
+    _pageMeetingNotiIndex = 1;
+    _pageOtherNotiIndex = 1;
+    _pageSendNotiIndex = 1;
+    _pageSize = 8;
+    _requestTag = 0;
+    
+    [self initArray];
+    [self configUI];
+    
+    [self handleRequsetDate];
+    [self getTaskDataWithType:@"shoudaodegongzuorenwu" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+}
 
-    if (!_dataArray) {
+- (void)initArray {
+    
+    if (!_mettingDataArray) {
         
-        _dataArray = [NSMutableArray arrayWithCapacity:0];
+        _mettingDataArray = [NSMutableArray arrayWithCapacity:0];
         
     }
-
-    [self.view addSubview:[self taskTableView]];
+    if (!_otherDataArray) {
+        
+        _otherDataArray = [NSMutableArray arrayWithCapacity:0];
+        
+    }
+    if (!_SendDataArray) {
+        
+        _SendDataArray = [NSMutableArray arrayWithCapacity:0];
+        
+    }
+    if (!_searchDataArray) {
+        
+        _searchDataArray = [NSMutableArray arrayWithCapacity:0];
+        
+    }
     
-    [self configAddBtn];
-
-
-//    [self requestForUserDept];
-
-
+}
+- (void)initShowTableView{
+    
+    if (!_showTableView) {
+        _showTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 45, kScreenWidth, kScreenHeight - 45  - 64 - 50) style:UITableViewStylePlain];
+        _showTableView.backgroundColor = kBackColor;
+        _showTableView.delegate=self;
+        _showTableView.dataSource=self;
+        
+    }
+    [self.view addSubview:_showTableView];
 }
 
 
-- (UITableView *)taskTableView{
+- (void)configUI {
     
-    if (!_taskTableView) {
-        
-        _taskTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, kScreenHeight - 45 - 64 - 50)];
-        _taskTableView.backgroundColor = kBackColor;
-        _taskTableView.dataSource = self;
-        _taskTableView.delegate = self;
-        [self.view addSubview:_taskTableView];
-        
-    }
+    _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) withTitles:@[@"我收到的任务", @"我发出的任务",@"已结束的任务"]];
+    _menu.delegate = self;
+    [self.view addSubview:_menu];
     
-    _taskTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    
+    _topSearchView = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, 40)];
+    _topSearchView.backgroundColor = kBackColor;
+    [self.view addSubview:_topSearchView];
+
+    [self initShowTableView];
+    
+    
+    UIButton *sendNotiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //    [sendNotiBtn setBackgroundImage:[UIImage imageNamed:@"send"] forState:UIControlStateNormal];
+    sendNotiBtn.backgroundColor = kTinColor;
+    sendNotiBtn.layer.cornerRadius = 4;
+    sendNotiBtn.layer.masksToBounds = 1;
+    sendNotiBtn.frame = CGRectMake(20, CGRectGetMaxY(_showTableView.frame) + 5 , kScreenWidth - 40, 40);
+    //    sendNotiBtn.alpha = 0.7;
+    [sendNotiBtn setTitle:@"新建任务" forState:UIControlStateNormal];
+    [sendNotiBtn addTarget:self action:@selector(createTakBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:sendNotiBtn];
+    
+
+    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+
+    footer.automaticallyRefresh = NO;
+
+    _showTableView.mj_footer = footer;
+    
+    _showTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         
         
-        for (int i = 0; i < 4; i ++) {
+        _isHeaderRefersh = YES;
+        _isFooterRefersh = NO;
+        
+        
+        if (_requestTag == 0) {
+            _pageMeetingNotiIndex = 1;
+            [self getTaskDataWithType:@"shoudaodegongzuorenwu" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
             
-            //            [_userChatArrary addObject:MessaageVCRandomData];
+        }else if(_requestTag == 1) {
+            _pageOtherNotiIndex = 1;
+            [self getTaskDataWithType:@"fachudegongzuorenwu" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+        }else {
+            
+            _pageSendNotiIndex = 1;
+            [self getTaskDataWithType:@"wangchengdegongzuorenwu" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
             
         }
         
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            
-            [NSThread sleepForTimeInterval:5];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                
-                
-                [_taskTableView.mj_header endRefreshing];
-                [_taskTableView reloadData];
-                
-            });
-        });
     }];
     
     
-    return _taskTableView;
-    
-}
-
-- (void)configAddBtn {
-    
-    UIButton  *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    submitBtn.backgroundColor = kTestColor;
-    submitBtn.tag = 888 + 4;
-//    [submitBtn setBackgroundImage:[UIImage imageNamed:@"矩形-9"] forState:UIControlStateNormal];
-    submitBtn.backgroundColor = kBtnColor;
-    [submitBtn setTitle:@"新建任务" forState:UIControlStateNormal];
-    [submitBtn addTarget:self action:@selector(addTaskBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    submitBtn.layer.cornerRadius = 4;
-    submitBtn.layer.masksToBounds = 1;
-    submitBtn.frame = CGRectMake(20, CGRectGetMaxY(_taskTableView.frame) + 5, kScreenWidth - 40, 40);
-    [self.view addSubview:submitBtn];
-    
-    OPLog(@" %f",CGRectGetMaxY(_taskTableView.frame));
-    
-    OPLog(@"v %f",CGRectGetMinY(submitBtn.frame));
-    
 }
 
 
-
+- (void)loadMoreData {
+    
+    _isFooterRefersh = YES;
+    
+    if (_requestTag == 0) {
+        
+        [self getTaskDataWithType:@"shoudaodegongzuorenwu" pageSize:_pageSize navIndex:_pageMeetingNotiIndex filter:@"" withTag:0 ];
+        
+    }else if(_requestTag == 1) {
+        
+        [self getTaskDataWithType:@"fachudegongzuorenwu" pageSize:_pageSize navIndex:_pageOtherNotiIndex filter:@"" withTag:0 ];
+        
+    }else {
+        
+        
+        [self getTaskDataWithType:@"wangchengdegongzuorenwu" pageSize:_pageSize navIndex:_pageSendNotiIndex filter:@"" withTag:0 ];
+        
+    }
+    
+    
+    
+    
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-
-    return 7;
+    if(_requestTag == 0){
+        
+        return _mettingDataArray.count;
+        
+    }else if (_requestTag == 1){
+        
+        return _otherDataArray.count;
+        
+    }else {
+        
+        return _SendDataArray.count;
+        
+    }
+    
 }
 
 #pragma mark - UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-            static NSString *cellID = @"cell";
-            
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-            if (nil == cell) {
-                
-                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
-            }
-            
-            //    cell.imageView.image = [UIImage imageNamed:@"icon"];
-            cell.textLabel.text = @"我是测试cell行";
+    static NSString *cellID = @"cell";
+    
+    TaskTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (nil == cell) {
+        
+        cell = [[TaskTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+    }
+    
+    IndexNotiModel *model = [[IndexNotiModel alloc]init];
+    
+    if(_requestTag == 0){
+        model = _mettingDataArray[indexPath.row];
+        model.modelTag = @"wsd";
+        cell.model = model;
 
-            cell.imageView.image = [UIImage imageNamed:@"iconfont-893renwumiaoshu-拷贝（合并）-拷贝-2"];
-            //        cell.textLabel.text = _cellTitleArray[indexPath.row]
-            
-            
-            cell.detailTextLabel.text  = @"李达      未读        2016 - 2 - 24";
-            cell.detailTextLabel.font = [UIFont systemFontOfSize:13];
-            cell.detailTextLabel.textColor = [UIColor lightGrayColor];
-
-            
-            
-            
-            return cell;
+        
+    }else if (_requestTag == 1){
+        
+        model = _otherDataArray[indexPath.row];
+        model.modelTag = @"wfc";
+        cell.model = model;
+        
+    }else {
+        
+        model = _SendDataArray[indexPath.row];
+        model.modelTag = @"yjs";
+        cell.model = model;
+        
+    }
+    
+    
+    cell.selectionStyle = 0;
+    return cell;
 }
 
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     
     return 60;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    
+    if(_requestTag == 0){
 
+        NotiDetialViewController *noti = [[NotiDetialViewController alloc]init];
+        noti.modelTag = 1;
+//        noti.enum_type = ENUM_DetailTypeModuleSender;
+        noti.refreshBlock = ^(BOOL isRefresh){
+        
+        if (isRefresh) {
+                
+            [_mettingDataArray removeAllObjects];
+            _pageMeetingNotiIndex = 1;
+            [self getTaskDataWithType:@"shoudaodegongzuorenwu" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+   
+            }
 
-
-
-
-
-
-
+        };
+        noti.ChID = [_mettingDataArray[indexPath.row] ChID];
+        noti.ExpDate = [_mettingDataArray[indexPath.row] ExpDate];
+        [self.navigationController pushViewController:noti animated:YES];
+        
+        
+    }else if (_requestTag == 1){
+        
+        AddTaskViewController *noti = [[AddTaskViewController alloc]init];
+        noti.titleTopc = [_otherDataArray[indexPath.row] ChTopic];
+        noti.sendDate = [_otherDataArray[indexPath.row] sendDate];
+        noti.receiveNamess = [_otherDataArray[indexPath.row] receiverName];
+        noti.content = [_otherDataArray[indexPath.row] chContent];
+        noti.extDate = [_otherDataArray[indexPath.row] ExpDate];
+        noti.ENUMShowType = ENUM_ShowWithExistInfo;
+        [self.navigationController pushViewController:noti animated:YES];
+        
+        
+    }else {
+        
+        FinshiedTaskViewController  *contentVc = [[ FinshiedTaskViewController alloc]init];
+        contentVc.titleTopic = [_SendDataArray[indexPath.row] ChTopic];
+        contentVc.sendDate = [_SendDataArray[indexPath.row] sendDate];
+        contentVc.senderName = [_SendDataArray[indexPath.row] senderName];
+        contentVc.chid = [_SendDataArray[indexPath.row] ChID];
+        contentVc.expDate =[_SendDataArray[indexPath.row]  ExpDate];
+        [self.navigationController pushViewController:contentVc animated:YES];
+        
+    }
+    
+}
 
 #pragma mark - HorizontalMenuDelegate
 
 - (void)clieckButton:(UIButton *)button
 {
-    OPLog(@"%@", button.titleLabel.text);
-    
+    OPLog(@"%ld", button.tag);
+    [self.view endEditing:YES];
     switch (button.tag) {
         case 0:
-
-            [self requestWithParameter:nil];
-
+            
+            _requestTag = 0;
+            _isHeaderRefersh  = NO;//重新归置刷新状态
+            _isFooterRefersh = NO;
+            
+            if (_mettingDataArray.count == 0) {
+                
+                [self getTaskDataWithType:@"shoudaodegongzuorenwu" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+                
+            }else {
+                
+                [_showTableView reloadData];
+            }
+            
+            
+            
             break;
         case 1:
             
-            [self requestWithParameter:nil];
+        
+            
+            _requestTag = 1;
+            _isHeaderRefersh  = NO;//重新归置刷新状态
+            _isFooterRefersh = NO;
+            if (_otherDataArray.count == 0) {
+                
+                [self getTaskDataWithType:@"fachudegongzuorenwu" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+                
+            }else {
+                
+                [_showTableView reloadData];
+            }
+            
+            
+            
+            
             
             break;
-            
         case 2:
             
-            [self requestWithParameter:nil];
+
+            _requestTag = 2;
+            _isHeaderRefersh  = NO;//重新归置刷新状态
+            _isFooterRefersh = NO;
+
+            if (_SendDataArray.count == 0) {
+                
+                [self getTaskDataWithType:@"wangchengdegongzuorenwu" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+                
+            }else {
+                
+                [_showTableView reloadData];
+            }
+            
             
             break;
             
@@ -195,11 +371,156 @@
 }
 
 
-- (void)requestWithParameter:(NSDictionary *)parameterDict {
+
+
+- (void)handleRequsetDate {
     
-    
-    if ([AppDelegate isNetworkConecting]) {
+    __weak typeof(self) weakSelf = self;
+    returnBlock = ^(id resultValue){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [weakSelf.showTableView.mj_header endRefreshing];
+            
+            [weakSelf.showTableView.mj_footer endRefreshing];
+            
+            OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
+            OPLog(@"-show-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
+            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
+
+                [weakSelf.showTableView reloadData];
+                
+                [SVProgressHUD showErrorWithStatus:@"没有更多的数据哦"];
+                
+            }else {
+                
+                
+                
+                NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+                
+                OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
+                
+                NSInteger countArray = 0;
+                if (weakSelf.isFooterRefersh) {
+                    if (_requestTag == 0) {
+                        
+                        weakSelf.pageMeetingNotiIndex ++;
+                        countArray = weakSelf.mettingDataArray.count;
+                        
+                    }else if(_requestTag == 1) {
+                        countArray =weakSelf.otherDataArray.count;
+                        weakSelf.pageOtherNotiIndex ++;
+                    }else {
+                        
+                        countArray =weakSelf.SendDataArray.count;
+                        weakSelf.pageSendNotiIndex ++;
+                        
+                        
+                    }
+                    
+                }
+                
+                if (weakSelf.isHeaderRefersh) {
+                    
+                    if (_requestTag == 0) {
+                        
+                        [weakSelf.mettingDataArray removeAllObjects];
+                    }else if(_requestTag == 1){
+                        
+                        
+                        [weakSelf.otherDataArray removeAllObjects];
+                    }else {
+                        
+                        [weakSelf.SendDataArray removeAllObjects];
+                    }
+                    
+                    weakSelf.isHeaderRefersh = NO;
+                    
+                }
+                
+                for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                    IndexNotiModel  *model = [[IndexNotiModel alloc]init];
+                    
+                    [model setValuesForKeysWithDictionary:dict];
+                    
+                    if (_requestTag == 0) {
+                        
+                        [weakSelf.mettingDataArray addObject:model];
+                    }else  if(_requestTag == 1){
+                        
+                        [weakSelf.otherDataArray addObject:model];
+                    }else {
+                        
+                        
+                        [weakSelf.SendDataArray addObject:model];
+                        
+                    }
+                    
+                }
+                //                for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                //                    AchievementModel  *model = [[AchievementModel alloc]init];
+                //
+                //                    [model setValuesForKeysWithDictionary:dict];
+                //
+                //
+                //                    if (_requestTag == 0) {
+                //
+                //                        [weakSelf.mettingDataArray addObject:model];
+                //                    }else  if(_requestTag == 1){
+                //
+                //                        [weakSelf.otherDataArray addObject:model];
+                //                    }else {
+                //
+                //
+                //                         [weakSelf.sendDataArray addObject:model];
+                //
+                //                    }
+                //
+                //                }
+                
+                
+                if (weakSelf.isFooterRefersh) {
+                    
+                    if (_requestTag == 0) {
+                        
+                        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"增加了%ld条内容", weakSelf.mettingDataArray.count - countArray]];
+                        
+                    }else if(_requestTag == 1){
+                        
+                        
+                        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"增加了%ld条内容", weakSelf.otherDataArray.count - countArray]];
+                        
+                        
+                    }else {
+                        
+                        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"增加了%ld条内容", weakSelf.SendDataArray.count - countArray]];
+                        
+                    }
+                    
+                }else {
+                    
+                    
+                    [SVProgressHUD showSuccessWithStatus:@"加载完成"];
+                }
+                
+
+                [weakSelf.showTableView reloadData];
+                
+            }
+            
+        });
         
+        
+    };
+    
+}
+
+
+- (void)getTaskDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter withTag:(NSInteger)Tag{
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        //        [SVProgressHUD showWithStatus:@"增在加载..."];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "
@@ -207,80 +528,42 @@
                                   "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
                                   "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
                                   "<soap12:Body>"
-                                  "<GetTreeUserSysDept xmlns=\"Net.GongHuiTong\">"
+                                  "<GetJsonListData xmlns=\"Net.GongHuiTong\">"
                                   "<logincookie>%@</logincookie>"
-                                  "<checktype>%@</checktype>"
-                                  " </GetTreeUserSysDept>"
+                                  "<datatype>%@</datatype>"
+                                  "<pagesize>%ld</pagesize>"
+                                  "<navindex>%ld</navindex>"
+                                  "<filter>%@</filter>"
+                                  " </GetJsonListData>"
                                   "</soap12:Body>"
-                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"checkbox"];
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)pageSize,(long)index,filter];
         
-        ReturnValueBlock returnBlock = ^(id resultValue){
-            
-            //ui需要回到主线程！！！！！
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                OPLog(@"000:%@",[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]);
-                OPLog(@"0class0:%@",[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] class]);
-                
-                if ([[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] isEqualToString:@"用户未登录！"]) {
-   
-    
-                            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"用户未登录,请重新登录" message:@"是否重新登录 " preferredStyle:UIAlertControllerStyleAlert];
-    
-                            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-    
-                                [self.navigationController pushViewController:[[LoginViewController alloc] init] animated:YES];
-    
-                            }];
-    
-                            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-    
-                            }];
-    
-                            [alertController addAction:cancelAction];
-                            [alertController addAction:okAction];
-
-                            [self.navigationController presentViewController:alertController animated:YES completion:nil];
-   
-                }else if([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"]) {
-
-                    OPLog(@"----error---%@---",[NSNull null]);
-                    
-                }else {
-                    
-                    NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetTreeUserSysDeptResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
-                    
-                    OPLog(@"%@",listDic);
-                    
-                }
-                
-                
-            });
-            
-        };
-        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetTreeUserSysDeptResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonListDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        
         
     }else {
         
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无网络连接,请检查网络!" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            
-        }];
+        [_showTableView.mj_header endRefreshing];
+        // 拿到当前的上拉刷新控件，结束刷新状态
+        [_showTableView.mj_footer endRefreshing];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
         
-        [alertController addAction:okAction];
-        [self.navigationController  presentViewController:alertController animated:YES completion:nil];
         
     }
     
+    
+    
+    
+    
+    
 }
 
-
-
-- (void)addTaskBtnClicked:(UIButton *)sender {
-
+- (void)createTakBtnClicked:(UIButton *)sender {
+    
     [self.navigationController pushViewController:[[AddTaskViewController alloc]init] animated:YES];
     
-    
 }
-
 @end

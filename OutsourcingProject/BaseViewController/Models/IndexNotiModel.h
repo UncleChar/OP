@@ -23,4 +23,9 @@
 @property (nonatomic, strong) NSString *senderName;
 @property (nonatomic, strong) NSString *urgLevel;
 //@property (nonatomic, strong) NSString *receiptDate;
+@property (nonatomic, strong) NSString *ExpDate;  //task的增加的
+@property (nonatomic, strong) NSString *acceptStatus;
+@property (nonatomic, strong) NSString *finshDate;
+@property (nonatomic, strong) NSString *modelTag;
+@property (nonatomic, strong) NSString *receiverName;
 @end

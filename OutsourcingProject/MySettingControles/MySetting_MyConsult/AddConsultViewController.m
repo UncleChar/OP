@@ -33,6 +33,9 @@
 @property (nonatomic, strong) UIView       *datePickerView;
 @property (nonatomic, assign) NSInteger     tagBtn;
 
+@property (nonatomic, strong) NSString  *idString;
+@property (nonatomic, strong) NSString  *nameString;
+
 
 @end
 
@@ -146,6 +149,7 @@
     _saveBtn.tag = 777 + 1;
     _saveBtn.backgroundColor = kBtnColor;
     [_saveBtn setTitle:@"提交" forState:UIControlStateNormal];
+//    [_saveBtn addTarget:self action:@selector(submitCus) forControlEvents:UIControlEventTouchUpInside];
     [_saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_saveBtn addTarget:self action:@selector(activityBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     _saveBtn.frame = CGRectMake(20, CGRectGetMaxY(textBackView.frame) + 20, kScreenWidth - 40, kHeight);
@@ -182,6 +186,41 @@
             de.isJump = YES;
             de.isBlock = YES;
             de.selectedBlock = ^(NSMutableArray *array){
+                
+                _idString = @"";
+                _nameString = @"";
+                NSMutableArray  *idStringArr = [[NSMutableArray alloc]init];
+                NSMutableArray  *nameStringArr = [[NSMutableArray alloc]init];
+                for (NSDictionary *dict in array) {
+                    
+                    [idStringArr addObject:[dict objectForKey:@"id"]];
+                    [nameStringArr addObject:[dict objectForKey:@"name"]];
+                }
+                
+                if (idStringArr.count > 0) {
+                    
+                    if (idStringArr.count >= 2 ) {
+                        
+
+//                        _idString = [idStringArr componentsJoinedByString:@","];
+//                        _nameString = [nameStringArr componentsJoinedByString:@","];
+                        
+                    }else {
+                        
+                        _idString = idStringArr[0];
+                        _nameString = nameStringArr[0];
+                    }
+                    
+                }else {
+                    
+                    
+                }
+                
+                OPLog(@"string %@",_idString);
+                OPLog(@"stringName %@",_nameString);
+
+                
+                
                 NSString *title = @"";
                 if (array.count > 0) {
                     NSMutableArray *arr = [[NSMutableArray alloc]init];
@@ -209,7 +248,15 @@
             
             if ([AppDelegate isNetworkConecting]) {
                 
-                [SVProgressHUD showSuccessWithStatus:@"我要提交了哦"];
+            
+                NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"neibuzixun"};
+                //            NSLog(@"%@",[JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"fld_46_1":_groupNamesTF.text,@"fld_46_2":_remarkTF.text,@"fld_46_3":_idString,@"fld_46_4":_nameString} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil]);
+                
+                NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"chtopic":_taskTitleTF.text,@"ChContent":_taskContentTView.text,@"ReceiveCode":_idString,@"ReceiveName":_nameString} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                //            xmlString = [xmlString htmlEntityDecode];
+                
+                OPLog(@"---xml    %@",xmlString);
+                [self submitAddUserWithXmlString:xmlString];
                 
                 
             }else {
@@ -238,9 +285,71 @@
     }
     
 }
+- (void)submitCus {
 
 
 
+}
+
+
+- (void)submitAddUserWithXmlString:(NSString *)xmlString
+{
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        
+        
+        __weak typeof(self) weakSelf = self;
+        ReturnValueBlock returnBlockPost = ^(id resultValue){
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSLog(@"AddAppInfoResult::%@",[[resultValue lastObject] objectForKey:@"AddAppInfoResult"]);
+                
+                if ([[[resultValue lastObject] objectForKey:@"AddAppInfoResult"] isEqualToString:@"操作失败！"]) {
+                   
+                    [SVProgressHUD showErrorWithStatus:@"操作失败!"];
+
+                    
+                }else {
+                
+                
+                    [SVProgressHUD showSuccessWithStatus:@"咨询成功!"];
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+                
+                
+                
+//                weakSelf.submitBtnBlock( YES);
+//
+                
+                
+                
+            });
+            
+            
+            
+            
+            
+        };
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:xmlString parseParameters:@[@"AddAppInfoResult"] WithReturnValeuBlock:returnBlockPost WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+        
+    }
+    
+    
+    
+}
 
 
 

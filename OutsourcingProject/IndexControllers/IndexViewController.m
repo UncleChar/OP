@@ -400,6 +400,7 @@
         
             NotiDetialViewController *noti = [[NotiDetialViewController alloc]init];
             noti.modelTag = 1;
+//            noti.enum_type = ENUM_DetailTypeModuleIndex;
             noti.ChID = [taskArray[indexPath.row] ChID];
             noti.ExpDate = [taskArray[indexPath.row] ExpDate];
             [self.navigationController pushViewController:noti animated:YES];

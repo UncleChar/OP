@@ -9,10 +9,18 @@
 #import "JustBackBtn.h"
 
 
-
 typedef void(^DeleteBlock)( NSInteger tag);
 
+typedef enum {
+    ENUM_DetailTypeShouldRefresh=0,//开始
+    ENUM_DetailTypeNoRefresh//停止
+} ENUM_DetailTypeModule;
+
+typedef void(^RefreshBlock)(BOOL isSuccess);
+
 @interface NotiDetialViewController : JustBackBtn
+
+
 
 @property (nonatomic, strong) NSString *senderName;
 @property (nonatomic, strong) NSString *receiverName;
@@ -21,6 +29,7 @@ typedef void(^DeleteBlock)( NSInteger tag);
 @property (nonatomic, strong) NSString *ChTopic;
 @property (nonatomic, strong) NSString *chContent;
 @property (nonatomic, strong) DeleteBlock deleteBlock;
+@property (nonatomic, strong) RefreshBlock refreshBlock;
 @property (nonatomic, assign) NSInteger modelTag;
 @property (nonatomic, strong) NSString *ChID;
 
@@ -31,5 +40,6 @@ typedef void(^DeleteBlock)( NSInteger tag);
 @property (nonatomic, strong) NSString *chtopic;
 @property (nonatomic, strong) NSString *readStatus;
 
+@property (nonatomic, assign) ENUM_DetailTypeModule  enum_type;
 
 @end

@@ -185,6 +185,42 @@
     
     [ConfigUITools sizeToScroll:_backgroungScrollView withStandardElementMaxY:CGRectGetMaxY(_saveBtn.frame) + 25 forStepsH:0];
     
+    switch (self.ENUMShowType) {
+        case ENUM_ShowWithExistInfo:
+        {
+            _taskTitleTF.text = self.titleTopc;
+
+            [_receivedBtn setTitle:self.receiveNamess forState:UIControlStateNormal];
+
+            
+
+            [_startTimeBtn setTitle:self.sendDate forState:UIControlStateNormal];
+ 
+            [_endTimeBtn setTitle:self.extDate forState:UIControlStateNormal];
+
+       
+ 
+             _taskContentTView.text = self.content;
+            
+            _taskContentTView.text = [self.content htmlEntityDecode];
+            _taskContentTView.font = OPFont(15);
+//            [_taskContentTView setEditable:NO];
+
+            
+            
+            
+            
+        }
+            break;
+        case ENUM_ShowWithEditInfo:
+            
+            
+            break;
+            
+        default:
+            break;
+    }
+    
 }
     
 
