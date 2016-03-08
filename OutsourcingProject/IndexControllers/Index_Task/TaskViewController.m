@@ -281,6 +281,7 @@
         noti.content = [_otherDataArray[indexPath.row] chContent];
         noti.extDate = [_otherDataArray[indexPath.row] ExpDate];
         noti.ENUMShowType = ENUM_ShowWithExistInfo;
+        noti.postID = [_otherDataArray[indexPath.row] ChID];
         [self.navigationController pushViewController:noti animated:YES];
         
         
@@ -563,7 +564,9 @@
 
 - (void)createTakBtnClicked:(UIButton *)sender {
     
-    [self.navigationController pushViewController:[[AddTaskViewController alloc]init] animated:YES];
+    AddTaskViewController *tak = [[AddTaskViewController alloc]init];
+    tak.ENUMShowType = ENUM_ShowWithEditInfo;
+    [self.navigationController pushViewController:tak animated:YES];
     
 }
 @end

@@ -70,7 +70,7 @@
         [favBtn setBackgroundImage:[UIImage imageNamed:@"iconfont-shoucang(5)（合并）"] forState:UIControlStateNormal];
         [favBtn setBackgroundImage:[UIImage imageNamed:@"点击后收藏"] forState:UIControlStateSelected];
         [favBtn addTarget:self action:@selector(btnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        favBtn.selected = NO;
+        favBtn.selected = YES;
         favBtn.tag = 101;
         [bottomView addSubview:favBtn];
         
@@ -228,8 +228,17 @@
     content = [content stringByReplacingOccurrencesOfString:@"\n" withString:@"<br>"];
     [showWebView loadHTMLString:content baseURL:nil];
     
-    
-    
+    self.chContentPost = [[[dict objectForKey:@"rows"] lastObject] objectForKey:@"chContent"];
+
+//    ChTopic = "\U5de5\U4f1a\U901a\U64cd\U4f5c\U624b\U518c";
+//    DataType = "\U57fa\U5c42\U5de5\U4f5c";
+//    PraiseCode = 0;
+//    PublishDate = "2016-02-01";
+//    ShoucangCode = 0;
+//    attfile = 20162193724157245774;
+//    chContent = "\U8bf7\U4e0b\U8f7d\U67e5\U9605\n";
+//    senderIconpic = "";
+//    senderName = "\U7ba1\U7406\U5458";
     
     
 //    NSString *subString =@"]";
@@ -279,6 +288,9 @@
             }else {
                 
                 NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+
+                
+                OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
                 [SVProgressHUD showSuccessWithStatus:@"加载完成"];
                
                 [weakself handleContent:listDic];
@@ -341,9 +353,31 @@
             
             if (sender.selected) {
                 
+                {//点赞的接口
+                
+                    
+                     //    "DataType","DataCode","PhoneIC"
+                    self.dataCode = self.chID;
+                    self.DataTypepost = self.dataType;
+                    self.memberCode = [[NSUserDefaults standardUserDefaults] objectForKey:@"usercode"];
+                    self.PhoneIC = [[NSUserDefaults standardUserDefaults] objectForKey:@"shouji"];
+                    self.enum_action = Enum_ActionModuleFavor;
+                    NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"dianzan"};
+                    NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"DataType":self.DataTypepost,@"DataCode":self.dataCode,@"PhoneIC":self.PhoneIC} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                    OPLog(@"---xml    %@",xmlString);
+                    [self submitAddUserWithXmlString:xmlString];
+                    
+                    
+                
+                }
                 [SVProgressHUD showSuccessWithStatus:@"点赞成功"];
             }else {
+                {//取消的接口
                 
+                    self.enum_action = Enum_ActionModuleCanclePraise;
+                
+                
+                }
                 
                 [SVProgressHUD showSuccessWithStatus:@"取消点赞"];
             }
@@ -354,10 +388,32 @@
         case 1:
         {
             if (sender.selected) {
+                {//收藏的接口
+                    
+                   
+                   
+                    
+                    //    "DataType","DataCode","ChTopic","IconPic","ChContent","MemberCode"
+                    
+                    
+                    self.dataCode = self.chID;
+                    self.DataTypepost = self.dataType;
+                    self.memberCode = [[NSUserDefaults standardUserDefaults] objectForKey:@"usercode"];
+                    self.enum_action = Enum_ActionModulePraise;
+                    NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"shoucang"};
+                    NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"DataType":self.DataTypepost,@"DataCode":self.dataCode,@"ChTopic":self.ChTopicPost,@"IconPic":self.senderIconpicPost,@"ChContent":self.chContentPost,@"MemberCode":self.memberCode} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                    OPLog(@"---xml    %@",xmlString);
+                    [self submitAddUserWithXmlString:xmlString];
+                   
                 
-                [SVProgressHUD showSuccessWithStatus:@"收藏成功"];
+                }
+                
             }else {
+                {//取消的接口
                 
+                    self.enum_action = Enum_ActionModuleCancleFavor;
+                
+                }
                 
                 [SVProgressHUD showSuccessWithStatus:@"取消收藏"];
             }
@@ -370,6 +426,80 @@
         default:
             break;
     }
+}
+- (void)submitAddUserWithXmlString:(NSString *)xmlString
+{
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        
+        
+        __weak typeof(self) weakSelf = self;
+        ReturnValueBlock returnBlockPost = ^(id resultValue){
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSLog(@"AddAppInfoResult::%@",[[resultValue lastObject] objectForKey:@"AddAppInfoResult"]);
+                
+                if ([[[resultValue lastObject] objectForKey:@"AddAppInfoResult"] isEqualToString:@"操作失败！"]) {
+                    
+                    [SVProgressHUD showErrorWithStatus:@"操作失败!"];
+                    
+                    
+                }else {
+                    
+                    NSString *str = [[resultValue lastObject] objectForKey:@"AddAppInfoResult"];
+                    
+                    switch (self.enum_action) {
+                        case Enum_ActionModulePraise:
+                            
+                            [SVProgressHUD showSuccessWithStatus:str];
+                            OPLog(@"点赞ok");
+                            
+                            break;
+                        case Enum_ActionModuleCanclePraise:
+                            [SVProgressHUD showSuccessWithStatus:str];
+                            OPLog(@"取消点赞ok");
+                            break;
+                        case Enum_ActionModuleFavor:
+                            [SVProgressHUD showSuccessWithStatus:str];
+                            OPLog(@"收藏ok");
+                            break;
+                        case Enum_ActionModuleCancleFavor:
+                            OPLog(@"取消收藏ok");
+                            [SVProgressHUD showSuccessWithStatus:str];
+                            break;
+                            
+                        default:
+                            break;
+                    }
+                    
+                    
+
+                    
+//                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+                
+                
+            });
+            
+            
+        };
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:xmlString parseParameters:@[@"AddAppInfoResult"] WithReturnValeuBlock:returnBlockPost WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+    }
+    
+    
 }
 
 

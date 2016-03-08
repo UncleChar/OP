@@ -26,6 +26,9 @@
 @property (nonatomic, strong) UIView       *datePickerView;
 @property (nonatomic, assign) NSInteger     tagBtn;
 
+@property (nonatomic, strong) NSString  *idString;
+@property (nonatomic, strong) NSString  *nameString;
+
 
 @end
 
@@ -35,6 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"新建任务";
+    _idString = @"";
     
     _backgroungScrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     _backgroungScrollView.backgroundColor = kBackColor;
@@ -172,7 +176,7 @@
     
     
     _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _saveBtn.tag = 777 + 3;
+    _saveBtn.tag = 777 + 4;
     _saveBtn.backgroundColor = kBtnColor;
     [_saveBtn setTitle:@"保存" forState:UIControlStateNormal];
     [_saveBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -192,7 +196,7 @@
 
             [_receivedBtn setTitle:self.receiveNamess forState:UIControlStateNormal];
 
-            
+            _nameString = _receivedBtn.titleLabel.text;
 
             [_startTimeBtn setTitle:self.sendDate forState:UIControlStateNormal];
  
@@ -247,21 +251,56 @@
             UserDeptViewController *de = [[UserDeptViewController alloc]init];
             de.isJump = YES;
             de.isBlock = YES;
+            _isChongxin = YES;
             de.selectedBlock = ^(NSMutableArray *array){
-                NSString *title = @"";
-                if (array.count > 0) {
-                    NSMutableArray *arr = [[NSMutableArray alloc]init];
-                    for (NSDictionary *dict in array) {
-                        
-                        [arr addObject:[dict objectForKey:@"name"]];
-                        
-                        
-                    }
+                
+                _idString = @"";
+                _nameString = @"";
+                NSMutableArray  *idStringArr = [[NSMutableArray alloc]init];
+                NSMutableArray  *nameStringArr = [[NSMutableArray alloc]init];
+                for (NSDictionary *dict in array) {
                     
-                    title = [(NSArray *)arr componentsJoinedByString:@"、"];
+                    [idStringArr addObject:[dict objectForKey:@"id"]];
+                    [nameStringArr addObject:[dict objectForKey:@"name"]];
                 }
                 
-                [_receivedBtn setTitle:title forState:UIControlStateNormal];
+                if (idStringArr.count > 0) {
+                    
+//                    if (idStringArr.count >= 2 ) {
+//                        
+//                        
+//                        //                        _idString = [idStringArr componentsJoinedByString:@","];
+//                        //                        _nameString = [nameStringArr componentsJoinedByString:@","];
+//                        
+//                    }else {
+                    
+                        _idString = idStringArr[0];
+                        _nameString = nameStringArr[0];
+//                    }
+                    
+                }else {
+                    
+                    
+                }
+                
+                OPLog(@"string %@",_idString);
+                OPLog(@"stringName %@",_nameString);
+
+                
+//                NSString *title = @"";
+//                if (array.count > 0) {
+//                    NSMutableArray *arr = [[NSMutableArray alloc]init];
+//                    for (NSDictionary *dict in array) {
+//                        
+//                        [arr addObject:[dict objectForKey:@"name"]];
+//                        
+//
+//                    }
+//                    
+//                    title = [(NSArray *)arr componentsJoinedByString:@","];
+//                }
+                
+                [_receivedBtn setTitle:_nameString forState:UIControlStateNormal];
                 [DaiDodgeKeyboard addRegisterTheViewNeedDodgeKeyboard:_backgroungScrollView];
                 
             };
@@ -301,7 +340,74 @@
             if ([AppDelegate isNetworkConecting]) {
                 
                 
+                switch (self.ENUMShowType) {
+                        
+                    case ENUM_ShowWithExistInfo:
+                    {
+                    
+                        
+//                        NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"gongzuorenwu"};
+                     
+                      
+                        if (_isChongxin) {
+                           
+                            NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"gongzuorenwu",@"id":@([self.postID integerValue])};
+                            OPLog(@"dict  %@",keyAndValues);
+                            NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"EditAppInfo" xmlInfo:YES resouresInfo:@{@"fld_29_1":_taskTitleTF.text,@"fld_29_2":_taskContentTView.text,@"fld_29_3":_idString,@"fld_29_4":_nameString,@"fld_29_5":_endTimeBtn.titleLabel.text} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                            OPLog(@"---xml    %@",xmlString);
+                            [self submitAddUserWithXmlString:xmlString];
+
+                            
+                            
+                        }else {
+                        
+                        
+                            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请重新选择接收人" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                            
+                            
+                            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                                
+                                
+                                
+                            }];
+                            
+                            [alertController addAction:okAction];
+                            
+                            [self.navigationController  presentViewController:alertController animated:YES completion:nil];
+                        
+                        }
+                        
+
+                        
+                    }
+                        
+                        break;
+                        
+                    case ENUM_ShowWithEditInfo:
+                    {
+                    
+                        NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"gongzuorenwu"};
+                        
+                        //                NSDateFormatter *df = [[NSDateFormatter alloc]init];
+                        //                //设置转换格式
+                        //                df.dateFormat = @"yyyy-MM-dd HH:mm";
+                        //                NSString *str = [df stringFromDate:[NSDate date]];
+                        
+                        NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"fld_29_1":_taskTitleTF.text,@"fld_29_2":_taskContentTView.text,@"fld_29_3":_idString,@"fld_29_4":_nameString,@"fld_29_5":_endTimeBtn.titleLabel.text} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                        OPLog(@"---xml    %@",xmlString);
+                        [self submitAddUserWithXmlString:xmlString];
+                    
+                    }
+                        
+                        break;
+                        
+                    default:
+                        break;
+                }
                 
+                
+                
+               
                 
             }else {
                 
@@ -319,6 +425,7 @@
                 [self.navigationController  presentViewController:alertController animated:YES completion:nil];
                 
             }
+
             
         }
             break;
@@ -331,6 +438,102 @@
 }
 
 
+- (void)submitAddUserWithXmlString:(NSString *)xmlString
+{
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        
+        switch (self.ENUMShowType) {
+                            
+                        case ENUM_ShowWithExistInfo:
+                        {
+                            
+                            __weak typeof(self) weakSelf = self;
+                            ReturnValueBlock returnBlockPost = ^(id resultValue){
+                            
+                              dispatch_async(dispatch_get_main_queue(), ^{
+                              
+                              
+                              
+                                  NSLog(@"EditAppInfoResult::%@",[[resultValue lastObject] objectForKey:@"EditAppInfoResult"]);
+                                  
+                                  if ([[[resultValue lastObject] objectForKey:@"EditAppInfoResult"] isEqualToString:@"操作失败！"]) {
+                                      
+                                      [SVProgressHUD showErrorWithStatus:@"操作失败!"];
+                                      
+                                      
+                                  }else {
+                                      
+                                      [SVProgressHUD showSuccessWithStatus:@"编辑成功!"];
+                                  }
+                              
+                                   [weakSelf.navigationController popViewControllerAnimated:YES];
+                              
+                              });
+ 
+                            };
+                            
+                          
+                            
+                            [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:xmlString parseParameters:@[@"EditAppInfoResult"] WithReturnValeuBlock:returnBlockPost WithErrorCodeBlock:nil];
+                         
+                            
+                        }
+                            
+                            break;
+                            
+                        case ENUM_ShowWithEditInfo:
+                        {
+                            
+                            
+                            __weak typeof(self) weakSelf = self;
+                            ReturnValueBlock returnBlockPost = ^(id resultValue){
+                                
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    
+                                    
+                                    NSLog(@"AddAppInfoResult::%@",[[resultValue lastObject] objectForKey:@"AddAppInfoResult"]);
+                                    
+                                    if ([[[resultValue lastObject] objectForKey:@"AddAppInfoResult"] isEqualToString:@"操作失败！"]) {
+                                        
+                                        [SVProgressHUD showErrorWithStatus:@"操作失败!"];
+                                        
+                                        
+                                    }else {
+                                        
+                                        [SVProgressHUD showSuccessWithStatus:@"添加成功!"];
+                                    }
+                                    
+                                     [weakSelf.navigationController popViewControllerAnimated:YES];
+                                    
+                                });
+                                
+                            };
+                            
+                           
+                            
+                            [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:xmlString parseParameters:@[@"AddAppInfoResult"] WithReturnValeuBlock:returnBlockPost WithErrorCodeBlock:nil];
+                            
+                        }
+                            
+                            break;
+                            
+                        default:
+                            break;
+                    }
+                    
+     
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+    }
+    
+    
+}
 
 
 

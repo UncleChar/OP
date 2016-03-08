@@ -13,7 +13,7 @@
 #define kFont 16
 @interface ScheduleViewController ()<FSCalendarDataSource,FSCalendarDelegate,UITableViewDataSource,UITableViewDelegate>
 {
-    ReturnValueBlock returnBlock;
+    ReturnValueBlock returnBlockDate;
 
 }
 @property (nonatomic, strong) UITableView      *scheduleTableView;
@@ -116,19 +116,114 @@
     [creatBtn addTarget:self action:@selector(scheduleBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [creatBtn setTitle:@"新建日程" forState:UIControlStateNormal];
     [self.view addSubview:creatBtn];
-    
-    
-    [self handleRequsetDetaiDate];
 
-//    
-//    [self getMyReceivedShowDataWithType:@"shoudaodegongzuodongtai" pageSize:_pageSize navIndex:0 filter:@""];
-//    
+
+    NSDateFormatter *charuncle = [[NSDateFormatter alloc]init];
+    //设置转换格式
+    charuncle.dateFormat = @"yyyy-MM-dd";
+//    NSString *str = [charuncle stringFromDate:[NSDate date]];
+//    [NSString stringWithFormat:@"fld_40_1 like \"%%%@%%\"",_showSearchTF.text]
+    //           subD.filter =  @"chtopic like \"%中国%\"";
+    NSString *filter = [NSString stringWithFormat:@"DateDiff(day,fld_30_5,%@)>=0 and  DateDiff(day,%@,fld_30_8)>=0",@"2016-03-08",@"2016-04-14"];
+    
+  
+    filter = [filter stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+//     filter = [filter stringByReplacingOccurrencesOfString:@"\"" withString:@"&apos;"];
+      OPLog(@"filter  %@",filter);
+//    OPLog(@"filter  %@",[filter htmlEntityEncode]);
+   
+    [self handleRequsetDetaiDate];
+    [self getMyReceivedShowDataWithType:@"richenganpai" pageSize:8 navIndex:0 filter:filter];
+//
 //    [self NotiDetailWithType:@"newrichenganpai" chid:[self.ChID integerValue]];
-//    
+ 
+ //   DateDiff(day,”开始时间”,fld_30_5)>=0  and   DateDiff(day,fld_30_5,”截止时间”)>=0
+
 
     
 
 }
+
+- (void)handleRequsetDetaiDate {
+    
+    
+    //    __weak typeof (self) weakSelf = self;
+    returnBlockDate = ^(id resultValue){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            
+            OPLog(@"-fucucucu-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
+            
+            
+            
+            
+            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
+                
+                
+                
+            }else {
+                
+                SBJSON *jsonParser = [[SBJSON alloc] init];
+                NSError *parseError = nil;
+                NSDictionary * result = [jsonParser objectWithString:[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]
+                                                               error:&parseError];
+                NSLog(@"jsonParserresult:%@",[result objectForKey:@"rows"]);
+                
+            }
+            
+        });
+        
+        
+        
+    };
+    
+}
+
+
+
+
+- (void)getMyReceivedShowDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter{
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        //        [SVProgressHUD showWithStatus:@"增在加载..."];
+        NSString * requestBody = [NSString stringWithFormat:
+                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                  "<soap12:Envelope "
+                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+                                  "<soap12:Body>"
+                                  "<GetJsonListData xmlns=\"Net.GongHuiTong\">"
+                                  "<logincookie>%@</logincookie>"
+                                  "<datatype>%@</datatype>"
+                                  "<pagesize>%ld</pagesize>"
+                                  "<navindex>%ld</navindex>"
+                                  "<filter>%@</filter>"
+                                  " </GetJsonListData>"
+                                  "</soap12:Body>"
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)pageSize,(long)index,filter];
+        
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonListDataResult"] WithReturnValeuBlock:returnBlockDate WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        //        [_favorTableView.mj_header endRefreshing];
+        //        // 拿到当前的上拉刷新控件，结束刷新状态
+        //        [_favorTableView.mj_footer endRefreshing];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+        
+    }
+    
+    
+    
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -364,88 +459,44 @@
     
 }
 
-- (void)handleRequsetDetaiDate {
-    
-    
-    __weak typeof (self) weakSelf = self;
-    returnBlock = ^(id resultValue){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            
-            OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]);
-            
-            
-            
-            
-            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]) {
-                
-                
-                
-            }else {
-                
-                SBJSON *jsonParser = [[SBJSON alloc] init];
-                NSError *parseError = nil;
-                NSDictionary * result = [jsonParser objectWithString:[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]
-                                                               error:&parseError];
-                NSLog(@"jsonParserresult:%@",[result objectForKey:@"rows"]);
-                NSDictionary *detailDict = [result objectForKey:@"rows"][0];
-                
-//                [weakSelf configAfterData:detailDict];
-                
-                
-                
-                //                OPLog(@"----far--%@----------",[[result objectForKey:@"rows"][0] class ]);
-                //                NSString *replace = [[result objectForKey:@"rows"][0] objectForKey:@"receiveNames"];
-                //                replace = [replace stringByReplacingOccurrencesOfString:@"," withString:@" "];
-                //                weakSelf.senderLabel.text = [NSString stringWithFormat:@"  通知接收者:    %@",replace];;
-                //
-                
-            }
-            
-        });
-        
-        
-        
-    };
-    
-}
 
-- (void)NotiDetailWithType:(NSString *)type chid:(NSInteger)cid {
-    
-    
-    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
-        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
-        //        [SVProgressHUD showWithStatus:@"增在加载..."];
-        NSString * requestBody = [NSString stringWithFormat:
-                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-                                  "<soap12:Envelope "
-                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
-                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
-                                  "<soap12:Body>"
-                                  "<GetJsonContentData xmlns=\"Net.GongHuiTong\">"
-                                  "<logincookie>%@</logincookie>"
-                                  "<datatype>%@</datatype>"
-                                  "<ChID>%ld</ChID>"
-                                  " </GetJsonContentData>"
-                                  "</soap12:Body>"
-                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)cid];
-        
-        
-        
-        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonContentDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
-        
-        
-    }else {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-        [alert show];
-        
-        
-    }
-    
-    
-    
-}
+
+//- (void)NotiDetailWithType:(NSString *)type chid:(NSInteger)cid {
+//    
+//    
+//    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+//        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+//        //        [SVProgressHUD showWithStatus:@"增在加载..."];
+//        NSString * requestBody = [NSString stringWithFormat:
+//                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+//                                  "<soap12:Envelope "
+//                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+//                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+//                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+//                                  "<soap12:Body>"
+//                                  "<GetJsonContentData xmlns=\"Net.GongHuiTong\">"
+//                                  "<logincookie>%@</logincookie>"
+//                                  "<datatype>%@</datatype>"
+//                                  "<ChID>%ld</ChID>"
+//                                  " </GetJsonContentData>"
+//                                  "</soap12:Body>"
+//                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)cid];
+//        
+//        
+//        
+//        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonContentDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+//        
+//        
+//    }else {
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//        [alert show];
+//        
+//        
+//    }
+//    
+//    
+//    
+//}
 
 @end

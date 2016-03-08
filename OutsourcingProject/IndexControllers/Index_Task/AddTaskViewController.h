@@ -20,5 +20,8 @@ typedef enum {
 @property (nonatomic, strong) NSString *content;
 @property (nonatomic, strong) NSString *titleTopc;
 
+@property (nonatomic, strong) NSString *postID;
+@property (nonatomic, assign) BOOL isChongxin;
+
 
 @end

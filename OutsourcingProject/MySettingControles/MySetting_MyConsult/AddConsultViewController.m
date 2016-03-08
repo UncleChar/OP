@@ -199,17 +199,17 @@
                 
                 if (idStringArr.count > 0) {
                     
-                    if (idStringArr.count >= 2 ) {
-                        
-
-//                        _idString = [idStringArr componentsJoinedByString:@","];
-//                        _nameString = [nameStringArr componentsJoinedByString:@","];
-                        
-                    }else {
-                        
+//                    if (idStringArr.count >= 2 ) {
+//                        
+//
+////                        _idString = [idStringArr componentsJoinedByString:@","];
+////                        _nameString = [nameStringArr componentsJoinedByString:@","];
+//                        
+//                    }else {
+                    
                         _idString = idStringArr[0];
                         _nameString = nameStringArr[0];
-                    }
+//                    }
                     
                 }else {
                     
@@ -221,20 +221,20 @@
 
                 
                 
-                NSString *title = @"";
-                if (array.count > 0) {
-                    NSMutableArray *arr = [[NSMutableArray alloc]init];
-                    for (NSDictionary *dict in array) {
-                        
-                        [arr addObject:[dict objectForKey:@"name"]];
-                        
-                        
-                    }
-                    
-                    title = [(NSArray *)arr componentsJoinedByString:@"、"];
-                }
+//                NSString *title = @"";
+//                if (array.count > 0) {
+//                    NSMutableArray *arr = [[NSMutableArray alloc]init];
+//                    for (NSDictionary *dict in array) {
+//                        
+//                        [arr addObject:[dict objectForKey:@"name"]];
+//                        
+//                        
+//                    }
+//                    
+//                    title = [(NSArray *)arr componentsJoinedByString:@","];
+//                }
                 
-                [_receivedBtn setTitle:title forState:UIControlStateNormal];
+                [_receivedBtn setTitle:_nameString forState:UIControlStateNormal];
                 [DaiDodgeKeyboard addRegisterTheViewNeedDodgeKeyboard:_backgroungScrollView];
                 
             };

@@ -262,6 +262,9 @@
             contentVc.isBtn = 1;
             contentVc.showTitle = @"业务指导详情";
             contentVc.chID = [_dataArray[indexPath.row] ChID];
+            contentVc.ChTopicPost = [_dataArray[indexPath.row] ChTopic];
+            contentVc.senderIconpicPost = [_dataArray[indexPath.row] senderIconpic];
+           
 //            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
 //            
 //            contentVc.diffTag = _MokuaiTag;
@@ -279,8 +282,10 @@
             contentVc.dataType = @"shoudaodechengguozhanshi";
             contentVc.showTitle = @"成果展示详情";
             contentVc.chID = [_dataArray[indexPath.row] ChID];
-//            contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
-//            
+            contentVc.ChTopicPost = [_dataArray[indexPath.row] ChTopic];
+            contentVc.senderIconpicPost = [_dataArray[indexPath.row] senderIconpic];
+            
+//
 //            contentVc.diffTag = _MokuaiTag;
 //            contentVc.diffContent = [_dataArray[indexPath.row] chContent];
             

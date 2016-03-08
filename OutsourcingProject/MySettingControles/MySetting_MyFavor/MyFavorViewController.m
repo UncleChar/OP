@@ -165,6 +165,7 @@
             contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
             contentVc.isHasClassify = NO;
             contentVc.isBtn = 1;
+            contentVc.isFavor = YES;
             contentVc.showTitle = @"收藏详情";
 
             
@@ -242,8 +243,7 @@
 
                     
                 }
-                
-                
+ 
                 if (weakSelf.isFooterRefersh) {
                    
                         

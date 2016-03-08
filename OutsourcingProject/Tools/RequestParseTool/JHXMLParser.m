@@ -181,30 +181,10 @@
     
     [xmlFile writeEndElement];
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     //--------------Attach
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
     
     [xmlFile writeEndElement];
     

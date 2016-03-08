@@ -457,8 +457,8 @@
               dispatch_async(dispatch_get_main_queue(), ^{
                   [listTableView.mj_header endRefreshing];
                  
-            OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
-            OPLog(@"-index-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
+//            OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
+//            OPLog(@"-index-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
             if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
                 
 
@@ -480,7 +480,7 @@
                 
 
                 
-                OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
+//                OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
                 
                 switch (tag) {
                     case 0:

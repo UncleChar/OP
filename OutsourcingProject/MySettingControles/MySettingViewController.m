@@ -112,13 +112,7 @@
       
     }
     
-    if (nil == [AppEngineManager sharedInstance].leftViewElementsPath) {
-        
-        [[AppEngineManager sharedInstance] createSubDirectoryName:kAvatarImgFloderName underSuperDirectory:[AppEngineManager sharedInstance].dirDocument];
-        OPLog(@"headImageFile-->%@",[AppEngineManager sharedInstance].leftViewElementsPath);
-    }
-    
-    NSString *imageFilePath = [[AppEngineManager sharedInstance].leftViewElementsPath stringByAppendingPathComponent:@"/userAvatar.jpg"];
+
 
     
     _avatarImgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth / 6, kScreenWidth / 6)];
@@ -128,30 +122,32 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(takePictureClick:)];
     [_avatarImgView addGestureRecognizer:tap];
     
-    BOOL success;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
 
-    success = [fileManager fileExistsAtPath:imageFilePath];
-//    if(success) {
-//       
-//                [_avatarImgView setBackgroundImage:[UIImage imageWithContentsOfFile:imageFilePath] forState:UIControlStateNormal];
-//    }else {
-//    
-//    
-//        [_avatarImgView setBackgroundImage:[UIImage imageNamed:@"placeholder"] forState:UIControlStateNormal];
-//        
-//    }
 
     _avatarImgView.layer.masksToBounds = 1;
     _avatarImgView.layer.cornerRadius =  kScreenWidth / 12;
     [_headImaView addSubview:_avatarImgView];
+
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    NSUserDefaults *info = [NSUserDefaults standardUserDefaults];
+    NSString *directory = [NSString stringWithFormat:@"%@/%@",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],@"Avatar"];
+
+     NSString *imageFilePath = [directory stringByAppendingPathComponent:@"/userAvatar.jpg"];
+
+    BOOL isExit = [fileManager fileExistsAtPath:imageFilePath];
+
+    if (isExit){
+
+        _avatarImgView.image = [UIImage imageWithContentsOfFile:imageFilePath];
+        
+        
+        }else {
     
-    NSString *url = [info objectForKey:@"iconpic"];
-    [_avatarImgView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+            NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:@"iconpic"];
+            [_avatarImgView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder"]];
     
-    
+        }
+
     _organizeLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_avatarImgView.frame) + 20, CGRectGetMidY(_avatarImgView.frame) - 15, kScreenWidth - CGRectGetMaxX(_avatarImgView.frame) - 20 - 20, 30)];
     _organizeLabel.text = [[NSUserDefaults standardUserDefaults]objectForKey:@"xingming"];
 
@@ -258,114 +254,175 @@
 
 
 
-//从相册获取图片
+////从相册获取图片
 -(void)takePictureClick:(UITapGestureRecognizer *)sender
 {
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择头像来源" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
-    [self presentViewController:alert animated:YES completion:nil];
-    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"照相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"获取相片" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    // 判断是否支持相机
+    
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        UIAlertAction * defaultAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIImagePickerController * imagePickerController = [[UIImagePickerController alloc]init];
+            imagePickerController.delegate = self;
+            imagePickerController.allowsEditing =YES;
+            imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:imagePickerController animated:YES completion:^{
+                
+            }];
+        }];
+        [alertController addAction:defaultAction];
         
-        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-        imagePicker.delegate = self;
-        imagePicker.allowsEditing = YES;
-        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:imagePicker animated:YES completion:nil];
-    }];
-    UIAlertAction *localAction = [UIAlertAction actionWithTitle:@"本地相簿" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }
+    
+    UIAlertAction * defaultAction1 = [UIAlertAction actionWithTitle:@"从相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIImagePickerController * imagePickerController1 = [[UIImagePickerController alloc]init];
+        imagePickerController1.delegate = self;
+        imagePickerController1.allowsEditing =YES;
+        imagePickerController1.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        [self presentViewController:imagePickerController1 animated:YES completion:^{
+            
+        }];
         
-        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-        imagePicker.delegate = self;
-        imagePicker.allowsEditing = YES;
-        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentViewController:imagePicker animated:YES completion:nil];
     }];
+    [alertController addAction:defaultAction1];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:cameraAction];
-    [alert addAction:localAction];
-    [alert addAction:cancelAction];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alertController addAction:cancelAction];
     
-}
+    [self presentViewController:alertController animated:YES completion:nil];
+    
 
-#pragma mark -
-#pragma UIImagePickerController Delegate
+    
+    
+//
+//    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择头像来源" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+//    
+//    [self presentViewController:alert animated:YES completion:nil];
+//    UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"照相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        
+//        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+//        imagePicker.delegate = self;
+//        imagePicker.allowsEditing = YES;
+//        imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+//        [self presentViewController:imagePicker animated:YES completion:nil];
+//    }];
+//    UIAlertAction *localAction = [UIAlertAction actionWithTitle:@"本地相簿" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        
+//        UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+//        imagePicker.delegate = self;
+//        imagePicker.allowsEditing = YES;
+//        imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//        [self presentViewController:imagePicker animated:YES completion:nil];
+//    }];
+//    
+//    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+//    [alert addAction:cameraAction];
+//    [alert addAction:localAction];
+//    [alert addAction:cancelAction];
+//    
+}
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    if ([[info objectForKey:UIImagePickerControllerMediaType] isEqualToString:(__bridge NSString *)kUTTypeImage]) {
-        UIImage *img = [info objectForKey:UIImagePickerControllerEditedImage];
-        [self performSelector:@selector(saveImage:)  withObject:img afterDelay:0.5];
-    }
+    [picker dismissViewControllerAnimated:YES completion:^{}];
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    // 保存图片至本地，方法见下文
+    [self saveImage:image withname:@"tr.jpg"];
+    
 }
-
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{}];
+}
+- (void)saveImage:(UIImage*)currentImage withname:(NSString*)picname
+{
+    NSData * imageData = UIImageJPEGRepresentation(currentImage, 1.0f);
+    
+    NSString *encodedImageStr = [imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    NSUserDefaults * def = [NSUserDefaults standardUserDefaults];
+    [def setObject:encodedImageStr forKey:@"encodedImageStr"];
+    
+    NSUserDefaults * defua = [NSUserDefaults standardUserDefaults];
+    NSString * logincookie = [defua objectForKey:@"logincookie"];
+    NSString * useID = [defua objectForKey:@"usercode"];
+    NSDictionary *keyAndValues = @{@"logincookie":logincookie,@"datatype":@"gerenxinxin",@"id":useID};
+    
+        NSDateFormatter *df = [[NSDateFormatter alloc]init];
+        //设置转换格式
+        df.dateFormat = @"yyyyMMddHHmmss";
+        NSString *fileName = [df stringFromDate:[NSDate date]];
+
+    NSString * requestBody =   [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"EditAppInfo" xmlInfo:YES resouresInfo:@{@"fld_39_18":fileName} fileNames:@[fileName] fileExtNames:@[@".jpg"] fileDesc:@[[NSString stringWithFormat:@"%@.jpg",fileName]] fileData:@[encodedImageStr]];
+    
+    ReturnValueBlock returnBlock = ^(id resultValue)
+    {
+//        NSLog(@"personInfo  %@",resultValue);
+        
+        
+        OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"EditAppInfoResult"]);
+        OPLog(@"-show-%@",[[[resultValue lastObject] objectForKey:@"EditAppInfoResult"] class]);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+        
+            if ([[[resultValue lastObject] objectForKey:@"EditAppInfoResult"]isEqualToString:@"操作成功！"]) {
+                
+//                
+//                
+//                
+//                    [[AppEngineManager sharedInstance] createSubDirectoryName:kAvatarImgFloderName underSuperDirectory:[AppEngineManager sharedInstance].dirDocument];
+//                    OPLog(@"headImageFile-->%@",[AppEngineManager sharedInstance].leftViewElementsPath);
+
+                    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+                NSString *directory = [NSString stringWithFormat:@"%@/%@",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],@"Avatar"];
+                // 创建目录
+                BOOL res = [fileManager createDirectoryAtPath:directory withIntermediateDirectories:YES attributes:nil error:nil];
+                if (res) {
+                   
+                    
+                    NSString *imageFilePath = [directory stringByAppendingPathComponent:@"/userAvatar.jpg"];
+
+                    BOOL rest=[fileManager createFileAtPath:imageFilePath contents:imageData attributes:nil];
+                    if (rest) {
+                        
+                        _avatarImgView.image = [UIImage imageWithContentsOfFile:imageFilePath];
+                        OPLog(@"111111");
+                    }else {
+                        
+                        _avatarImgView.image = [UIImage imageWithData:imageData];
+                        OPLog(@"22222");
+                        
+                    }
+                    
+                    
+                }else{
+                    
+                     _avatarImgView.image = [UIImage imageWithData:imageData];
+                    
+                    
+                }
+
+                
+                
+                
+
+    
+            }
+        
+        });
+       
+        
+    };
+    [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"EditAppInfoResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+    
 }
 
-- (void)saveImage:(UIImage *)image {
-    
-    BOOL success;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSError *error;
-    
-    NSString *imageFilePath = [[AppEngineManager sharedInstance].leftViewElementsPath stringByAppendingPathComponent:@"/userAvatar.jpg"];
-    
-    success = [fileManager fileExistsAtPath:imageFilePath];
-    if(success) {
-        success = [fileManager removeItemAtPath:imageFilePath error:&error];
-    }
-    //UIImage *smallImage=[self scaleFromImage:image toSize:CGSizeMake(80.0f, 80.0f)];//将图片尺寸改为80*80
-    UIImage *smallImage = [self thumbnailWithImageWithoutScale:image size:CGSizeMake(100, 100)];
-    [UIImageJPEGRepresentation(smallImage, 1.0f) writeToFile:imageFilePath atomically:YES];//写入文件
-//    [_avatarImgView setBackgroundImage:[UIImage imageWithContentsOfFile:imageFilePath] forState:UIControlStateNormal];//读取图片文件
-    _avatarImgView.image = [UIImage imageWithContentsOfFile:imageFilePath];
-    
-}
-
-// 改变图像的尺寸，方便上传服务器
-- (UIImage *) scaleFromImage: (UIImage *) image toSize: (CGSize) size
-{
-    UIGraphicsBeginImageContext(size);
-    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return newImage;
-}
-- (UIImage *)thumbnailWithImageWithoutScale:(UIImage *)image size:(CGSize)asize
-{
-    UIImage *newimage;
-    if (nil == image) {
-        newimage = nil;
-    }
-    else{
-        CGSize oldsize = image.size;
-        CGRect rect;
-        if (asize.width/asize.height > oldsize.width/oldsize.height) {
-            rect.size.width = asize.height*oldsize.width/oldsize.height;
-            rect.size.height = asize.height;
-            rect.origin.x = (asize.width - rect.size.width)/2;
-            rect.origin.y = 0;
-        }
-        else{
-            rect.size.width = asize.width;
-            rect.size.height = asize.width*oldsize.height/oldsize.width;
-            rect.origin.x = 0;
-            rect.origin.y = (asize.height - rect.size.height)/2;
-        }
-        UIGraphicsBeginImageContext(asize);
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
-        UIRectFill(CGRectMake(0, 0, asize.width, asize.height));//clear background
-        [image drawInRect:rect];
-        newimage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-    }
-    return newimage;
-}
 
 - (void)exitBtnClicked:(UIButton *)sender {
 
@@ -380,5 +437,7 @@
 //    [self.navigationController pushViewController:[[LoginViewController alloc]init]] animated:YES];
 
 }
+
+
 
 @end

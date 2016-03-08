@@ -67,6 +67,7 @@ static AppEngine * AppEngineInstance = nil; //单例对象
     [defaults setObject:_owner.usertype forKey:@"usertype"];
     [defaults setObject:_owner.xingbie forKey:@"xingbie"];
     [defaults setObject:_owner.xingming forKey:@"xingming"];
+    [defaults setObject:_owner.shouji forKey:@"shouji"];
 
     [defaults synchronize];//同步写入到文件
 }
