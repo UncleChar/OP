@@ -52,6 +52,7 @@ typedef void (^ErrorCodeBlock) (id errorCode);
 #define kBtnColor  [ConfigUITools colorWithR:200 G:60 B:61 A:1]
 #define REQUEST_HOST @"http://101.231.51.219:888/admin/appintinfo.asmx"
 #define kPageSize  10
+#define kBaiduAppKey @"RBMSOist7FsKk2z7ujj1IZGZ"
 #define WeakSelf __weak typeof(self) weakSelf = self;
 
 #define OPFont(size) [UIFont systemFontOfSize:size]

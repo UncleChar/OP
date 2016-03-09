@@ -7,10 +7,9 @@
 //
 
 #import "SearchUnionViewController.h"
-#import "AchievementModel.h"
-#import "FuckingViewController.h"
-#import "ContentViewController.h"
-#import "FinalDetailContentViewController.h"
+#import "ShowMapModel.h"
+#import "ShowMapViewCell.h"
+#import "BaiduMapViewController.h"
 @interface SearchUnionViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate>
 {
     
@@ -51,13 +50,15 @@
     _pageSize = 8;
     [self handleRequsetDate];
     
-//    Gonghuimingcheng like “%关键字%” or gonghuidaima like “%关键字%”  or gonghuidizhilike “%关键字%”  or gonghuizhuxilike “%关键字%”
+    //    Gonghuimingcheng like “%关键字%” or gonghuidaima like “%关键字%”  or gonghuidizhilike “%关键字%”  or gonghuizhuxilike “%关键字%”
     
     
     NSString *filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\"",@"工"];
     
     [self getSearchDataWithType:@"gonghuixinxi" pageSize:_pageSize navIndex:0 filter:filter];
     
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"map" style:UIBarButtonItemStylePlain target:self action:@selector(mapBtnClicked)];
+    self.navigationItem.rightBarButtonItem = rightItem;
     
     
     
@@ -108,34 +109,13 @@
     
     static NSString *cellID = @"cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    ShowMapViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if (nil == cell) {
         
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
+        cell = [[ShowMapViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellID];
     }
-    //    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    
-    cell.imageView.image = [UIImage imageNamed:@"iconfont-shoucang(2)（合并）-拷贝"];
-    //        cell.textLabel.text = _cellTitleArray[indexPath.row];
-    
-//    cell.textLabel.text =[_dataArray[indexPath.row] ChTopic];
-//    if ( [[_dataArray[indexPath.row] dataType] isEqualToString:@"chengguozhanshi"]) {
-//        
-//        cell.detailTextLabel.text = @"成果展示";
-//    }
-//    if ( [[_dataArray[indexPath.row] dataType] isEqualToString:@"yewuzhidao"]) {
-//        
-//        cell.detailTextLabel.text = @"业务指导";
-//    }
-//    if ( [[_dataArray[indexPath.row] dataType] isEqualToString:@"zhengcefagui"]) {
-//        
-//        cell.detailTextLabel.text = @"政策法规";
-//    }
-
-    cell.detailTextLabel.textColor = [UIColor grayColor];
-    
-    
+    cell.model = _dataArray[indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
@@ -144,7 +124,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    return 70;
+    return 80;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -158,20 +138,20 @@
     ////    [self getTreeUserSysDeptwith:[_dataArray[indexPath.row] dataType] chid:[[_dataArray[indexPath.row] ChID] integerValue]];
     //
     
-//    FinalDetailContentViewController  *contentVc = [[ FinalDetailContentViewController alloc]init];
-//    
-//    contentVc.dataType = [_dataArray[indexPath.row] dataType];;
-//    
-//    contentVc.chID = [_dataArray[indexPath.row] ChID];
-//    contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
-//    contentVc.isHasClassify = NO;
-//    contentVc.isBtn = 1;
-//    contentVc.isFavor = YES;
-//    contentVc.showTitle = @"收藏详情";
-//    
-//    
-//    
-//    [self.navigationController pushViewController:contentVc animated:YES];
+    //    FinalDetailContentViewController  *contentVc = [[ FinalDetailContentViewController alloc]init];
+    //
+    //    contentVc.dataType = [_dataArray[indexPath.row] dataType];;
+    //
+    //    contentVc.chID = [_dataArray[indexPath.row] ChID];
+    //    contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
+    //    contentVc.isHasClassify = NO;
+    //    contentVc.isBtn = 1;
+    //    contentVc.isFavor = YES;
+    //    contentVc.showTitle = @"收藏详情";
+    //
+    //
+    //
+    //    [self.navigationController pushViewController:contentVc animated:YES];
     
     
 }
@@ -234,13 +214,13 @@
                 }
                 
                 for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
-                    AchievementModel  *model = [[AchievementModel alloc]init];
+                    ShowMapModel  *model = [[ShowMapModel alloc]init];
                     
                     [model setValuesForKeysWithDictionary:dict];
                     
                     [weakSelf.dataArray addObject:model];
                     
-                    OPLog(@"--- %@",model.dataType);
+
                     
                     
                 }
@@ -313,6 +293,10 @@
     
     
 }
-
+- (void)mapBtnClicked{
+    
+    [self.navigationController pushViewController:[[BaiduMapViewController alloc]init] animated:YES];
+    
+}
 
 @end
