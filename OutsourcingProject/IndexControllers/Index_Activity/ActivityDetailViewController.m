@@ -17,6 +17,7 @@
     UILabel *contentLabel;
     UIView *backView;
     UIButton *deleteBtn;
+    UITextView *showView;
 }
 @property (nonatomic, strong) UIScrollView *backgroungScrollView;
 @property (nonatomic, strong)UILabel *senderLabel;
@@ -49,7 +50,16 @@
         [titleLabel addSubview:lineView];
         
         _senderLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 53, kScreenWidth, 40)];
-        _senderLabel.text =   [NSString stringWithFormat:@"  通知接收者:    %@",self.senderName];
+    if (_blockTag == 0) {
+        
+         _senderLabel.text =   [NSString stringWithFormat:@"  通知发送者:    %@",self.senderName];
+        
+    }else {
+    
+         _senderLabel.text =   [NSString stringWithFormat:@"  通知接收者:    %@",self.senderName];
+    
+    }
+    
         //    titleLabel.textAlignment = 1;
         _senderLabel.font = OPFont(16);
         _senderLabel.backgroundColor = [UIColor whiteColor];
@@ -75,14 +85,33 @@
             height = descLabelHeight;
             
         }
+    if (_blockTag == 0) {
         
-        contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 135, kScreenWidth , height)];
+        showView = [[UITextView alloc] initWithFrame:CGRectMake(0, 135, kScreenWidth, kScreenHeight- 135 - 1 - 64  )];
+        
+        
+    }else {
     
-        contentLabel.text =[NSString stringWithFormat:@"  %@",self.chContent] ;
-        contentLabel.backgroundColor = [UIColor whiteColor];
-        contentLabel.font = OPFont(16);
-        [self.backgroungScrollView addSubview:contentLabel];
+        showView = [[UITextView alloc] initWithFrame:CGRectMake(0, 135, kScreenWidth, kScreenHeight- 135 - 1 - 64 - 60)];
         
+    
+    }
+    
+   
+    //    [showWebView sizeToFit];
+    //    showWebView.scalesPageToFit = YES;
+    //        [showWebView sizeToFit];
+    //        showWebView.scalesPageToFit = YES;
+    showView.font = OPFont(16);
+    [showView setEditable:NO];
+    [self.backgroungScrollView addSubview:showView];
+//        contentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 135, kScreenWidth , height)];
+//    
+//        contentLabel.text =[NSString stringWithFormat:@"  %@",self.chContent] ;
+//        contentLabel.backgroundColor = [UIColor whiteColor];
+//        contentLabel.font = OPFont(16);
+//        [self.backgroungScrollView addSubview:contentLabel];
+    
 
     
     
@@ -108,13 +137,17 @@
 
 
         
-    
-    if (self.blockTag == 1) {
+    [self handleRequsetDetaiDate];
+    if (self.blockTag == 1) {//我发出的通知进来的时候需要请求数据，其他的不要请求数据，因为上一层带进来的
     
         
-        [self handleRequsetDetaiDate];
+        
         [self readAppDataWithType:@"fachudegongzuodongtai" chid:[self.ChID integerValue]];
-        _senderLabel.text =[NSString stringWithFormat:@"  通知接收者:    %@",@""];;
+        
+    }
+    if (self.blockTag == 0) {
+        
+         [self readAppDataWithType:@"shoudaodegongzuodongtai" chid:[self.ChID integerValue]];
     }
 
 
@@ -136,6 +169,59 @@
     
 
 }
+
+- (void)configAfterData:(NSDictionary *)dict {
+    
+    if (_blockTag == 0) {
+      
+        NSString *replace = [dict objectForKey:@"senderName"];
+//        replace = [replace stringByReplacingOccurrencesOfString:@"," withString:@" "];
+        _senderLabel.text = [NSString stringWithFormat:@"  通知发送者:    %@",replace];
+        
+        NSString *conten = [dict objectForKey:@"chContent"];
+        
+        showView.text = conten;
+//        UITextView *showView = [[UITextView alloc] initWithFrame:CGRectMake(0, 135, kScreenWidth, kScreenHeight- 135 - 1)];
+//        
+//        //    [showWebView sizeToFit];
+//        //    showWebView.scalesPageToFit = YES;
+//        //        [showWebView sizeToFit];
+//        //        showWebView.scalesPageToFit = YES;
+//        showView.text = conten;
+//        showView.font = OPFont(16);
+//        [showView setEditable:NO];
+//        [self.view addSubview:showView];
+        
+    }else {
+    
+        NSString *conten = [dict objectForKey:@"chContent"];
+        
+//        UITextView *showView = [[UITextView alloc] initWithFrame:CGRectMake(0, 135, kScreenWidth, kScreenHeight- 135 - 1 - 64 )];
+        
+        //    [showWebView sizeToFit];
+        //    showWebView.scalesPageToFit = YES;
+        //        [showWebView sizeToFit];
+        //        showWebView.scalesPageToFit = YES;
+        showView.text = conten;
+//        showView.font = OPFont(16);
+//        [showView setEditable:NO];
+//        [self.view addSubview:showView];
+    
+        NSString *replace = [dict objectForKey:@"receiveNames"];
+        replace = [replace stringByReplacingOccurrencesOfString:@"," withString:@" "];
+        _senderLabel.text = [NSString stringWithFormat:@"  通知接收者:    %@",replace];
+    
+    
+    }
+    
+    
+    
+    
+    
+    
+    
+}
+
 - (void)handleRequsetDetaiDate {
     
     
@@ -162,9 +248,8 @@
                 NSLog(@"jsonParserresult:%@",[result objectForKey:@"rows"]);
                 
                 OPLog(@"----far--%@----------",[[result objectForKey:@"rows"][0] class ]);
-                NSString *replace = [[result objectForKey:@"rows"][0] objectForKey:@"receiveNames"];
-                replace = [replace stringByReplacingOccurrencesOfString:@"," withString:@" "];
-                weakSelf.senderLabel.text = [NSString stringWithFormat:@"  通知接收者:    %@",replace];;
+                [weakSelf configAfterData:[result objectForKey:@"rows"][0]];
+               
                 
 
             }

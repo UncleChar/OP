@@ -22,6 +22,8 @@
 #import "TaskModel.h"
 #import "ActivityModel.h"
 #import "IndexPubTableViewCell.h"
+#import "ActivityDetailViewController.h"
+#import "SubGuideModel.h"
 
 #define kBtnMargin ([UIScreen mainScreen].bounds.size.width - 4 * 50) / 5
 #define kBtnWdith 50
@@ -401,12 +403,44 @@
             NotiDetialViewController *noti = [[NotiDetialViewController alloc]init];
             noti.modelTag = 1;
 //            noti.enum_type = ENUM_DetailTypeModuleIndex;
+            noti.refreshBlock = ^(BOOL isRefresh){
+                
+                if (isRefresh) {
+                    
+                    [taskArray removeAllObjects];
+                    
+                      [self getListDataWithType:@"newgongzuorenwu" pageSize:0 navIndex:0 filter:@"" withTag:1];
+                    
+                }
+                
+            };
             noti.ChID = [taskArray[indexPath.row] ChID];
             noti.ExpDate = [taskArray[indexPath.row] ExpDate];
             [self.navigationController pushViewController:noti animated:YES];
             
         }
             break;
+        case 3:
+        {
+            
+            ActivityDetailViewController *fuck = [[ActivityDetailViewController alloc]init];
+            
+                
+                fuck.ChTopic = [activeArray[indexPath.row] ChTopic];
+                fuck.chContent = [activeArray[indexPath.row] chContent];
+                fuck.sendDate = [activeArray[indexPath.row] sendDate];
+                fuck.senderName = [activeArray[indexPath.row] senderName];
+                fuck.ChID = [activeArray[indexPath.row] ChID];
+                fuck.blockTag = 0;//请求数据
+                fuck.isDeleteBtn = NO;//没有删除按钮
+            [self.navigationController pushViewController:fuck animated:YES];
+            
+        }
+            break;
+
+            
+            
+           
             
         default:
             break;
@@ -480,7 +514,7 @@
                 
 
                 
-//                OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
+                OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
                 
                 switch (tag) {
                     case 0:
@@ -552,7 +586,7 @@
                             
                             if (q <= 3) {
                                 
-                                ActivityModel  *model = [[ActivityModel alloc]init];
+                                SubGuideModel  *model = [[SubGuideModel alloc]init];
                                 [model setValuesForKeysWithDictionary:dict];
                                 [activeArray addObject:model];
                                 q ++;

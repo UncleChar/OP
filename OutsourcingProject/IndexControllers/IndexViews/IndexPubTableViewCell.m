@@ -11,6 +11,7 @@
 #import "TaskModel.h"
 #import "NotiModel.h"
 #import "ActivityModel.h"
+#import "SubGuideModel.h"
 //#import ""
 @interface IndexPubTableViewCell ()
 {
@@ -96,7 +97,7 @@
 
     }
     
-    if ([pubModel isMemberOfClass:[ActivityModel class]]) {
+    if ([pubModel isMemberOfClass:[SubGuideModel class]]) {
         
         
         nameLabel.text = [pubModel ChTopic];
