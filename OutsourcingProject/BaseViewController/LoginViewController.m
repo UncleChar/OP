@@ -341,7 +341,7 @@
                             NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"CheckUserLoginResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
                             [SVProgressHUD showSuccessWithStatus:@"登录成功"];
 
-                            OPLog(@"------%@----------",[listDic objectForKey:@"rows"]);
+                            OPLog(@"-----userLogin-%@----------",[listDic objectForKey:@"rows"]);
                             Users *userModel = [[Users alloc]init];
                             for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
                                 
@@ -349,12 +349,12 @@
                                 
                             }
                             
-                            OPLog(@"%@,444 %@",userModel.deptname,userModel.xingbie);
+//                            OPLog(@"%@,444 %@",userModel.deptname,userModel.xingbie);
                             
                             [[AppEngine GetAppEngine] saveUserLoginInfo:(NSMutableDictionary *)[listDic objectForKey:@"rows"][0]];
                             
                             
-                            OPLog(@"%@,555 %@",[AppEngine GetAppEngine].owner.deptname,[AppEngine GetAppEngine].owner.xingbie);
+//                            OPLog(@"%@,555 %@",[AppEngine GetAppEngine].owner.deptname,[AppEngine GetAppEngine].owner.xingbie);
                             
                             
                             NSUserDefaults *store = [NSUserDefaults standardUserDefaults];

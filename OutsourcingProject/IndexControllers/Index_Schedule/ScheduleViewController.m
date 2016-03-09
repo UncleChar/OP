@@ -18,6 +18,7 @@
 }
 @property (nonatomic, strong) UITableView      *scheduleTableView;
 @property (nonatomic, strong) NSMutableArray   *dataArray;
+@property (nonatomic, strong) NSMutableArray   *dateStringArray;
 
 @property (strong , nonatomic) FSCalendar      *calendar;
 @property (strong , nonatomic) UIScrollView    *backScrollView;
@@ -38,6 +39,29 @@
 
     [self initArray];
     [self configCalender];
+    
+    
+    NSDateFormatter *charuncle = [[NSDateFormatter alloc]init];
+    //设置转换格式
+    charuncle.dateFormat = @"yyyy-MM-dd";
+    NSString *dateStringFilter = [charuncle stringFromDate:[NSDate date]];
+    ////    [NSString stringWithFormat:@"fld_40_1 like \"%%%@%%\"",_showSearchTF.text]
+    //    //           subD.filter =  @"chtopic like \"%中国%\"";
+    //    NSString *filter = [NSString stringWithFormat:@"DateDiff(day,fld_30_5,%@)>=0 and  DateDiff(day,%@,fld_30_8)>=0",@"2016-03-08",@"2016-04-14"];
+    //
+    //
+    //    filter = [filter stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+    ////     filter = [filter stringByReplacingOccurrencesOfString:@"\"" withString:@"&apos;"];
+    //      OPLog(@"filter  %@",filter);
+    ////    OPLog(@"filter  %@",[filter htmlEntityEncode]);
+    
+    [self handleRequsetDetaiDate];
+    [self getMyEventDataWithType:@"richenganpaidate" pageSize:8 navIndex:0 filter:dateStringFilter];
+    //
+    //    [self NotiDetailWithType:@"newrichenganpai" chid:[self.ChID integerValue]];
+    
+    //   DateDiff(day,”开始时间”,fld_30_5)>=0  and   DateDiff(day,fld_30_5,”截止时间”)>=0
+    
 
     
 }
@@ -48,6 +72,10 @@
     if (!_modelsArray) {
         
         _modelsArray = [NSMutableArray arrayWithCapacity:0];
+    }
+    if (!_dateStringArray) {
+        
+        _dateStringArray = [NSMutableArray arrayWithCapacity:0];
     }
 
 }
@@ -117,46 +145,18 @@
     [creatBtn setTitle:@"新建日程" forState:UIControlStateNormal];
     [self.view addSubview:creatBtn];
 
-
-    NSDateFormatter *charuncle = [[NSDateFormatter alloc]init];
-    //设置转换格式
-    charuncle.dateFormat = @"yyyy-MM-dd";
-//    NSString *str = [charuncle stringFromDate:[NSDate date]];
-//    [NSString stringWithFormat:@"fld_40_1 like \"%%%@%%\"",_showSearchTF.text]
-    //           subD.filter =  @"chtopic like \"%中国%\"";
-    NSString *filter = [NSString stringWithFormat:@"DateDiff(day,fld_30_5,%@)>=0 and  DateDiff(day,%@,fld_30_8)>=0",@"2016-03-08",@"2016-04-14"];
-    
-  
-    filter = [filter stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
-//     filter = [filter stringByReplacingOccurrencesOfString:@"\"" withString:@"&apos;"];
-      OPLog(@"filter  %@",filter);
-//    OPLog(@"filter  %@",[filter htmlEntityEncode]);
-   
-    [self handleRequsetDetaiDate];
-    [self getMyReceivedShowDataWithType:@"richenganpai" pageSize:8 navIndex:0 filter:filter];
-//
-//    [self NotiDetailWithType:@"newrichenganpai" chid:[self.ChID integerValue]];
- 
- //   DateDiff(day,”开始时间”,fld_30_5)>=0  and   DateDiff(day,fld_30_5,”截止时间”)>=0
-
-
-    
-
 }
 
 - (void)handleRequsetDetaiDate {
     
     
-    //    __weak typeof (self) weakSelf = self;
+        __weak typeof (self) weakSelf = self;
     returnBlockDate = ^(id resultValue){
         dispatch_async(dispatch_get_main_queue(), ^{
             
             
             OPLog(@"-fucucucu-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
-            
-            
-            
-            
+
             if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
                 
                 
@@ -168,6 +168,18 @@
                 NSDictionary * result = [jsonParser objectWithString:[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]
                                                                error:&parseError];
                 NSLog(@"jsonParserresult:%@",[result objectForKey:@"rows"]);
+                for (NSDictionary *dateDict in [result objectForKey:@"rows"]) {
+
+                    NSDateFormatter *eventDate = [[NSDateFormatter alloc]init];
+                    
+                    eventDate.dateFormat = @"yyyy-MM-dd";
+                    
+                    NSDate *dateCompare = [eventDate dateFromString:[dateDict valueForKey:@"datestr"]];
+                    
+                    [weakSelf.dateStringArray addObject:dateCompare];
+                    
+                }
+                [weakSelf.calendar reloadData];
                 
             }
             
@@ -182,12 +194,11 @@
 
 
 
-- (void)getMyReceivedShowDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter{
+- (void)getMyEventDataWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter{
     
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
         [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
-        //        [SVProgressHUD showWithStatus:@"增在加载..."];
         NSString * requestBody = [NSString stringWithFormat:
                                   @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                   "<soap12:Envelope "
@@ -204,24 +215,16 @@
                                   " </GetJsonListData>"
                                   "</soap12:Body>"
                                   "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)pageSize,(long)index,filter];
-        
-        
-        
+
         [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonListDataResult"] WithReturnValeuBlock:returnBlockDate WithErrorCodeBlock:nil];
         
         
     }else {
-        //        [_favorTableView.mj_header endRefreshing];
-        //        // 拿到当前的上拉刷新控件，结束刷新状态
-        //        [_favorTableView.mj_footer endRefreshing];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
-        
-        
+   
     }
-    
-    
-    
+   
 }
 
 
@@ -319,43 +322,26 @@
 
 
 - (NSInteger)calendar:(FSCalendar *)calendar numberOfEventsForDate:(NSDate *)date {
-    
-    
-    
-    
-    
-    
-    //    NSDateComponents *components = [self.calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour fromDate:date];
-    //    components.hour = FSCalendarDefaultHourComponent;
-    //
-    NSDateFormatter *df = [[NSDateFormatter alloc]init];
-    //设置日期转换格式
-    df.dateFormat = @"yyyy-MM-dd";
-    NSString *dateStr = @"2016-02-014";
-    //dateFromString字符喘转日期
-    NSDate *datea = [df dateFromString:dateStr];
-    
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"date"]) {
-        if ([date isEqualToDate:datea]) {
+
+    if (_dateStringArray.count > 0) {
+        
+        
+        if ([_dateStringArray containsObject:date]) {
             
             return 1;
+        }else {
+        
+            return 0;
         }
-        
-        
-        return 0;
-        
-        
+
     }else {
-        
-        
-        
+    
         return 0;
-        
     }
-    
-    
+   
 }
+
+
 
 - (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date {
     

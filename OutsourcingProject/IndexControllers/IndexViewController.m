@@ -72,7 +72,7 @@
 
     [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
      [self getListDataWithType:@"newgongzuorenwu" pageSize:0 navIndex:0 filter:@"" withTag:1];
-    [self getListDataWithType:@"newrichenganpai" pageSize:0 navIndex:0 filter:@"" withTag:2];
+//    [self getListDataWithType:@"newrichenganpai" pageSize:0 navIndex:0 filter:@"" withTag:2];
     [self getListDataWithType:@"newgongzuodongtai" pageSize:0 navIndex:0 filter:@"" withTag:3];
 
 

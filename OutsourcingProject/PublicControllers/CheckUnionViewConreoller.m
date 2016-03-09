@@ -13,6 +13,7 @@
 #import "MyFavorViewController.h"
 #import "MySendingViewController.h"
 #import "MyConsultViewController.h"
+#import "SearchUnionViewController.h"
 
 #define kHeight 40
 #define kFont  15
@@ -166,8 +167,13 @@
 
 - (void)searchBtnClicked {
 
-    [SVProgressHUD showSuccessWithStatus:@"我要查询了哦"];
+    
+//    [SVProgressHUD showSuccessWithStatus:@"我要查询了哦"];
+    [self.navigationController pushViewController:[[SearchUnionViewController alloc]init] animated:YES];
 
 }
+
+
+
 
 @end

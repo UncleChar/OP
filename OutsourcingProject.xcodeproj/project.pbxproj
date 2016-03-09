@@ -181,6 +181,7 @@
 		9D736A571C7EC1C700271EC4 /* ClassifyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D736A561C7EC1C700271EC4 /* ClassifyModel.m */; };
 		9D7A24C11C7AC67C0022375A /* UUDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7A24BE1C7AC67C0022375A /* UUDatePicker.m */; };
 		9D7A24C21C7AC67C0022375A /* UUDatePicker_DateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7A24C01C7AC67C0022375A /* UUDatePicker_DateModel.m */; };
+		9D7B42E51C8FFCE800E24B30 /* SearchUnionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B42E41C8FFCE800E24B30 /* SearchUnionViewController.m */; };
 		9D82A55B1C7568E50072E354 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D82A55A1C7568E50072E354 /* main.m */; };
 		9D82A55E1C7568E50072E354 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D82A55D1C7568E50072E354 /* AppDelegate.m */; };
 		9D82A5661C7568E50072E354 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D82A5651C7568E50072E354 /* Assets.xcassets */; };
@@ -891,6 +892,8 @@
 		9D7A24BE1C7AC67C0022375A /* UUDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UUDatePicker.m; sourceTree = "<group>"; };
 		9D7A24BF1C7AC67C0022375A /* UUDatePicker_DateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUDatePicker_DateModel.h; sourceTree = "<group>"; };
 		9D7A24C01C7AC67C0022375A /* UUDatePicker_DateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UUDatePicker_DateModel.m; sourceTree = "<group>"; };
+		9D7B42E31C8FFCE800E24B30 /* SearchUnionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchUnionViewController.h; sourceTree = "<group>"; };
+		9D7B42E41C8FFCE800E24B30 /* SearchUnionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchUnionViewController.m; sourceTree = "<group>"; };
 		9D82A5561C7568E50072E354 /* OutsourcingProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OutsourcingProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D82A55A1C7568E50072E354 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9D82A55C1C7568E50072E354 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1871,6 +1874,8 @@
 				9D7369E91C7EBC2A00271EC4 /* UnionSubjectsViewController.m */,
 				9DF68BF91C7FED9500F61A13 /* SubjectDetailViewController.h */,
 				9DF68BFA1C7FED9500F61A13 /* SubjectDetailViewController.m */,
+				9D7B42E31C8FFCE800E24B30 /* SearchUnionViewController.h */,
+				9D7B42E41C8FFCE800E24B30 /* SearchUnionViewController.m */,
 			);
 			path = UnionProjectsControlles;
 			sourceTree = "<group>";
@@ -3621,6 +3626,7 @@
 				9D82A5D21C7578730072E354 /* MJRefreshAutoStateFooter.m in Sources */,
 				9D82A5DA1C7578730072E354 /* MJRefreshConst.m in Sources */,
 				9D054B771C7C342F003FB2C6 /* SetEmailViewController.m in Sources */,
+				9D7B42E51C8FFCE800E24B30 /* SearchUnionViewController.m in Sources */,
 				9D82A5DD1C7578730072E354 /* UIView+MJExtension.m in Sources */,
 				9DB6C0DB1C85872900C6A1D3 /* AddActivityViewController.m in Sources */,
 				9DE3D79B1C7D4BF700D654AA /* MarkDateModel.m in Sources */,
@@ -3831,7 +3837,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "6f4e6a96-83e1-4c5c-aca8-08fd6d08ebae";
+				PROVISIONING_PROFILE = "4499fcef-367d-4370-9f26-1ed19ef1fb8b";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3870,7 +3876,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "6f4e6a96-83e1-4c5c-aca8-08fd6d08ebae";
+				PROVISIONING_PROFILE = "4499fcef-367d-4370-9f26-1ed19ef1fb8b";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -3886,11 +3892,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OutsourcingProject/PrefixHeader.pch";
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6f4e6a96-83e1-4c5c-aca8-08fd6d08ebae";
+				PROVISIONING_PROFILE = "4499fcef-367d-4370-9f26-1ed19ef1fb8b";
 			};
 			name = Debug;
 		};
@@ -3903,11 +3909,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OutsourcingProject/PrefixHeader.pch";
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6f4e6a96-83e1-4c5c-aca8-08fd6d08ebae";
+				PROVISIONING_PROFILE = "4499fcef-367d-4370-9f26-1ed19ef1fb8b";
 			};
 			name = Release;
 		};
