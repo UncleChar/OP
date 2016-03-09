@@ -175,38 +175,18 @@
     if (_blockTag == 0) {
       
         NSString *replace = [dict objectForKey:@"senderName"];
-//        replace = [replace stringByReplacingOccurrencesOfString:@"," withString:@" "];
         _senderLabel.text = [NSString stringWithFormat:@"  通知发送者:    %@",replace];
         
         NSString *conten = [dict objectForKey:@"chContent"];
         
         showView.text = conten;
-//        UITextView *showView = [[UITextView alloc] initWithFrame:CGRectMake(0, 135, kScreenWidth, kScreenHeight- 135 - 1)];
-//        
-//        //    [showWebView sizeToFit];
-//        //    showWebView.scalesPageToFit = YES;
-//        //        [showWebView sizeToFit];
-//        //        showWebView.scalesPageToFit = YES;
-//        showView.text = conten;
-//        showView.font = OPFont(16);
-//        [showView setEditable:NO];
-//        [self.view addSubview:showView];
+
         
     }else {
     
         NSString *conten = [dict objectForKey:@"chContent"];
         
-//        UITextView *showView = [[UITextView alloc] initWithFrame:CGRectMake(0, 135, kScreenWidth, kScreenHeight- 135 - 1 - 64 )];
-        
-        //    [showWebView sizeToFit];
-        //    showWebView.scalesPageToFit = YES;
-        //        [showWebView sizeToFit];
-        //        showWebView.scalesPageToFit = YES;
         showView.text = conten;
-//        showView.font = OPFont(16);
-//        [showView setEditable:NO];
-//        [self.view addSubview:showView];
-    
         NSString *replace = [dict objectForKey:@"receiveNames"];
         replace = [replace stringByReplacingOccurrencesOfString:@"," withString:@" "];
         _senderLabel.text = [NSString stringWithFormat:@"  通知接收者:    %@",replace];
@@ -231,10 +211,6 @@
             
             
             OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]);
-            
-            
-            
-            
             if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]) {
                 
                 
@@ -247,7 +223,6 @@
                                                                error:&parseError];
                 NSLog(@"jsonParserresult:%@",[result objectForKey:@"rows"]);
                 
-                OPLog(@"----far--%@----------",[[result objectForKey:@"rows"][0] class ]);
                 [weakSelf configAfterData:[result objectForKey:@"rows"][0]];
                
                 
@@ -275,13 +250,11 @@
             
             if ([[[resultValue lastObject] objectForKey:@"DeleteAppInfoResult"] isEqualToString:@"操作成功！"]) {
                 
-//                dispatch_async(dispatch_get_main_queue(), ^{
                    [SVProgressHUD showSuccessWithStatus:@"删除成功!"];
                 
                     weakSelf.deleteBlock( weakSelf.blockTag);
                     [weakSelf.navigationController popViewControllerAnimated:YES];
                 
-//                });
                 
             }else {
             
