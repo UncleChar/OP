@@ -169,7 +169,12 @@
 
     
 //    [SVProgressHUD showSuccessWithStatus:@"我要查询了哦"];
-    [self.navigationController pushViewController:[[SearchUnionViewController alloc]init] animated:YES];
+    SearchUnionViewController *serachVC = [[SearchUnionViewController alloc]init];
+    serachVC.filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\" or gonghuidaima like \"%%%@%%\"  or gonghuidizhi like \"%%%@%%\"  or gonghuizhuxi like \"%%%@%%\"",_unionNameTF.text,_unionCodeTF.text,_unionAddressTF.text,_unionPresidentTF.text];
+    OPLog(@"  s%@",serachVC.filter);
+//    
+//    NSString *filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\"",@"工"];
+    [self.navigationController pushViewController:serachVC animated:YES];
 
 }
 

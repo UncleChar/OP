@@ -9,8 +9,9 @@
 #import "SearchUnionViewController.h"
 #import "ShowMapModel.h"
 #import "ShowMapViewCell.h"
-#import "BaiduMapViewController.h"
-@interface SearchUnionViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate>
+#import "UnionInfoViewController.h"
+
+@interface SearchUnionViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     
     ReturnValueBlock returnBlock;
@@ -53,14 +54,10 @@
     //    Gonghuimingcheng like “%关键字%” or gonghuidaima like “%关键字%”  or gonghuidizhilike “%关键字%”  or gonghuizhuxilike “%关键字%”
     
     
-    NSString *filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\"",@"工"];
+//    NSString *filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\"",@"工"];
     
-    [self getSearchDataWithType:@"gonghuixinxi" pageSize:_pageSize navIndex:0 filter:filter];
-    
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"map" style:UIBarButtonItemStylePlain target:self action:@selector(mapBtnClicked)];
-    self.navigationItem.rightBarButtonItem = rightItem;
-    
-    
+    [self getSearchDataWithType:@"gonghuixinxi" pageSize:_pageSize navIndex:0 filter:self.filter];
+
     
     // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
     MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
@@ -128,30 +125,18 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //
-    //    ContentViewController *fuck = [[ContentViewController alloc]init];
-    //    fuck.dataType = [_dataArray[indexPath.row] dataType];
-    //    fuck.chID = [_dataArray[indexPath.row] ChID];
-    //     fuck.titleTop = [_dataArray[indexPath.row] ChTopic];
-    //
-    //    [self.navigationController pushViewController:fuck animated:YES];
-    ////    [self getTreeUserSysDeptwith:[_dataArray[indexPath.row] dataType] chid:[[_dataArray[indexPath.row] ChID] integerValue]];
-    //
+  
+        UnionInfoViewController *infoVC = [[UnionInfoViewController alloc]init];
     
-    //    FinalDetailContentViewController  *contentVc = [[ FinalDetailContentViewController alloc]init];
-    //
-    //    contentVc.dataType = [_dataArray[indexPath.row] dataType];;
-    //
-    //    contentVc.chID = [_dataArray[indexPath.row] ChID];
-    //    contentVc.titleTop = [_dataArray[indexPath.row] ChTopic];
-    //    contentVc.isHasClassify = NO;
-    //    contentVc.isBtn = 1;
-    //    contentVc.isFavor = YES;
-    //    contentVc.showTitle = @"收藏详情";
-    //
-    //
-    //
-    //    [self.navigationController pushViewController:contentVc animated:YES];
+            infoVC.name = [_dataArray[indexPath.row] gonghuimingcheng];
+            infoVC.address = [_dataArray[indexPath.row] gonghuidizhi];
+            infoVC.code = [_dataArray[indexPath.row] gonghuidaima];
+            infoVC.createTime = [_dataArray[indexPath.row] gonghuichenglishijian];
+            infoVC.president = [_dataArray[indexPath.row] gonghuizhuxi];
+            infoVC.longitude = [_dataArray[indexPath.row] longitude];
+            infoVC.latitude = [_dataArray[indexPath.row] latitude];
+    
+        [self.navigationController pushViewController:infoVC animated:YES];
     
     
 }
@@ -293,10 +278,6 @@
     
     
 }
-- (void)mapBtnClicked{
-    
-    [self.navigationController pushViewController:[[BaiduMapViewController alloc]init] animated:YES];
-    
-}
+
 
 @end

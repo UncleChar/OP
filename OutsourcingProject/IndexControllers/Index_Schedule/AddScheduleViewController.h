@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddScheduleViewController : JustBackBtn
+typedef enum {
+    ENUM_ScheduleEdit=0,//开始
+    ENUM_ScheduleCreate,//停止
+    ENUM_ScheduleSubmitCreate,
+    ENUM_ScheduleSaveEdit,
+    ENUM_ScheduleDelete
+} ENUM_Schedule;
 
+typedef void(^DeleteSchBlock)(BOOL );
+
+@interface AddScheduleViewController : JustBackBtn
+@property (nonatomic, assign) ENUM_Schedule  enum_schedule;
+@property (nonatomic, strong) DeleteSchBlock deleteBlock;
+@property (nonatomic, strong) NSString *schId;
 @end

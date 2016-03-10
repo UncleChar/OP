@@ -10,4 +10,6 @@
 
 @interface SearchUnionViewController : JustBackBtn
 
+@property (nonatomic, strong) NSString  *filter;
+
 @end

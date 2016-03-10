@@ -85,5 +85,65 @@
     return rect.size.height;
 }
 
++ (NSString *)returnDateStringWithDate:(NSDate *)date {
+
+
+    NSDateFormatter *dff = [[NSDateFormatter alloc]init];
+
+    dff.dateFormat = @"yyyy-MM-dd";
+
+    NSString *dateaf = [dff stringFromDate:date];
+  
+
+    return dateaf;
+}
+
++ (BOOL)isEmptyWillSubmit:(NSArray *)elementArrary {
+
+    
+    for (id elem in elementArrary) {
+        
+        if ([elem isKindOfClass:[UIButton class]]) {
+            
+            UIButton *btn = (UIButton *)elem;
+            
+            if (btn.titleLabel.text.length == 0) {
+                
+                return YES;
+                
+            }
+            
+        }
+        
+        if ([elem isKindOfClass:[UITextField class]]) {
+            
+            UITextField *tf = (UITextField *)elem;
+            
+            if (tf.text.length == 0) {
+                
+                return YES;
+                
+            }
+            
+        }
+        
+        if ([elem isKindOfClass:[UITextView class]]) {
+            
+            UITextView *tf = (UITextView *)elem;
+            
+            if (tf.text.length == 0) {
+                
+                return YES;
+                
+            }
+            
+        }
+        
+        
+    }
+
+    return NO;
+
+}
 
 @end

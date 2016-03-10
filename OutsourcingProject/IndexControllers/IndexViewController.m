@@ -24,7 +24,8 @@
 #import "IndexPubTableViewCell.h"
 #import "ActivityDetailViewController.h"
 #import "SubGuideModel.h"
-
+#import "ScheModel.h"
+#import "AddScheduleViewController.h"
 #define kBtnMargin ([UIScreen mainScreen].bounds.size.width - 4 * 50) / 5
 #define kBtnWdith 50
 
@@ -74,7 +75,11 @@
 
     [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
      [self getListDataWithType:@"newgongzuorenwu" pageSize:0 navIndex:0 filter:@"" withTag:1];
-//    [self getListDataWithType:@"newrichenganpai" pageSize:0 navIndex:0 filter:@"" withTag:2];
+    
+    
+    //(day,&quot;2016-03-01&quot;,fld_30_5)&gt;=0 and DateDiff(day,fld_30_5,&quot;2016-03-14&quot;)&gt;=0 and DateDiff(day,fld_30_8,&quot;2016-03-14&quot;)&gt;=0
+    //前两个，是指开始时间3-1之后，3-14之前，最后一个，是指结束时间在3-14前
+    [self getListDataWithType:@"newrichenganpai" pageSize:0 navIndex:0 filter:@"" withTag:2];
     [self getListDataWithType:@"newgongzuodongtai" pageSize:0 navIndex:0 filter:@"" withTag:3];
 
 
@@ -307,6 +312,8 @@
             break;
         case 2:
 
+            cell.pubModel = scheduleArray[indexPath.row];
+            
             break;
         case 3:
             
@@ -437,7 +444,13 @@
             
         }
             break;
-
+        case 2:
+        {
+            AddScheduleViewController *schVC = [[AddScheduleViewController alloc]init];
+            schVC.enum_schedule = ENUM_ScheduleEdit;
+            schVC.schId = [scheduleArray[indexPath.row] ChID];
+            [self.navigationController pushViewController:schVC animated:YES];
+        }
             
             
            
@@ -566,7 +579,7 @@
                         for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
                             
                             if (j <= 3) {
-                                TaskModel  *model = [[TaskModel alloc]init];
+                                ScheModel  *model = [[ScheModel alloc]init];
                                 [model setValuesForKeysWithDictionary:dict];
                                 [scheduleArray addObject:model];
                                 j ++;

@@ -119,6 +119,10 @@
 		9D2E186D1C770D59008CB937 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9D2E186C1C770D59008CB937 /* background.jpg */; };
 		9D2E18701C771661008CB937 /* AppEngineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D2E186F1C771661008CB937 /* AppEngineManager.m */; };
 		9D39C10D1C85AC2300A9FA7C /* CheckUnionViewConreoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D39C10C1C85AC2300A9FA7C /* CheckUnionViewConreoller.m */; };
+		9D451ED81C91023C006F281B /* UnionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D451ED71C91023C006F281B /* UnionInfoViewController.m */; };
+		9D451EDB1C911083006F281B /* MapNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D451EDA1C911083006F281B /* MapNavigationManager.m */; };
+		9D451EDE1C9120F9006F281B /* ScheModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D451EDD1C9120F9006F281B /* ScheModel.m */; };
+		9D451EE01C915195006F281B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D451EDF1C915195006F281B /* LaunchScreen.xib */; };
 		9D7369D51C7EAC2E00271EC4 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7369D31C7EAC2E00271EC4 /* ActivityViewController.m */; };
 		9D7369DA1C7EACAA00271EC4 /* ScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7369D81C7EACAA00271EC4 /* ScheduleViewController.m */; };
 		9D7369DB1C7EACAA00271EC4 /* AddScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7369D91C7EACAA00271EC4 /* AddScheduleViewController.m */; };
@@ -388,7 +392,6 @@
 		9DF68BFF1C7FF53700F61A13 /* SubGuideModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF68BFE1C7FF53700F61A13 /* SubGuideModel.m */; };
 		DB0815A91C773CC800284FDB /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0815A81C773CC800284FDB /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DB08291C1C775B690043FE30 /* 启动页-0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB08291B1C775B690043FE30 /* 启动页-0.jpg */; };
-		DB08291E1C775D1E0043FE30 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB08291D1C775D1E0043FE30 /* LaunchScreen.xib */; };
 		DB0829521C776E3B0043FE30 /* iconfont-address.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0829341C776E3B0043FE30 /* iconfont-address.png */; };
 		DB0829531C776E3B0043FE30 /* iconfont-address@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0829351C776E3B0043FE30 /* iconfont-address@2x.png */; };
 		DB0829541C776E3B0043FE30 /* iconfont-address@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0829361C776E3B0043FE30 /* iconfont-address@3x.png */; };
@@ -836,6 +839,13 @@
 		9D2E186F1C771661008CB937 /* AppEngineManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppEngineManager.m; sourceTree = "<group>"; };
 		9D39C10B1C85AC2300A9FA7C /* CheckUnionViewConreoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckUnionViewConreoller.h; sourceTree = "<group>"; };
 		9D39C10C1C85AC2300A9FA7C /* CheckUnionViewConreoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckUnionViewConreoller.m; sourceTree = "<group>"; };
+		9D451ED61C91023C006F281B /* UnionInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnionInfoViewController.h; sourceTree = "<group>"; };
+		9D451ED71C91023C006F281B /* UnionInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnionInfoViewController.m; sourceTree = "<group>"; };
+		9D451ED91C911083006F281B /* MapNavigationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapNavigationManager.h; sourceTree = "<group>"; };
+		9D451EDA1C911083006F281B /* MapNavigationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapNavigationManager.m; sourceTree = "<group>"; };
+		9D451EDC1C9120F9006F281B /* ScheModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheModel.h; sourceTree = "<group>"; };
+		9D451EDD1C9120F9006F281B /* ScheModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheModel.m; sourceTree = "<group>"; };
+		9D451EDF1C915195006F281B /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		9D7369D31C7EAC2E00271EC4 /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
 		9D7369D41C7EAC2E00271EC4 /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
 		9D7369D61C7EACAA00271EC4 /* AddScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddScheduleViewController.h; sourceTree = "<group>"; };
@@ -1241,7 +1251,6 @@
 		DB0815A71C773CC800284FDB /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		DB0815A81C773CC800284FDB /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		DB08291B1C775B690043FE30 /* 启动页-0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "启动页-0.jpg"; sourceTree = "<group>"; };
-		DB08291D1C775D1E0043FE30 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		DB0829341C776E3B0043FE30 /* iconfont-address.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-address.png"; sourceTree = "<group>"; };
 		DB0829351C776E3B0043FE30 /* iconfont-address@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-address@2x.png"; sourceTree = "<group>"; };
 		DB0829361C776E3B0043FE30 /* iconfont-address@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-address@3x.png"; sourceTree = "<group>"; };
@@ -1853,6 +1862,8 @@
 				9DF204FD1C891F0E00BC1DD4 /* ActivityModel.m */,
 				9D7B43301C901C3800E24B30 /* ShowMapModel.h */,
 				9D7B43311C901C3800E24B30 /* ShowMapModel.m */,
+				9D451EDC1C9120F9006F281B /* ScheModel.h */,
+				9D451EDD1C9120F9006F281B /* ScheModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1926,8 +1937,12 @@
 				9DF68BFA1C7FED9500F61A13 /* SubjectDetailViewController.m */,
 				9D7B42E31C8FFCE800E24B30 /* SearchUnionViewController.h */,
 				9D7B42E41C8FFCE800E24B30 /* SearchUnionViewController.m */,
+				9D451ED61C91023C006F281B /* UnionInfoViewController.h */,
+				9D451ED71C91023C006F281B /* UnionInfoViewController.m */,
 				9D7B432D1C90178400E24B30 /* BaiduMapViewController.h */,
 				9D7B432E1C90178400E24B30 /* BaiduMapViewController.m */,
+				9D451ED91C911083006F281B /* MapNavigationManager.h */,
+				9D451EDA1C911083006F281B /* MapNavigationManager.m */,
 			);
 			path = UnionProjectsControlles;
 			sourceTree = "<group>";
@@ -2074,7 +2089,7 @@
 				9D82A58C1C75696A0072E354 /* BaseViewController */,
 				9D82A5651C7568E50072E354 /* Assets.xcassets */,
 				9D82A56A1C7568E50072E354 /* Info.plist */,
-				DB08291D1C775D1E0043FE30 /* LaunchScreen.xib */,
+				9D451EDF1C915195006F281B /* LaunchScreen.xib */,
 				9D82A5591C7568E50072E354 /* Supporting Files */,
 			);
 			path = OutsourcingProject;
@@ -3365,7 +3380,6 @@
 				DBEB03E41C787BCF005401A8 /* iconfont-xuanze@2x.png in Resources */,
 				9DB6A35C1C7F171D00671A72 /* iconfont-tongxunlu@2x.png in Resources */,
 				DBEB04431C79DF46005401A8 /* iconfont-ren.png in Resources */,
-				DB08291E1C775D1E0043FE30 /* LaunchScreen.xib in Resources */,
 				9DE3D7F71C7D83A300D654AA /* iconfont-biaoti@2x.png in Resources */,
 				DB08296A1C776E3B0043FE30 /* shape-10-拷贝-7.png in Resources */,
 				DB0829621C776E3B0043FE30 /* iconfont-ren(1)@2x.png in Resources */,
@@ -3505,6 +3519,7 @@
 				DB082A211C7786170043FE30 /* iconfont-wodexuanzhong@2x.png in Resources */,
 				DB08299E1C7781230043FE30 /* iconfont-122chengguozhanshijitai（合并）-拷贝（合并）-拷贝-3.png in Resources */,
 				9D736A281C7EC18E00271EC4 /* icon_16.png in Resources */,
+				9D451EE01C915195006F281B /* LaunchScreen.xib in Resources */,
 				DB6B3C581C78027800F0CB62 /* iconfont-mima.png in Resources */,
 				DB082A191C7786170043FE30 /* iconfont-icon-拷贝-2@3x.png in Resources */,
 				9DB6A34B1C7F171D00671A72 /* iconfont-122chengguozhanshijitai@3x.png in Resources */,
@@ -3718,6 +3733,7 @@
 				9D82A71B1C75C5D90072E354 /* SDWebImageManager.m in Sources */,
 				9DE3D7C21C7D6BCC00D654AA /* CALayer+FSExtension.m in Sources */,
 				9D82A6441C757B080072E354 /* SBJsonWriter.m in Sources */,
+				9D451EDB1C911083006F281B /* MapNavigationManager.m in Sources */,
 				DB46A0CC1C7B2C7A00D69165 /* RATreeView.m in Sources */,
 				9D054B851C7C34B1003FB2C6 /* MyFavorViewController.m in Sources */,
 				9D054B501C7C28BE003FB2C6 /* AlertTipsViewTool.m in Sources */,
@@ -3753,6 +3769,7 @@
 				9D054B6A1C7C32D1003FB2C6 /* MySettingViewController.m in Sources */,
 				9DE3D7C31C7D6BCC00D654AA /* FSCalendar+IBExtension.m in Sources */,
 				9D054B781C7C342F003FB2C6 /* SetPasswordViewController.m in Sources */,
+				9D451ED81C91023C006F281B /* UnionInfoViewController.m in Sources */,
 				9D82A6411C757B080072E354 /* SBJSON.m in Sources */,
 				9D39C10D1C85AC2300A9FA7C /* CheckUnionViewConreoller.m in Sources */,
 				9DE3D7CA1C7D6BCC00D654AA /* FSCalendarFlowLayout.m in Sources */,
@@ -3797,6 +3814,7 @@
 				9D054BEC1C7C5148003FB2C6 /* AddTaskViewController.m in Sources */,
 				9D82A6C71C75A4590072E354 /* ConfigUITools.m in Sources */,
 				DBC9970F1C809EF2000525A3 /* WorkModel.m in Sources */,
+				9D451EDE1C9120F9006F281B /* ScheModel.m in Sources */,
 				DB46A0E01C7B2CDD00D69165 /* MKSelectArray.m in Sources */,
 				9D82A5CD1C7578730072E354 /* MJRefreshComponent.m in Sources */,
 				9D7369E71C7EBC1400271EC4 /* JustBackBtn.m in Sources */,
@@ -3904,6 +3922,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Zhang (86236CK7Q3)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3923,7 +3942,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "100d6be8-14b6-43b1-853f-478548e2c54b";
+				PROVISIONING_PROFILE = "4499fcef-367d-4370-9f26-1ed19ef1fb8b";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -3950,6 +3969,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Zhang (86236CK7Q3)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3962,7 +3982,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "100d6be8-14b6-43b1-853f-478548e2c54b";
+				PROVISIONING_PROFILE = "4499fcef-367d-4370-9f26-1ed19ef1fb8b";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -3975,6 +3995,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Zhang (86236CK7Q3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Zhang (86236CK7Q3)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OutsourcingProject/Lib/BaiduMapBD",
@@ -3982,12 +4003,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OutsourcingProject/PrefixHeader.pch";
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "100d6be8-14b6-43b1-853f-478548e2c54b";
+				PROVISIONING_PROFILE = "4499fcef-367d-4370-9f26-1ed19ef1fb8b";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -3997,6 +4019,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Zhang (86236CK7Q3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Zhang (86236CK7Q3)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OutsourcingProject/Lib/BaiduMapBD",
@@ -4004,12 +4027,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OutsourcingProject/PrefixHeader.pch";
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "100d6be8-14b6-43b1-853f-478548e2c54b";
+				PROVISIONING_PROFILE = "4499fcef-367d-4370-9f26-1ed19ef1fb8b";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

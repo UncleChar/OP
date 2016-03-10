@@ -9,5 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface BaiduMapViewController : JustBackBtn
+@property (nonatomic, strong) NSString *address;
+
+@property (nonatomic, strong) NSString *latitude;
+@property (nonatomic, strong) NSString *longitude;
+
+@property (nonatomic, strong) NSString *destination;
 
 @end

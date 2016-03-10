@@ -29,8 +29,9 @@
 #import <BaiduMapAPI_Map/BMKMapComponent.h>//引入地图功能所有的头文件
 
 #import <BaiduMapAPI_Location/BMKLocationComponent.h>//引入定位功能所有的头文件
+#import "MapNavigationManager.h"
 
-@interface BaiduMapViewController ()<BMKMapViewDelegate,BMKLocationServiceDelegate>
+@interface BaiduMapViewController ()<BMKMapViewDelegate,BMKLocationServiceDelegate,UITextFieldDelegate>
 {
     BMKMapView *_mapView;
     
@@ -46,8 +47,7 @@
 {
     [super viewWillAppear:animated];
     [_mapView viewWillAppear];
-//    self.navigationController.navigationBarHidden = 0;
-    
+
     _mapView.delegate = self;
     _locService.delegate = self;
     
@@ -144,6 +144,7 @@
     
     // 用户最新位置
     CLLocation *location = [[CLLocation alloc]initWithLatitude:userLocation.location.coordinate.latitude longitude:userLocation.location.coordinate.longitude];
+//    CLLocation *location = [[CLLocation alloc]initWithLatitude:[self.latitude doubleValue] longitude:[self.longitude doubleValue]];
     
     // 反地理编码(逆地理编码) : 把坐标信息转化为地址信息
     // 地理编码 : 把地址信息转换为坐标信息
@@ -172,26 +173,64 @@
 - (void)didStopLocatingUser
 {
     NSLog(@"stop locate");
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"我的位置是" message:_myLocationName preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"我的位置是" message:_myLocationName preferredStyle:UIAlertControllerStyleAlert];
+//    
+//    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+//        
+//    }];
+//    [alertController addAction:okAction];
+//    [self.navigationController presentViewController:alertController animated:YES completion:nil];
     
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        
-    }];
-    [alertController addAction:okAction];
-    [self.navigationController presentViewController:alertController animated:YES completion:nil];
+    
+    
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"获取到位置" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+            textField.text = [NSString stringWithFormat:@"终点:%@",self.destination];
+            
+        }];
+    
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+            textField.text = [NSString stringWithFormat:@"起点:%@",_myLocationName];
+            
+        }];
+    
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"开启导航" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+           
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self startNavgationWithDestination:self.destination start:_myLocationName];
+                
+            });
+            
+            
+            
+    
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+
+        }];
+    
+        [alertController addAction:okAction];
+        [alertController addAction:cancelAction];
+        [self.navigationController presentViewController:alertController animated:YES completion:nil];
+
+    
+    
+    
     
 }
 
 - (void)didFailToLocateUserWithError:(NSError *)error
 {
     NSLog(@"location error");
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"我的位置是" message:_myLocationName preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"获取我的位置失败" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         
     }];
     [alertController addAction:okAction];
     [self.navigationController presentViewController:alertController animated:YES completion:nil];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -214,6 +253,16 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)startNavgationWithDestination:(NSString *)dest  start:(NSString *)satrt {
+
+    if ( dest.length == 0 || satrt.length == 0) {
+        UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"重要提示" message:@"起点和终点不能为空" delegate:nil cancelButtonTitle:@"我知道了" otherButtonTitles:nil];
+        [alertView show];
+    }
+    [MapNavigationManager showSheetWithCity:nil start:satrt end:dest];
+}
+
 
 
 @end

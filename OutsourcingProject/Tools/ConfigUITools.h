@@ -20,4 +20,7 @@
 
 + (CGFloat)calculateTextHeight:(NSString *)text size:(CGSize)size font:(UIFont *)font;
 
++ (NSString *)returnDateStringWithDate:(NSDate *)date;
+
++ (BOOL)isEmptyWillSubmit:(NSArray *)elementArrary;
 @end

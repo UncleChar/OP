@@ -12,6 +12,7 @@
 #import "NotiModel.h"
 #import "ActivityModel.h"
 #import "SubGuideModel.h"
+#import "ScheModel.h"
 //#import ""
 @interface IndexPubTableViewCell ()
 {
@@ -102,6 +103,16 @@
         
         nameLabel.text = [pubModel ChTopic];
         urgLabel.text = [NSString stringWithFormat:@"[ %@ ]",[pubModel sendDate]];
+        
+        urgLabel.textColor = [UIColor blackColor];
+        nameLabel.textColor = [UIColor blackColor];
+    }
+    
+    if ([pubModel isMemberOfClass:[ScheModel class]]) {
+        
+        
+        nameLabel.text = [pubModel chcontent];
+        urgLabel.text = [NSString stringWithFormat:@"[ %@ ]",[pubModel BeginTime]];
         
         urgLabel.textColor = [UIColor blackColor];
         nameLabel.textColor = [UIColor blackColor];

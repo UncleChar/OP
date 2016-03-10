@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class IndexNotiModel;
-@class TaskModel;
+
 
 @interface IndexPubTableViewCell : UITableViewCell
 //@property (nonatomic, strong) IndexNotiModel *notiModel;

@@ -9,11 +9,13 @@
 #import "ScheduleViewController.h"
 #import "AddScheduleViewController.h"
 #import "FSCalendar.h"
+#import "ScheModel.h"
 
 #define kFont 16
 @interface ScheduleViewController ()<FSCalendarDataSource,FSCalendarDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     ReturnValueBlock returnBlockDate;
+    ReturnValueBlock returnBlockSingle;
 
 }
 @property (nonatomic, strong) UITableView      *scheduleTableView;
@@ -24,13 +26,12 @@
 @property (strong , nonatomic) UIScrollView    *backScrollView;
 @property (strong , nonatomic) UILabel         *activeLabel;
 @property (strong,  nonatomic) NSMutableArray  *modelsArray;
+@property (strong , nonatomic) NSString        *deleteDateString;
 @end
 
 @implementation ScheduleViewController
-//- (void)viewWillAppear:(BOOL)animated {
-//
-////    [super viewWillAppear:YES];
-//}
+
+
 
 - (void)viewDidLoad {
     
@@ -40,30 +41,16 @@
     [self initArray];
     [self configCalender];
     
-    
     NSDateFormatter *charuncle = [[NSDateFormatter alloc]init];
-    //设置转换格式
     charuncle.dateFormat = @"yyyy-MM-dd";
     NSString *dateStringFilter = [charuncle stringFromDate:[NSDate date]];
-    ////    [NSString stringWithFormat:@"fld_40_1 like \"%%%@%%\"",_showSearchTF.text]
-    //    //           subD.filter =  @"chtopic like \"%中国%\"";
-    //    NSString *filter = [NSString stringWithFormat:@"DateDiff(day,fld_30_5,%@)>=0 and  DateDiff(day,%@,fld_30_8)>=0",@"2016-03-08",@"2016-04-14"];
-    //
-    //
-    //    filter = [filter stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
-    ////     filter = [filter stringByReplacingOccurrencesOfString:@"\"" withString:@"&apos;"];
-    //      OPLog(@"filter  %@",filter);
-    ////    OPLog(@"filter  %@",[filter htmlEntityEncode]);
-    
+
+//    NSString *dateStringFilter = [NSString stringWithFormat:@"DateDiff(day,&quot;%@&quot;,fld_30_5)&gt;=0 and DateDiff(day,fld_30_5,&quot;%@&quot;)&gt;=0",[self today:[NSDate date] BeforeOrAfterMonths:-2],[self today:[NSDate date] BeforeOrAfterMonths:2]];
     [self handleRequsetDetaiDate];
     [self getMyEventDataWithType:@"richenganpaidate" pageSize:8 navIndex:0 filter:dateStringFilter];
-    //
+    
     //    [self NotiDetailWithType:@"newrichenganpai" chid:[self.ChID integerValue]];
-    
-    //   DateDiff(day,”开始时间”,fld_30_5)>=0  and   DateDiff(day,fld_30_5,”截止时间”)>=0
-    
-
-    
+   
 }
 
 - (void)initArray {
@@ -86,54 +73,37 @@
     _calendar = [[FSCalendar alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight * 0.5 - 40 )];
     _calendar.dataSource = self;
     _calendar.delegate = self;
-//    _calendar.backgroundColor = [UIColor redColor];
-    NSDateFormatter *df = [[NSDateFormatter alloc]init];
-    //设置日期转换格式
-    df.dateFormat = @"yyyy-MM-dd";
-    NSString *dateStr = @"2000-01-01";
-    //dateFromString字符喘转日期
-    NSDate *datea = [df dateFromString:dateStr];
-    
-    NSLog(@"wo :%@",datea);
-    NSLog(@"ni :%@",[NSDate date]);
+//    NSDateFormatter *df = [[NSDateFormatter alloc]init];
+//    //设置日期转换格式
+//    df.dateFormat = @"yyyy-MM-dd";
+//    NSString *dateStr = @"2000-01-01";
+//    //dateFromString字符喘转日期
+//    NSDate *datea = [df dateFromString:dateStr];
+//    
+//    NSLog(@"wo :%@",datea);
+//    NSLog(@"ni :%@",[NSDate date]);
     [self.view addSubview:_calendar];
     self.calendar = _calendar;
-    
-    
-    NSDateFormatter *dff = [[NSDateFormatter alloc]init];
-    //设置日期转换格式
-    dff.dateFormat = @"yyyy-MM-dd";
-//    NSString *dateStrf = @"2000-01-01";
-    //dateFromString字符喘转日期
-    NSString *dateaf = [dff stringFromDate:[NSDate date]];
+
     
     _activeLabel = [[UILabel alloc]initWithFrame:CGRectMake(5,  kScreenHeight * 0.5 - 40 , kScreenWidth - 10, 25)];
-    _activeLabel.text = dateaf;
-//    _activeLabel.textAlignment = 1;
+    _activeLabel.text = [ConfigUITools returnDateStringWithDate:[NSDate date]];
     _activeLabel.textColor = [UIColor purpleColor];
     _activeLabel.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:_activeLabel];
-    
-    
+
     if (!_scheduleTableView) {
         _scheduleTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_activeLabel.frame)+ 1, kScreenWidth, kScreenHeight - CGRectGetMaxY(_activeLabel.frame) - 115) style:UITableViewStylePlain];
         
         _scheduleTableView.delegate=self;
         _scheduleTableView.dataSource=self;
-        _scheduleTableView.backgroundColor = kBackColor;
+//        _scheduleTableView.backgroundColor = [UIColor redColor];
         [self.view addSubview:_scheduleTableView];
-//        _favorTableView.scrollEnabled = NO;
+
         
     }
     
-    
-//    _backScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, kScreenHeight * 0.5 + 31 - 40, kScreenWidth, kScreenHeight - 73  - (kScreenHeight * 0.5 + 31) )];
-//
-//    _backScrollView.backgroundColor = [UIColor purpleColor];
-//    [self.view addSubview:_backScrollView];
 
-    
-//    [self configScheduleUIWithModelsArray:_modelsArray];
     
     UIButton *creatBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, kScreenHeight - 64  - 45, kScreenWidth - 40, 40)];
     creatBtn.tag = 333 +  0;
@@ -230,7 +200,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return _modelsArray.count + 11;
+    return _modelsArray.count + 1;
 }
 
 #pragma mark - UITableViewDataSource
@@ -249,20 +219,18 @@
         
         
         cell.imageView.image = [UIImage imageNamed:@"iconfont-biaoti"];
-        //        cell.textLabel.text = _cellTitleArray[indexPath.row];
+
         
         cell.textLabel.text = @"新建日程";
-        
-//        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+
         
     }else {
     
         cell.imageView.image = [UIImage imageNamed:@"iconfont-weibiaoti4"];
-        //        cell.textLabel.text = _cellTitleArray[indexPath.row];
+
         
-        cell.textLabel.text = @"测试收藏的view";
-//        cell.detailTextLabel.text = @"业务指导";
-//        cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+        cell.textLabel.text = [_modelsArray[indexPath.row - 1] ChContent];
+
     
         
     }
@@ -283,10 +251,30 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.row == _modelsArray.count) {
+    if (indexPath.row == 0) {
         
-        [self.navigationController pushViewController:[[AddScheduleViewController alloc]init] animated:YES];
+        AddScheduleViewController *schVC = [[AddScheduleViewController alloc]init];
+        schVC.enum_schedule = ENUM_ScheduleCreate;
+        [self.navigationController pushViewController:schVC animated:YES];
         
+    }else {
+    
+        AddScheduleViewController *schVC = [[AddScheduleViewController alloc]init];
+        schVC.enum_schedule = ENUM_ScheduleEdit;
+        schVC.deleteBlock = ^(BOOL isSeccess ){
+        
+            if (isSeccess) {
+                
+                [_modelsArray removeAllObjects];
+                [_scheduleTableView reloadData];
+                NSString *str = [NSString stringWithFormat:@"DateDiff(day,&quot;%@&quot;,fld_30_5)&gt;=0 and DateDiff(day,fld_30_5,&quot;%@&quot;)&gt;=0",_deleteDateString,_deleteDateString];
+                [self getSingleDayEventWithType:@"richenganpai" pageSize:0 navIndex:0 filter:str];
+            }
+
+        };
+        schVC.schId = [_modelsArray[indexPath.row - 1] ChID];
+        [self.navigationController pushViewController:schVC animated:YES];
+    
     }
     
 }
@@ -298,28 +286,6 @@
     NSLog(@"selected :%@",date);
     
 }
-//- (NSString *)calendar:(FSCalendar *)calendar subtitleForDate:(NSDate *)date {
-//
-//
-//    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"date"]) {
-//        if ([date isEqualToDate:[_calendar dateByIgnoringTimeComponentsOfDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"date"]]]) {
-//
-//            return @"√";
-//        }
-//
-//
-//        return @"";
-//
-//
-//    }else {
-//
-//
-//
-//        return @"";
-//
-//    }
-//}
-
 
 - (NSInteger)calendar:(FSCalendar *)calendar numberOfEventsForDate:(NSDate *)date {
 
@@ -341,35 +307,114 @@
    
 }
 
+- (void)calendarCurrentPageDidChange:(FSCalendar *)calendar {
 
+    [_modelsArray removeAllObjects];
+    [_scheduleTableView reloadData]; 
+    [self getMyEventDataWithType:@"richenganpaidate" pageSize:8 navIndex:0 filter:[ConfigUITools returnDateStringWithDate:calendar.currentPage]];
+   
+}
 
 - (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date {
     
+    [_modelsArray removeAllObjects];
+    [_scheduleTableView reloadData];
     
-    NSLog(@"fff:%@",date);
-    [[NSUserDefaults standardUserDefaults] setObject:date forKey:@"date"];
-    
-    NSDateFormatter *dff = [[NSDateFormatter alloc]init];
-    //设置日期转换格式
-    dff.dateFormat = @"yyyy-MM-dd";
-    //    NSString *dateStrf = @"2000-01-01";
-    //dateFromString字符喘转日期
-    NSString *dateaf = [dff stringFromDate:date];
-
-    _activeLabel.text = dateaf;
+    NSString *dateString = [ConfigUITools returnDateStringWithDate:date];
+    _deleteDateString = dateString;
+    _activeLabel.text = dateString;
     _activeLabel.textColor = [UIColor purpleColor];
+    NSString *str = [NSString stringWithFormat:@"DateDiff(day,&quot;%@&quot;,fld_30_5)&gt;=0 and DateDiff(day,fld_30_5,&quot;%@&quot;)&gt;=0",dateString,dateString];
+    [self handleSingleDayDate];
+    [self getSingleDayEventWithType:@"richenganpai" pageSize:0 navIndex:0 filter:str];
+    
     
 }
 
+- (void)handleSingleDayDate {
+    
+    
+    __weak typeof (self) weakSelf = self;
+    returnBlockSingle = ^(id resultValue){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            
+            OPLog(@"-single-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
+            
+            if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
+                
+                
+                
+            }else {
+               
+                SBJSON *jsonParser = [[SBJSON alloc] init];
+                NSError *parseError = nil;
+                NSDictionary * result = [jsonParser objectWithString:[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]
+                                                               error:&parseError];
+                NSLog(@"jsonParserresult:%@",[result objectForKey:@"rows"]);
+                for (NSDictionary *dateDict in [result objectForKey:@"rows"]) {
+                    
+                    ScheModel *model = [[ScheModel alloc]init];
+                    [model setValuesForKeysWithDictionary:dateDict];
+                    
+                    [weakSelf.modelsArray addObject:model];
+                    
+                }
+                [weakSelf.scheduleTableView reloadData];
+                
+            }
+            
+        });
+        
+        
+        
+    };
+    
+}
+
+- (void)getSingleDayEventWithType:(NSString *)type pageSize:(NSInteger)pageSize navIndex:(NSInteger)index filter:(NSString *)filter{
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        NSString * requestBody = [NSString stringWithFormat:
+                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                  "<soap12:Envelope "
+                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+                                  "<soap12:Body>"
+                                  "<GetJsonListData xmlns=\"Net.GongHuiTong\">"
+                                  "<logincookie>%@</logincookie>"
+                                  "<datatype>%@</datatype>"
+                                  "<pagesize>%ld</pagesize>"
+                                  "<navindex>%ld</navindex>"
+                                  "<filter>%@</filter>"
+                                  " </GetJsonListData>"
+                                  "</soap12:Body>"
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)pageSize,(long)index,filter];
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonListDataResult"] WithReturnValeuBlock:returnBlockSingle WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+    }
+    
+}
 
 - (void)scheduleBtnClicked:(UIButton *)sender {
 
 
     switch (sender.tag - 333) {
         case 0:
-            
-            [self.navigationController pushViewController:[[AddScheduleViewController alloc]init] animated:YES];
-            
+        {
+            AddScheduleViewController *schVC = [[AddScheduleViewController alloc]init];
+            schVC.enum_schedule = ENUM_ScheduleCreate;
+            [self.navigationController pushViewController:schVC animated:YES];
+        }
             break;
         case 1:
             
@@ -444,45 +489,31 @@
     
     
 }
+- (NSString *)today:(NSDate *)date BeforeOrAfterMonths:(NSInteger)scopeInt{
+
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    
+    NSDateComponents *comps = nil;
+    
+    comps = [calendar components:NSCalendarUnitMonth fromDate:date];
+    
+    NSDateComponents *adcomps = [[NSDateComponents alloc] init];
+    
+    [adcomps setMonth:scopeInt];
+
+    NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:date options:0];
+    
+    NSDateFormatter *dff = [[NSDateFormatter alloc]init];
+    //设置日期转换格式
+    dff.dateFormat = @"yyyy-MM-dd";
+    //    NSString *dateStrf = @"2000-01-01";
+    //dateFromString字符喘转日期
+    NSString *string = [dff stringFromDate:newdate];
+    return string;
+
+}
 
 
 
-//- (void)NotiDetailWithType:(NSString *)type chid:(NSInteger)cid {
-//    
-//    
-//    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
-//        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
-//        //        [SVProgressHUD showWithStatus:@"增在加载..."];
-//        NSString * requestBody = [NSString stringWithFormat:
-//                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-//                                  "<soap12:Envelope "
-//                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
-//                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
-//                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
-//                                  "<soap12:Body>"
-//                                  "<GetJsonContentData xmlns=\"Net.GongHuiTong\">"
-//                                  "<logincookie>%@</logincookie>"
-//                                  "<datatype>%@</datatype>"
-//                                  "<ChID>%ld</ChID>"
-//                                  " </GetJsonContentData>"
-//                                  "</soap12:Body>"
-//                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)cid];
-//        
-//        
-//        
-//        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonContentDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
-//        
-//        
-//    }else {
-//        
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-//        [alert show];
-//        
-//        
-//    }
-//    
-//    
-//    
-//}
 
 @end
