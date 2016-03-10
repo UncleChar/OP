@@ -16,6 +16,8 @@
 @property (strong, nonatomic) Reachability *hostReach;
 @property (assign, nonatomic) BOOL         isReachable;
 @property (strong, nonatomic) BMKMapManager *mapManager;
+
+@property (strong, nonatomic) NSString *localNotiID;
 + (AppDelegate *)getAppDelegate;
 
 + (BOOL)isNetworkConecting;

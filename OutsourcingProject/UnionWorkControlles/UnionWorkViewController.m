@@ -151,7 +151,6 @@
     _backgroungScrollView.userInteractionEnabled = YES;
     [_searchView addSubview:_backgroungScrollView];
     
-    
     NSLog(@"ddffd%@",NSStringFromCGRect(_backgroungScrollView.frame));
     
     [DaiDodgeKeyboard addRegisterTheViewNeedDodgeKeyboard:_backgroungScrollView];

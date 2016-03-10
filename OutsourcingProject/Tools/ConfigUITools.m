@@ -146,4 +146,62 @@
 
 }
 
++ (void)locationNotificationWithID:(NSString *)loId withContent:(NSString *)content {
+
+    
+    // iOS8的本地消息推送需要添加一段代码
+    // systemVersion,运行的目标设备的系统版本号
+    if ([[UIDevice currentDevice] systemVersion].floatValue >= 8.0 ) {
+        
+        // 接收消息的类型:声音,消息体,角标
+        UIUserNotificationType type = UIUserNotificationTypeSound |UIUserNotificationTypeAlert | UIUserNotificationTypeBadge;
+        
+        // 消息设置对象
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:type categories:nil];
+        
+        // 1.程序注册一个消息设置对象
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+    }
+    
+    
+    //    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    //    if (localNotification == nil) {
+    //        return;
+    //    }
+    
+    
+    
+    
+    
+    UILocalNotification *localNoti = [[UILocalNotification alloc] init];
+    
+    
+    //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
+    localNoti.soundName = UILocalNotificationDefaultSoundName;
+    //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
+    
+    NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:loId,@"id", nil];
+    localNoti.userInfo = infoDic;
+    
+    // 设置消息重复时间:(每隔24小时重复)
+    localNoti.repeatInterval = kCFCalendarUnitMinute;
+    
+    // 设置消息开始时间:(10秒钟之后开始推送)
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:5];
+    localNoti.fireDate = date;
+    
+    // 设置消息体
+    localNoti.alertBody = content;
+    
+    // 设置角标
+//    localNoti.applicationIconBadgeNumber = 1;
+    
+    // 设置推送声音 //prwa
+        localNoti.soundName = @"pie.wav";
+    
+    // 2.程序定制本地消息
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNoti];
+    
+
+}
 @end

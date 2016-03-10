@@ -681,6 +681,7 @@
 		DBEB049E1C79F2B2005401A8 /* linebotton.png in Resources */ = {isa = PBXBuildFile; fileRef = DBEB049B1C79F2B2005401A8 /* linebotton.png */; };
 		DBEB049F1C79F2B2005401A8 /* linebotton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DBEB049C1C79F2B2005401A8 /* linebotton@2x.png */; };
 		DBEB04A01C79F2B2005401A8 /* linebotton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DBEB049D1C79F2B2005401A8 /* linebotton@3x.png */; };
+		DBF87B561C91C23100C65956 /* pie.wav in Resources */ = {isa = PBXBuildFile; fileRef = DBF87B551C91C23100C65956 /* pie.wav */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1575,6 +1576,7 @@
 		DBEB049B1C79F2B2005401A8 /* linebotton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = linebotton.png; sourceTree = "<group>"; };
 		DBEB049C1C79F2B2005401A8 /* linebotton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "linebotton@2x.png"; sourceTree = "<group>"; };
 		DBEB049D1C79F2B2005401A8 /* linebotton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "linebotton@3x.png"; sourceTree = "<group>"; };
+		DBF87B551C91C23100C65956 /* pie.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pie.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2098,6 +2100,7 @@
 		9D82A5591C7568E50072E354 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DBF87B551C91C23100C65956 /* pie.wav */,
 				9D2E18041C76C572008CB937 /* icon.png */,
 				9D2E18051C76C572008CB937 /* icon@2x.png */,
 				9D2E18061C76C572008CB937 /* icon@3x.png */,
@@ -3645,6 +3648,7 @@
 				DBEB03DB1C787BCF005401A8 /* iconfont-shouji(1)-拷贝@2x.png in Resources */,
 				DB0829661C776E3B0043FE30 /* iconfont-shouji@3x.png in Resources */,
 				DBEB048D1C79E5CF005401A8 /* iconfont-leixing(1)@2x.png in Resources */,
+				DBF87B561C91C23100C65956 /* pie.wav in Resources */,
 				9DB6A35D1C7F171D00671A72 /* iconfont-tongxunlu@3x.png in Resources */,
 				DB46A0A11C7B2C6100D69165 /* ico_blue_arrow@3x.png in Resources */,
 				DB0829A01C7781230043FE30 /* iconfont-122chengguozhanshijitai（合并）-拷贝（合并）-拷贝-3@3x.png in Resources */,

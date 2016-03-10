@@ -23,4 +23,6 @@
 + (NSString *)returnDateStringWithDate:(NSDate *)date;
 
 + (BOOL)isEmptyWillSubmit:(NSArray *)elementArrary;
+
++ (void)locationNotificationWithID:(NSString *)loId withContent:(NSString *)content;
 @end

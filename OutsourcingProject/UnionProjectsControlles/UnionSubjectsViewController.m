@@ -73,7 +73,6 @@
     _menu.delegate = self;
     [self.view addSubview:_menu];
     
-    
     _topSearchView = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, 40)];
     _topSearchView.backgroundColor = kBackColor;
     [self.view addSubview:_topSearchView];

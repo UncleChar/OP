@@ -70,7 +70,6 @@
     [[self backgScrollView] addSubview:[self headImaView]];
     [[self backgScrollView] addSubview:[self tableView]];
     
-    
     UIButton *exitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     exitBtn.frame = CGRectMake(30, CGRectGetMaxY(_setTableView.frame) + 30, (kScreenWidth - 60) , 40);
 //    [exitBtn setBackgroundImage:[UIImage imageNamed:@"矩形-9"] forState:UIControlStateNormal];

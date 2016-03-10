@@ -76,7 +76,23 @@
     
     return YES;
 }
-
+#pragma mark 消失角标1:接收到通知并点击进入应用
+// 接收到本地消息
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    NSLog(@"content：%@", notification.alertBody);
+     NSLog(@"content：%@", notification.userInfo);
+    // 角标设置为0 即消失.
+    _localNotiID = [notification.userInfo objectForKey:@"id"];
+    // 提示视图
+    // UIActionSheet
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒消息" message:notification.alertBody delegate:self cancelButtonTitle:@"取消提醒" otherButtonTitles:@"确定", nil];
+    
+    // 弹出提示视图
+    [alert show];
+    
+    application.applicationIconBadgeNumber = 0;
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -94,7 +110,7 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    
+    application.applicationIconBadgeNumber = 0;
     NSLog(@"BecomeActive");
     //    [BMKMapView didForeGround];
 }
@@ -167,6 +183,38 @@
         return NO;
         
     }
+    
+}
+
+#pragma mark - AlertView Delegate
+#pragma mark 某个下标的按钮被点击
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"%li", buttonIndex);
+    if (buttonIndex == 0) {
+        NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
+//        //获取当前所有的本地通知
+//        if (!notificaitons || notificaitons.count <= 0) {
+//            return;
+//        }
+        for (UILocalNotification *notify in notificaitons) {
+            if ([[notify.userInfo objectForKey:@"id"] isEqualToString:_localNotiID]) {
+                //取消一个特定的通知
+                [[UIApplication sharedApplication] cancelLocalNotification:notify];
+                break;
+            }
+            
+
+        }
+        
+        //取消所有的本地通知
+//        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        
+        
+    }
+
+    
+    
     
 }
 @end
