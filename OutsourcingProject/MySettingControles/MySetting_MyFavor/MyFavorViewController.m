@@ -128,6 +128,10 @@
         
         cell.detailTextLabel.text = @"政策法规";
     }
+    if ( [[_dataArray[indexPath.row] dataType] isEqualToString:@"shoudaodechengguozhanshi"]) {
+        
+        cell.detailTextLabel.text = @"成果展示";
+    }
     
     
 //        cell.detailTextLabel.text = [_dataArray[indexPath.row] DataType];

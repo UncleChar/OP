@@ -34,7 +34,7 @@ typedef void (^ErrorCodeBlock) (id errorCode);
 #import "AppEngine.h"
 #import "JustBackBtn.h"
 #import "LoginViewController.h"
-
+#import "AlertTipsViewTool.h"
 #define kDriftDuration     0.40
 
 //jmwl

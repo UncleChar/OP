@@ -65,22 +65,34 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = 1;
-    [self initArray];
-    [self creatScrollerView];
-    [self configTopBtn];
-    [self configListView];
-//    [self getRequestData];
-    
-//    [self getListDataWithType:@"newtongzhigonggao" withTag:0];
+    NSUserDefaults *loginInfo = [NSUserDefaults standardUserDefaults];
+    self.userType = [loginInfo objectForKey:@"usertype"];
+    if ([self.userType isEqualToString:@"gonghui"]) {
+        
+        [self initPresidentArray];
+        [self creatScrollerView];
+        [self configListView];
+        [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
 
-    [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
-     [self getListDataWithType:@"newgongzuorenwu" pageSize:0 navIndex:0 filter:@"" withTag:1];
+        
+    }else {
+    
+        [self initArray];
+        [self creatScrollerView];
+        [self configTopBtn];
+        [self configListView];
+        
+        [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
+        [self getListDataWithType:@"newgongzuorenwu" pageSize:0 navIndex:0 filter:@"" withTag:1];
+        
+        //(day,&quot;2016-03-01&quot;,fld_30_5)&gt;=0 and DateDiff(day,fld_30_5,&quot;2016-03-14&quot;)&gt;=0 and DateDiff(day,fld_30_8,&quot;2016-03-14&quot;)&gt;=0
+        //前两个，是指开始时间3-1之后，3-14之前，最后一个，是指结束时间在3-14前
+        [self getListDataWithType:@"newrichenganpai" pageSize:0 navIndex:0 filter:@"" withTag:2];
+        [self getListDataWithType:@"newgongzuodongtai" pageSize:0 navIndex:0 filter:@"" withTag:3];
     
     
-    //(day,&quot;2016-03-01&quot;,fld_30_5)&gt;=0 and DateDiff(day,fld_30_5,&quot;2016-03-14&quot;)&gt;=0 and DateDiff(day,fld_30_8,&quot;2016-03-14&quot;)&gt;=0
-    //前两个，是指开始时间3-1之后，3-14之前，最后一个，是指结束时间在3-14前
-    [self getListDataWithType:@"newrichenganpai" pageSize:0 navIndex:0 filter:@"" withTag:2];
-    [self getListDataWithType:@"newgongzuodongtai" pageSize:0 navIndex:0 filter:@"" withTag:3];
+    }
+
 
 
 }
@@ -115,6 +127,21 @@
 
 }
 
+- (void)initPresidentArray {
+
+    if (!titleArray) {
+        
+        titleArray = @[@"通知公告"];
+        
+    }
+    if (!notiArray) {
+        
+        notiArray = [NSMutableArray arrayWithCapacity:0];
+        
+    }
+
+
+}
 
 - (void)creatScrollerView {
 
@@ -161,6 +188,14 @@
     
     if (!listTableView) {
         
+        if ([self.userType isEqualToString:@"gonghui"]) {
+
+            listStart = 300;
+        }else {
+        
+        
+        }
+        
         listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, listStart + 10 + kBtnMargin, kScreenWidth, kScreenHeight - listStart  - kBtnMargin -49 + 27) style:UITableViewStyleGrouped];
         listTableView.delegate = self;
         listTableView.dataSource = self;
@@ -174,8 +209,23 @@
         
 
         _isRefresh = 1;
-        [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
-        [self getListDataWithType:@"newgongzuorenwu" pageSize:0 navIndex:0 filter:@"" withTag:1];
+        if ([self.userType isEqualToString:@"gonghui"]) {
+            
+            [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
+
+
+        }else {
+            [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
+            [self getListDataWithType:@"newgongzuorenwu" pageSize:0 navIndex:0 filter:@"" withTag:1];
+            
+            //(day,&quot;2016-03-01&quot;,fld_30_5)&gt;=0 and DateDiff(day,fld_30_5,&quot;2016-03-14&quot;)&gt;=0 and DateDiff(day,fld_30_8,&quot;2016-03-14&quot;)&gt;=0
+            //前两个，是指开始时间3-1之后，3-14之前，最后一个，是指结束时间在3-14前
+            [self getListDataWithType:@"newrichenganpai" pageSize:0 navIndex:0 filter:@"" withTag:2];
+            [self getListDataWithType:@"newgongzuodongtai" pageSize:0 navIndex:0 filter:@"" withTag:3];
+            
+        }
+//        [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
+//        [self getListDataWithType:@"newgongzuorenwu" pageSize:0 navIndex:0 filter:@"" withTag:1];
         
     }];
 
@@ -192,8 +242,12 @@
         
             break;
         case 1:
-              [self.navigationController pushViewController:[[AddTaskViewController alloc]init] animated:YES];
-            
+        {
+            AddTaskViewController *tak = [[AddTaskViewController alloc]init];
+            tak.ENUMShowType = ENUM_ShowWithEditInfo;
+            [self.navigationController pushViewController:tak animated:YES];
+        
+        }
             break;
         case 2:
             
@@ -218,9 +272,11 @@
     //处理单击操作
     switch (sender.tag - 900) {
         case 0:
-            
-            [self.navigationController pushViewController:[[PublicNoticeViewController alloc]init] animated:YES];
-            
+        {
+            PublicNoticeViewController *PUB = [[PublicNoticeViewController alloc]init];
+            PUB.userType = self.userType;
+            [self.navigationController pushViewController:PUB animated:YES];
+        }
             break;
         case 1:
             
@@ -250,7 +306,15 @@
 #pragma mark - UITableViewDelegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
-    return 4;
+    if ([self.userType isEqualToString:@"gonghui"]) {
+        
+        return 1;
+        
+    }else {
+        
+       return 4;
+    }
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

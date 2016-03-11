@@ -11,5 +11,7 @@
 @interface MainTabBarController : UITabBarController
 
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
+@property (nonatomic, strong) NSString *userType;
+
 
 @end

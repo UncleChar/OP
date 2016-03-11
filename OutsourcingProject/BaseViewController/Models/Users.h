@@ -39,4 +39,9 @@
 @property (nonatomic, retain) NSString*   zhize;
 
 
+
+@property (nonatomic, retain) NSString*   gonghuimingcheng;
+@property (nonatomic, retain) NSString*   gongzuodanwei;
+@property (nonatomic, retain) NSString*   number;
+
 @end

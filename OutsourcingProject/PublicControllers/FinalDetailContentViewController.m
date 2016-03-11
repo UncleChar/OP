@@ -216,7 +216,11 @@
 
     appendString = [appendString stringByAppendingString:string];
     
-    
+    if ( nil ==self.ChTopicPost) {
+        
+        self.ChTopicPost = [[[dict objectForKey:@"rows"] lastObject] objectForKey:@"ChTopic"]; 
+    }
+   
     
     NSString *content = [appendString htmlEntityDecode];
     
@@ -361,7 +365,7 @@
                     self.DataTypepost = self.dataType;
                     self.memberCode = [[NSUserDefaults standardUserDefaults] objectForKey:@"usercode"];
                     self.PhoneIC = [[NSUserDefaults standardUserDefaults] objectForKey:@"shouji"];
-                    self.enum_action = Enum_ActionModuleFavor;
+                    self.enum_action = Enum_ActionModulePraise;
                     NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"dianzan"};
                     NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"DataType":self.DataTypepost,@"DataCode":self.dataCode,@"PhoneIC":self.PhoneIC} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
                     OPLog(@"---xml    %@",xmlString);
@@ -399,9 +403,9 @@
                     self.dataCode = self.chID;
                     self.DataTypepost = self.dataType;
                     self.memberCode = [[NSUserDefaults standardUserDefaults] objectForKey:@"usercode"];
-                    self.enum_action = Enum_ActionModulePraise;
+                    self.enum_action = Enum_ActionModuleFavor;
                     NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"shoucang"};
-                    NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"DataType":self.DataTypepost,@"DataCode":self.dataCode,@"ChTopic":self.ChTopicPost,@"IconPic":self.senderIconpicPost,@"ChContent":self.chContentPost,@"MemberCode":self.memberCode} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                    NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"DataType":self.DataTypepost,@"DataCode":self.dataCode,@"ChTopic":self.ChTopicPost,@"MemberCode":self.memberCode} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
                     OPLog(@"---xml    %@",xmlString);
                     [self submitAddUserWithXmlString:xmlString];
                    

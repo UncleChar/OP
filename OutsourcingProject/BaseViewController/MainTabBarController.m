@@ -33,6 +33,7 @@
 - (void)createSubViewControllers {
 
     IndexViewController *limitVC = [[IndexViewController alloc]init];
+    limitVC.userType = self.userType;
     UINavigationController *limitNav = [[UINavigationController alloc]initWithRootViewController:limitVC];
 
     UnionWorkViewController  *saleVC = [[UnionWorkViewController alloc]init];

@@ -35,25 +35,25 @@
     [self.view addSubview:nameLabel];
     
     UILabel  *addrLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 52, kScreenWidth, 40)];
-    addrLabel.text = [NSString stringWithFormat:@"工会地址:      %@",self.address];
+    addrLabel.text = [NSString stringWithFormat:@"  工会地址:      %@",self.address];
     addrLabel.backgroundColor = [UIColor whiteColor];
     addrLabel.textColor = [UIColor grayColor];
     [self.view addSubview:addrLabel];
     
     UILabel  *codeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 93, kScreenWidth, 40)];
-    codeLabel.text = [NSString stringWithFormat:@"工会代码:      %@",self.code];
+    codeLabel.text = [NSString stringWithFormat:@"  工会代码:      %@",self.code];
     codeLabel.backgroundColor = [UIColor whiteColor];
     codeLabel.textColor = [UIColor grayColor];
     [self.view addSubview:codeLabel];
     
     UILabel  *timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 134, kScreenWidth, 40)];
-    timeLabel.text = [NSString stringWithFormat:@"工会成立时间:  %@",self.createTime];
+    timeLabel.text = [NSString stringWithFormat:@"  工会成立时间:  %@",self.createTime];
     timeLabel.backgroundColor = [UIColor whiteColor];
     timeLabel.textColor = [UIColor grayColor];
     [self.view addSubview:timeLabel];
     
     UILabel  *presidentLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 175, kScreenWidth, 40)];
-    presidentLabel.text = [NSString stringWithFormat:@"工会主席:      %@",self.president];
+    presidentLabel.text = [NSString stringWithFormat:@"  工会主席:      %@",self.president];
     presidentLabel.backgroundColor = [UIColor whiteColor];
     presidentLabel.textColor = [UIColor grayColor];
     [self.view addSubview:presidentLabel];

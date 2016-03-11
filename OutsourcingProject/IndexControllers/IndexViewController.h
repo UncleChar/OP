@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface IndexViewController : UIViewController
+@property (nonatomic, strong) NSString *userType;
 
 @end

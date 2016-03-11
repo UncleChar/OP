@@ -61,6 +61,7 @@
     
     if ([[NSUserDefaults standardUserDefaults]boolForKey:kUserLoginStatus]) {
         
+        
         self.window.rootViewController = [[MainTabBarController alloc]init];
         
     }else {
@@ -86,17 +87,18 @@
     _localNotiID = [notification.userInfo objectForKey:@"id"];
     // 提示视图
     // UIActionSheet
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒消息" message:notification.alertBody delegate:self cancelButtonTitle:@"取消提醒" otherButtonTitles:@"确定", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提醒消息" message:notification.alertBody delegate:self cancelButtonTitle:@"不在提醒" otherButtonTitles:@"确定", nil];
     
     // 弹出提示视图
     [alert show];
     
-    application.applicationIconBadgeNumber = 0;
+  application.applicationIconBadgeNumber -= 1;
 }
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     NSLog(@"ResignActive");
+      application.applicationIconBadgeNumber -= 1;
     //    [BMKMapView willBackGround];
 }
 

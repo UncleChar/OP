@@ -13,4 +13,6 @@
 
 + (void)alertTipsViewWithTitle:(NSString *)title message:(NSString *)message;
 
++ (BOOL)isEmptyWillSubmit:(NSArray *)elementArrary;
+
 @end

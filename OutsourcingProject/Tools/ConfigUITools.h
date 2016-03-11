@@ -22,7 +22,9 @@
 
 + (NSString *)returnDateStringWithDate:(NSDate *)date;
 
++ (NSDate *)returnDateFromString:(NSString *)dateString;
+
 + (BOOL)isEmptyWillSubmit:(NSArray *)elementArrary;
 
-+ (void)locationNotificationWithID:(NSString *)loId withContent:(NSString *)content;
++ (void)locationNotificationWithID:(NSString *)loId withContent:(NSString *)content sinceDate:(NSDate *)tipsDate isRepeat:(BOOL)repeat;
 @end

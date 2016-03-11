@@ -60,17 +60,43 @@
     self.title = @"通知公告";
     self.view.backgroundColor = kBackColor;
     
-    _pageMeetingNotiIndex = 1;
-    _pageOtherNotiIndex = 1;
-    _pageSendNotiIndex = 1;
-    _pageSize = 8;
-    _requestTag = 0;
-    
-     [self initArray];
-     [self configUI];
+    if ([self.userType isEqualToString:@"gonghui"]) {
+        
+    }else {
 
-     [self handleRequsetDate];
-     [self getUnionSubjectsDataWithType:@"huiyitongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+    }
+    
+    if ([self.userType isEqualToString:@"gonghui"]) {
+        
+        _pageMeetingNotiIndex = 1;
+        _pageOtherNotiIndex = 1;
+        _pageSize = 8;
+        _requestTag = 0;
+        
+        [self initArray];
+        [self configUI];
+        
+        [self handleRequsetDate];
+        [self getUnionSubjectsDataWithType:@"huiyitongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+        
+        
+    }else {
+    
+    
+        _pageMeetingNotiIndex = 1;
+        _pageOtherNotiIndex = 1;
+        _pageSendNotiIndex = 1;
+        _pageSize = 8;
+        _requestTag = 0;
+        
+        [self initArray];
+        [self configUI];
+        
+        [self handleRequsetDate];
+        [self getUnionSubjectsDataWithType:@"huiyitongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+    }
+    
+
 }
 
 - (void)initArray {
@@ -99,42 +125,71 @@
 }
 - (void)initShowTableView{
     
-    if (!_showTableView) {
-        _showTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topSearchView.frame), kScreenWidth, kScreenHeight - 40 - CGRectGetMaxY(_topSearchView.frame) - 75) style:UITableViewStylePlain];
-        _showTableView.backgroundColor = kBackColor;
-        _showTableView.delegate=self;
-        _showTableView.dataSource=self;
-    
-    }
-    [self.view addSubview:_showTableView];
+ 
 }
 
 
 - (void)configUI {
 
-    _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) withTitles:@[@"会议通知", @"其他通知", @"我发出的通知"]];
-    _menu.delegate = self;
-    [self.view addSubview:_menu];
-    
-    
-    _topSearchView = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, 40)];
-    _topSearchView.backgroundColor = kBackColor;
-    [self.view addSubview:_topSearchView];
-    
-    [_topSearchView addSubview:[self searchTextFieldWithTag:0]];
-    [self initShowTableView];
+    if ([self.userType isEqualToString:@"gonghui"]) {
+        _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) withTitles:@[@"会议通知", @"其他通知"]];
+        
+        _menu.delegate = self;
+        [self.view addSubview:_menu];
+        
+        
+        _topSearchView = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, 40)];
+        _topSearchView.backgroundColor = kBackColor;
+        [self.view addSubview:_topSearchView];
+        
+        [_topSearchView addSubview:[self searchTextFieldWithTag:0]];
+
+        if (!_showTableView) {
+            _showTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topSearchView.frame), kScreenWidth, kScreenHeight - 40 - CGRectGetMaxY(_topSearchView.frame)-24) style:UITableViewStylePlain];
+            _showTableView.backgroundColor = [UIColor redColor];
+            _showTableView.delegate=self;
+            _showTableView.dataSource=self;
+            
+        }
+        [self.view addSubview:_showTableView];
+    }else {
+          _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) withTitles:@[@"会议通知", @"其他通知", @"我发出的通知"]];
+        
+        _menu.delegate = self;
+        [self.view addSubview:_menu];
+        
+        
+        _topSearchView = [[UIView alloc]initWithFrame:CGRectMake(0, 45, kScreenWidth, 40)];
+        _topSearchView.backgroundColor = kBackColor;
+        [self.view addSubview:_topSearchView];
+        
+        [_topSearchView addSubview:[self searchTextFieldWithTag:0]];
+        
+        
+        if (!_showTableView) {
+            _showTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topSearchView.frame), kScreenWidth, kScreenHeight - 40 - CGRectGetMaxY(_topSearchView.frame) - 75) style:UITableViewStylePlain];
+            _showTableView.backgroundColor = kBackColor;
+            _showTableView.delegate=self;
+            _showTableView.dataSource=self;
+            
+        }
+        [self.view addSubview:_showTableView];
+        
+        UIButton *sendNotiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        //    [sendNotiBtn setBackgroundImage:[UIImage imageNamed:@"send"] forState:UIControlStateNormal];
+        sendNotiBtn.backgroundColor = kTinColor;
+        sendNotiBtn.layer.cornerRadius = 4;
+        sendNotiBtn.layer.masksToBounds = 1;
+        sendNotiBtn.frame = CGRectMake(20, CGRectGetMaxY(_showTableView.frame) + 5.5 , kScreenWidth - 40, 40);
+        //    sendNotiBtn.alpha = 0.7;
+        [sendNotiBtn setTitle:@"发通知" forState:UIControlStateNormal];
+        [sendNotiBtn addTarget:self action:@selector(sendNotiBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:sendNotiBtn];
+    }
+
+
     
 
-    UIButton *sendNotiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    //    [sendNotiBtn setBackgroundImage:[UIImage imageNamed:@"send"] forState:UIControlStateNormal];
-    sendNotiBtn.backgroundColor = kTinColor;
-    sendNotiBtn.layer.cornerRadius = 4;
-    sendNotiBtn.layer.masksToBounds = 1;
-    sendNotiBtn.frame = CGRectMake(20, CGRectGetMaxY(_showTableView.frame) + 5.5 , kScreenWidth - 40, 40);
-    //    sendNotiBtn.alpha = 0.7;
-    [sendNotiBtn setTitle:@"发通知" forState:UIControlStateNormal];
-    [sendNotiBtn addTarget:self action:@selector(sendNotiBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:sendNotiBtn];
     
     
     
@@ -153,20 +208,36 @@
         _isHeaderRefersh = YES;
         _isFooterRefersh = NO;
         
-        
-        if (_requestTag == 0) {
-            _pageMeetingNotiIndex = 1;
-            [self getUnionSubjectsDataWithType:@"huiyitongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+        if ([self.userType isEqualToString:@"gonghui"]) {
             
-        }else if(_requestTag == 1) {
-            _pageOtherNotiIndex = 1;
-           [self getUnionSubjectsDataWithType:@"qitatongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+            if (_requestTag == 0) {
+                _pageMeetingNotiIndex = 1;
+                [self getUnionSubjectsDataWithType:@"huiyitongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+                
+            }else if(_requestTag == 1) {
+                _pageOtherNotiIndex = 1;
+                [self getUnionSubjectsDataWithType:@"qitatongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+            }
+            
         }else {
-        
-            _pageSendNotiIndex = 1;
-            [self getUnionSubjectsDataWithType:@"fachudetongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
-        
+            
+            if (_requestTag == 0) {
+                _pageMeetingNotiIndex = 1;
+                [self getUnionSubjectsDataWithType:@"huiyitongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+                
+            }else if(_requestTag == 1) {
+                _pageOtherNotiIndex = 1;
+                [self getUnionSubjectsDataWithType:@"qitatongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+            }else {
+                
+                _pageSendNotiIndex = 1;
+                [self getUnionSubjectsDataWithType:@"fachudetongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+                
+            }
+            
         }
+        
+
         
     }];
     

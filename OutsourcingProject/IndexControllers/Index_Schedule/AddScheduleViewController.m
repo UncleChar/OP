@@ -68,6 +68,8 @@
 @property (nonatomic, strong) NSString  *remindT;
 
 @property (nonatomic, assign) NSInteger  whichTimeTag;
+@property (nonatomic, assign) BOOL isChongxin;
+
 @end
 
 @implementation AddScheduleViewController
@@ -359,7 +361,7 @@
         case 4:
         {
             _btnSelectedStatus = NO;
-            [self showSelectedWithTitle:@"选择提醒间隔" subTitles:@[@"不提醒",@"15分钟",@"30分钟",@"60分钟"]];
+            [self showSelectedWithTitle:@"选择提醒时间间隔" subTitles:@[@"不重复",@"60分钟"]];
 
             
         }
@@ -371,6 +373,7 @@
             UserDeptViewController *de = [[UserDeptViewController alloc]init];
             de.isJump = YES;
             de.isBlock = YES;
+            _isChongxin = YES;
             de.selectedBlock = ^(NSMutableArray *array){
                 
                 _idString = @"";
@@ -436,37 +439,20 @@
                 NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"richenganpai"};
                 self.enum_schedule = ENUM_ScheduleSubmitCreate;
                 NSString *timeIntercval;
-                if ([_timeIntervalBtn.titleLabel.text isEqualToString:@"不提醒"]) {
+                if ([_timeIntervalBtn.titleLabel.text isEqualToString:@"不重复"]) {
                     
                     timeIntercval = @"0";
-                }
-                if ([_timeIntervalBtn.titleLabel.text isEqualToString:@"15分钟"]) {
-                    
-                    timeIntercval = @"15";
-                }
-                if ([_timeIntervalBtn.titleLabel.text isEqualToString:@"30分钟"]) {
-                    
-                    timeIntercval = @"30";
                 }
                 if ([_timeIntervalBtn.titleLabel.text isEqualToString:@"60分钟"]) {
                     
                     timeIntercval = @"60";
                 }
                 
-                if ([ConfigUITools isEmptyWillSubmit:@[_urgentLevelBtn,_startTimeBtn,_endTimeBtn,_remindBtn,_sendToBtn,_timeIntervalBtn,_contentTView]]) {
+                if ([AlertTipsViewTool isEmptyWillSubmit:@[_urgentLevelBtn,_startTimeBtn,_endTimeBtn,_remindBtn,_sendToBtn,_timeIntervalBtn,_contentTView]]) {
                     
-                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"您有信息为填哦！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                    
-                    
-                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                        
-                        
-                        
-                    }];
+                   
                     _submitBtn.enabled = YES;
-                    [alertController addAction:okAction];
                     
-                    [self.navigationController  presentViewController:alertController animated:YES completion:nil];
                     
                 }else {
                 
@@ -519,8 +505,89 @@
             
         case 7://编辑保存
         {
-         self.enum_schedule = ENUM_ScheduleSaveEdit;
+         
             
+            
+            if ([AppDelegate isNetworkConecting]) {
+                if (_isChongxin) {
+                
+                    self.enum_schedule = ENUM_ScheduleSaveEdit;
+                NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"richenganpai",@"id":@([self.schId integerValue])};
+                OPLog(@"dict  %@",keyAndValues);
+                    
+                    NSString *timeIntercval;
+                    if ([_timeIntervalBtn.titleLabel.text isEqualToString:@"不重复"]) {
+                        
+                        timeIntercval = @"0";
+                    }else if ([_timeIntervalBtn.titleLabel.text isEqualToString:@"60分钟"]) {
+                        
+                        timeIntercval = @"60";
+                    }else {
+                        
+                        timeIntercval = @"0";
+                    
+                    }
+                    
+                    
+                    if ([AlertTipsViewTool isEmptyWillSubmit:@[_urgentLevelBtn,_startTimeBtn,_endTimeBtn,_remindBtn,_sendToBtn,_timeIntervalBtn,_contentTView]]) {
+                     
+                        
+                    }else {
+                    
+                        OPLog(@"8888   %ld  %@   %@",_startTimeBtn.titleLabel.text.length,_startTimeBtn.titleLabel.text,[_startTimeBtn.titleLabel.text substringWithRange:NSMakeRange(11, 2)]);
+                        _startT = [_startTimeBtn.titleLabel.text substringWithRange:NSMakeRange(0, 10)];
+                        _startH = [_startTimeBtn.titleLabel.text substringWithRange:NSMakeRange(11, 2)];
+                        _startM = [_startTimeBtn.titleLabel.text substringWithRange:NSMakeRange(14, 2)];
+                        _endT = [_endTimeBtn.titleLabel.text substringWithRange:NSMakeRange(0, 10)];
+                        _endH = [_endTimeBtn.titleLabel.text substringWithRange:NSMakeRange(11, 2)];
+                        _endM = [_endTimeBtn.titleLabel.text substringWithRange:NSMakeRange(14, 2)];
+                        
+                        _remindT = [_remindBtn.titleLabel.text substringWithRange:NSMakeRange(0, 10)];
+                        _remindH = [_remindBtn.titleLabel.text substringWithRange:NSMakeRange(11, 2)];
+                        _remindM = [_remindBtn.titleLabel.text substringWithRange:NSMakeRange(14, 2)];
+                        
+//                        OPLog(@"STR时间：%@ 小时:%@  分钟%@",_startT,_startH,_startM);
+//                        OPLog(@"END时间：%@ 小时:%@  分钟%@",_endT,_endH,_endM);
+
+                        
+                        NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues
+                                                                     hostName:@"Net.GongHuiTong"
+                                                              startElementKey:@"EditAppInfo" xmlInfo:YES
+                                                                 resouresInfo:@{
+                                                                                @"fld_30_1":_contentTView.text,
+                                                                                @"fld_30_4":_urgentLevelBtn.titleLabel.text,
+                                                                                @"fld_30_5":_startT,
+                                                                                @"fld_30_6":_startH,
+                                                                                @"fld_30_7":_startM,
+                                                                                @"fld_30_8":_endT,
+                                                                                @"fld_30_9":_endH,
+                                                                                @"fld_30_10":_endM,
+                                                                                @"fld_30_11":_remindT,
+                                                                                @"fld_30_12":_remindH,
+                                                                                @"fld_30_13":_remindM,
+                                                                                @"fld_30_14":timeIntercval,
+                                                                                @"fld_30_16":_idString,
+                                                                                @"fld_30_17":_nameString
+                                                                                }fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                        OPLog(@"---xml    %@",xmlString);
+                        [self submitEditSaveTaskWithXmlString:xmlString];
+                    
+                    }
+                    
+                    
+                }else {
+                            
+                            
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"请重新选择接收人" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    
+                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                         }];
+                      [alertController addAction:okAction];
+                      [self.navigationController  presentViewController:alertController animated:YES completion:nil];
+                     }
+               }
+
             
         }
             break;
@@ -723,6 +790,7 @@
         _remindM = minute;
         _remindT = [NSString stringWithFormat:@"%@-%@-%@",year,month,day];
         [_remindBtn setTitle:_selectedTimeStr forState:UIControlStateNormal];
+        OPLog(@"kkk %@",[ConfigUITools returnDateFromString:_remindBtn.titleLabel.text]);
         
     }
 
@@ -850,6 +918,10 @@
                     
                     
                     [SVProgressHUD showSuccessWithStatus:@"新建日程成功!"];
+//                    [ConfigUITools locationNotificationWithID:self.schId withContent:_contentTView.text];
+                    
+                    
+                    
                     _submitBtn.enabled = YES;
                     [weakSelf.navigationController popViewControllerAnimated:YES];
                 }
@@ -996,6 +1068,46 @@
     
     
     
+}
+- (void)submitEditSaveTaskWithXmlString:(NSString *)xmlString
+{
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        
+                __weak typeof(self) weakSelf = self;
+                ReturnValueBlock returnBlockPost = ^(id resultValue){
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+// 
+//                        NSLog(@"EditAppInfoResult::%@",[[resultValue lastObject] objectForKey:@"EditAppInfoResult"]);
+                        
+                        if ([[[resultValue lastObject] objectForKey:@"EditAppInfoResult"] isEqualToString:@"操作失败！"]) {
+                            
+                            [SVProgressHUD showErrorWithStatus:@"保存日程失败!"];
+                            
+                            
+                        }else {
+                            
+                            [SVProgressHUD showSuccessWithStatus:@"保存日程成功!"];
+                        }
+                        
+                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                        
+                    });
+                    
+                };
+                
+                
+                
+                [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:xmlString parseParameters:@[@"EditAppInfoResult"] WithReturnValeuBlock:returnBlockPost WithErrorCodeBlock:nil];
+    
+    }else {
+        
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+                
+            }
+            
 }
 
 

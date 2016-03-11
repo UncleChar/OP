@@ -37,7 +37,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"新建任务";
+    
+    if (self.ENUMShowType == ENUM_ShowWithEditInfo) {
+        
+        self.title = @"新建任务";
+    }else {
+    
+        self.title = @"任务详情";
+    
+    }
+    
     _idString = @"";
     
     _backgroungScrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
@@ -192,6 +201,8 @@
     switch (self.ENUMShowType) {
         case ENUM_ShowWithExistInfo:
         {
+            
+            
             _taskTitleTF.text = self.titleTopc;
 
             [_receivedBtn setTitle:self.receiveNamess forState:UIControlStateNormal];
@@ -461,12 +472,12 @@
                                   
                                   if ([[[resultValue lastObject] objectForKey:@"EditAppInfoResult"] isEqualToString:@"操作失败！"]) {
                                       
-                                      [SVProgressHUD showErrorWithStatus:@"操作失败!"];
+                                      [SVProgressHUD showErrorWithStatus:@"编辑任务失败!"];
                                       
                                       
                                   }else {
                                       
-                                      [SVProgressHUD showSuccessWithStatus:@"编辑成功!"];
+                                      [SVProgressHUD showSuccessWithStatus:@"编辑任务成功!"];
                                   }
                               
                                    [weakSelf.navigationController popViewControllerAnimated:YES];
@@ -498,12 +509,12 @@
                                     
                                     if ([[[resultValue lastObject] objectForKey:@"AddAppInfoResult"] isEqualToString:@"操作失败！"]) {
                                         
-                                        [SVProgressHUD showErrorWithStatus:@"操作失败!"];
+                                        [SVProgressHUD showErrorWithStatus:@"添加任务失败!"];
                                         
                                         
                                     }else {
                                         
-                                        [SVProgressHUD showSuccessWithStatus:@"添加成功!"];
+                                        [SVProgressHUD showSuccessWithStatus:@"添加任务成功!"];
                                     }
                                     
                                      [weakSelf.navigationController popViewControllerAnimated:YES];

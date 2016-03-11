@@ -248,15 +248,24 @@
             
             if ([AppDelegate isNetworkConecting]) {
                 
+                
             
                 NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"neibuzixun"};
                 //            NSLog(@"%@",[JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"fld_46_1":_groupNamesTF.text,@"fld_46_2":_remarkTF.text,@"fld_46_3":_idString,@"fld_46_4":_nameString} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil]);
+                if ([AlertTipsViewTool isEmptyWillSubmit:@[_taskTitleTF,_taskContentTView,_receivedBtn]]) {
+                    
+                    
+                }else {
                 
-                NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"chtopic":_taskTitleTF.text,@"ChContent":_taskContentTView.text,@"ReceiveCode":_idString,@"ReceiveName":_nameString} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
-                //            xmlString = [xmlString htmlEntityDecode];
+                    NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"chtopic":_taskTitleTF.text,@"ChContent":_taskContentTView.text,@"ReceiveCode":_idString,@"ReceiveName":_nameString} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                    //            xmlString = [xmlString htmlEntityDecode];
+                    
+                    OPLog(@"---xml    %@",xmlString);
+                    [self submitAddUserWithXmlString:xmlString];
                 
-                OPLog(@"---xml    %@",xmlString);
-                [self submitAddUserWithXmlString:xmlString];
+                }
+                
+                
                 
                 
             }else {

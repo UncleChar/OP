@@ -53,6 +53,12 @@ static AppEngine * AppEngineInstance = nil; //单例对象
     _owner.usertype = [userDict objectForKey:@"usertype"];
     _owner.xingbie = [userDict objectForKey:@"xingbie"];
     _owner.xingming = [userDict objectForKey:@"xingming"];
+
+        _owner.number = [userDict objectForKey:@"number"];
+    
+        _owner.gonghuimingcheng = [userDict objectForKey:@"gonghuimingcheng"];
+    
+        _owner.gongzuodanwei = [userDict objectForKey:@"gongzuodanwei"];
     
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     
@@ -68,6 +74,10 @@ static AppEngine * AppEngineInstance = nil; //单例对象
     [defaults setObject:_owner.xingbie forKey:@"xingbie"];
     [defaults setObject:_owner.xingming forKey:@"xingming"];
     [defaults setObject:_owner.shouji forKey:@"shouji"];
+    
+     [defaults setObject:_owner.number forKey:@"number"];
+     [defaults setObject:_owner.gongzuodanwei forKey:@"gongzuodanwei"];
+     [defaults setObject:_owner.gonghuimingcheng forKey:@"gonghuimingcheng"];
 
     [defaults synchronize];//同步写入到文件
 }

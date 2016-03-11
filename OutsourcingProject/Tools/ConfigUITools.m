@@ -98,6 +98,23 @@
     return dateaf;
 }
 
++ (NSDate *)returnDateFromString:(NSString *)dateString {
+    
+    
+    NSDateFormatter *dff = [[NSDateFormatter alloc]init];
+    
+    dff.dateFormat = @"yyyy-MM-dd HH:mm";
+    
+    
+ 
+    
+    NSDate *dateaf = [dff dateFromString:dateString];
+    NSDate *dataa = [NSDate dateWithTimeInterval:8 *3600 sinceDate:dateaf];
+    
+    return dataa;
+}
+
+
 + (BOOL)isEmptyWillSubmit:(NSArray *)elementArrary {
 
     
@@ -146,7 +163,7 @@
 
 }
 
-+ (void)locationNotificationWithID:(NSString *)loId withContent:(NSString *)content {
++ (void)locationNotificationWithID:(NSString *)loId withContent:(NSString *)content sinceDate:(NSDate *)tipsDate isRepeat:(BOOL)repeat {
 
     
     // iOS8的本地消息推送需要添加一段代码
@@ -164,14 +181,6 @@
     }
     
     
-    //    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    //    if (localNotification == nil) {
-    //        return;
-    //    }
-    
-    
-    
-    
     
     UILocalNotification *localNoti = [[UILocalNotification alloc] init];
     
@@ -184,20 +193,32 @@
     localNoti.userInfo = infoDic;
     
     // 设置消息重复时间:(每隔24小时重复)
-    localNoti.repeatInterval = kCFCalendarUnitMinute;
+    if (repeat) {
+       
+        localNoti.repeatInterval = kCFCalendarUnitHour;
+        
+    }else {
+    
+        localNoti.repeatInterval = 0;
+    }
+    
     
     // 设置消息开始时间:(10秒钟之后开始推送)
-    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:5];
-    localNoti.fireDate = date;
+//    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:5];
+//    NSDate *dataa = [NSDate dateWithTimeInterval:<#(NSTimeInterval)#> sinceDate:<#(nonnull NSDate *)#>]
+    //  根据时间间隔和指定的date,获得对应的时间
+//    + (instancetype)dateWithTimeInterval:(NSTimeInterval)secsToBeAdded sinceDate:(NSDate *)date;
+
+    localNoti.fireDate = tipsDate;
     
     // 设置消息体
     localNoti.alertBody = content;
     
     // 设置角标
-//    localNoti.applicationIconBadgeNumber = 1;
+    localNoti.applicationIconBadgeNumber = 1;
     
     // 设置推送声音 //prwa
-        localNoti.soundName = @"pie.wav";
+//        localNoti.soundName = @"pie.wav";
     
     // 2.程序定制本地消息
     [[UIApplication sharedApplication] scheduleLocalNotification:localNoti];

@@ -29,4 +29,59 @@
 
 }
 
++ (BOOL)isEmptyWillSubmit:(NSArray *)elementArrary {
+    
+    
+    for (id elem in elementArrary) {
+        
+        if ([elem isKindOfClass:[UIButton class]]) {
+            
+            UIButton *btn = (UIButton *)elem;
+            
+            if (btn.titleLabel.text.length == 0) {
+                [self showTips];
+                return YES;
+                
+            }
+            
+        }
+        
+        if ([elem isKindOfClass:[UITextField class]]) {
+            
+            UITextField *tf = (UITextField *)elem;
+            
+            if (tf.text.length == 0) {
+                [self showTips];
+                return YES;
+                
+            }
+            
+        }
+        
+        if ([elem isKindOfClass:[UITextView class]]) {
+            
+            UITextView *tf = (UITextView *)elem;
+            
+            if (tf.text.length == 0) {
+                [self showTips];
+                return YES;
+                
+            }
+            
+        }
+        
+        
+    }
+    
+    return NO;
+    
+}
+
++ (void)showTips{
+
+    
+    [SVProgressHUD showErrorWithStatus:@"您有信息未填哦！"];
+
+}
+
 @end

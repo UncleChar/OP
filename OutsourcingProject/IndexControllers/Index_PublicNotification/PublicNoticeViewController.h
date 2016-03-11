@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface PublicNoticeViewController : JustBackBtn
+@property (nonatomic, strong) NSString *userType;
 
 @end

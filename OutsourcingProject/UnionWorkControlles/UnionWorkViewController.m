@@ -461,6 +461,22 @@
                                     [topBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                                     [topBtn addTarget:self action:@selector(selectedModel:) forControlEvents:UIControlEventTouchUpInside];
                                     [scrollView addSubview:topBtn];
+//                                    topBtn.backgroundColor = [UIColor redColor];
+                                    if ([[_dataArray[kRow * i + j] noreadcount] integerValue] > 0) {
+                                        
+                                        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(kBtnWdith /4 * 3-4, 2, kBtnWdith / 4, kBtnWdith / 4)];
+                                        label.text = [_dataArray[kRow * i + j] noreadcount];
+                                        label.textColor = [UIColor whiteColor];
+                                        label.backgroundColor = [UIColor redColor];
+                                        label.font = OPFont(13);
+                                        label.layer.masksToBounds = 1;
+                                        label.layer.cornerRadius = kBtnWdith / 8;
+                                        label.textAlignment = 1;
+                                        
+                                        [topBtn addSubview:label];
+                                    }
+                                   
+                                    
                                     
                                 }
                                 

@@ -203,8 +203,38 @@
             
             if ([AppDelegate isNetworkConecting]) {
                 
-                  [SVProgressHUD showSuccessWithStatus:@"我要提交了哦"];
-                
+
+                NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"richenganpai"};
+
+                if ([AlertTipsViewTool isEmptyWillSubmit:@[_taskTitleTF,_taskContentTView,_receivedBtn]]) {
+
+                }
+//                }else {
+//                    
+//                    NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues
+//                                                                 hostName:@"Net.GongHuiTong"
+//                                                          startElementKey:@"AddAppInfo" xmlInfo:YES
+//                                                             resouresInfo:@{
+//                                                                            @"fld_30_1":_contentTView.text,
+//                                                                            @"fld_30_4":_urgentLevelBtn.titleLabel.text,
+//                                                                            @"fld_30_5":_startT,
+//                                                                            @"fld_30_6":_startH,
+//                                                                            @"fld_30_7":_startM,
+//                                                                            @"fld_30_8":_endT,
+//                                                                            @"fld_30_9":_endH,
+//                                                                            @"fld_30_10":_endM,
+//                                                                            @"fld_30_11":_remindT,
+//                                                                            @"fld_30_12":_remindH,
+//                                                                            @"fld_30_13":_remindM,
+//                                                                            @"fld_30_14":timeIntercval,
+//                                                                            @"fld_30_16":_idString,
+//                                                                            @"fld_30_17":_nameString
+//                                                                            }fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+//                    
+//                    [self submitAddScheduleWithXmlString:xmlString];
+//                    
+//                }
+
                 
             }else {
                 
@@ -238,6 +268,52 @@
 
 
 
+- (void)submitAddUserWithXmlString:(NSString *)xmlString
+{
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        
+        
+        __weak typeof(self) weakSelf = self;
+        ReturnValueBlock returnBlockPost = ^(id resultValue){
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSLog(@"AddAppInfoResult::%@",[[resultValue lastObject] objectForKey:@"AddAppInfoResult"]);
+                NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"AddAppInfoResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
+                
+                NSLog(@"AddAppInfoResult::%@",listDic);
+//                weakSelf.submitBtnBlock( YES);
+//                [weakSelf.navigationController popViewControllerAnimated:YES];
+                
+                
+                
+            });
+            
+            
+            
+            
+            
+        };
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:xmlString parseParameters:@[@"AddAppInfoResult"] WithReturnValeuBlock:returnBlockPost WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+        
+    }
+    
+    
+    
+}
 
 
 

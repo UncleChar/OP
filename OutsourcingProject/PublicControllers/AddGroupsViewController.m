@@ -204,19 +204,23 @@
 
 
         
-         
-//             NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"tongxunlufenzu"};
-//             NSLog(@"%@",[JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"DataType":@"通讯录",@"MemberCode":@"0",@"RealName":@"破破破",@"Phone":@"233423422323",@"Content":@"测试",@"Topic":@"垃圾"} fileNames:@[@"1",@"2  "] fileExtNames:@[@".jpg",@".jpg"] fileDesc:@[@"ceshi1",@"ceshi2"] fileData:@[@"adadadda",@"sdfddssfsddsffsf"]]);
-            //4个字段，fld_46_1存组名，fld_46_2备注，fld_46_3用户id,fld_46_4用户姓名
+
+            if ([AlertTipsViewTool isEmptyWillSubmit:@[_groupNamesTF,_remarkTF,_usersSelectedBtn]]) {
+                
+                
+            }else {
             
-            NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"tongxunlufenzu"};
-//            NSLog(@"%@",[JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"fld_46_1":_groupNamesTF.text,@"fld_46_2":_remarkTF.text,@"fld_46_3":_idString,@"fld_46_4":_nameString} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil]);
-
-            NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"fld_46_1":_groupNamesTF.text,@"fld_46_2":_remarkTF.text,@"fld_46_3":_idString,@"fld_46_4":_nameString} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
-//            xmlString = [xmlString htmlEntityDecode];
-
-            OPLog(@"---xml    %@",xmlString);
-            [self submitAddUserWithXmlString:xmlString];
+                NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"tongxunlufenzu"};
+                
+                NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"fld_46_1":_groupNamesTF.text,@"fld_46_2":_remarkTF.text,@"fld_46_3":_idString,@"fld_46_4":_nameString} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                //            xmlString = [xmlString htmlEntityDecode];
+                
+                OPLog(@"---xml    %@",xmlString);
+                [self submitAddUserWithXmlString:xmlString];
+            
+            }
+            
+            
 
         }
             break;

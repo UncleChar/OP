@@ -156,7 +156,9 @@
     _userAccount = [[UITextField alloc]init];
     _userAccount.placeholder = @"  请输入工会会员号";
     _userAccount.delegate = self;
-    _userAccount.text = @"ljz";
+//    _userAccount.text = @"ljz";//13601726730
+    _userAccount.text = @"13601726730";
+
     _userAccount.textColor = [UIColor whiteColor];
     _userAccount.backgroundColor = [ConfigUITools colorWithR:209 G:34 B:52 A:1];
     _userAccount.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -177,7 +179,7 @@
     _userPassword = [[UITextField alloc]init];
     _userPassword.placeholder = @"  请输入密码 ";
     _userPassword.delegate = self;
-    _userPassword.text = @"ljz";
+    _userPassword.text = @"123456";
     _userPassword.secureTextEntry = YES;
     _userPassword.textColor = [UIColor whiteColor];
     _userPassword.backgroundColor = [ConfigUITools colorWithR:209 G:34 B:52 A:1];
@@ -363,7 +365,19 @@
                             
                             
                             [SVProgressHUD showSuccessWithStatus:@"登录成功!"];
-                            
+//                            NSUserDefaults *loginInfo = [NSUserDefaults standardUserDefaults];
+//
+//                                MainTabBarController *maintbab = [[MainTabBarController alloc]init];
+//                                if ([[loginInfo objectForKey:@"usertype"] isEqualToString:@"system"]) {
+//                                    
+//                                    maintbab.userType = @"users";
+//                                    
+//                                }else {
+//                                    
+//                                    maintbab.userType = @"president";
+//                                    
+//                                }
+
                             
                             [AppDelegate getAppDelegate].window.rootViewController = [[MainTabBarController alloc]init];
                        
