@@ -71,7 +71,7 @@
     
     if (!_cellTitleArray) {
         
-        _cellTitleArray = @[@"姓名:",@"登录名:",@"手机:",@"性别:",@"生日:",@"居住地址:",@"邮箱:",@"1",@"修改密码"];
+        _cellTitleArray = @[@"姓名:",@"登录名:",@"手机:",@"性别:",@"生日:",@"居住地址:",@"邮箱:",@"修改密码",@""];
     }
     if (!_cellImgArray) {
         
@@ -81,14 +81,32 @@
         _infoArray = [[NSArray alloc]init];
         NSUserDefaults *info = [NSUserDefaults standardUserDefaults];
 
-        NSString *xingming = [info objectForKey:@"xingming"];
-        NSString *huiyuan = [info objectForKey:@"deptname"];
-        NSString *shouji = [info objectForKey:@"shouji"];
-        NSString *xingbie = [info objectForKey:@"xingbie"];
-        NSString *shengri = [info objectForKey:@"shengri"];
-        NSString *addr = [info objectForKey:@"addr"];
-        NSString *email = [info objectForKey:@"email"] ;
-        _infoArray = @[xingming,huiyuan,@"13852042434",xingbie,shengri,addr,email,@"h",@""];
+        if ([[info objectForKey:@"usertype"]isEqualToString:@"system"]) {
+            
+            NSString *xingming = [NSString stringWithFormat:@" %@",[info objectForKey:@"xingming"]];
+            NSString *huiyuan = [NSString stringWithFormat:@" %@",[info objectForKey:@"number"]== nil ? @"":[info objectForKey:@"number"]];
+            NSString *shouji = [NSString stringWithFormat:@" %@",[info objectForKey:@"shouji"]];
+            NSString *xingbie = [NSString stringWithFormat:@" %@",[info objectForKey:@"xingbie"]];
+            NSString *shengri = [NSString stringWithFormat:@" %@",[info objectForKey:@"shengri"]];
+            NSString *addr = [NSString stringWithFormat:@" %@",[info objectForKey:@"addr"]];
+            NSString *email = [NSString stringWithFormat:@" %@",[info objectForKey:@"email"]];
+            _infoArray = @[xingming,huiyuan,shouji,xingbie,shengri,addr,email,@"",@""];
+            
+        }else {
+        
+            NSString *xingming = [NSString stringWithFormat:@" %@",[info objectForKey:@"xingming"]];
+            NSString *huiyuan = [NSString stringWithFormat:@" %@",[info objectForKey:@"number"]];
+            NSString *shouji = [NSString stringWithFormat:@" %@",[info objectForKey:@"shouji"]];
+            NSString *xingbie = [NSString stringWithFormat:@" %@",[info objectForKey:@"xingbie"]];
+            NSString *shengri = [NSString stringWithFormat:@" %@",[info objectForKey:@"shengri"]];
+            NSString *addr = [NSString stringWithFormat:@" %@",[info objectForKey:@"addr"]];
+            NSString *email = [NSString stringWithFormat:@" %@",[info objectForKey:@"email"]];
+            _infoArray = @[xingming,huiyuan,shouji,xingbie,shengri,addr,email,@"",@""];
+        
+        
+        }
+        
+       
 
         
     }

@@ -15,9 +15,12 @@ typedef enum {
     Enum_ActionModuleFavor
 } Enum_ActionModule;
 
+typedef void(^cancleFavorBlock)(BOOL);
 
 
 @interface FinalDetailContentViewController : JustBackBtn
+@property (nonatomic, strong) cancleFavorBlock  cancleFavBlock;
+@property (nonatomic, assign) BOOL isNeedBlock;
 @property (nonatomic, strong) NSString *chID;
 @property (nonatomic, strong) NSString *dataType;
 @property (nonatomic, strong) NSString *titleTop;

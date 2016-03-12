@@ -371,16 +371,31 @@
         
             if ([AppDelegate isNetworkConecting]) {
                 
-                NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"huiyitongzhi"};
-
-                NSString *scode =  [_notiTypeBtn.titleLabel.text isEqualToString:@"会议通知"  ]? @"37" : @"35";
-                NSString *rep =  [_receiptTypeBtn.titleLabel.text isEqualToString:@"无需回执"]? @"否" : @"是";
+                if ([AlertTipsViewTool isEmptyWillSubmit:@[_meetingTitleTF,
+                                                           _notiTypeBtn,
+                                                           _sendToBtn,
+                                                           _meetingTimeBtn,
+                                                           _meetingAddress,
+                                                           _leaderTF,
+                                                           _contentTView,
+                                                           _receiptTypeBtn]]) {
+                    
+                    
+                }else {
                 
-                NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"fld_34_1":_meetingTitleTF.text,@"fld_34_2":_contentTView.text,@"fld_34_3":scode,@"fld_34_4":_notiTypeBtn.titleLabel.text,@"fld_34_5":_meetingTimeBtn.titleLabel.text,@"fld_34_7":rep,@"fld_34_9":_idString,@"fld_34_10":_nameString,@"fld_34_11":_meetingAddress.text,@"fld_34_12":@"",@"fld_34_13":_leaderTF.text} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
-    
+                    NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"huiyitongzhi"};
+                    
+                    NSString *scode =  [_notiTypeBtn.titleLabel.text isEqualToString:@"会议通知"  ]? @"37" : @"35";
+                    NSString *rep =  [_receiptTypeBtn.titleLabel.text isEqualToString:@"无需回执"]? @"否" : @"是";
+                    
+                    NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"AddAppInfo" xmlInfo:YES resouresInfo:@{@"fld_34_1":_meetingTitleTF.text,@"fld_34_2":_contentTView.text,@"fld_34_3":scode,@"fld_34_4":_notiTypeBtn.titleLabel.text,@"fld_34_5":_meetingTimeBtn.titleLabel.text,@"fld_34_7":rep,@"fld_34_9":_idString,@"fld_34_10":_nameString,@"fld_34_11":_meetingAddress.text,@"fld_34_12":@"",@"fld_34_13":_leaderTF.text} fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                    
+                    
+                    OPLog(@"---xml    %@",xmlString);
+                    [self submitAddUserWithXmlString:xmlString];
                 
-                OPLog(@"---xml    %@",xmlString);
-                [self submitAddUserWithXmlString:xmlString];
+                
+                }
 
             }else {
             

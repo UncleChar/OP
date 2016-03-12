@@ -146,12 +146,14 @@
 
         if (!_showTableView) {
             _showTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_topSearchView.frame), kScreenWidth, kScreenHeight - 40 - CGRectGetMaxY(_topSearchView.frame)-24) style:UITableViewStylePlain];
-            _showTableView.backgroundColor = [UIColor redColor];
+            _showTableView.backgroundColor = kBackColor;
             _showTableView.delegate=self;
             _showTableView.dataSource=self;
             
         }
         [self.view addSubview:_showTableView];
+        
+        
     }else {
           _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) withTitles:@[@"会议通知", @"其他通知", @"我发出的通知"]];
         
@@ -208,36 +210,20 @@
         _isHeaderRefersh = YES;
         _isFooterRefersh = NO;
         
-        if ([self.userType isEqualToString:@"gonghui"]) {
-            
-            if (_requestTag == 0) {
-                _pageMeetingNotiIndex = 1;
-                [self getUnionSubjectsDataWithType:@"huiyitongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
-                
-            }else if(_requestTag == 1) {
-                _pageOtherNotiIndex = 1;
-                [self getUnionSubjectsDataWithType:@"qitatongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
-            }
-            
-        }else {
-            
-            if (_requestTag == 0) {
-                _pageMeetingNotiIndex = 1;
-                [self getUnionSubjectsDataWithType:@"huiyitongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
-                
-            }else if(_requestTag == 1) {
-                _pageOtherNotiIndex = 1;
-                [self getUnionSubjectsDataWithType:@"qitatongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
-            }else {
-                
-                _pageSendNotiIndex = 1;
-                [self getUnionSubjectsDataWithType:@"fachudetongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
-                
-            }
-            
-        }
         
-
+        if (_requestTag == 0) {
+            _pageMeetingNotiIndex = 1;
+            [self getUnionSubjectsDataWithType:@"huiyitongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+            
+        }else if(_requestTag == 1) {
+            _pageOtherNotiIndex = 1;
+           [self getUnionSubjectsDataWithType:@"qitatongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+        }else {
+        
+            _pageSendNotiIndex = 1;
+            [self getUnionSubjectsDataWithType:@"fachudetongzhi" pageSize:_pageSize navIndex:0 filter:@"" withTag:0 ];
+        
+        }
         
     }];
     

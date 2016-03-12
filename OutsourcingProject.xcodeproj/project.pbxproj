@@ -560,6 +560,7 @@
 		DBB51B141C82031100B5DC1A /* FuckingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B131C82031100B5DC1A /* FuckingViewController.m */; };
 		DBB51B171C83130000B5DC1A /* AddConsultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B161C83130000B5DC1A /* AddConsultViewController.m */; };
 		DBB51B1A1C83261800B5DC1A /* FinalDetailContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB51B191C83261800B5DC1A /* FinalDetailContentViewController.m */; };
+		DBB5700B1C92E5CA00745999 /* CautionReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB5700A1C92E5CA00745999 /* CautionReportViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DBC997001C7F4766000525A3 /* AchievementModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC996FF1C7F4766000525A3 /* AchievementModel.m */; };
 		DBC997031C7F5264000525A3 /* ConsultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997021C7F5264000525A3 /* ConsultModel.m */; };
 		DBC997061C7F5600000525A3 /* NotiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997051C7F5600000525A3 /* NotiModel.m */; };
@@ -1447,6 +1448,8 @@
 		DBB51B161C83130000B5DC1A /* AddConsultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddConsultViewController.m; sourceTree = "<group>"; };
 		DBB51B181C83261800B5DC1A /* FinalDetailContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinalDetailContentViewController.h; sourceTree = "<group>"; };
 		DBB51B191C83261800B5DC1A /* FinalDetailContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinalDetailContentViewController.m; sourceTree = "<group>"; };
+		DBB570091C92E5CA00745999 /* CautionReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CautionReportViewController.h; sourceTree = "<group>"; };
+		DBB5700A1C92E5CA00745999 /* CautionReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CautionReportViewController.m; sourceTree = "<group>"; };
 		DBC996FE1C7F4766000525A3 /* AchievementModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementModel.h; sourceTree = "<group>"; };
 		DBC996FF1C7F4766000525A3 /* AchievementModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AchievementModel.m; sourceTree = "<group>"; };
 		DBC997011C7F5264000525A3 /* ConsultModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsultModel.h; sourceTree = "<group>"; };
@@ -2084,6 +2087,7 @@
 				9D82A6771C759B6D0072E354 /* Tools */,
 				9D82A6C81C75A5930072E354 /* images */,
 				9D054B5B1C7C3227003FB2C6 /* PublicControllers */,
+				DBB570051C92E56500745999 /* PerisdentControllers */,
 				DB0829201C7760690043FE30 /* IndexControllers */,
 				9D7369DE1C7EBB5900271EC4 /* UnionWorkControlles */,
 				9D7369DF1C7EBB7700271EC4 /* UnionProjectsControlles */,
@@ -2935,6 +2939,15 @@
 			path = IndexViews;
 			sourceTree = "<group>";
 		};
+		DBB570051C92E56500745999 /* PerisdentControllers */ = {
+			isa = PBXGroup;
+			children = (
+				DBB570091C92E5CA00745999 /* CautionReportViewController.h */,
+				DBB5700A1C92E5CA00745999 /* CautionReportViewController.m */,
+			);
+			path = PerisdentControllers;
+			sourceTree = "<group>";
+		};
 		DBC9970C1C809EDD000525A3 /* WorkModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -3709,6 +3722,7 @@
 				9DEDCF051C8D86E400733786 /* FinshiedTaskViewController.m in Sources */,
 				9D82A6BF1C759E470072E354 /* MASViewAttribute.m in Sources */,
 				9D82A5D31C7578730072E354 /* MJRefreshBackGifFooter.m in Sources */,
+				DBB5700B1C92E5CA00745999 /* CautionReportViewController.m in Sources */,
 				9D82A6C01C759E470072E354 /* MASViewConstraint.m in Sources */,
 				9D054B8E1C7C35B1003FB2C6 /* TaskViewController.m in Sources */,
 				9D054B671C7C32BA003FB2C6 /* IndexViewController.m in Sources */,

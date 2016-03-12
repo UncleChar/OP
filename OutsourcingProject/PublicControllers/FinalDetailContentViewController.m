@@ -379,11 +379,24 @@
                 {//取消的接口
                 
                     self.enum_action = Enum_ActionModuleCanclePraise;
+                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"是否取消点赞" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    
+                        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    
+                            [self deleteAppFavOrParWithType:@"dianzan" chid:[self.chID integerValue]];
+                    
+                        }];
+                    
+                    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleCancel handler:nil];
+                        [alertController addAction:okAction];
+                        [alertController addAction:cancle];
+                        [self.navigationController  presentViewController:alertController animated:YES completion:nil];
                 
                 
                 }
                 
-                [SVProgressHUD showSuccessWithStatus:@"取消点赞"];
+//                [SVProgressHUD showSuccessWithStatus:@"取消点赞"];
             }
             
         }
@@ -417,9 +430,24 @@
                 
                     self.enum_action = Enum_ActionModuleCancleFavor;
                 
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"是否取消收藏" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    
+                    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                        
+                        [self deleteAppFavOrParWithType:@"shoucang" chid:[self.chID integerValue]];
+                        
+                    }];
+                    
+                    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleCancel handler:nil];
+                    [alertController addAction:okAction];
+                    [alertController addAction:cancle];
+                    [self.navigationController  presentViewController:alertController animated:YES completion:nil];
+                    
+                    
                 }
-                
-                [SVProgressHUD showSuccessWithStatus:@"取消收藏"];
+            
+//                [SVProgressHUD showSuccessWithStatus:@"取消收藏"];
             }
             
             
@@ -459,25 +487,25 @@
                     switch (self.enum_action) {
                         case Enum_ActionModulePraise:
                             
-                            [SVProgressHUD showSuccessWithStatus:str];
-                            OPLog(@"点赞ok");
+                            [SVProgressHUD showSuccessWithStatus:@"点赞成功!"];
+                            OPLog(@"点赞ok code:%@",str);
                             
                             break;
-                        case Enum_ActionModuleCanclePraise:
-                            [SVProgressHUD showSuccessWithStatus:str];
-                            OPLog(@"取消点赞ok");
-                            break;
+//                        case Enum_ActionModuleCanclePraise:
+//                            [SVProgressHUD showSuccessWithStatus:@"取消点赞"];
+//                            OPLog(@"取消点赞ok");
+//                            break;
                         case Enum_ActionModuleFavor:
-                            [SVProgressHUD showSuccessWithStatus:str];
-                            OPLog(@"收藏ok");
+                            [SVProgressHUD showSuccessWithStatus:@"收藏成功!"];
+                            OPLog(@"收藏ok code :%@",str);
                             break;
-                        case Enum_ActionModuleCancleFavor:
-                            OPLog(@"取消收藏ok");
-                            [SVProgressHUD showSuccessWithStatus:str];
-                            break;
-                            
-                        default:
-                            break;
+//                        case Enum_ActionModuleCancleFavor:
+//                            OPLog(@"取消收藏ok");
+//                            [SVProgressHUD showSuccessWithStatus:str];
+//                            break;
+//                            
+//                        default:
+//                            break;
                     }
                     
                     
@@ -506,5 +534,86 @@
     
 }
 
+
+
+- (void)deleteAppFavOrParWithType:(NSString *)type chid:(NSInteger)cid {
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        //        [SVProgressHUD showWithStatus:@"增在加载..."];
+        NSString * requestBody = [NSString stringWithFormat:
+                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                  "<soap12:Envelope "
+                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+                                  "<soap12:Body>"
+                                  "<DeleteAppInfo xmlns=\"Net.GongHuiTong\">"
+                                  "<logincookie>%@</logincookie>"
+                                  "<datatype>%@</datatype>"
+                                  "<id>%ld</id>"
+                                  " </DeleteAppInfo>"
+                                  "</soap12:Body>"
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)cid];
+       ReturnValueBlock returnBlockdele = ^(id resultValue){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                
+                OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"DeleteAppInfoResult"]);
+                
+                
+                if ([[[resultValue lastObject] objectForKey:@"DeleteAppInfoResult"] isEqualToString:@"操作成功！"]) {
+                    
+                    switch (self.enum_action) {
+                        case Enum_ActionModuleCanclePraise:
+                            
+                            [SVProgressHUD showSuccessWithStatus:@"取消点赞!"];
+                            
+                            break;
+                            
+                        case Enum_ActionModuleCancleFavor:
+                            
+                            [SVProgressHUD showSuccessWithStatus:@"取消收藏!"];
+                            if (_isNeedBlock) {
+                                
+                                _cancleFavBlock (YES);
+                                [self.navigationController popViewControllerAnimated:YES];
+                            }
+
+                            break;
+                            
+                        default:
+                            break;
+                    }
+                   
+                    
+                }else {
+                    
+                    
+                    
+                }
+                
+            });
+            
+            
+        };
+
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"DeleteAppInfoResult"] WithReturnValeuBlock:returnBlockdele WithErrorCodeBlock:nil];
+        
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+        
+    }
+    
+    
+    
+}
 
 @end

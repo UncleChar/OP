@@ -61,7 +61,7 @@
     
     
     _pageIndex = 1;
-    _pageSendIndex = 0;
+    _pageSendIndex = 1;
     _pageSize = 8;
     
     [self configListView];
@@ -100,13 +100,13 @@
 
         _isHeaderRefersh = YES;
         _isFooterRefersh = NO;
-        _pageIndex = 1;
+        
         if (_requestTag == 0) {
-
+            _pageSendIndex = 1;
             [self getMyReceivedShowDataWithType:@"fachudechengguozhanshi" pageSize:_pageSize navIndex:0 filter:@""];
 
         }else {
-  
+            _pageIndex = 1;
              [self getMyReceivedShowDataWithType:@"shoudaodechengguozhanshi" pageSize:_pageSize navIndex:0 filter:@"fld_40_1 like \"%%\""];
         }
   

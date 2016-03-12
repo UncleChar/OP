@@ -42,6 +42,11 @@
     NSMutableArray   *taskArray;
     NSMutableArray   *scheduleArray;
     NSMutableArray   *activeArray;
+    UILabel  *nameLaebl;
+    UILabel  *addreLaebl;
+    UILabel  *codeLabel;
+    UILabel  *timeLaebl;
+    UILabel  *prisdentLaebl;
 
 }
 @property (nonatomic, assign) BOOL isRefresh;
@@ -63,20 +68,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    
     self.navigationController.navigationBarHidden = 1;
     NSUserDefaults *loginInfo = [NSUserDefaults standardUserDefaults];
     self.userType = [loginInfo objectForKey:@"usertype"];
     if ([self.userType isEqualToString:@"gonghui"]) {
-        
+        self.view.backgroundColor = kBackColor;
         [self initPresidentArray];
         [self creatScrollerView];
+        [self initDeatilViewShow];
         [self configListView];
+        [self GetContentWithType:@"gonghuixinxi" chid:[[loginInfo objectForKey:@"usercode"] integerValue]];
         [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
 
         
     }else {
     
+        self.view.backgroundColor = [UIColor whiteColor];
         [self initArray];
         [self creatScrollerView];
         [self configTopBtn];
@@ -127,6 +135,7 @@
 
 }
 
+
 - (void)initPresidentArray {
 
     if (!titleArray) {
@@ -160,6 +169,52 @@
     });
 }
 
+
+- (void)initDeatilViewShow {
+
+    NSUserDefaults *loginInfo = [NSUserDefaults standardUserDefaults];
+    
+    
+    nameLaebl = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(cycleScrollView.frame) + 3 , kScreenWidth, 40)];
+    nameLaebl.text = [NSString stringWithFormat:@"公会名称:  %@",[loginInfo objectForKey:@"gonghuimingcheng"]];
+    nameLaebl.font = [UIFont boldSystemFontOfSize:15];
+    nameLaebl.textColor = [UIColor blackColor];
+    nameLaebl.textAlignment = 1;
+    nameLaebl.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:nameLaebl];
+    
+    
+    addreLaebl = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(nameLaebl.frame) + 2 , kScreenWidth, 40)];
+    addreLaebl.text = [NSString stringWithFormat:@"   工会地址:  %@",[loginInfo objectForKey:@"gonghuimingcheng"]];
+    addreLaebl.textColor = [UIColor lightGrayColor];
+    addreLaebl.font = OPFont(14);
+    addreLaebl.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:addreLaebl];
+    
+    
+    codeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(addreLaebl.frame) + 2 , kScreenWidth, 40)];
+    codeLabel.text = [NSString stringWithFormat:@"   工会代码:  %@",[loginInfo objectForKey:@"gonghuimingcheng"]];
+    codeLabel.textColor = [UIColor lightGrayColor];
+    codeLabel.font = OPFont(14);
+    codeLabel.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:codeLabel];
+    
+    
+    timeLaebl = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(codeLabel.frame) + 2 , kScreenWidth, 40)];
+    timeLaebl.text = [NSString stringWithFormat:@"   成立时间:  %@",[loginInfo objectForKey:@"gonghuimingcheng"]];
+    timeLaebl.textColor = [UIColor lightGrayColor];
+    timeLaebl.font = OPFont(14);
+    timeLaebl.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:timeLaebl];
+    
+    prisdentLaebl = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(timeLaebl.frame) + 2 , kScreenWidth, 40)];
+    prisdentLaebl.text = [NSString stringWithFormat:@"   工会主席:  %@",[loginInfo objectForKey:@"xingming"]];
+    prisdentLaebl.textColor = [UIColor lightGrayColor];
+    prisdentLaebl.font = OPFont(14);
+    prisdentLaebl.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:prisdentLaebl];
+
+}
 - (void)configTopBtn {
     
     NSArray *titleBtnArray = @[@"发通知",@"发任务",@"查工会",@"通讯录"];
@@ -190,13 +245,13 @@
         
         if ([self.userType isEqualToString:@"gonghui"]) {
 
-            listStart = 300;
+            listStart = CGRectGetMaxY(prisdentLaebl.frame);
         }else {
         
         
         }
         
-        listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, listStart + 10 + kBtnMargin, kScreenWidth, kScreenHeight - listStart  - kBtnMargin -49 + 27) style:UITableViewStyleGrouped];
+        listTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, listStart + 5, kScreenWidth, kScreenHeight - listStart  - kBtnMargin -49 + 27) style:UITableViewStyleGrouped];
         listTableView.delegate = self;
         listTableView.dataSource = self;
         listTableView.backgroundColor = [ConfigUITools colorWithR:245 G:245 B:245 A:1];
@@ -700,6 +755,80 @@
     }
 
 }
+
+
+
+
+- (void)GetContentWithType:(NSString *)type chid:(NSInteger)cid {
+    
+    
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:kNetworkConnecting]) {
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeGradient];
+        //        [SVProgressHUD showWithStatus:@"增在加载..."];
+        NSString * requestBody = [NSString stringWithFormat:
+                                  @"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
+                                  "<soap12:Envelope "
+                                  "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" "
+                                  "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" "
+                                  "xmlns:soap12=\"http://www.w3.org/2003/05/soap-envelope\">"
+                                  "<soap12:Body>"
+                                  "<GetJsonContentData xmlns=\"Net.GongHuiTong\">"
+                                  "<logincookie>%@</logincookie>"
+                                  "<datatype>%@</datatype>"
+                                  "<ChID>%ld</ChID>"
+                                  " </GetJsonContentData>"
+                                  "</soap12:Body>"
+                                  "</soap12:Envelope>",[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],type,(long)cid];
+        
+      ReturnValueBlock  returnBlock = ^(id resultValue){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                
+                OPLog(@"-zhuxi-%@",[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]);
+                
+                
+                
+                
+                if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"]) {
+                    
+                    
+                    
+                }else {
+                    
+                    SBJSON *jsonParser = [[SBJSON alloc] init];
+                    NSError *parseError = nil;
+                    NSString *str  =   [[resultValue lastObject] objectForKey:@"GetJsonContentDataResult"] ;
+                    //                NSLog(@"ssss %@",str);
+//                    str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    NSDictionary * result = [jsonParser objectWithString:str
+                                                                   error:&parseError];
+                    NSLog(@"zhuxi:%@",[result objectForKey:@"rows"]);
+//                    NSDictionary *detailDict = [result objectForKey:@"rows"][0];
+                    
+                    
+                }
+                
+            });
+            
+            
+            
+        };
+
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:requestBody parseParameters:@[@"GetJsonContentDataResult"] WithReturnValeuBlock:returnBlock WithErrorCodeBlock:nil];
+        
+    }else {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"无网络链接,请检查网络" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        [alert show];
+        
+        
+    }
+    
+    
+    
+}
+
+
 - (void)viewWillDisappear:(BOOL)animated {
 
     [super viewWillDisappear:YES];

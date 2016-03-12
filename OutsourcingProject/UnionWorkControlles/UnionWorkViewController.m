@@ -20,7 +20,8 @@
 #import "MyShowViewController.h"
 #import "UserDeptViewController.h"
 #import "SendOfficialViewController.h"
-
+#import "SearchUnionViewController.h"
+#import "CautionReportViewController.h"
 #define kHeight 40
 #define kFont  15
 #define kLabelWidth 75
@@ -68,15 +69,32 @@
     [super viewDidLoad];
     self.title = @"工会工作";
     
-    [self configUI];
     
     
-     [_workView addSubview:[self getUnionSubjectsDataWithType:@"mokuaifenlei" pageSize:0 navIndex:0 filter:@"uppermodulename=\"通用办公\"" onScrollView:_workBackScrollView withTag:0 ]];
-    
+    NSUserDefaults *loginInfo = [NSUserDefaults standardUserDefaults];
 
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(resetBtnClicked)];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    if ([[loginInfo objectForKey:@"usertype"] isEqualToString:@"gonghui"]) {
+     
+        
+        [self configGHUI];
+        
+        
+    }else {
+    
+    
+        [self configUI];
+        
+        
+        [_workView addSubview:[self getUnionSubjectsDataWithType:@"mokuaifenlei" pageSize:0 navIndex:0 filter:@"uppermodulename=\"通用办公\"" onScrollView:_workBackScrollView withTag:0 ]];
+        
+        
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(resetBtnClicked)];
+        self.navigationItem.rightBarButtonItem = rightItem;
 
+    }
+    
+    
+   
 }
 
 - (void)configUI {
@@ -142,6 +160,68 @@
 
 }
 
+- (void)configGHUI {
+    
+    
+    if (!_dataArray) {
+        
+        _dataArray = [NSMutableArray arrayWithCapacity:0];
+    }
+    
+    if (!_workView) {
+        
+        _workView = [[UIView alloc]initWithFrame:CGRectMake(0, 60, kScreenWidth, kScreenHeight - 64 - 49)];
+        _workView.backgroundColor = kBackColor;
+        [self.view addSubview:_workView];
+        
+    }
+    
+    
+    
+    self.view.backgroundColor = kBackColor;
+    _menu  = [[HorizontalMenu alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 40) withTitles:@[ @"工会工作", @"工会查询"]];
+    _menu.delegate = self;
+    [self.view addSubview:_menu];
+    
+    
+    
+    _topBackView = [[UIView alloc]initWithFrame:CGRectMake(0 ,  0, kScreenWidth   , kBtnWdith + 3 *kBtnMargin )];
+    _topBackView.backgroundColor = [UIColor whiteColor];
+    [_workView addSubview:_topBackView];
+    NSArray *titleArr = @[@"通知公告",@"警示上报",@"离职报告"];
+    for (int i = 0; i < 3; i ++) {
+        
+        UIButton *topBtn = [[UIButton alloc]initWithFrame:CGRectMake(kBtnMargin + i *  (kBtnMargin + kBtnWdith),  kBtnMargin , kBtnWdith , kBtnWdith)];
+        if (i == 0) {
+            
+            NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"icon_%@",@"13"] ofType:@"png"];
+            [topBtn setBackgroundImage:[UIImage imageWithContentsOfFile:path] forState:UIControlStateNormal];
+            
+        }else if(i == 1) {
+            
+            NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"icon_%@",@"17"] ofType:@"png"];
+            [topBtn setBackgroundImage:[UIImage imageWithContentsOfFile:path] forState:UIControlStateNormal];
+            
+        }else {
+            
+            
+            NSString *path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"icon_%@",@"16"] ofType:@"png"];
+            [topBtn setBackgroundImage:[UIImage imageWithContentsOfFile:path] forState:UIControlStateNormal];
+        }
+        
+        topBtn.tag = 555 +  3 + i;
+        topBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+        [topBtn setTitleEdgeInsets:UIEdgeInsetsMake(kBtnWdith +  kBtnMargin + 4, -kBtnMargin / 2, 0, -kBtnMargin / 2)];
+        [topBtn setTitle:titleArr[i] forState:UIControlStateNormal];
+        [topBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [topBtn addTarget:self action:@selector(topBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [_topBackView addSubview:topBtn];
+        
+        
+    }
+    
+    
+}
 
 - (void)configSearchView {
 
@@ -225,7 +305,7 @@
         _searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _searchBtn.backgroundColor = kBtnColor;
         [_searchBtn setTitle:@"查询" forState:UIControlStateNormal];
-        [_searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_searchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_searchBtn addTarget:self action:@selector(searchBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         _searchBtn.frame = CGRectMake(20, CGRectGetMaxY(_unionPresidentTF.frame) + 20, kScreenWidth - 40, kHeight);
 
@@ -256,6 +336,23 @@
             break;
         case 2:
              [self.navigationController pushViewController:[[MySendingViewController alloc]init] animated:YES];
+            
+            break;
+        case 3:
+//            [SVProgressHUD showSuccessWithStatus:@"通知"];
+        {
+            PublicNoticeViewController *PUB = [[PublicNoticeViewController alloc]init];
+            PUB.userType = @"gonghui";
+            [self.navigationController pushViewController:PUB animated:YES];
+//            [self.navigationController pushViewController:[[PublicNoticeViewController alloc]init] animated:YES];
+        }
+            break;
+        case 4:
+            [self.navigationController pushViewController:[[CautionReportViewController alloc]init] animated:YES];
+            
+            break;
+        case 5:
+//            [self.navigationController pushViewController:[[MySendingViewController alloc]init] animated:YES];
             
             break;
             
@@ -301,6 +398,22 @@
 
 - (void)searchBtnClicked {
 
+
+    if ((_unionAddressTF.text.length == 0) && (_unionCodeTF.text.length == 0) && (_unionNameTF.text.length == 0) && (_unionPresidentTF.text.length == 0)) {
+        
+        [SVProgressHUD showErrorWithStatus:@"至少输入一条数据!"];
+        
+        
+    }else {
+    
+        SearchUnionViewController *serachVC = [[SearchUnionViewController alloc]init];
+        serachVC.filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\" or gonghuidaima like \"%%%@%%\"  or gonghuidizhi like \"%%%@%%\"  or gonghuizhuxi like \"%%%@%%\"",_unionNameTF.text,_unionCodeTF.text,_unionAddressTF.text,_unionPresidentTF.text];
+        OPLog(@"  s%@",serachVC.filter);
+        //
+        //    NSString *filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\"",@"工"];
+        [self.navigationController pushViewController:serachVC animated:YES];
+    
+    }
 
     
 

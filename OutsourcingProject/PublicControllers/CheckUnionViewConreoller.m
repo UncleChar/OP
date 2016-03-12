@@ -168,13 +168,29 @@
 - (void)searchBtnClicked {
 
     
-//    [SVProgressHUD showSuccessWithStatus:@"我要查询了哦"];
-    SearchUnionViewController *serachVC = [[SearchUnionViewController alloc]init];
-    serachVC.filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\" or gonghuidaima like \"%%%@%%\"  or gonghuidizhi like \"%%%@%%\"  or gonghuizhuxi like \"%%%@%%\"",_unionNameTF.text,_unionCodeTF.text,_unionAddressTF.text,_unionPresidentTF.text];
-    OPLog(@"  s%@",serachVC.filter);
-//    
-//    NSString *filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\"",@"工"];
-    [self.navigationController pushViewController:serachVC animated:YES];
+    if ((_unionAddressTF.text.length == 0) && (_unionCodeTF.text.length == 0) && (_unionNameTF.text.length == 0) && (_unionPresidentTF.text.length == 0)) {
+        
+        [SVProgressHUD showErrorWithStatus:@"至少输入一条数据!"];
+        
+        
+    }else {
+        
+        SearchUnionViewController *serachVC = [[SearchUnionViewController alloc]init];
+        serachVC.filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\" or gonghuidaima like \"%%%@%%\"  or gonghuidizhi like \"%%%@%%\"  or gonghuizhuxi like \"%%%@%%\"",_unionNameTF.text,_unionCodeTF.text,_unionAddressTF.text,_unionPresidentTF.text];
+        OPLog(@"  s%@",serachVC.filter);
+        //
+        //    NSString *filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\"",@"工"];
+        [self.navigationController pushViewController:serachVC animated:YES];
+        
+    }
+    
+////    [SVProgressHUD showSuccessWithStatus:@"我要查询了哦"];
+//    SearchUnionViewController *serachVC = [[SearchUnionViewController alloc]init];
+//    serachVC.filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\" or gonghuidaima like \"%%%@%%\"  or gonghuidizhi like \"%%%@%%\"  or gonghuizhuxi like \"%%%@%%\"",_unionNameTF.text,_unionCodeTF.text,_unionAddressTF.text,_unionPresidentTF.text];
+//    OPLog(@"  s%@",serachVC.filter);
+////    
+////    NSString *filter = [NSString stringWithFormat:@"Gonghuimingcheng like \"%%%@%%\"",@"工"];
+//    [self.navigationController pushViewController:serachVC animated:YES];
 
 }
 

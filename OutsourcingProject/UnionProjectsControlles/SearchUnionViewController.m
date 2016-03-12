@@ -73,7 +73,7 @@
         
         _isHeaderRefersh = YES;
         _isFooterRefersh = NO;
-        
+        _pageIndex = 1;
         [self getSearchDataWithType:@"gonghuixinxi" pageSize:_pageSize navIndex:0 filter:@""];
         
         

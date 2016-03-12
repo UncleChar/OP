@@ -71,7 +71,7 @@
         
         _isHeaderRefersh = YES;
         _isFooterRefersh = NO;
-            
+        _pageIndex = 1;
             [self getMyReceivedShowDataWithType:@"wodeshoucang" pageSize:_pageSize navIndex:0 filter:@""];
 
         
@@ -170,6 +170,19 @@
             contentVc.isHasClassify = NO;
             contentVc.isBtn = 1;
             contentVc.isFavor = YES;
+            contentVc.isNeedBlock = YES;
+            contentVc.cancleFavBlock = ^(BOOL isSuccess ){
+    
+                if (isSuccess) {
+                    
+                    _isHeaderRefersh = YES;
+                    _isFooterRefersh = NO;
+                    _pageIndex = 1;
+                    [self getMyReceivedShowDataWithType:@"wodeshoucang" pageSize:_pageSize navIndex:0 filter:@""];
+                    
+                }
+    
+                };
             contentVc.showTitle = @"收藏详情";
 
             
@@ -190,10 +203,10 @@
             [weakSelf.favorTableView.mj_header endRefreshing];
             // 拿到当前的上拉刷新控件，结束刷新状态
             [weakSelf.favorTableView.mj_footer endRefreshing];
-            //            [weakSelf.dataArray removeAllObjects];
+            // [weakSelf.dataArray removeAllObjects];
             
             
-            OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);
+//            OPLog(@"-FF-%@",[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]);˚
             OPLog(@"-show-%@",[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] class]);
             if ([NSNull null] ==[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"]) {
                 
@@ -216,7 +229,7 @@
                 
                 NSDictionary *listDic = [NSJSONSerialization JSONObjectWithData:[[[resultValue lastObject] objectForKey:@"GetJsonListDataResult"] dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
                 
-                OPLog(@"----far--%@----------",[listDic objectForKey:@"rows"]);
+                // OPLog(@"----far--%@----------",[listDic objectForKey:@"rows"]);
                 
                 NSInteger countArray = 0;
                 if (weakSelf.isFooterRefersh) {
@@ -237,6 +250,7 @@
                 }
                 
                 for (NSDictionary *dict in [listDic objectForKey:@"rows"]) {
+                    
                     AchievementModel  *model = [[AchievementModel alloc]init];
                     
                     [model setValuesForKeysWithDictionary:dict];
@@ -244,8 +258,7 @@
                     [weakSelf.dataArray addObject:model];
                     
                     OPLog(@"--- %@",model.dataType);
-
-                    
+   
                 }
  
                 if (weakSelf.isFooterRefersh) {

@@ -80,7 +80,7 @@
         
         _isHeaderRefersh = YES;
         _isFooterRefersh = NO;
-        
+        _pageIndex = 1;
         [self getMyReceivedShowDataWithType:@"fachudetongzhi" pageSize:_pageSize navIndex:0 filter:@""];
         
         
