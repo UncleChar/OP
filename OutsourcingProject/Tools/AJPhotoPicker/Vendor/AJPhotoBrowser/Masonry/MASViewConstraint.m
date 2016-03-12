@@ -86,7 +86,7 @@ static char kInstalledConstraintsKey;
 - (void)setLayoutConstant:(CGFloat)layoutConstant {
     _layoutConstant = layoutConstant;
 
-#if TARGET_OS_MAC && !(TARGET_OS_IPHONE || TARGET_OS_TV)
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
     if (self.useAnimator) {
         [self.layoutConstraint.animator setConstant:layoutConstant];
     } else {
@@ -211,7 +211,7 @@ static char kInstalledConstraintsKey;
 
 #pragma mark - Animator proxy
 
-#if TARGET_OS_MAC && !(TARGET_OS_IPHONE || TARGET_OS_TV)
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
 
 - (MASConstraint *)animator {
     self.useAnimator = YES;
@@ -313,16 +313,17 @@ static char kInstalledConstraintsKey;
         return;
     }
     
-    MAS_VIEW *firstLayoutItem = self.firstViewAttribute.item;
+    MAS_VIEW *firstLayoutItem = self.firstViewAttribute.view;
+    
     NSLayoutAttribute firstLayoutAttribute = self.firstViewAttribute.layoutAttribute;
-    MAS_VIEW *secondLayoutItem = self.secondViewAttribute.item;
+    MAS_VIEW *secondLayoutItem = self.secondViewAttribute.view;
     NSLayoutAttribute secondLayoutAttribute = self.secondViewAttribute.layoutAttribute;
 
     // alignment attributes must have a secondViewAttribute
     // therefore we assume that is refering to superview
     // eg make.left.equalTo(@10)
     if (!self.firstViewAttribute.isSizeAttribute && !self.secondViewAttribute) {
-        secondLayoutItem = self.firstViewAttribute.view.superview;
+        secondLayoutItem = firstLayoutItem.superview;
         secondLayoutAttribute = firstLayoutAttribute;
     }
     
@@ -338,16 +339,14 @@ static char kInstalledConstraintsKey;
     layoutConstraint.priority = self.layoutPriority;
     layoutConstraint.mas_key = self.mas_key;
     
-    if (self.secondViewAttribute.view) {
-        MAS_VIEW *closestCommonSuperview = [self.firstViewAttribute.view mas_closestCommonSuperview:self.secondViewAttribute.view];
+    if (secondLayoutItem) {
+        MAS_VIEW *closestCommonSuperview = [firstLayoutItem mas_closestCommonSuperview:secondLayoutItem];
         NSAssert(closestCommonSuperview,
                  @"couldn't find a common superview for %@ and %@",
-                 self.firstViewAttribute.view, self.secondViewAttribute.view);
+                 firstLayoutItem, secondLayoutItem);
         self.installedView = closestCommonSuperview;
-    } else if (self.firstViewAttribute.isSizeAttribute) {
-        self.installedView = self.firstViewAttribute.view;
     } else {
-        self.installedView = self.firstViewAttribute.view.superview;
+        self.installedView = firstLayoutItem;
     }
 
 
@@ -362,8 +361,9 @@ static char kInstalledConstraintsKey;
     } else {
         [self.installedView addConstraint:layoutConstraint];
         self.layoutConstraint = layoutConstraint;
-        [firstLayoutItem.mas_installedConstraints addObject:self];
     }
+    
+    [firstLayoutItem.mas_installedConstraints addObject:self];
 }
 
 - (MASLayoutConstraint *)layoutConstraintSimilarTo:(MASLayoutConstraint *)layoutConstraint {

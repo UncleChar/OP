@@ -7,12 +7,16 @@
 //
 
 #import "CautionReportViewController.h"
+#import "AJPhotoPickerViewController.h"
+#import <AVFoundation/AVFoundation.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "AJPhotoBrowserViewController.h"
 #define kHeight 40
 #define kFont  15
 #define kLabelWidth 75
 #define kContentStart 105
 #define kContentWidth  [UIScreen mainScreen].bounds.size.width - kContentStart - 10
-@interface CautionReportViewController ()
+@interface CautionReportViewController ()<AJPhotoPickerProtocol,AJPhotoBrowserDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (nonatomic, strong) UIScrollView *backgroungScrollView;
 
 @property (nonatomic, strong) NSArray      *elementArray;
@@ -27,6 +31,14 @@
 
 @property (nonatomic, strong) UITextView   *contentTView;
 @property (nonatomic, assign) float         lastElementMaxY;
+
+
+@property (nonatomic, strong) UIImageView   *imageView;
+
+@property (nonatomic, strong) UIScrollView   *scrollView;
+
+@property (nonatomic, strong) NSMutableArray   *photos;
+
 @end
 
 @implementation CautionReportViewController
@@ -40,6 +52,11 @@
     _backgroungScrollView.userInteractionEnabled = YES;
     [self.view addSubview:_backgroungScrollView];
     
+    
+    _scrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 200, kScreenWidth, 100)];
+    _scrollView.backgroundColor = kBackColor;
+    _scrollView.userInteractionEnabled = YES;
+    [_backgroungScrollView addSubview:_scrollView];
     
     NSLog(@"ddffd%@",NSStringFromCGRect(_backgroungScrollView.frame));
     
@@ -56,6 +73,10 @@
     if (!_elementArray) {//90 173 243
         
         _elementArray = @[@"警示标题:",@"警示类型:", @"涉嫌公司名称:",@"时间地址:"];
+    }
+    if (!_photos) {
+        
+        _photos = [NSMutableArray arrayWithCapacity:0];
     }
     
     for (int i = 0; i < 4; i ++) {
@@ -240,6 +261,24 @@
             
             [self showSelectedWithTitle:@"选择类型" subTitles:@[@"一般类型",@"其他类型"]];
             break;
+
+        case 2:
+        {
+        
+            AJPhotoPickerViewController *picker = [[AJPhotoPickerViewController alloc] init];
+            picker.maximumNumberOfSelection = 15;
+            picker.multipleSelection = YES;
+            picker.assetsFilter = [ALAssetsFilter allPhotos];
+            picker.showEmptyGroups = YES;
+            picker.delegate=self;
+            picker.selectionFilter = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+                return YES;
+            }];
+            [self presentViewController:picker animated:YES completion:nil];
+
+        
+        }
+            break;
             
         default:
             break;
@@ -337,6 +376,98 @@
     
     
 }
+#pragma mark - BoPhotoPickerProtocol
+- (void)photoPickerDidCancel:(AJPhotoPickerViewController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
 
+- (void)photoPicker:(AJPhotoPickerViewController *)picker didSelectAssets:(NSArray *)assets {
+    [self.photos addObjectsFromArray:assets];
+    if (assets.count == 1) {
+        ALAsset *asset = assets[0];
+        UIImage *tempImg = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+        self.imageView.image = tempImg;
+    } else {
+        CGFloat x = 0;
+        CGRect frame = CGRectMake(0, 0, 100, 100);
+        for (int i = 0 ; i < self.photos.count; i++) {
+            ALAsset *asset = self.photos[i];
+            UIImage *tempImg = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+            frame.origin.x = x;
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+            [imageView setContentMode:UIViewContentModeScaleAspectFill];
+            imageView.clipsToBounds = YES;
+            imageView.image = tempImg;
+            imageView.tag = i;
+            imageView.userInteractionEnabled = YES;
+            [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBig:)]];
+            [self.scrollView addSubview:imageView];
+            x += frame.size.width+5;
+        }
+        self.scrollView.contentSize = CGSizeMake(105 * self.photos.count, 0);
+    }
+    [picker dismissViewControllerAnimated:NO completion:nil];
+
+//    //显示预览
+//        AJPhotoBrowserViewController *photoBrowserViewController = [[AJPhotoBrowserViewController alloc] initWithPhotos:assets];
+//        photoBrowserViewController.delegate = self;
+//        [self presentViewController:photoBrowserViewController animated:YES completion:nil];
+    ALAsset *asset = assets[0];
+            UIImage *tempImg = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+    OPLog(@"ffffff %@",tempImg);
+}
+
+- (void)showBig:(UITapGestureRecognizer *)sender {
+    NSInteger index = sender.view.tag;
+    AJPhotoBrowserViewController *photoBrowserViewController = [[AJPhotoBrowserViewController alloc] initWithPhotos:self.photos index:index];
+    photoBrowserViewController.delegate = self;
+    [self presentViewController:photoBrowserViewController animated:YES completion:nil];
+}
+
+
+#pragma mark - Action
+
+
+
+
+- (void)photoBrowser:(AJPhotoBrowserViewController *)vc deleteWithIndex:(NSInteger)index {
+    NSLog(@"%s",__func__);
+}
+
+- (void)photoBrowser:(AJPhotoBrowserViewController *)vc didDonePhotos:(NSArray *)photos {
+    NSLog(@"%s",__func__);
+    [self.photos removeAllObjects];
+    [self.photos addObjectsFromArray:photos];
+    
+    if (photos.count == 1) {
+        ALAsset *asset = photos[0];
+        UIImage *tempImg = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+        self.imageView.image = tempImg;
+    } else {
+        for (UIView *view in self.scrollView.subviews) {
+            [view removeFromSuperview];
+        }
+        
+        CGFloat x = 0;
+        CGRect frame = CGRectMake(0, 0, 100, 100);
+        for (int i = 0 ; i < self.photos.count; i++) {
+            ALAsset *asset = self.photos[i];
+            UIImage *tempImg = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+            frame.origin.x = x;
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+            [imageView setContentMode:UIViewContentModeScaleAspectFill];
+            imageView.clipsToBounds = YES;
+            imageView.image = tempImg;
+            imageView.tag = i;
+            imageView.userInteractionEnabled = YES;
+            [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBig:)]];
+            [self.scrollView addSubview:imageView];
+            x += frame.size.width+5;
+        }
+        
+        self.scrollView.contentSize = CGSizeMake(105 * self.photos.count, 0);
+    }
+    [vc dismissViewControllerAnimated:YES completion:nil];
+}
 
 @end
