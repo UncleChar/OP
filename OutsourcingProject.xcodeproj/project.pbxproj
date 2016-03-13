@@ -571,6 +571,7 @@
 		DBB570721C93E00A00745999 /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB570651C93E00A00745999 /* NSArray+MASAdditions.m */; settings = {ASSET_TAGS = (); }; };
 		DBB570731C93E00A00745999 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB570681C93E00A00745999 /* NSLayoutConstraint+MASDebugAdditions.m */; settings = {ASSET_TAGS = (); }; };
 		DBB570741C93E00A00745999 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB5706A1C93E00A00745999 /* View+MASAdditions.m */; settings = {ASSET_TAGS = (); }; };
+		DBB570761C95451F00745999 /* selectPicBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = DBB570751C95451F00745999 /* selectPicBtn.png */; settings = {ASSET_TAGS = (); }; };
 		DBC997001C7F4766000525A3 /* AchievementModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC996FF1C7F4766000525A3 /* AchievementModel.m */; };
 		DBC997031C7F5264000525A3 /* ConsultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997021C7F5264000525A3 /* ConsultModel.m */; };
 		DBC997061C7F5600000525A3 /* NotiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC997051C7F5600000525A3 /* NotiModel.m */; };
@@ -1480,6 +1481,7 @@
 		DBB570691C93E00A00745999 /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
 		DBB5706A1C93E00A00745999 /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
 		DBB5706B1C93E00A00745999 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		DBB570751C95451F00745999 /* selectPicBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selectPicBtn.png; sourceTree = "<group>"; };
 		DBC996FE1C7F4766000525A3 /* AchievementModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AchievementModel.h; sourceTree = "<group>"; };
 		DBC996FF1C7F4766000525A3 /* AchievementModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AchievementModel.m; sourceTree = "<group>"; };
 		DBC997011C7F5264000525A3 /* ConsultModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsultModel.h; sourceTree = "<group>"; };
@@ -2505,6 +2507,7 @@
 		9DB6A3301C7F171D00671A72 /* unionWork */ = {
 			isa = PBXGroup;
 			children = (
+				DBB570751C95451F00745999 /* selectPicBtn.png */,
 				9DB6A3311C7F171D00671A72 /* iconfont-122chengguozhanshijitai.png */,
 				9DB6A3321C7F171D00671A72 /* iconfont-122chengguozhanshijitai@2x.png */,
 				9DB6A3331C7F171D00671A72 /* iconfont-122chengguozhanshijitai@3x.png */,
@@ -3323,6 +3326,7 @@
 				9D736A251C7EC18E00271EC4 /* icon_13.png in Resources */,
 				9D054BBC1C7C412A003FB2C6 /* iconfont-122chengguozhanshijitai（合并）-拷贝-3@3x.png in Resources */,
 				DBEB04391C79DF46005401A8 /* iconfont-dizhi@3x.png in Resources */,
+				DBB570761C95451F00745999 /* selectPicBtn.png in Resources */,
 				DBEB04831C79E5CF005401A8 /* iconfont-18didian.png in Resources */,
 				DB082A0F1C7786170043FE30 /* home-拷贝@2x.png in Resources */,
 				DB082A2D1C7786170043FE30 /* 矩形-11@2x.png in Resources */,
@@ -4053,7 +4057,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "dda8def9-f779-4314-a955-33881f152da2";
+				PROVISIONING_PROFILE = "ae6443b9-e0d3-453f-8553-4a6e48c06eb0";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -4093,7 +4097,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "dda8def9-f779-4314-a955-33881f152da2";
+				PROVISIONING_PROFILE = "ae6443b9-e0d3-453f-8553-4a6e48c06eb0";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4119,7 +4123,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "dda8def9-f779-4314-a955-33881f152da2";
+				PROVISIONING_PROFILE = "ae6443b9-e0d3-453f-8553-4a6e48c06eb0";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -4143,7 +4147,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "dda8def9-f779-4314-a955-33881f152da2";
+				PROVISIONING_PROFILE = "ae6443b9-e0d3-453f-8553-4a6e48c06eb0";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

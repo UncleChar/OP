@@ -45,18 +45,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"发通知";
+    self.title = @"警示上报";
     
     _backgroungScrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     _backgroungScrollView.backgroundColor = kBackColor;
     _backgroungScrollView.userInteractionEnabled = YES;
     [self.view addSubview:_backgroungScrollView];
     
-    
-    _scrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 200, kScreenWidth, 100)];
-    _scrollView.backgroundColor = kBackColor;
-    _scrollView.userInteractionEnabled = YES;
-    [_backgroungScrollView addSubview:_scrollView];
+
     
     NSLog(@"ddffd%@",NSStringFromCGRect(_backgroungScrollView.frame));
     
@@ -72,7 +68,7 @@
     
     if (!_elementArray) {//90 173 243
         
-        _elementArray = @[@"警示标题:",@"警示类型:", @"涉嫌公司名称:",@"时间地址:"];
+        _elementArray = @[@"警示标题:",@"警示类型:", @"涉嫌公司名称:",@"事件地址:"];
     }
     if (!_photos) {
         
@@ -153,71 +149,31 @@
     _eventAddressTF.layer.masksToBounds = 1;
     [_backgroungScrollView addSubview:_eventAddressTF];
     
+  
+    UILabel *contentLabel = [[UILabel alloc]init];
+    contentLabel.backgroundColor = kBackColor;
+    contentLabel.text = @"事件内容:";
+    contentLabel.textColor = [UIColor orangeColor];
+    contentLabel.frame = CGRectMake(10,  4 * (kHeight + 1) , kScreenWidth, kHeight);
+    contentLabel.font = OPFont(14);
+    [_backgroungScrollView addSubview:contentLabel];
+    
+    UIView *textBackView = [[UIView alloc]initWithFrame:CGRectMake(10, 5 * kHeight+ 5, kScreenWidth - 20, 3.5 * kHeight)];
+    textBackView.backgroundColor = [UIColor blackColor];
+    textBackView.layer.cornerRadius = 4;
+    textBackView.layer.masksToBounds = 1;
+    
+    [_backgroungScrollView addSubview:textBackView];
     
     
-    
-//    _sendToBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    _sendToBtn.tag = 888 + 1;
-//    _sendToBtn.backgroundColor = kTestColor;
-//    [_sendToBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [_sendToBtn addTarget:self action:@selector(allBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    _sendToBtn.frame = CGRectMake(kContentStart, 2 * (kHeight + 1), kContentWidth, kHeight);
-//    _sendToBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-//    _sendToBtn.titleLabel.font = [UIFont systemFontOfSize:kFont];
-//    _sendToBtn.layer.cornerRadius = 4;
-//    _sendToBtn.layer.masksToBounds = 1;
-//    [_backgroungScrollView addSubview:_sendToBtn];
-//    
-//    
-//    _meetingTimeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    _meetingTimeBtn.tag = 888 + 2;
-//    _meetingTimeBtn.backgroundColor = kTestColor;
-//    [_meetingTimeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    [_meetingTimeBtn addTarget:self action:@selector(allBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    _meetingTimeBtn.frame = CGRectMake(kContentStart, 3 * kHeight + 3, kContentWidth, kHeight);
-//    _meetingTimeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-//    _meetingTimeBtn.titleLabel.font = [UIFont systemFontOfSize:kFont];
-//    _meetingTimeBtn.layer.cornerRadius = 4;
-//    _meetingTimeBtn.layer.masksToBounds = 1;
-//    [_backgroungScrollView addSubview:_meetingTimeBtn];
-//    
-//    
-//    _meetingAddress = [[UITextField alloc]init];
-//    _meetingAddress.backgroundColor = kTestColor;
-//    _meetingAddress.frame = CGRectMake(kContentStart, 4 * kHeight+  4, kContentWidth, kHeight);
-//    _meetingAddress.font = [UIFont systemFontOfSize:kFont];
-//    _meetingAddress.delegate = self;
-//    _meetingAddress.layer.cornerRadius = 4;
-//    _meetingAddress.layer.masksToBounds = 1;
-//    [_backgroungScrollView addSubview:_meetingAddress];
-//    
-//    
-//    _leaderTF = [[UITextField alloc]init];
-//    _leaderTF.backgroundColor = kTestColor;
-//    _leaderTF.frame = CGRectMake(kContentStart, 5 * kHeight+  5, kContentWidth, kHeight);
-//    _leaderTF.font = [UIFont systemFontOfSize:kFont];
-//    _leaderTF.delegate = self;
-//    _leaderTF.layer.cornerRadius = 4;
-//    _leaderTF.layer.masksToBounds = 1;
-//    [_backgroungScrollView addSubview:_leaderTF];
-//    
-//    UIView *textBackView = [[UIView alloc]initWithFrame:CGRectMake(10, 7 * kHeight+  7, kScreenWidth - 20, 3.5 * kHeight)];
-//    textBackView.backgroundColor = [UIColor blackColor];
-//    textBackView.layer.cornerRadius = 4;
-//    textBackView.layer.masksToBounds = 1;
-//    
-//    [_backgroungScrollView addSubview:textBackView];
-//    
-//    
-//    _contentTView = [[UITextView alloc]init];
-//    //    _contentTView.backgroundColor = kTestColor;
-//    _contentTView.frame = CGRectMake(1, 1, kScreenWidth - 22, CGRectGetHeight(textBackView.frame) - 2);
-//    _contentTView.font = [UIFont systemFontOfSize:kFont];
-//    _contentTView.delegate = self;
-//    _contentTView.layer.cornerRadius = 4;
-//    _contentTView.layer.masksToBounds = 1;
-//    [textBackView addSubview:_contentTView];
-//    
+    _contentTView = [[UITextView alloc]init];
+    //    _contentTView.backgroundColor = kTestColor;
+    _contentTView.frame = CGRectMake(1, 1, kScreenWidth - 22, CGRectGetHeight(textBackView.frame) - 2);
+    _contentTView.font = [UIFont systemFontOfSize:kFont];
+    _contentTView.layer.cornerRadius = 4;
+    _contentTView.layer.masksToBounds = 1;
+    [textBackView addSubview:_contentTView];
+//
 //    _receiptTypeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //    _receiptTypeBtn.tag = 888 + 3;
 //    _receiptTypeBtn.selected = NO;
@@ -231,7 +187,41 @@
 //    _receiptTypeBtn.layer.cornerRadius = 4;
 //    _receiptTypeBtn.layer.masksToBounds = 1;
 //    [_backgroungScrollView addSubview:_receiptTypeBtn];
-//    
+//
+    UILabel *PICLabel = [[UILabel alloc]init];
+    PICLabel.backgroundColor = kBackColor;
+    PICLabel.frame = CGRectMake(10,  CGRectGetMaxY(textBackView.frame) + 5 , kScreenWidth, kHeight);
+    PICLabel.textColor = [UIColor orangeColor];
+    PICLabel.text = @"现场照片:";
+    PICLabel.font = OPFont(14);
+    [_backgroungScrollView addSubview:PICLabel];
+    
+    
+    
+    UIButton  *picBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    picBtn.backgroundColor = kTestColor;
+    picBtn.tag = 678 + 2;
+    //    [submitBtn setBackgroundImage:[UIImage imageNamed:@"矩形-9"] forState:UIControlStateNormal];
+//    picBtn.backgroundColor = [UIColor blackColor];
+    [picBtn setBackgroundImage:[UIImage imageNamed:@"selectPicBtn"] forState:UIControlStateNormal];
+    [picBtn addTarget:self action:@selector(cautionBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    picBtn.layer.cornerRadius = 4;
+    picBtn.layer.masksToBounds = 1;
+    picBtn.frame = CGRectMake(10, CGRectGetMaxY(PICLabel.frame) + 20 , 60, 60);
+    [_backgroungScrollView addSubview:picBtn];
+    
+    UIView *line1 = [[UIView alloc]initWithFrame:CGRectMake(29, 10, 2, 40)];
+    line1.backgroundColor = [UIColor grayColor];
+    [picBtn addSubview:line1];
+    
+    UIView *line2 = [[UIView alloc]initWithFrame:CGRectMake(10, 29, 40, 2)];
+    line2.backgroundColor = [UIColor grayColor];
+    [picBtn addSubview:line2];
+    
+    _scrollView =[[UIScrollView alloc]initWithFrame:CGRectMake(80, CGRectGetMaxY(PICLabel.frame), kScreenWidth - 90 , 100)];
+    _scrollView.backgroundColor = kBackColor;
+    _scrollView.userInteractionEnabled = YES;
+    [_backgroungScrollView addSubview:_scrollView];
     
     
     UIButton  *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -243,7 +233,7 @@
     [submitBtn addTarget:self action:@selector(cautionBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     submitBtn.layer.cornerRadius = 4;
     submitBtn.layer.masksToBounds = 1;
-    submitBtn.frame = CGRectMake(20, 400 + 15, kScreenWidth - 40, 40);
+    submitBtn.frame = CGRectMake(20, CGRectGetMaxY(_scrollView.frame) + 10, kScreenWidth - 40, 40);
     [_backgroungScrollView addSubview:submitBtn];
 
     
@@ -271,6 +261,7 @@
             picker.assetsFilter = [ALAssetsFilter allPhotos];
             picker.showEmptyGroups = YES;
             picker.delegate=self;
+            [self.photos removeAllObjects];
             picker.selectionFilter = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
                 return YES;
             }];
@@ -371,6 +362,7 @@
         default:
             break;
     }
+    [_notiTypeBtn setTitle:btnTitle forState:UIControlStateNormal];
     
     
     
@@ -383,11 +375,16 @@
 
 - (void)photoPicker:(AJPhotoPickerViewController *)picker didSelectAssets:(NSArray *)assets {
     [self.photos addObjectsFromArray:assets];
-    if (assets.count == 1) {
-        ALAsset *asset = assets[0];
-        UIImage *tempImg = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-        self.imageView.image = tempImg;
-    } else {
+    OPLog(@"cc %ld",self.photos.count);
+    if (assets.count > 0) {
+       
+        for (UIImageView *view in _scrollView.subviews) {
+            
+            [view removeFromSuperview];
+
+        }
+        
+        
         CGFloat x = 0;
         CGRect frame = CGRectMake(0, 0, 100, 100);
         for (int i = 0 ; i < self.photos.count; i++) {
@@ -468,6 +465,114 @@
         self.scrollView.contentSize = CGSizeMake(105 * self.photos.count, 0);
     }
     [vc dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
+
+- (void)photoPicker:(AJPhotoPickerViewController *)picker didSelectAsset:(ALAsset *)asset {
+    NSLog(@"%s",__func__);
+}
+
+- (void)photoPicker:(AJPhotoPickerViewController *)picker didDeselectAsset:(ALAsset *)asset {
+    NSLog(@"%s",__func__);
+}
+
+//超过最大选择项时
+- (void)photoPickerDidMaximum:(AJPhotoPickerViewController *)picker {
+    NSLog(@"%s",__func__);
+}
+
+//低于最低选择项时
+- (void)photoPickerDidMinimum:(AJPhotoPickerViewController *)picker {
+    NSLog(@"%s",__func__);
+}
+
+- (void)photoPickerTapCameraAction:(AJPhotoPickerViewController *)picker {
+    [self checkCameraAvailability:^(BOOL auth) {
+        if (!auth) {
+            NSLog(@"没有访问相机权限");
+            return;
+        }
+        
+        [picker dismissViewControllerAnimated:NO completion:nil];
+        UIImagePickerController *cameraUI = [UIImagePickerController new];
+        cameraUI.allowsEditing = NO;
+        cameraUI.delegate = self;
+        cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
+        cameraUI.cameraFlashMode=UIImagePickerControllerCameraFlashModeAuto;
+        
+        [self presentViewController: cameraUI animated: YES completion:nil];
+    }];
+}
+#pragma mark - UIImagePickerDelegate
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *) picker {
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)image:(UIImage*)image didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo {
+    if (!error) {
+        NSLog(@"保存到相册成功");
+    }else{
+        NSLog(@"保存到相册出错%@", error);
+    }
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+    UIImage *originalImage;
+    if (CFStringCompare((CFStringRef) mediaType,kUTTypeImage, 0)== kCFCompareEqualTo) {
+        originalImage = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+//    self.imageView.image = originalImage;
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 0, 100, 100)];
+    [imageView setContentMode:UIViewContentModeScaleAspectFill];
+    imageView.clipsToBounds = YES;
+    imageView.image = originalImage;
+    [self.photos addObject:originalImage];
+    imageView.userInteractionEnabled = YES;
+//    [imageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBig:)]];
+    [self.scrollView addSubview:imageView];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
+
+- (void)checkCameraAvailability:(void (^)(BOOL auth))block {
+    BOOL status = NO;
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if(authStatus == AVAuthorizationStatusAuthorized) {
+        status = YES;
+    } else if (authStatus == AVAuthorizationStatusDenied) {
+        status = NO;
+    } else if (authStatus == AVAuthorizationStatusRestricted) {
+        status = NO;
+    } else if (authStatus == AVAuthorizationStatusNotDetermined) {
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+            if(granted){
+                if (block) {
+                    block(granted);
+                }
+            } else {
+                if (block) {
+                    block(granted);
+                }
+            }
+        }];
+        return;
+    }
+    if (block) {
+        block(status);
+    }
+}
+
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+
+    [self.view endEditing:YES];
 }
 
 @end
