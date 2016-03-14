@@ -25,7 +25,7 @@
     
     AppEngineManager *engineManager = [[AppEngineManager alloc]init];
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    
+    self.window.backgroundColor = [UIColor whiteColor];
     AppEngine *app = [[AppEngine alloc]init];
     OPLog(@"%@",app);
     //开启网络状况的监听

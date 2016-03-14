@@ -38,6 +38,9 @@
 @property (nonatomic, strong) UIScrollView   *scrollView;
 
 @property (nonatomic, strong) NSMutableArray   *photos;
+@property (nonatomic, strong) NSMutableArray   *postPics;
+
+@property (nonatomic, strong) NSString   *photoString;
 
 @end
 
@@ -73,6 +76,9 @@
     if (!_photos) {
         
         _photos = [NSMutableArray arrayWithCapacity:0];
+    }
+    if (!_postPics) {
+        _postPics = [NSMutableArray arrayWithCapacity:0];
     }
     
     for (int i = 0; i < 4; i ++) {
@@ -226,7 +232,7 @@
     
     UIButton  *submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     submitBtn.backgroundColor = kTestColor;
-    submitBtn.tag = 678 + 2;
+    submitBtn.tag = 678 + 3;
     //    [submitBtn setBackgroundImage:[UIImage imageNamed:@"矩形-9"] forState:UIControlStateNormal];
     submitBtn.backgroundColor = kBtnColor;
     [submitBtn setTitle:@"提交通知" forState:UIControlStateNormal];
@@ -262,10 +268,88 @@
             picker.showEmptyGroups = YES;
             picker.delegate=self;
             [self.photos removeAllObjects];
+            [self.postPics removeAllObjects];
             picker.selectionFilter = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
                 return YES;
             }];
             [self presentViewController:picker animated:YES completion:nil];
+
+        
+        }
+            break;
+        case 3:
+        {
+        
+            if ([AppDelegate isNetworkConecting]) {
+                
+                
+                NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"jingshishangbao"};
+                
+                if ([AlertTipsViewTool isEmptyWillSubmit:@[_cautionTitleTF,_notiTypeBtn,_companyNameTF,_eventAddressTF,_contentTView]]) {
+                    
+                }else {
+                    
+                    
+//                    
+//                    NSString * requestBody =   [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"EditAppInfo" xmlInfo:YES resouresInfo:@{@"fld_39_18":fileName} fileNames:@[fileName] fileExtNames:@[@".jpg"] fileDesc:@[[NSString stringWithFormat:@"%@.jpg",fileName]] fileData:@[encodedImageStr]];
+                    NSString *fileName;
+                    NSMutableArray *nameArr = [[NSMutableArray alloc]init];
+                     NSMutableArray *descArr = [[NSMutableArray alloc]init];
+                    if (_postPics.count > 1) {
+                      
+                        for (int i = 0; i < _postPics.count; i ++) {
+                            
+                            NSString *str = [NSString stringWithFormat:@"00%d",i + 2];
+                            [nameArr addObject:str];
+                            NSString *strDesc = [NSString stringWithFormat:@"00%d.jpg",i+2];
+                            [descArr addObject:strDesc];
+                            
+                            
+                        }
+                        fileName = [nameArr componentsJoinedByString:@","];
+                        
+                    }else {
+                    fileName = @"001";
+                        [nameArr addObject:fileName];
+                        [descArr addObject:@"001.jpg"];
+                    }
+                    
+                   
+                    
+
+                    NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues
+                                                                 hostName:@"Net.GongHuiTong"
+                                                          startElementKey:@"AddAppInfo" xmlInfo:YES
+                                                             resouresInfo:@{
+                                                                            @"Topic":_cautionTitleTF.text,
+                                                                            @"datatype":_notiTypeBtn.titleLabel.text,
+                                                                            @"Commpany":_companyNameTF.text,
+                                                                            @"addr":_eventAddressTF.text,
+                                                                            @"Content":_contentTView.text,
+                                                                            @"AttFile":fileName
+                                                                            }fileNames:nameArr fileExtNames:@[@".jpg"] fileDesc:descArr fileData:_postPics];
+                    
+                    [self submitAddUserWithXmlString:xmlString];
+                    
+                }
+                
+                
+            }else {
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"无网络连接,请检查网络!" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                
+                
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    
+                    
+                    
+                }];
+                
+                [alertController addAction:okAction];
+                
+                [self.navigationController  presentViewController:alertController animated:YES completion:nil];
+                
+            }
 
         
         }
@@ -276,6 +360,51 @@
     }
 
 }
+
+- (void)submitAddUserWithXmlString:(NSString *)xmlString
+{
+    
+        [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
+        [SVProgressHUD showInfoWithStatus:@"增在提交..."];
+    
+        __weak typeof(self) weakSelf = self;
+        ReturnValueBlock returnBlockPost = ^(id resultValue){
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                NSLog(@"AddAppInfoResult::%@",[[resultValue lastObject] objectForKey:@"AddAppInfoResult"]);
+                
+                if ([[[resultValue lastObject] objectForKey:@"AddAppInfoResult"] isEqualToString:@"操作失败！"]) {
+                    
+                    [SVProgressHUD showErrorWithStatus:@"提交失败!"];
+                    
+                    
+                }else {
+                    
+                    //                weakSelf.submitBtnBlock( YES);
+                    [SVProgressHUD showSuccessWithStatus:@"提交成功！"];
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                    
+                }
+               
+                
+                
+            });
+            
+            
+            
+            
+            
+        };
+        
+        
+        [JHSoapRequest operationManagerPOST:REQUEST_HOST requestBody:xmlString parseParameters:@[@"AddAppInfoResult"] WithReturnValeuBlock:returnBlockPost WithErrorCodeBlock:nil];
+    
+    
+}
+
+
 
 - (void)showSelectedWithTitle:(NSString *)title subTitles:(NSArray *)array {
     
@@ -331,6 +460,12 @@
     
     
     
+}
+
+- (void)hidePopupView:(UITapGestureRecognizer*)gesture {
+    
+    [_coverView removeFromSuperview];
+    [_topView removeFromSuperview];
 }
 - (void)typeTipBtnClicked:(UIButton *)sender {
     
@@ -390,6 +525,12 @@
         for (int i = 0 ; i < self.photos.count; i++) {
             ALAsset *asset = self.photos[i];
             UIImage *tempImg = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
+            
+            NSData * imageData = UIImageJPEGRepresentation(tempImg, 1.0f);
+            
+            NSString *encodedImageStr = [imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            [_postPics addObject:encodedImageStr];
+
             frame.origin.x = x;
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
             [imageView setContentMode:UIViewContentModeScaleAspectFill];
@@ -404,14 +545,12 @@
         self.scrollView.contentSize = CGSizeMake(105 * self.photos.count, 0);
     }
     [picker dismissViewControllerAnimated:NO completion:nil];
-
+OPLog(@"ccpic %ld",self.postPics.count);
 //    //显示预览
 //        AJPhotoBrowserViewController *photoBrowserViewController = [[AJPhotoBrowserViewController alloc] initWithPhotos:assets];
 //        photoBrowserViewController.delegate = self;
 //        [self presentViewController:photoBrowserViewController animated:YES completion:nil];
-    ALAsset *asset = assets[0];
-            UIImage *tempImg = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-    OPLog(@"ffffff %@",tempImg);
+
 }
 
 - (void)showBig:(UITapGestureRecognizer *)sender {
@@ -437,10 +576,7 @@
     [self.photos addObjectsFromArray:photos];
     
     if (photos.count == 1) {
-        ALAsset *asset = photos[0];
-        UIImage *tempImg = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-        self.imageView.image = tempImg;
-    } else {
+       
         for (UIView *view in self.scrollView.subviews) {
             [view removeFromSuperview];
         }
@@ -525,6 +661,11 @@
         originalImage = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
     }
 //    self.imageView.image = originalImage;
+    NSData * imageData = UIImageJPEGRepresentation(originalImage, 1.0f);
+    
+    NSString *encodedImageStr = [imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    [_postPics addObject:encodedImageStr];
+    
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 0, 100, 100)];
     [imageView setContentMode:UIViewContentModeScaleAspectFill];

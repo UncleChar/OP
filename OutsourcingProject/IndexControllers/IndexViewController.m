@@ -233,7 +233,7 @@
         [topBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.view addSubview:topBtn];
         [topBtn addTarget:self action:@selector(topBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        listStart = CGRectGetMaxY(topBtn.frame);
+        listStart = CGRectGetMaxY(topBtn.frame) + kBtnWdith / 2;
     }
    
     
@@ -247,7 +247,7 @@
 
             listStart = CGRectGetMaxY(prisdentLaebl.frame);
         }else {
-        
+
         
         }
         

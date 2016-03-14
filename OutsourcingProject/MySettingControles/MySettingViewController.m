@@ -127,25 +127,25 @@
     _avatarImgView.layer.cornerRadius =  kScreenWidth / 12;
     [_headImaView addSubview:_avatarImgView];
 
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    NSString *directory = [NSString stringWithFormat:@"%@/%@",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],@"Avatar"];
-
-     NSString *imageFilePath = [directory stringByAppendingPathComponent:@"/userAvatar.jpg"];
-
-    BOOL isExit = [fileManager fileExistsAtPath:imageFilePath];
-
-    if (isExit){
-
-        _avatarImgView.image = [UIImage imageWithContentsOfFile:imageFilePath];
-        
-        
-        }else {
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    
+//    NSString *directory = [NSString stringWithFormat:@"%@/%@",NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0],@"Avatar"];
+//
+//     NSString *imageFilePath = [directory stringByAppendingPathComponent:@"/userAvatar.jpg"];
+//
+//    BOOL isExit = [fileManager fileExistsAtPath:imageFilePath];
+//
+//    if (isExit){
+//
+//        _avatarImgView.image = [UIImage imageWithContentsOfFile:imageFilePath];
+//        
+//        
+//        }else {
     
             NSString *url = [[NSUserDefaults standardUserDefaults] objectForKey:@"iconpic"];
             [_avatarImgView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"placeholder"]];
     
-        }
+//        }
 
     _organizeLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_avatarImgView.frame) + 20, CGRectGetMidY(_avatarImgView.frame) - 15, kScreenWidth - CGRectGetMaxX(_avatarImgView.frame) - 20 - 20, 30)];
     _organizeLabel.text = [[NSUserDefaults standardUserDefaults]objectForKey:@"xingming"];

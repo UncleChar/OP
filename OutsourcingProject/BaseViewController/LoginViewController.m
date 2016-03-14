@@ -180,6 +180,7 @@
     _userPassword.placeholder = @"  请输入密码 ";
     _userPassword.delegate = self;
     _userPassword.text = @"123456";
+//     _userPassword.text = @"ljz";
     _userPassword.secureTextEntry = YES;
     _userPassword.textColor = [UIColor whiteColor];
     _userPassword.backgroundColor = [ConfigUITools colorWithR:209 G:34 B:52 A:1];

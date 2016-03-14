@@ -122,7 +122,6 @@
 		9D451ED81C91023C006F281B /* UnionInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D451ED71C91023C006F281B /* UnionInfoViewController.m */; };
 		9D451EDB1C911083006F281B /* MapNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D451EDA1C911083006F281B /* MapNavigationManager.m */; };
 		9D451EDE1C9120F9006F281B /* ScheModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D451EDD1C9120F9006F281B /* ScheModel.m */; };
-		9D451EE01C915195006F281B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D451EDF1C915195006F281B /* LaunchScreen.xib */; };
 		9D7369D51C7EAC2E00271EC4 /* ActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7369D31C7EAC2E00271EC4 /* ActivityViewController.m */; };
 		9D7369DA1C7EACAA00271EC4 /* ScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7369D81C7EACAA00271EC4 /* ScheduleViewController.m */; };
 		9D7369DB1C7EACAA00271EC4 /* AddScheduleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7369D91C7EACAA00271EC4 /* AddScheduleViewController.m */; };
@@ -526,6 +525,7 @@
 		DB46A0F91C7B35D700D69165 /* iconfont-people.png in Resources */ = {isa = PBXBuildFile; fileRef = DB46A0ED1C7B35D700D69165 /* iconfont-people.png */; };
 		DB46A0FA1C7B35D700D69165 /* iconfont-people@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB46A0EE1C7B35D700D69165 /* iconfont-people@2x.png */; };
 		DB46A0FB1C7B35D700D69165 /* iconfont-people@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB46A0EF1C7B35D700D69165 /* iconfont-people@3x.png */; };
+		DB6748AF1C964734000C710A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB6748AE1C964734000C710A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
 		DB6B3C551C78027800F0CB62 /* iconfont-gengxinzhuanhuan1.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6B3C461C78027800F0CB62 /* iconfont-gengxinzhuanhuan1.png */; };
 		DB6B3C561C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6B3C471C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@2x.png */; };
 		DB6B3C571C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6B3C481C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@3x.png */; };
@@ -858,7 +858,6 @@
 		9D451EDA1C911083006F281B /* MapNavigationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapNavigationManager.m; sourceTree = "<group>"; };
 		9D451EDC1C9120F9006F281B /* ScheModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheModel.h; sourceTree = "<group>"; };
 		9D451EDD1C9120F9006F281B /* ScheModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheModel.m; sourceTree = "<group>"; };
-		9D451EDF1C915195006F281B /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		9D7369D31C7EAC2E00271EC4 /* ActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityViewController.m; sourceTree = "<group>"; };
 		9D7369D41C7EAC2E00271EC4 /* ActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityViewController.h; sourceTree = "<group>"; };
 		9D7369D61C7EACAA00271EC4 /* AddScheduleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddScheduleViewController.h; sourceTree = "<group>"; };
@@ -1399,6 +1398,7 @@
 		DB46A0ED1C7B35D700D69165 /* iconfont-people.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-people.png"; sourceTree = "<group>"; };
 		DB46A0EE1C7B35D700D69165 /* iconfont-people@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-people@2x.png"; sourceTree = "<group>"; };
 		DB46A0EF1C7B35D700D69165 /* iconfont-people@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-people@3x.png"; sourceTree = "<group>"; };
+		DB6748AE1C964734000C710A /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		DB6B3C461C78027800F0CB62 /* iconfont-gengxinzhuanhuan1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gengxinzhuanhuan1.png"; sourceTree = "<group>"; };
 		DB6B3C471C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gengxinzhuanhuan1@2x.png"; sourceTree = "<group>"; };
 		DB6B3C481C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gengxinzhuanhuan1@3x.png"; sourceTree = "<group>"; };
@@ -2127,7 +2127,7 @@
 				9D82A58C1C75696A0072E354 /* BaseViewController */,
 				9D82A5651C7568E50072E354 /* Assets.xcassets */,
 				9D82A56A1C7568E50072E354 /* Info.plist */,
-				9D451EDF1C915195006F281B /* LaunchScreen.xib */,
+				DB6748AE1C964734000C710A /* LaunchScreen.xib */,
 				9D82A5591C7568E50072E354 /* Supporting Files */,
 			);
 			path = OutsourcingProject;
@@ -3543,6 +3543,7 @@
 				DBEB03EB1C787BCF005401A8 /* iconfont-zhifutijiao@3x.png in Resources */,
 				DB08299F1C7781230043FE30 /* iconfont-122chengguozhanshijitai（合并）-拷贝（合并）-拷贝-3@2x.png in Resources */,
 				9D736A2A1C7EC18E00271EC4 /* icon_18.png in Resources */,
+				DB6748AF1C964734000C710A /* LaunchScreen.xib in Resources */,
 				DB082A221C7786170043FE30 /* iconfont-wodexuanzhong@3x.png in Resources */,
 				DB0829531C776E3B0043FE30 /* iconfont-address@2x.png in Resources */,
 				9D2E18331C76C963008CB937 /* shape-10@2x.png in Resources */,
@@ -3623,7 +3624,6 @@
 				DB082A211C7786170043FE30 /* iconfont-wodexuanzhong@2x.png in Resources */,
 				DB08299E1C7781230043FE30 /* iconfont-122chengguozhanshijitai（合并）-拷贝（合并）-拷贝-3.png in Resources */,
 				9D736A281C7EC18E00271EC4 /* icon_16.png in Resources */,
-				9D451EE01C915195006F281B /* LaunchScreen.xib in Resources */,
 				DB6B3C581C78027800F0CB62 /* iconfont-mima.png in Resources */,
 				DB082A191C7786170043FE30 /* iconfont-icon-拷贝-2@3x.png in Resources */,
 				9DB6A34B1C7F171D00671A72 /* iconfont-122chengguozhanshijitai@3x.png in Resources */,
@@ -4118,7 +4118,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OutsourcingProject/PrefixHeader.pch";
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
@@ -4142,7 +4142,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OutsourcingProject/PrefixHeader.pch";
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
@@ -4157,6 +4157,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = OutsourcingProjectTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Lingli.OutsourcingProjectTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4169,6 +4170,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = OutsourcingProjectTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Lingli.OutsourcingProjectTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4180,6 +4182,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = OutsourcingProjectUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Lingli.OutsourcingProjectUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4192,6 +4195,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = OutsourcingProjectUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Lingli.OutsourcingProjectUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -34,6 +34,9 @@
 @property (nonatomic, assign) NSInteger     tagBtn;
 
 
+@property (nonatomic, strong) NSString  *idString;
+@property (nonatomic, strong) NSString  *nameString;
+
 @end
 @implementation AddActivityViewController
 - (void)viewDidLoad {
@@ -176,6 +179,40 @@
             de.isJump = YES;
             de.isBlock = YES;
             de.selectedBlock = ^(NSMutableArray *array){
+                
+                
+                _idString = @"";
+                _nameString = @"";
+                NSMutableArray  *idStringArr = [[NSMutableArray alloc]init];
+                NSMutableArray  *nameStringArr = [[NSMutableArray alloc]init];
+                for (NSDictionary *dict in array) {
+                    
+                    [idStringArr addObject:[dict objectForKey:@"id"]];
+                    [nameStringArr addObject:[dict objectForKey:@"name"]];
+                }
+                
+                if (idStringArr.count > 0) {
+                    
+                    if (idStringArr.count >= 2 ) {
+                        
+                        
+                        _idString = [idStringArr componentsJoinedByString:@","];
+                        _nameString = [nameStringArr componentsJoinedByString:@","];
+                        
+                    }else {
+                        
+                        _idString = idStringArr[0];
+                        _nameString = nameStringArr[0];
+                    }
+                    
+                }else {
+                    
+                    
+                }
+                
+                OPLog(@"string %@",_idString);
+                OPLog(@"stringName %@",_nameString);
+                
                 NSString *title = @"";
                 if (array.count > 0) {
                     NSMutableArray *arr = [[NSMutableArray alloc]init];
@@ -204,36 +241,27 @@
             if ([AppDelegate isNetworkConecting]) {
                 
 
-                NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"richenganpai"};
+                NSDictionary *keyAndValues = @{@"logincookie":[[NSUserDefaults standardUserDefaults] objectForKey:@"logincookie"],@"datatype":@"gongzuodongtai"};
 
                 if ([AlertTipsViewTool isEmptyWillSubmit:@[_taskTitleTF,_taskContentTView,_receivedBtn]]) {
 
+                }else {
+                    //"chtopic","ChContent","AttFile","ReceiveCodes","ReceiveNames"
+//                    ,"AttFile  这个为空就好
+                    NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues
+                                                                 hostName:@"Net.GongHuiTong"
+                                                          startElementKey:@"AddAppInfo" xmlInfo:YES
+                                                             resouresInfo:@{
+                                                                            @"chtopic":_taskTitleTF.text,
+                                                                            @"ChContent":_taskContentTView.text,
+                                                                            @"ReceiveCodes":_idString,
+                                                                            @"ReceiveNames":_nameString,
+                                                                            @"AttFile":@""
+                                                                            }fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
+                    
+                    [self submitAddUserWithXmlString:xmlString];
+                    
                 }
-//                }else {
-//                    
-//                    NSString *xmlString =  [JHXMLParser generateXMLString:keyAndValues
-//                                                                 hostName:@"Net.GongHuiTong"
-//                                                          startElementKey:@"AddAppInfo" xmlInfo:YES
-//                                                             resouresInfo:@{
-//                                                                            @"fld_30_1":_contentTView.text,
-//                                                                            @"fld_30_4":_urgentLevelBtn.titleLabel.text,
-//                                                                            @"fld_30_5":_startT,
-//                                                                            @"fld_30_6":_startH,
-//                                                                            @"fld_30_7":_startM,
-//                                                                            @"fld_30_8":_endT,
-//                                                                            @"fld_30_9":_endH,
-//                                                                            @"fld_30_10":_endM,
-//                                                                            @"fld_30_11":_remindT,
-//                                                                            @"fld_30_12":_remindH,
-//                                                                            @"fld_30_13":_remindM,
-//                                                                            @"fld_30_14":timeIntercval,
-//                                                                            @"fld_30_16":_idString,
-//                                                                            @"fld_30_17":_nameString
-//                                                                            }fileNames:nil fileExtNames:nil fileDesc:nil fileData:nil];
-//                    
-//                    [self submitAddScheduleWithXmlString:xmlString];
-//                    
-//                }
 
                 
             }else {
@@ -287,7 +315,8 @@
                 
                 NSLog(@"AddAppInfoResult::%@",listDic);
 //                weakSelf.submitBtnBlock( YES);
-//                [weakSelf.navigationController popViewControllerAnimated:YES];
+                [SVProgressHUD showSuccessWithStatus:@"新建动态成功！"];
+                [weakSelf.navigationController popViewControllerAnimated:YES];
                 
                 
                 
