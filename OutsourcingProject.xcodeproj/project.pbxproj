@@ -379,7 +379,6 @@
 		9DF68BFB1C7FED9500F61A13 /* SubjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF68BFA1C7FED9500F61A13 /* SubjectDetailViewController.m */; };
 		9DF68BFF1C7FF53700F61A13 /* SubGuideModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DF68BFE1C7FF53700F61A13 /* SubGuideModel.m */; };
 		DB0815A91C773CC800284FDB /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = DB0815A81C773CC800284FDB /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DB08291C1C775B690043FE30 /* 启动页-0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB08291B1C775B690043FE30 /* 启动页-0.jpg */; };
 		DB0829521C776E3B0043FE30 /* iconfont-address.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0829341C776E3B0043FE30 /* iconfont-address.png */; };
 		DB0829531C776E3B0043FE30 /* iconfont-address@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0829351C776E3B0043FE30 /* iconfont-address@2x.png */; };
 		DB0829541C776E3B0043FE30 /* iconfont-address@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB0829361C776E3B0043FE30 /* iconfont-address@3x.png */; };
@@ -525,7 +524,10 @@
 		DB46A0F91C7B35D700D69165 /* iconfont-people.png in Resources */ = {isa = PBXBuildFile; fileRef = DB46A0ED1C7B35D700D69165 /* iconfont-people.png */; };
 		DB46A0FA1C7B35D700D69165 /* iconfont-people@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB46A0EE1C7B35D700D69165 /* iconfont-people@2x.png */; };
 		DB46A0FB1C7B35D700D69165 /* iconfont-people@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB46A0EF1C7B35D700D69165 /* iconfont-people@3x.png */; };
-		DB6748AF1C964734000C710A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB6748AE1C964734000C710A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
+		DB6748B11C9687F3000C710A /* 启动页-0.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DB6748B01C9687F3000C710A /* 启动页-0.jpg */; settings = {ASSET_TAGS = (); }; };
+		DB6748B31C968849000C710A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB6748B21C968849000C710A /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
+		DB6748B61C968962000C710A /* ResignReportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6748B51C968962000C710A /* ResignReportViewController.m */; settings = {ASSET_TAGS = (); }; };
+		DB6748B91C969BD5000C710A /* MyDetailCounsultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6748B81C969BD5000C710A /* MyDetailCounsultViewController.m */; settings = {ASSET_TAGS = (); }; };
 		DB6B3C551C78027800F0CB62 /* iconfont-gengxinzhuanhuan1.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6B3C461C78027800F0CB62 /* iconfont-gengxinzhuanhuan1.png */; };
 		DB6B3C561C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6B3C471C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@2x.png */; };
 		DB6B3C571C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6B3C481C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@3x.png */; };
@@ -1236,7 +1238,6 @@
 		9DF68BFE1C7FF53700F61A13 /* SubGuideModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubGuideModel.m; sourceTree = "<group>"; };
 		DB0815A71C773CC800284FDB /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		DB0815A81C773CC800284FDB /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		DB08291B1C775B690043FE30 /* 启动页-0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "启动页-0.jpg"; sourceTree = "<group>"; };
 		DB0829341C776E3B0043FE30 /* iconfont-address.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-address.png"; sourceTree = "<group>"; };
 		DB0829351C776E3B0043FE30 /* iconfont-address@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-address@2x.png"; sourceTree = "<group>"; };
 		DB0829361C776E3B0043FE30 /* iconfont-address@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-address@3x.png"; sourceTree = "<group>"; };
@@ -1398,7 +1399,12 @@
 		DB46A0ED1C7B35D700D69165 /* iconfont-people.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-people.png"; sourceTree = "<group>"; };
 		DB46A0EE1C7B35D700D69165 /* iconfont-people@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-people@2x.png"; sourceTree = "<group>"; };
 		DB46A0EF1C7B35D700D69165 /* iconfont-people@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-people@3x.png"; sourceTree = "<group>"; };
-		DB6748AE1C964734000C710A /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		DB6748B01C9687F3000C710A /* 启动页-0.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "启动页-0.jpg"; sourceTree = "<group>"; };
+		DB6748B21C968849000C710A /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		DB6748B41C968962000C710A /* ResignReportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResignReportViewController.h; sourceTree = "<group>"; };
+		DB6748B51C968962000C710A /* ResignReportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResignReportViewController.m; sourceTree = "<group>"; };
+		DB6748B71C969BD5000C710A /* MyDetailCounsultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDetailCounsultViewController.h; sourceTree = "<group>"; };
+		DB6748B81C969BD5000C710A /* MyDetailCounsultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDetailCounsultViewController.m; sourceTree = "<group>"; };
 		DB6B3C461C78027800F0CB62 /* iconfont-gengxinzhuanhuan1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gengxinzhuanhuan1.png"; sourceTree = "<group>"; };
 		DB6B3C471C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gengxinzhuanhuan1@2x.png"; sourceTree = "<group>"; };
 		DB6B3C481C78027800F0CB62 /* iconfont-gengxinzhuanhuan1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-gengxinzhuanhuan1@3x.png"; sourceTree = "<group>"; };
@@ -1788,6 +1794,8 @@
 				9D054B871C7C34BB003FB2C6 /* MyConsultViewController.m */,
 				DBB51B151C83130000B5DC1A /* AddConsultViewController.h */,
 				DBB51B161C83130000B5DC1A /* AddConsultViewController.m */,
+				DB6748B71C969BD5000C710A /* MyDetailCounsultViewController.h */,
+				DB6748B81C969BD5000C710A /* MyDetailCounsultViewController.m */,
 			);
 			path = MySetting_MyConsult;
 			sourceTree = "<group>";
@@ -2127,7 +2135,7 @@
 				9D82A58C1C75696A0072E354 /* BaseViewController */,
 				9D82A5651C7568E50072E354 /* Assets.xcassets */,
 				9D82A56A1C7568E50072E354 /* Info.plist */,
-				DB6748AE1C964734000C710A /* LaunchScreen.xib */,
+				DB6748B21C968849000C710A /* LaunchScreen.xib */,
 				9D82A5591C7568E50072E354 /* Supporting Files */,
 			);
 			path = OutsourcingProject;
@@ -2398,7 +2406,7 @@
 		9D82A6C91C75A5C20072E354 /* login */ = {
 			isa = PBXGroup;
 			children = (
-				DB08291B1C775B690043FE30 /* 启动页-0.jpg */,
+				DB6748B01C9687F3000C710A /* 启动页-0.jpg */,
 				9D2E17F61C76BB7C008CB937 /* 1.jpg */,
 				9D2E17F71C76BB7C008CB937 /* 2.jpg */,
 				9D2E17F81C76BB7C008CB937 /* 3.jpg */,
@@ -2945,6 +2953,8 @@
 			children = (
 				DBB570091C92E5CA00745999 /* CautionReportViewController.h */,
 				DBB5700A1C92E5CA00745999 /* CautionReportViewController.m */,
+				DB6748B41C968962000C710A /* ResignReportViewController.h */,
+				DB6748B51C968962000C710A /* ResignReportViewController.m */,
 			);
 			path = PerisdentControllers;
 			sourceTree = "<group>";
@@ -3543,7 +3553,7 @@
 				DBEB03EB1C787BCF005401A8 /* iconfont-zhifutijiao@3x.png in Resources */,
 				DB08299F1C7781230043FE30 /* iconfont-122chengguozhanshijitai（合并）-拷贝（合并）-拷贝-3@2x.png in Resources */,
 				9D736A2A1C7EC18E00271EC4 /* icon_18.png in Resources */,
-				DB6748AF1C964734000C710A /* LaunchScreen.xib in Resources */,
+				DB6748B31C968849000C710A /* LaunchScreen.xib in Resources */,
 				DB082A221C7786170043FE30 /* iconfont-wodexuanzhong@3x.png in Resources */,
 				DB0829531C776E3B0043FE30 /* iconfont-address@2x.png in Resources */,
 				9D2E18331C76C963008CB937 /* shape-10@2x.png in Resources */,
@@ -3598,6 +3608,7 @@
 				9DE3D80F1C7D83A300D654AA /* 矩形-19-拷贝@2x.png in Resources */,
 				9D054BBF1C7C412A003FB2C6 /* iconfont-122chengguozhanshijitai（合并）-拷贝（合并）-拷贝-3@3x.png in Resources */,
 				DB0829B41C7781230043FE30 /* 圆角矩形-1@2x.png in Resources */,
+				DB6748B11C9687F3000C710A /* 启动页-0.jpg in Resources */,
 				DBEB043B1C79DF46005401A8 /* iconfont-huiyi@2x.png in Resources */,
 				9D736A391C7EC18E00271EC4 /* icon_31.png in Resources */,
 				9D82A6ED1C75A5CE0072E354 /* user.png in Resources */,
@@ -3691,7 +3702,6 @@
 				9D2E18681C770AE2008CB937 /* 矩形-9@2x.png in Resources */,
 				DB46A0A21C7B2C6100D69165 /* ico_check_circle.png in Resources */,
 				DB46A0A01C7B2C6100D69165 /* ico_blue_arrow@2x.png in Resources */,
-				DB08291C1C775B690043FE30 /* 启动页-0.jpg in Resources */,
 				9D2E182D1C76C963008CB937 /* iconfont-tongzhi@2x.png in Resources */,
 				9D7B432C1C90167600E24B30 /* mapapi.bundle in Resources */,
 				9D736A361C7EC18E00271EC4 /* icon_29.png in Resources */,
@@ -3862,6 +3872,7 @@
 				9D054B791C7C342F003FB2C6 /* UserInfoViewController.m in Sources */,
 				9D82A7221C75C5D90072E354 /* UIImageView+WebCache.m in Sources */,
 				DBB570481C93DCD000745999 /* AJPhotoTapDetectingImageView.m in Sources */,
+				DB6748B61C968962000C710A /* ResignReportViewController.m in Sources */,
 				DBD0FB6A1C80AF7C00739A46 /* ContentViewController.m in Sources */,
 				DBC997091C7F5CF9000525A3 /* TaskModel.m in Sources */,
 				9D82A7341C75C6AC0072E354 /* TAAbstractDotView.m in Sources */,
@@ -3946,6 +3957,7 @@
 				DBC997121C80A390000525A3 /* IndexNotiModel.m in Sources */,
 				9D82A6421C757B080072E354 /* SBJsonBase.m in Sources */,
 				9D82A7351C75C6AC0072E354 /* TAAnimatedDotView.m in Sources */,
+				DB6748B91C969BD5000C710A /* MyDetailCounsultViewController.m in Sources */,
 				9D82A7151C75C5D90072E354 /* NSData+ImageContentType.m in Sources */,
 				9D054B601C7C3242003FB2C6 /* UserDeptViewController.m in Sources */,
 				9D054B641C7C326C003FB2C6 /* AddGroupsViewController.m in Sources */,
@@ -4033,8 +4045,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Zhang (86236CK7Q3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Zhang (86236CK7Q3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_BITCODE = NO;
@@ -4057,7 +4069,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "ae6443b9-e0d3-453f-8553-4a6e48c06eb0";
+				PROVISIONING_PROFILE = "579c526a-ff3d-48d3-90d9-9f9fff1119df";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -4080,8 +4092,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Zhang (86236CK7Q3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Zhang (86236CK7Q3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
@@ -4097,7 +4109,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "ae6443b9-e0d3-453f-8553-4a6e48c06eb0";
+				PROVISIONING_PROFILE = "579c526a-ff3d-48d3-90d9-9f9fff1119df";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4108,8 +4120,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Zhang (86236CK7Q3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Zhang (86236CK7Q3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4118,12 +4130,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OutsourcingProject/PrefixHeader.pch";
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae6443b9-e0d3-453f-8553-4a6e48c06eb0";
+				PROVISIONING_PROFILE = "579c526a-ff3d-48d3-90d9-9f9fff1119df";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -4132,8 +4144,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Wei Zhang (86236CK7Q3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Wei Zhang (86236CK7Q3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Wei Zhang (LL8B8YCXA2)";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4142,12 +4154,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OutsourcingProject/PrefixHeader.pch";
 				INFOPLIST_FILE = OutsourcingProject/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.char.gonghuitong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ae6443b9-e0d3-453f-8553-4a6e48c06eb0";
+				PROVISIONING_PROFILE = "579c526a-ff3d-48d3-90d9-9f9fff1119df";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

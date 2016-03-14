@@ -22,6 +22,7 @@
 #import "SendOfficialViewController.h"
 #import "SearchUnionViewController.h"
 #import "CautionReportViewController.h"
+#import "ResignReportViewController.h"
 #define kHeight 40
 #define kFont  15
 #define kLabelWidth 75
@@ -352,7 +353,7 @@
             
             break;
         case 5:
-//            [self.navigationController pushViewController:[[MySendingViewController alloc]init] animated:YES];
+            [self.navigationController pushViewController:[[ResignReportViewController alloc]init] animated:YES];
             
             break;
             

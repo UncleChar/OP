@@ -85,7 +85,14 @@
             cell.imageView.image = [UIImage imageNamed:@"iconfont-tongzhia"];
             cell.textLabel.text = @"通知中心提示消息";
             UISwitch *switchButton = [[UISwitch alloc] initWithFrame:CGRectMake(kScreenWidth - 60, 9, 20, 15)];
-            [switchButton setOn:YES];
+            NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
+            if ([status boolForKey:@"notiMessSound"]) {
+                
+                [switchButton setOn:YES];
+            }else {
+                
+                [switchButton setOn:NO];
+            }
             [switchButton addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
             switchButton.tag = 1010;
             [cell addSubview:switchButton];
@@ -99,7 +106,15 @@
             cell.textLabel.text = @"自动检查版本更新";
             
             UISwitch *switchButton = [[UISwitch alloc] initWithFrame:CGRectMake(kScreenWidth - 60, 9, 20, 15)];
-            [switchButton setOn:YES];
+            NSUserDefaults *status = [NSUserDefaults standardUserDefaults];
+            if ([status boolForKey:@"autoCheck"]) {
+                
+                [switchButton setOn:YES];
+            }else {
+            
+                [switchButton setOn:NO];
+            }
+            
             switchButton.tag = 1011;
             [switchButton addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
             [cell addSubview:switchButton];
@@ -146,14 +161,18 @@
 
 -(void)switchAction:(UISwitch*)sender
 {
+    NSUserDefaults *brnStatus = [NSUserDefaults standardUserDefaults];
     UISwitch *switchButton = (UISwitch*)sender;
     BOOL isButtonOn = [switchButton isOn];
     switch (sender.tag) {
         case 1010:
             if (isButtonOn) {
                 OPLog(@"open");
+                [brnStatus setBool:YES forKey:@"notiMessSound"];
             }else {
                 OPLog(@"close") ;
+                [brnStatus setBool:NO forKey:@"notiMessSound"];
+                
             }
             
             break;
@@ -161,8 +180,10 @@
             
             if (isButtonOn) {
                 OPLog(@"shi");
+                [brnStatus setBool:YES forKey:@"autoCheck"];
             }else {
                 OPLog(@"fou") ;
+                [brnStatus setBool:NO forKey:@"autoCheck"];
             }
             break;
             

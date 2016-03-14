@@ -357,7 +357,7 @@
         df.dateFormat = @"yyyyMMddHHmmss";
         NSString *fileName = [df stringFromDate:[NSDate date]];
 
-    NSString * requestBody =   [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"EditAppInfo" xmlInfo:YES resouresInfo:@{@"fld_39_18":fileName} fileNames:@[fileName] fileExtNames:@[@".jpg"] fileDesc:@[[NSString stringWithFormat:@"%@.jpg",fileName]] fileData:@[encodedImageStr]];
+    NSString * requestBody = [JHXMLParser generateXMLString:keyAndValues hostName:@"Net.GongHuiTong" startElementKey:@"EditAppInfo" xmlInfo:YES resouresInfo:@{@"fld_39_18":fileName} fileNames:@[fileName] fileExtNames:@[@".jpg"] fileDesc:@[[NSString stringWithFormat:@"%@.jpg",fileName]] fileData:@[encodedImageStr]];
     
     ReturnValueBlock returnBlock = ^(id resultValue)
     {

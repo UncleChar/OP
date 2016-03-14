@@ -78,8 +78,10 @@
         [self creatScrollerView];
         [self initDeatilViewShow];
         [self configListView];
-        [self GetContentWithType:@"gonghuixinxi" chid:[[loginInfo objectForKey:@"usercode"] integerValue]];
+//        [self GetContentWithType:@"gonghuixinxi" chid:[[loginInfo objectForKey:@"usercode"] integerValue]];
         [self getListDataWithType:@"newtongzhigonggao" pageSize:0 navIndex:0 filter:@"" withTag:0];
+        NSString *dfilter = [NSString stringWithFormat:@"or gonghuizhuxi like \"%%%@%%\"",[loginInfo objectForKey:@"xingming"]];
+        [self getListDataWithType:@"gonghuixinxi" pageSize:0 navIndex:0 filter:dfilter withTag:4];
 
         
     }else {
@@ -172,11 +174,11 @@
 
 - (void)initDeatilViewShow {
 
-    NSUserDefaults *loginInfo = [NSUserDefaults standardUserDefaults];
+//    NSUserDefaults *loginInfo = [NSUserDefaults standardUserDefaults];
     
     
     nameLaebl = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(cycleScrollView.frame) + 3 , kScreenWidth, 40)];
-    nameLaebl.text = [NSString stringWithFormat:@"公会名称:  %@",[loginInfo objectForKey:@"gonghuimingcheng"]];
+    nameLaebl.text = [NSString stringWithFormat:@"公会名称:  %@",@""];
     nameLaebl.font = [UIFont boldSystemFontOfSize:15];
     nameLaebl.textColor = [UIColor blackColor];
     nameLaebl.textAlignment = 1;
@@ -185,7 +187,7 @@
     
     
     addreLaebl = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(nameLaebl.frame) + 2 , kScreenWidth, 40)];
-    addreLaebl.text = [NSString stringWithFormat:@"   工会地址:  %@",[loginInfo objectForKey:@"gonghuimingcheng"]];
+    addreLaebl.text = [NSString stringWithFormat:@"   工会地址:  %@",@""];
     addreLaebl.textColor = [UIColor lightGrayColor];
     addreLaebl.font = OPFont(14);
     addreLaebl.backgroundColor = [UIColor whiteColor];
@@ -193,7 +195,7 @@
     
     
     codeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(addreLaebl.frame) + 2 , kScreenWidth, 40)];
-    codeLabel.text = [NSString stringWithFormat:@"   工会代码:  %@",[loginInfo objectForKey:@"gonghuimingcheng"]];
+    codeLabel.text = [NSString stringWithFormat:@"   工会代码:  %@",@""];
     codeLabel.textColor = [UIColor lightGrayColor];
     codeLabel.font = OPFont(14);
     codeLabel.backgroundColor = [UIColor whiteColor];
@@ -201,14 +203,14 @@
     
     
     timeLaebl = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(codeLabel.frame) + 2 , kScreenWidth, 40)];
-    timeLaebl.text = [NSString stringWithFormat:@"   成立时间:  %@",[loginInfo objectForKey:@"gonghuimingcheng"]];
+    timeLaebl.text = [NSString stringWithFormat:@"   成立时间:  %@",@""];
     timeLaebl.textColor = [UIColor lightGrayColor];
     timeLaebl.font = OPFont(14);
     timeLaebl.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:timeLaebl];
     
     prisdentLaebl = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(timeLaebl.frame) + 2 , kScreenWidth, 40)];
-    prisdentLaebl.text = [NSString stringWithFormat:@"   工会主席:  %@",[loginInfo objectForKey:@"xingming"]];
+    prisdentLaebl.text = [NSString stringWithFormat:@"   工会主席:  %@",@""];
     prisdentLaebl.textColor = [UIColor lightGrayColor];
     prisdentLaebl.font = OPFont(14);
     prisdentLaebl.backgroundColor = [UIColor whiteColor];
@@ -727,6 +729,21 @@
                             
                         }
                         
+                        break;
+                        
+                    case 4:
+                    {
+                        NSDictionary *dict = [listDic objectForKey:@"rows"][0];
+                        nameLaebl.text = [NSString stringWithFormat:@"公会名称:  %@",[dict objectForKey:@"gonghuimingcheng"]];
+                        
+                        addreLaebl.text = [NSString stringWithFormat:@"   工会地址:  %@",[dict objectForKey:@"gonghuidizhi"]];
+                        
+                        codeLabel.text = [NSString stringWithFormat:@"   工会代码:  %@",[dict objectForKey:@"gonghuidaima"]];
+                      
+                        timeLaebl.text = [NSString stringWithFormat:@"   成立时间:  %@",[dict objectForKey:@"gonghuichenglishijian"]];
+                    
+                        prisdentLaebl.text = [NSString stringWithFormat:@"   工会主席:  %@",[dict objectForKey:@"gonghuizhuxi"]];
+                    }
                         break;
                         
                     default:

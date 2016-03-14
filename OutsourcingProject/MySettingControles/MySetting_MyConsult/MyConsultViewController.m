@@ -12,6 +12,7 @@
 #import "AchievementModel.h"
 #import "ContentViewController.h"
 #import "FinalDetailContentViewController.h"
+#import "MyDetailCounsultViewController.h"
 @interface MyConsultViewController ()<HorizontalMenuDelegate,UITableViewDelegate,UITableViewDataSource>
 
 {
@@ -216,7 +217,7 @@
         cell.imageView.image = [UIImage imageNamed:@"iconfont-gongwenbao（合并）-拷贝-5"];
         cell.textLabel.text = [_receiveDataArray[indexPath.row] ChTopic];
         
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_receiveDataArray[indexPath.row] readStatus],[_receiveDataArray[indexPath.row] FinshDate]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@    %@",[_receiveDataArray[indexPath.row] readStatus],[_receiveDataArray[indexPath.row] sendDate]];
         cell.detailTextLabel.textColor = [UIColor grayColor];
     }else {
         
@@ -236,24 +237,23 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
-    FinalDetailContentViewController  *contentVc = [[ FinalDetailContentViewController alloc]init];
+    MyDetailCounsultViewController  *contentVc = [[ MyDetailCounsultViewController alloc]init];
 
     if (_requestTag == 0) {
  
         contentVc.dataType = @"shoudaodeneibuzixun";
         contentVc.chID = [_receiveDataArray[indexPath.row] ChID];
-        contentVc.isBtn = YES;
-        contentVc.isHasClassify = YES;
-        contentVc.isReceiver = YES;
+        contentVc.sendDate = [_receiveDataArray[indexPath.row] sendDate];
+        contentVc.ChTopic = [_receiveDataArray[indexPath.row] ChTopic];
         contentVc.showTitle = @"收到的咨询";
         
     }else {
         
         contentVc.dataType = @"fachudeneibuzixun";
         contentVc.chID = [_sendDataArray[indexPath.row] ChID];
-        contentVc.isBtn = YES;
-        contentVc.isHasClassify = YES;
-        contentVc.isReceiver = NO;
+        contentVc.sendDate = [_sendDataArray[indexPath.row] sendDate];
+        contentVc.isRep = YES;
+        contentVc.ChTopic = [_sendDataArray[indexPath.row]ChTopic];
         contentVc.showTitle = @"发出的咨询";
 
     }
