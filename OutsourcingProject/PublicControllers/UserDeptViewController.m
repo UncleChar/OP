@@ -488,8 +488,17 @@
 - (void)itemDeleteInfo:(MKPeopleCellModel *)item {
 
 
+    if (self.isJump) {
+        
+        OPLog(@"你只可以选择，没有删除的权限o");
+        
+    }else {
+    
         MKPeopleCellModel *model = item;
         OPLog(@"  --VCname--%@   --VCuserID---%@",model.name,model.userID  );
+    
+    }
+    
 
 
 }
