@@ -129,15 +129,21 @@
 }
 - (void)treeView:(RATreeView *)treeView didEndEditingRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo {
 
-    OPLog(@"delete");
+//    OPLog(@" delete");
+    
+  
 
 }
 - (void)treeView:(RATreeView *)treeView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowForItem:(id)item treeNodeInfo:(RATreeNodeInfo *)treeNodeInfo {
 
-    MKPeopleCellModel *model = item;
-    OPLog(@"%@   ----- name:%@",model.mobileID,model.name);
-    
-    OPLog(@"aaaaaaa");
+//    MKPeopleCellModel *model = item;
+//    OPLog(@"ggggg   %@",treeNodeInfo.item);
+//    OPLog(@"  --name--%@   --userID---%@",model.name,model.userID  );
+//    
+//    OPLog(@"aaaaaaa");
+    if ([self.delegate respondsToSelector:@selector(itemDeleteInfo:)]) {
+        [self.delegate itemDeleteInfo:item];
+    }
     
 }
 - (void)treeDataSetting
@@ -181,11 +187,13 @@
                             [mutableFour addObject:modelFour];
                         }
                         MKPeopleCellModel *modelThree = [MKPeopleCellModel dataObjectWithName:[[modelTwoArray objectAtIndex:k] valueForKey:@"name"] children:mutableFour];
+                        modelThree.userID = [[modelTwoArray objectAtIndex:j] valueForKey:@"id"];
                         [mutableThree addObject:modelThree];
                     }
                 }
                 
                 MKPeopleCellModel *modelTwo = [MKPeopleCellModel dataObjectWithName:[[modelOneArray objectAtIndex:j] valueForKey:@"name"] children:mutableThree];
+                modelTwo.userID = [[modelOneArray objectAtIndex:j] valueForKey:@"id"];
                 [mutabletwo addObject:modelTwo];
                 
                 
@@ -203,6 +211,7 @@
            
         }
         MKPeopleCellModel *modelOne = [MKPeopleCellModel dataObjectWithName:[[self.nodeArray objectAtIndex:i] valueForKey:@"name"] children:mutabletwo];
+        modelOne.userID = [[self.nodeArray objectAtIndex:i] valueForKey:@"id"];
         [mutableOne addObject:modelOne];
     }
     

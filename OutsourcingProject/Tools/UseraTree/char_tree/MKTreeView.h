@@ -25,6 +25,8 @@ static NSString *rowCellID = @"rowCellID";
 
 - (void)itemSelectInfo:(MKPeopleCellModel *)item;
 
+- (void)itemDeleteInfo:(MKPeopleCellModel *)item;//char add by 2016-03-15
+
 @end
 
 

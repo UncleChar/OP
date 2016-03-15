@@ -485,6 +485,15 @@
     [self.navigationController pushViewController:userDetailVC animated:YES];
 }
 
+- (void)itemDeleteInfo:(MKPeopleCellModel *)item {
+
+
+        MKPeopleCellModel *model = item;
+        OPLog(@"  --VCname--%@   --VCuserID---%@",model.name,model.userID  );
+
+
+}
+
 - (void)blockBtn {
 
     _selectedBlock([[MKSelectArray sharedInstance] initObject].selectArray);
